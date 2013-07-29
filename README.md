@@ -1,14 +1,12 @@
 JustAGame
-=========
+---------
 
-Description
------------
+###Description
 
 Multiplayer multi-mode game written in C++.
 
 
-Library
--------
+###Library
 
-SFML
-Box2D
+- SFML
+- Box2D
