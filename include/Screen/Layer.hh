@@ -6,10 +6,8 @@
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc
 // It's an abtract class - inherit from it
-// For all the event - the function will return
-// true if event is catched, meaning it will stop
-// sending the event to the other layer - return
-// false otherwise
+// For all the event - the function will return true if event is catched, meaning it will stop
+// sending the event to the other layer - return false otherwise
 
 class Layer
 {

@@ -105,7 +105,8 @@ namespace Screen
       _layers[i] = NULL;
 
     // Recreate the window
-    _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame");
+    _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame", sf::Style::None);
+    _window.setFramerateLimit(Setting::FPS);
 
     _layer_focused = NULL;
   }
