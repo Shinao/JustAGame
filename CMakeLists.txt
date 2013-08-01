@@ -1,7 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 
 # 32 bits
-set (CMAKE_C_FLAGS "-m32")
+# Thor dependencies
+list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -m32")
 
 project (justagame)
 

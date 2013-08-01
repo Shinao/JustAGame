@@ -17,12 +17,7 @@ void			Layer::mouseMoved(int x, int y) {}
 
 void			Layer::mouseLeft() {}
 
-bool			Layer::catchEvent(sf::Event &)
-{
-  return (false);
-}
-
-bool			Layer::textEntered()
+bool			Layer::textEntered(sf::Uint32)
 {
   return (false);
 }

@@ -24,6 +24,7 @@ namespace Screen
 
       while (_window.pollEvent(event))
       {
+
 	// Manage special event
 	if (event.type == sf::Event::Closed)
 	{
@@ -31,20 +32,23 @@ namespace Screen
 	  return ;
 	}
 
-	// Manage keyboard and mouse
-	if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased || 
-	    event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased)
-	  manageKeyboard(event);
-	else if (event.type == sf::Event::MouseMoved)
+	if (event.type == sf::Event::MouseMoved)
 	  manageMouse(event.mouseMove.x, event.mouseMove.y);
+	else if (event.type == sf::Event::TextEntered)
+	  manageInput(event);
+	else
+	  _map.pushEvent(event);
       }
+
+      // All event pushed - time to callback
+      _map.invokeCallbacks(_system, NULL);
+      _map.clearEvents();
     }
 
-    void			manageKeyboard(sf::Event &event)
+    void			manageInput(sf::Event &event)
     {
-      // Start from the end and go down until a layer catch it
       for (int i = _layers.size() - 1; i >= 0; --i)
-	if (_layers[i]->catchEvent(event))
+	if (_layers[i]->textEntered(event.text.unicode))
 	  return ;
     }
 
@@ -108,8 +112,10 @@ namespace Screen
     // Recreate the window
     _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame", sf::Style::None);
     _window.setFramerateLimit(Setting::FPS);
+    _window.setKeyRepeatEnabled(false);
 
     _layer_focused = NULL;
+    _action_id = 0;
   }
 
   void			clear()
@@ -120,6 +126,7 @@ namespace Screen
 
     _layers.clear();
     _window.close();
+    _map.clearActions();
   }
 
   void			update()
@@ -167,5 +174,20 @@ namespace Screen
     _layers.pop_back();
     delete layer;
     updateFocused();
+  }
+
+  thor::ActionMap<int>				&getMap()
+  {
+    return (_map);
+  }
+
+  thor::ActionMap<int>::CallbackSystem		&getSystem()
+  {
+    return (_system);
+  }
+
+  int						actionId()
+  {
+    return (_action_id++);
   }
 }

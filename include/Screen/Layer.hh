@@ -32,8 +32,7 @@ class Layer
     virtual bool		catchMouse();
     virtual void		mouseMoved(int x, int y);
     virtual void		mouseLeft();
-    virtual bool		catchEvent(sf::Event &event);
-    virtual bool		textEntered();
+    virtual bool		textEntered(sf::Uint32 unicode);
 
     // Layer properties
     void			setId(unsigned id);

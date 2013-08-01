@@ -6,6 +6,7 @@
 # include <SFML/Graphics.hpp>
 # include <SFML/Window.hpp>
 # include <SFML/System.hpp>
+# include <Thor/Input.hpp>
 # include "Screen/Layer.hh"
 # include "Utility/Physic.hh"
 # include "Setting.hh"
@@ -14,8 +15,8 @@
 
 // Screen is the layer manager
 // Update them and display them
-// Manage input depending on the type and location
-// and dispatch them to the appropriate layer
+// Manage mouse depending on the type and location and dispatch it to the appropriate layer
+// Keyboard input are managed by callbacks with map & system attributes
 
 // Because fuck static class
 // Init at first - clear at the end
@@ -31,10 +32,15 @@ namespace Screen
     sf::RenderWindow		_window;
     Layer			*_layer_focused;
 
+    // Actions binding
+    thor::ActionMap<int>			_map;
+    thor::ActionMap<int>::CallbackSystem	_system;
+    int						_action_id;
+
     unsigned			getNextId();
     void			checkEvent();
-    void			manageKeyboard(sf::Event &event);
     void			manageMouse(int x, int y);
+    void			manageInput(sf::Event &event);
     void			updateFocused();
   }
 
@@ -44,6 +50,10 @@ namespace Screen
   bool				hasLayer();
   void				add(Layer *layer);
   void				remove(Layer *layer);
+
+  int						actionId();
+  thor::ActionMap<int>				&getMap();
+  thor::ActionMap<int>::CallbackSystem		&getSystem();
 }
 
 #endif
