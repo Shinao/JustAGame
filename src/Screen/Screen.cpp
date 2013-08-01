@@ -78,7 +78,8 @@ namespace Screen
       for (int i = _layers.size() - 1; i >= 0; --i)
       {
 	ly = _layers[i];
-	if (Physic::isPointIn(cur.x, cur.y, ly->getX(), ly->getY(), ly->getWidth(), ly->getHeight()))
+	if (_layer_focused->catchMouse() &&
+	    Physic::isPointIn(cur.x, cur.y, ly->getX(), ly->getY(), ly->getWidth(), ly->getHeight()))
 	{
 	  _layer_focused = _layers[i];
 	  return ;
@@ -123,17 +124,22 @@ namespace Screen
 
   void			update()
   {
+    int			i;
+
     _window.clear();
 
     checkEvent();
 
     // Start from the end
-    for (int i = _layers.size() - 1; i >= 0; --i)
+    for (i = _layers.size() - 1; i >= 0; --i)
     {
       // Check if layer wants to be the last updated
       if (!_layers[i]->update(_window))
 	break ;
     }
+    // Now we now which one is the main layer - calling the draw on each layer on the top
+    for (; i < _layers.size(); ++i)
+      _layers[i]->draw(_window);
 
     _window.display();
   }

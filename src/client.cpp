@@ -7,6 +7,7 @@ class test : public Layer
   public:
     test() { _x = 0; _y = 0; _width = 100; _height = 100; }
     bool	update(sf::RenderWindow &) { return (true); }
+    void	draw(sf::RenderWindow &) { }
     void	mouseMoved(int x, int y) { std::cout << "IN" << std::endl; }
 };
 

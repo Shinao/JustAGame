@@ -9,6 +9,10 @@
 // For all the event - the function will return true if event is catched, meaning it will stop
 // sending the event to the other layer - return false otherwise
 
+// Only draw must be implemented
+// By default : update return false meaning the layer is not asbolute
+// catchMouse return false meaning mouse function will not be called
+// same thing goes for all the others event
 class Layer
 {
   protected:
@@ -23,7 +27,9 @@ class Layer
     virtual ~Layer();
 
     // Event management
-    virtual bool		update(sf::RenderWindow &window) = 0;
+    virtual void		draw(sf::RenderWindow &window) = 0;
+    virtual bool		update(sf::RenderWindow &window);
+    virtual bool		catchMouse();
     virtual void		mouseMoved(int x, int y);
     virtual void		mouseLeft();
     virtual bool		catchEvent(sf::Event &event);

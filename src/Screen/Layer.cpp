@@ -27,6 +27,16 @@ bool			Layer::textEntered()
   return (false);
 }
 
+bool			Layer::update(sf::RenderWindow &)
+{
+  return (false);
+}
+
+bool			Layer::catchMouse()
+{
+  return (true);
+}
+
 unsigned		Layer::getId() const
 {
   return (_id);
