@@ -1,6 +1,5 @@
 #include "Setting.hh"
 
-
 namespace Setting
 {
   void			init()
@@ -22,8 +21,8 @@ namespace Setting
     // Useless function ? You are useless !
   }
 
-  Theme			&getTheme()
+  Theme			*getTheme()
   {
-    return (_theme);
+    return (&_theme);
   }
 }

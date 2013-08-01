@@ -106,8 +106,8 @@ namespace Screen
       _layers.reserve(MAX_LAYERS_EXPECTED);
 
     // Init to NULL
-    for (unsigned i = 0; i < _layers.capacity(); ++i)
-      _layers[i] = NULL;
+    for (auto layer : _layers)
+      layer = NULL;
 
     // Recreate the window
     _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame", sf::Style::None);
@@ -121,8 +121,8 @@ namespace Screen
   void			clear()
   {
     // Delete each layers
-    for (unsigned i = 0; i < _layers.size(); ++i)
-      delete _layers[i];
+    for (auto layer : _layers)
+      delete layer;
 
     _layers.clear();
     _window.close();

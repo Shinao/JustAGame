@@ -7,7 +7,7 @@ Layer::Layer()
 
 Layer::~Layer()
 {
-  thor::ActionMap<int>				&map = Screen::getMap();
+  auto			&map = Screen::getMap();
 
   for (int i = 0; i < _actions.size(); ++i)
     map.removeAction(i);

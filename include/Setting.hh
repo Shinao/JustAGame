@@ -6,6 +6,8 @@
 // Everything needed for the client application
 // Window properties - themes - fonts - etc
 
+typedef sf::Rect<int> Rect;
+
 namespace Setting
 {
   // Can't catch me mothafucka
@@ -21,7 +23,7 @@ namespace Setting
 
   void			init();
   void			clear();
-  Theme			&getTheme();
+  Theme			*getTheme();
 }
 
 #endif
