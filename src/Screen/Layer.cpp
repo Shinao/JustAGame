@@ -26,7 +26,7 @@ void			Layer::setId(unsigned id)
   _id = id;
 }
 
-void			Layer::mouseMoved(int x, int y) {}
+void			Layer::mouseCaught(int x, int y) {}
 
 void			Layer::mouseLeft() {}
 

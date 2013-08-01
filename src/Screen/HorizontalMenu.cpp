@@ -10,7 +10,7 @@ void			HorizontalMenu::draw(sf::RenderWindow &win)
     item->draw(win);
 }
 
-// Something changed - Recalculing EVERYTHING
+// Something changed - Recalculating EVERYTHING
 void			HorizontalMenu::update()
 {
   int			x = _rec.left;

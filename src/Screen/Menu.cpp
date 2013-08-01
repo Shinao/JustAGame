@@ -2,7 +2,8 @@
 
 Menu::Menu(Rect rec, Theme *theme)
   : _rec(rec),
-  _theme(theme)
+  _theme(theme),
+  _item_focused(NULL)
 {
 }
 
@@ -16,6 +17,36 @@ void			Menu::add(Item *item)
 {
   _items.push_back(item);
   update();
+}
+
+// Checking on all items and send a signal
+void			Menu::mouseCaught(int x, int y)
+{
+  // Check if still on same item
+  if (_item_focused != NULL)
+  {
+    if (_item_focused->getRect().contains(x, y))
+    {
+      _item_focused->mouseCaught(x, y);
+      return ;
+    }
+    // Not found
+    _item_focused->mouseLeft();
+    _item_focused = NULL;
+  }
+
+  // Checking on all items
+  for (auto item : _items)
+    if (item->getRect().contains(x, y))
+    {
+      item->mouseCaught(x, y);
+      _item_focused = item;
+      return ;
+    }
+}
+
+void			Menu::mouseLeft()
+{
 }
 
 void			Menu::remove(Item *item)

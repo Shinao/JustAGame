@@ -19,8 +19,17 @@ Theme			*Item::getTheme()
 
 void			Item::draw(sf::RenderWindow &win)
 {
-  // TODO
-  // Draw box depending on getRect
+  win.draw(_box);
+}
+
+void			Item::mouseCaught(int x, int y)
+{
+  _box.setFillColor(_theme->c_border_focused);
+}
+
+void			Item::mouseLeft()
+{
+  _box.setFillColor(_theme->c_border);
 }
 
 void			Item::setTheme(Theme *theme)
@@ -45,6 +54,9 @@ const Rect		&Item::getRectRessource() const
 void			Item::setRect(const Rect &rec)
 {
   _rec = rec;
+
+  _box.setSize(sf::Vector2f(_rec.width, _rec.height));
+  _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
 }
 
 void			Item::setAlignment(Alignment align)

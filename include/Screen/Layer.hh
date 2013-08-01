@@ -36,7 +36,7 @@ class Layer
     virtual void		draw(sf::RenderWindow &window) = 0;
     virtual bool		update(sf::RenderWindow &window);
     virtual bool		catchMouse();
-    virtual void		mouseMoved(int x, int y);
+    virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual bool		textEntered(sf::Uint32 unicode);
 

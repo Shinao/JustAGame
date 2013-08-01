@@ -20,6 +20,8 @@ class Text : public Item
 
     void			draw(sf::RenderWindow &win);
     void			update();
+    void			mouseCaught(int x, int y);
+    void			mouseLeft();
 };
 
 #endif

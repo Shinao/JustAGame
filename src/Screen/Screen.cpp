@@ -60,7 +60,7 @@ namespace Screen
 	// Check if still on the same layer to avoid unnecessary check
 	if (Physic::isPointIn(x, y, _layer_focused->getX(), _layer_focused->getY(), _layer_focused->getWidth(), _layer_focused->getHeight()))
 	{
-	  _layer_focused->mouseMoved(x, y);
+	  _layer_focused->mouseCaught(x, y);
 	  return ;
 	}
 
@@ -71,7 +71,7 @@ namespace Screen
       // Get the new focus and call it
       updateFocused();
       if (_layer_focused != NULL)
-	_layer_focused->mouseMoved(x, y);
+	_layer_focused->mouseCaught(x, y);
     }
 
     void			updateFocused()

@@ -16,9 +16,9 @@ struct Theme
   sf::Text::Style		style_text;
   sf::Text::Style		style_text_focused;
   sf::Font			f_text;
-
-  // TODO
-  // Complete Theme (line focus)
+  sf::Font			f_text_focused;
+  sf::Color			c_border;
+  sf::Color			c_border_focused;
 };
 
 #endif

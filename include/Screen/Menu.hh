@@ -14,6 +14,7 @@ class Menu
     Rect			_rec;
     Theme			*_theme;
     std::vector<Item *>		_items;
+    Item			*_item_focused;
 
   public:
     Menu(Rect rec, Theme *theme = Setting::getTheme());
@@ -27,6 +28,8 @@ class Menu
     virtual void		remove(Item *item);
     virtual void		update() = 0;
     virtual void		draw(sf::RenderWindow &win) = 0;
+    virtual void		mouseCaught(int x, int y);
+    virtual void		mouseLeft();
 };
 
 #endif

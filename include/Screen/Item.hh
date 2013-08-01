@@ -24,6 +24,7 @@ class Item
     Theme			*_theme;
     Rect			_rec;
     Alignment			_align;
+    sf::RectangleShape		_box;
 
   public:
     Item(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
@@ -42,6 +43,8 @@ class Item
 
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
+    virtual void		mouseCaught(int x, int y);
+    virtual void		mouseLeft();
 };
 
 #endif

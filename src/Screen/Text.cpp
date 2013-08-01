@@ -2,10 +2,7 @@
 
 Text::Text()
 {
-  _text.setFont(_theme->f_text);
-  _text.setCharacterSize(_theme->size_text);
-  _text.setColor(_theme->c_text);
-  _text.setStyle(_theme->style_text);
+  mouseLeft();
 }
 
 Text::~Text()
@@ -16,13 +13,28 @@ void			Text::draw(sf::RenderWindow &win)
 {
   Item::draw(win);
   win.draw(_text);
+}
 
-  // TODO
-  // draw line border (un)focus
+void			Text::mouseCaught(int x, int y)
+{
+  _text.setFont(_theme->f_text_focused);
+  _text.setCharacterSize(_theme->size_text_focused);
+  _text.setColor(_theme->c_text_focused);
+  _text.setStyle(_theme->style_text_focused);
+}
+
+void			Text::mouseLeft()
+{
+  _text.setFont(_theme->f_text);
+  _text.setCharacterSize(_theme->size_text);
+  _text.setColor(_theme->c_text);
+  _text.setStyle(_theme->style_text);
 }
 
 void			Text::update()
 {
+  _text.setScale(sf::Vector2f(_scale, _scale));
+
   // Getting width & height depending on text
   auto			rec = _text.getGlobalBounds(); 
   _rec.width = rec.width;

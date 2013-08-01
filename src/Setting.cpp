@@ -14,6 +14,9 @@ namespace Setting
     _theme.style_text = sf::Text::Regular;
     _theme.style_text_focused = sf::Text::Regular;
     _theme.f_text.loadFromFile("rsrc/arial.ttf");
+    _theme.f_text_focused = _theme.f_text;
+    _theme.c_border = sf::Color::Black;
+    _theme.c_border_focused = sf::Color::Blue;
   }
 
   void			clear()
