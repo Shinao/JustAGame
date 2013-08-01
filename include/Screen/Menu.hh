@@ -26,7 +26,7 @@ class Menu
     virtual void		add(Item *item);
     virtual void		remove(Item *item);
     virtual void		update() = 0;
-    virtual void		draw() = 0;
+    virtual void		draw(sf::RenderWindow &win) = 0;
 };
 
 #endif

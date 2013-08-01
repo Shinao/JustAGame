@@ -5,20 +5,43 @@
 # include "Screen/Theme.hh"
 
 // Abstract class item for text & sprite
+// Object depending on a menu
+// Item should always have a theme
 
 class Item
 {
-  private:
+  public:
+    enum Alignment
+    {
+      Left,
+      Right,
+      Center
+    };
+
+  protected:
+    int				_margin;
+    float			_scale;
     Theme			*_theme;
     Rect			_rec;
+    Alignment			_align;
 
   public:
-    Item(Theme *theme = NULL);
+    Item(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
+    int				getMargin();
+    void			setMargin(int margin);
     void			setTheme(Theme *theme);
-    const Rect			&getRect() const;
-    void			setRect(const Rect &rec);
+    Theme			*getTheme();
+    Rect			getRect() const;
+    const Rect			&getRectRessource() const;
+    virtual void		setRect(const Rect &rec);
+    void			setAlignment(Alignment align);
+    Alignment			getAlignment();
+
+
+    virtual void		draw(sf::RenderWindow &win);
+    virtual void		update() = 0;
 };
 
 #endif

@@ -7,16 +7,14 @@
 
 class HorizontalMenu : public Menu
 {
-  private:
-    HorizontalMenu();
-
   public:
+    HorizontalMenu() = delete;
     ~HorizontalMenu();
 
     const Rect			&getRect() const;
     void			setRect(const Rect &rec);
 
-    void			draw();
+    void			draw(sf::RenderWindow &win);
     void			update();
 };
 
