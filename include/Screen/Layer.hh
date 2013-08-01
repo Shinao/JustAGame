@@ -2,6 +2,7 @@
 # define LAYER_HH_
 
 # include <SFML/Graphics.hpp>
+# include <iostream>
 
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc
@@ -15,12 +16,17 @@
 // same thing goes for all the others event
 class Layer
 {
+  private:
+    std::vector<int>		_actions;
+    int				_id;
+
   protected:
     int				_x;
     int				_y;
     int				_height;
     int				_width;
-    int				_id;
+
+    int				actionId();
 
   public:
     Layer();

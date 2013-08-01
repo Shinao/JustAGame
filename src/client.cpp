@@ -12,15 +12,24 @@ class test : public Layer
     {
       std::cout << "SHOOT" << std::endl;
     }
+    void onScope()
+    {
+      std::cout << "SCOPE" << std::endl;
+    }
 
     test()
     {
       _x = 0; _y = 0; _width = 100; _height = 100;
 
-      int id = Screen::actionId();
+      int id = actionId();
       Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);
       Screen::getSystem().connect(id, std::bind(&test::onShoot, this));
+      id = actionId();
+      Screen::getMap()[id] = thor::Action(sf::Mouse::Right, thor::Action::PressOnce);
+      Screen::getSystem().connect(id, std::bind(&test::onScope, this));
     }
+
+    // ~test() { std::cout << "destroyed test" << std::endl; }
 
     bool	update(sf::RenderWindow &) { return (true); }
     void	draw(sf::RenderWindow &) { }
