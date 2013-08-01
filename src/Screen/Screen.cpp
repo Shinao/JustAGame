@@ -78,7 +78,7 @@ namespace Screen
       for (int i = _layers.size() - 1; i >= 0; --i)
       {
 	ly = _layers[i];
-	if (_layer_focused->catchMouse() &&
+	if (ly->catchMouse() &&
 	    Physic::isPointIn(cur.x, cur.y, ly->getX(), ly->getY(), ly->getWidth(), ly->getHeight()))
 	{
 	  _layer_focused = _layers[i];
