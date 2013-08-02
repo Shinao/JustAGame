@@ -3,6 +3,7 @@
 #include <Thor/Input.hpp>
 #include "GUI/Screen.hh"
 #include "Setting.hh"
+#include "Utility/Cursor.hh"
 
 class test : public Layer
 {
@@ -59,6 +60,7 @@ int		main(int ac, char **av)
 
     // Sleep FPS minus MARGIN_FPS ms - keep FPS stable if lots of updates
     sf::sleep(sleeping_time);
+    sf::sleep(sf::seconds(2));
   }
 
   Screen::clear();

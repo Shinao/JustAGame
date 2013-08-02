@@ -50,7 +50,7 @@ namespace Screen
   bool				hasLayer();
   void				add(Layer *layer);
   void				remove(Layer *layer);
-  sf::WindowHandle		&getWindowHandle();
+  const sf::WindowHandle	&getWindowHandle();
 
   int						actionId();
   thor::ActionMap<int>				&getMap();

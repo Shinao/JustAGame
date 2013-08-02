@@ -189,4 +189,9 @@ namespace Screen
   {
     return (_action_id++);
   }
+
+  const sf::WindowHandle			&getWindowHandle()
+  {
+    return (_window.getSystemHandle());
+  }
 }

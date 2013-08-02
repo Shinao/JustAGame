@@ -5,34 +5,35 @@
 #include <SFML/Window.hpp>
 
 #ifdef SFML_SYSTEM_WINDOWS
-    #include <windows.h>
+#include <windows.h>
 #elif defined(SFML_SYSTEM_LINUX)
-    #include <X11/cursorfont.h>
-    #include <X11/Xlib.h>
+#include <X11/cursorfont.h>
+#include <X11/Xlib.h>
 #else
 #endif
 
 namespace sf
 {
-    class StandardCursor
-    {
-    private:
-        #ifdef SFML_SYSTEM_WINDOWS
-            
-        HCURSOR Cursor; /*Type of the Cursor with Windows*/
-            
-        #else
+  namespace
+  {
+#ifdef SFML_SYSTEM_WINDOWS
 
-        XID Cursor;
-        Display* display;
+    HCURSOR cursor; /*Type of the Cursor with Windows*/
 
-        #endif
-    public:
-        enum TYPE{ WAIT, TEXT, NORMAL, HAND /*,...*/ };
-        StandardCursor(const TYPE t);
-        void set(const sf::WindowHandle& aWindowHandle) const;
-        ~StandardCursor();
-    };
+#elif defined(SFML_SYSTEM_LINUX)
+
+    XID cursor;
+    Display* display;
+
+#endif
+  }
+
+  namespace Cursor
+  {
+    enum Type { Wait, Text, Normal, Hand };
+  }
+
+  void setCursor(Cursor::Type t);
 }
 
 #endif // STANDARDCURSOR_HPP
