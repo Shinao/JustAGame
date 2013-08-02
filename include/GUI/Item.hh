@@ -43,7 +43,7 @@ class Item
     void			setId(int id);
     int				getId() const;
 
-    void			textEntered(sf::Uint32 unicode);
+    virtual bool		textEntered(const std::string &str);
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
     virtual void		mouseCaught(int x, int y);

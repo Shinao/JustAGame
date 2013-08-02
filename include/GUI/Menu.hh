@@ -12,6 +12,8 @@
 class Menu : public Action
 {
   protected:
+    sf::RectangleShape		_border;
+    sf::RectangleShape		_box;
     Rect			_rec;
     Theme			*_theme;
     std::vector<Item *>		_items;
@@ -25,19 +27,17 @@ class Menu : public Action
     const Rect			&getRect() const;
     void			setRect(const Rect &rec);
     void			setTheme(Theme *theme);
-
     int				getFocused() const;
     int				getPressed() const;
-
     void			clicked();
+    void			add(Item *item);
+    void			remove(Item *item);
 
-    virtual void		add(Item *item);
-    virtual void		remove(Item *item);
     virtual void		update() = 0;
     virtual void		draw(sf::RenderWindow &win) = 0;
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
-    virtual void		textEntered(sf::Uint32 unicode);
+    virtual bool		textEntered(const std::string &str);
 };
 
 #endif

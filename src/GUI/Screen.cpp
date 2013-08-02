@@ -49,8 +49,11 @@ namespace Screen
 
     void			manageInput(sf::Event &event)
     {
+      std::string str = "";
+      sf::Utf<32>::encodeAnsi(event.text.unicode, std::back_inserter(str), '?');
+
       for (int i = _layers.size() - 1; i >= 0; --i)
-	if (_layers[i]->textEntered(event.text.unicode))
+	if (_layers[i]->textEntered(str))
 	  return ;
     }
 
@@ -112,7 +115,6 @@ namespace Screen
 
     // Recreate the window
     _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame", sf::Style::None);
-    _window.setFramerateLimit(Setting::FPS);
     _window.setKeyRepeatEnabled(false);
 
     _layer_focused = NULL;
@@ -148,6 +150,10 @@ namespace Screen
     // Now we now which one is the main layer - calling the draw on each layer on the top
     for (; i < _layers.size(); ++i)
       _layers[i]->draw(_window);
+
+    // Waiting FPS frames
+    while (_timer.getElapsedTime().asMilliseconds() < Setting::FPS);
+    _timer.restart();
 
     _window.display();
   }
@@ -195,5 +201,10 @@ namespace Screen
   sf::WindowHandle				getWindowHandle()
   {
     return (_window.getSystemHandle());
+  }
+
+  const sf::RenderWindow			&getWindow()
+  {
+    return (_window);
   }
 }

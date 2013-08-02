@@ -1,6 +1,7 @@
 TODO
 
-- Sprite item
 - Title bar
+- Theme manager
+- Sprite item
 - Error checking
 - Compatibility check

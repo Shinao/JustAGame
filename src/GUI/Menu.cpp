@@ -33,10 +33,11 @@ void			Menu::clicked()
   }
 }
 
-void			Menu::textEntered(sf::Uint32 unicode)
+bool			Menu::textEntered(const std::string &str)
 {
   if (_item_pressed != NULL)
-    _item_pressed->textEntered(unicode);
+    return (_item_pressed->textEntered(str));
+  return (false);
 }
 
 void			Menu::add(Item *item)

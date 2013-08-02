@@ -5,6 +5,7 @@
 # include <cstdio>
 # include <SFML/Graphics.hpp>
 # include <SFML/Window.hpp>
+# include <SFML/System.hpp>
 # include <Thor/Input.hpp>
 # include "GUI/Layer.hh"
 
@@ -22,12 +23,14 @@ namespace Screen
   // Private attributes - methods
   namespace
   {
+    const sf::Color		BACKGROUND_CLEAR = sf::Color::White;
     const unsigned		MAX_LAYERS_EXPECTED = 100;
     const unsigned		WINDOW_WIDTH = 800;
     const unsigned		WINDOW_HEIGHT = 500;
     std::vector<Layer *>	_layers;
     sf::RenderWindow		_window;
     Layer			*_layer_focused;
+    sf::Clock			_timer;
 
     // Actions binding
     thor::ActionMap<int>			_map;
@@ -48,6 +51,7 @@ namespace Screen
   void				add(Layer *layer);
   void				remove(Layer *layer);
   sf::WindowHandle		getWindowHandle();
+  const sf::RenderWindow	&getWindow();
 
   int						actionId();
   thor::ActionMap<int>				&getMap();

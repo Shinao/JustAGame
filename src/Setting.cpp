@@ -17,6 +17,7 @@ namespace Setting
     _theme.f_text_focused = _theme.f_text;
     _theme.c_border = sf::Color::Black;
     _theme.c_border_focused = sf::Color::Blue;
+    _theme.size_border = 2;
   }
 
   void			clear()

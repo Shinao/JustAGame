@@ -1,49 +1,8 @@
 #include <SFML/System.hpp>
-#include <Thor/Graphics/ToString.hpp>
-#include <Thor/Input.hpp>
 #include "GUI/Screen.hh"
 #include "Setting.hh"
-#include "Utility/Cursor.hh"
 #include "GUI/Layer.hh"
-#include "GUI/Action.hh"
-
-class test : public Layer
-{
-  public:
-
-    void onShoot()
-    {
-      std::cout << "SHOOT" << std::endl;
-    }
-    void onScope()
-    {
-      std::cout << "SCOPE" << std::endl;
-    }
-
-    test()
-    {
-      _rec = Rect(0, 0, 10, 10);
-
-      int id = actionId();
-      Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);
-      Screen::getSystem().connect(id, std::bind(&test::onShoot, this));
-      id = actionId();
-      Screen::getMap()[id] = thor::Action(sf::Mouse::Right, thor::Action::PressOnce);
-      Screen::getSystem().connect(id, std::bind(&test::onScope, this));
-    }
-
-    // ~test() { std::cout << "destroyed test" << std::endl; }
-
-    bool	update(sf::RenderWindow &) { return (true); }
-    void	draw(sf::RenderWindow &) { }
-    void	mouseMoved(int x, int y) { std::cout << "IN" << std::endl; }
-    bool	textEntered(sf::Uint32 unicode)
-    {
-      std::string str = "";
-      sf::Utf<32>::encodeAnsi(unicode, std::back_inserter(str), '?');
-      std::cout << "Entered: " << str << std::endl;
-    }
-};
+#include "Titlebar.hh"
 
 // Once upon a main
 int		main(int ac, char **av)
@@ -54,7 +13,7 @@ int		main(int ac, char **av)
 
   Setting::init();
   Screen::init();
-  Screen::add(new test);
+  Screen::add(new Titlebar);
 
   while (Screen::hasLayer())
   {
@@ -62,7 +21,6 @@ int		main(int ac, char **av)
 
     // Sleep FPS minus MARGIN_FPS ms - keep FPS stable if lots of updates
     sf::sleep(sleeping_time);
-    sf::sleep(sf::seconds(2));
   }
 
   Screen::clear();

@@ -3,12 +3,14 @@
 
 # include "GUI/Menu.hh"
 
+# include <iostream>
+
 // Horizontal menu - because the class is not explicit enough
 
 class HorizontalMenu : public Menu
 {
   public:
-    HorizontalMenu() = delete;
+    HorizontalMenu(Rect rec, Theme *theme = Setting::getTheme());
     ~HorizontalMenu();
 
     const Rect			&getRect() const;

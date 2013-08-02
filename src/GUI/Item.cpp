@@ -32,8 +32,9 @@ void			Item::draw(sf::RenderWindow &win)
   win.draw(_box);
 }
 
-void			Item::textEntered(sf::Uint32 unicode)
+bool			Item::textEntered(const std::string &)
 {
+  return (false);
 }
 
 void			Item::mouseCaught(int x, int y)

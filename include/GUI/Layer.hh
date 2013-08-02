@@ -24,6 +24,7 @@ class Layer : public Action
 
   protected:
     Rect			_rec;
+    bool			_focused;
 
   public:
     Layer();
@@ -35,7 +36,7 @@ class Layer : public Action
     virtual bool		catchMouse();
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
-    virtual bool		textEntered(sf::Uint32 unicode);
+    virtual bool		textEntered(const std::string &str);
 
     // Layer properties
     void			setId(unsigned id);

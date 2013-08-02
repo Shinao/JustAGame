@@ -2,6 +2,7 @@
 #include "GUI/Screen.hh"
 
 Layer::Layer()
+  : _focused(false)
 {
 }
 
@@ -14,11 +15,17 @@ void			Layer::setId(unsigned id)
   _id = id;
 }
 
-void			Layer::mouseCaught(int x, int y) {}
+void			Layer::mouseCaught(int x, int y)
+{
+  _focused = true;
+}
 
-void			Layer::mouseLeft() {}
+void			Layer::mouseLeft()
+{
+  _focused = false;
+}
 
-bool			Layer::textEntered(sf::Uint32)
+bool			Layer::textEntered(const std::string &)
 {
   return (false);
 }
