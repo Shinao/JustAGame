@@ -1,6 +1,5 @@
 TODO
 
-- Layer size/pos become Rect
 - Redirect text entered & left click on menu then item
 - Id on items
  - Get focus & pressed

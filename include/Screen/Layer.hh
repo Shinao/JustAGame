@@ -2,6 +2,7 @@
 # define LAYER_HH_
 
 # include <SFML/Graphics.hpp>
+# include "Setting.hh"
 # include <iostream>
 
 // A layer is a part of a screen
@@ -21,10 +22,7 @@ class Layer
     int				_id;
 
   protected:
-    int				_x;
-    int				_y;
-    int				_height;
-    int				_width;
+    Rect			_rec;
 
     int				actionId();
 
@@ -43,10 +41,7 @@ class Layer
     // Layer properties
     void			setId(unsigned id);
     unsigned			getId() const;
-    int				getX() const;
-    int				getY() const;
-    int				getHeight() const;
-    int				getWidth() const;
+    const Rect			&getRect() const;
 };
 
 #endif

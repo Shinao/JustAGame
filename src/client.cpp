@@ -19,7 +19,7 @@ class test : public Layer
 
     test()
     {
-      _x = 0; _y = 0; _width = 100; _height = 100;
+      _rec = Rect(0, 0, 10, 10);
 
       int id = actionId();
       Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);

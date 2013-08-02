@@ -58,7 +58,7 @@ namespace Screen
       if (_layer_focused != NULL)
       {
 	// Check if still on the same layer to avoid unnecessary check
-	if (Physic::isPointIn(x, y, _layer_focused->getX(), _layer_focused->getY(), _layer_focused->getWidth(), _layer_focused->getHeight()))
+	if (_layer_focused->getRect().contains(x, y))
 	{
 	  _layer_focused->mouseCaught(x, y);
 	  return ;
@@ -82,8 +82,7 @@ namespace Screen
       for (int i = _layers.size() - 1; i >= 0; --i)
       {
 	ly = _layers[i];
-	if (ly->catchMouse() &&
-	    Physic::isPointIn(cur.x, cur.y, ly->getX(), ly->getY(), ly->getWidth(), ly->getHeight()))
+	if (ly->catchMouse() && ly->getRect().contains(cur.x, cur.y))
 	{
 	  _layer_focused = _layers[i];
 	  return ;
