@@ -1,4 +1,4 @@
-#include "Screen/Text.hh"
+#include "GUI/Text.hh"
 
 Text::Text()
 {

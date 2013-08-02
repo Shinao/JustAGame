@@ -1,7 +1,7 @@
 #ifndef HORIZONTAL_MENU_HH_
 # define HORIZONTAL_MENU_HH_
 
-# include "Screen/Menu.hh"
+# include "GUI/Menu.hh"
 
 // Horizontal menu - because the class is not explicit enough
 

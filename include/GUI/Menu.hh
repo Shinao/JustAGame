@@ -3,7 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include "Setting.hh"
-# include "Screen/Item.hh"
+# include "GUI/Item.hh"
 
 // Abstract class for Menu
 // Managing all items : input - focus - draw

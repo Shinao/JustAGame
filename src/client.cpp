@@ -1,7 +1,7 @@
 #include <SFML/System.hpp>
 #include <Thor/Graphics/ToString.hpp>
 #include <Thor/Input.hpp>
-#include "Screen/Screen.hh"
+#include "GUI/Screen.hh"
 #include "Setting.hh"
 
 class test : public Layer

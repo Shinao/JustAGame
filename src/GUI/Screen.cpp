@@ -1,4 +1,4 @@
-#include "Screen/Screen.hh"
+#include "GUI/Screen.hh"
 
 namespace Screen
 {

@@ -1,7 +1,7 @@
 #ifndef SETTING_HH_
 # define SETTING_HH_
 
-# include "Screen/Theme.hh"
+# include "GUI/Theme.hh"
 
 // Everything needed for the client application
 // Window properties - themes - fonts - etc

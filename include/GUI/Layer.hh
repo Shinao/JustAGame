@@ -3,6 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include "Setting.hh"
+
 # include <iostream>
 
 // A layer is a part of a screen

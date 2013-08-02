@@ -1,7 +1,7 @@
 #ifndef TEXT_HH_
 # define TEXT_HH_
 
-# include "Screen/Item.hh"
+# include "GUI/Item.hh"
 
 // Text specialization for an iten in a menu
 

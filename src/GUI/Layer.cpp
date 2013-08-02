@@ -1,5 +1,5 @@
-#include "Screen/Layer.hh"
-#include "Screen/Screen.hh"
+#include "GUI/Layer.hh"
+#include "GUI/Screen.hh"
 
 Layer::Layer()
 {

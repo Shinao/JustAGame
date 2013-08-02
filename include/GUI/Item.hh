@@ -2,7 +2,7 @@
 # define ITEM_HH_
 
 # include "Setting.hh"
-# include "Screen/Theme.hh"
+# include "GUI/Theme.hh"
 
 // Abstract class item for text & sprite
 // Object depending on a menu

@@ -1,4 +1,4 @@
-#include "Screen/Menu.hh"
+#include "GUI/Menu.hh"
 
 Menu::Menu(Rect rec, Theme *theme)
   : _rec(rec),

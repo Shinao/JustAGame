@@ -1,4 +1,4 @@
-#include "Screen/Item.hh"
+#include "GUI/Item.hh"
 
 Item::Item(Theme *theme, Alignment align, float scale)
   : _theme(theme),

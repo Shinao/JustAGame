@@ -1,4 +1,4 @@
-#include "Screen/HorizontalMenu.hh"
+#include "GUI/HorizontalMenu.hh"
 
 HorizontalMenu::~HorizontalMenu()
 {
