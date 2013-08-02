@@ -1,3 +1,5 @@
+#include <SFML/System.hpp>
+#include "Setting.hh"
 #include "GUI/Screen.hh"
 
 namespace Screen
@@ -190,7 +192,7 @@ namespace Screen
     return (_action_id++);
   }
 
-  const sf::WindowHandle			&getWindowHandle()
+  sf::WindowHandle				getWindowHandle()
   {
     return (_window.getSystemHandle());
   }

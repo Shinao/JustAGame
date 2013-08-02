@@ -3,6 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include "Setting.hh"
+# include "GUI/Action.hh"
 
 # include <iostream>
 
@@ -16,16 +17,13 @@
 // By default : update return false meaning the layer is not asbolute
 // catchMouse return false meaning mouse function will not be called
 // same thing goes for all the others event
-class Layer
+class Layer : public Action
 {
   private:
-    std::vector<int>		_actions;
     int				_id;
 
   protected:
     Rect			_rec;
-
-    int				actionId();
 
   public:
     Layer();

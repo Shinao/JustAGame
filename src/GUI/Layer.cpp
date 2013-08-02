@@ -7,18 +7,6 @@ Layer::Layer()
 
 Layer::~Layer()
 {
-  auto			&map = Screen::getMap();
-
-  for (int i = 0; i < _actions.size(); ++i)
-    map.removeAction(i);
-}
-
-int			Layer::actionId()
-{
-  int			id = Screen::actionId();
-
-  _actions.push_back(id);
-  return (id);
 }
 
 void			Layer::setId(unsigned id)

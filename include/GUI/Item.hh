@@ -2,11 +2,11 @@
 # define ITEM_HH_
 
 # include "Setting.hh"
-# include "GUI/Theme.hh"
 
 // Abstract class item for text & sprite
 // Object depending on a menu
 // Item should always have a theme
+// Item has an ID usefull for the getPressed and Focused function of the menu
 
 class Item
 {
@@ -25,9 +25,10 @@ class Item
     Rect			_rec;
     Alignment			_align;
     sf::RectangleShape		_box;
+    int				_id;
 
   public:
-    Item(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    Item(int id, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
     int				getMargin();
@@ -39,12 +40,16 @@ class Item
     virtual void		setRect(const Rect &rec);
     void			setAlignment(Alignment align);
     Alignment			getAlignment();
+    void			setId(int id);
+    int				getId() const;
 
-
+    void			textEntered(sf::Uint32 unicode);
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
+    virtual void		pressed();
+    virtual void		unPressed();
 };
 
 #endif

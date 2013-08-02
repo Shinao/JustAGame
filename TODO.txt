@@ -1,8 +1,5 @@
 TODO
 
-- Redirect text entered & left click on menu then item
-- Id on items
- - Get focus & pressed
 - Sprite item
 - Title bar
 - Error checking

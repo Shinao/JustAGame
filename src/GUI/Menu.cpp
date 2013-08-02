@@ -1,16 +1,42 @@
+#include "GUI/Screen.hh"
 #include "GUI/Menu.hh"
 
 Menu::Menu(Rect rec, Theme *theme)
   : _rec(rec),
   _theme(theme),
-  _item_focused(NULL)
+  _item_focused(NULL),
+  _item_pressed(NULL)
 {
+  // Catching click
+  int id = actionId();
+  Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);
+  Screen::getSystem().connect(id, std::bind(&Menu::clicked, this));
 }
 
 Menu::~Menu()
 {
   for (auto item : _items)
     delete item;
+}
+
+// Intercepted click - send it to item focused
+void			Menu::clicked()
+{
+  // Toggle pressed
+  if (_item_focused != NULL)
+  {
+    if (_item_pressed != NULL && _item_pressed != _item_focused)
+      _item_pressed->unPressed();
+
+    _item_focused->pressed();
+    _item_pressed = _item_focused;
+  }
+}
+
+void			Menu::textEntered(sf::Uint32 unicode)
+{
+  if (_item_pressed != NULL)
+    _item_pressed->textEntered(unicode);
 }
 
 void			Menu::add(Item *item)
@@ -73,4 +99,18 @@ void			Menu::setTheme(Theme *theme)
   _theme = theme;
   for (auto item : _items)
     item->setTheme(theme);
+}
+
+int			Menu::getFocused() const
+{
+  if (_item_focused == NULL)
+    return (-1);
+  return (_item_focused->getId());
+}
+
+int			Menu::getPressed() const
+{
+  if (_item_pressed == NULL)
+    return (-1);
+  return (_item_pressed->getId());
 }

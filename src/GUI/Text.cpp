@@ -1,10 +1,5 @@
 #include "GUI/Text.hh"
 
-Text::Text()
-{
-  mouseLeft();
-}
-
 Text::~Text()
 {
 }

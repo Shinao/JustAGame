@@ -4,6 +4,8 @@
 #include "GUI/Screen.hh"
 #include "Setting.hh"
 #include "Utility/Cursor.hh"
+#include "GUI/Layer.hh"
+#include "GUI/Action.hh"
 
 class test : public Layer
 {

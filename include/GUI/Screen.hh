@@ -5,11 +5,8 @@
 # include <cstdio>
 # include <SFML/Graphics.hpp>
 # include <SFML/Window.hpp>
-# include <SFML/System.hpp>
 # include <Thor/Input.hpp>
 # include "GUI/Layer.hh"
-# include "Utility/Physic.hh"
-# include "Setting.hh"
 
 # include <iostream>
 
@@ -50,7 +47,7 @@ namespace Screen
   bool				hasLayer();
   void				add(Layer *layer);
   void				remove(Layer *layer);
-  const sf::WindowHandle	&getWindowHandle();
+  sf::WindowHandle		getWindowHandle();
 
   int						actionId();
   thor::ActionMap<int>				&getMap();

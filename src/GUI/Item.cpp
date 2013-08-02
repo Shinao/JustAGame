@@ -1,11 +1,13 @@
 #include "GUI/Item.hh"
 
-Item::Item(Theme *theme, Alignment align, float scale)
+Item::Item(int id, Theme *theme, Alignment align, float scale)
   : _theme(theme),
   _align(align),
   _scale(scale),
-  _margin(0)
+  _margin(0),
+  _id(id)
 {
+  mouseLeft();
 }
 
 Item::~Item()
@@ -17,9 +19,21 @@ Theme			*Item::getTheme()
   return (_theme);
 }
 
+void			Item::pressed()
+{
+}
+
+void			Item::unPressed()
+{
+}
+
 void			Item::draw(sf::RenderWindow &win)
 {
   win.draw(_box);
+}
+
+void			Item::textEntered(sf::Uint32 unicode)
+{
 }
 
 void			Item::mouseCaught(int x, int y)
@@ -77,4 +91,14 @@ int			Item::getMargin()
 void			Item::setMargin(int margin)
 {
   _margin = margin;
+}
+
+void			Item::setId(int id)
+{
+  _id = id;
+}
+
+int			Item::getId() const
+{
+  return (_id);
 }
