@@ -26,6 +26,7 @@ struct Theme
   sf::Color			c_border_focused;
   sf::Color			c_border_pressed;
   unsigned			size_border;
+  sf::Color			c_mask_focused;
 };
 
 #endif

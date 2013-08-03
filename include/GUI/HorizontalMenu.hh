@@ -10,7 +10,7 @@
 class HorizontalMenu : public Menu
 {
   public:
-    HorizontalMenu(Rect rec, Theme *theme = Setting::getTheme());
+    HorizontalMenu(Rect rec, Theme *theme = Setting::getCurrentTheme());
     ~HorizontalMenu();
 
     const Rect			&getRect() const;

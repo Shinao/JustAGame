@@ -21,7 +21,7 @@ class Menu : public Action
     Item			*_item_pressed;
 
   public:
-    Menu(Rect rec, Theme *theme = Setting::getTheme());
+    Menu(Rect rec, Theme *theme = Setting::getCurrentTheme());
     virtual ~Menu();
 
     const Rect			&getRect() const;

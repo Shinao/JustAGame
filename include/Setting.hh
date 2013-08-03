@@ -13,17 +13,21 @@ namespace Setting
   // Can't catch me mothafucka
   namespace
   {
-    Theme			_theme;
+    std::map<std::string, Theme	*>	_themes;
+    Theme				*_theme;
   }
 
-  const int		windowHeight = 400;
-  const int		windowWidth = 800;
-  const int		FPS = 1000 / 60;
-  const int		MARGIN_FPS = 4;
+  const int			windowHeight = 400;
+  const int			windowWidth = 800;
+  const int			FPS = 1000 / 60;
+  const int			MARGIN_FPS = 4;
 
-  void			init();
-  void			clear();
-  Theme			*getTheme();
+  void				init();
+  void				clear();
+  Theme				*getCurrentTheme();
+  Theme				*getTheme(const std::string &theme);
+  void				setTheme(Theme *theme);
+  void				addTheme(const std::string &name, Theme *theme);
 }
 
 #endif
