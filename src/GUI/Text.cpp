@@ -1,5 +1,10 @@
 #include "GUI/Text.hh"
 
+Text::Text(int id, Theme *theme, Alignment align, float scale)
+  : Item(id, theme, align, scale)
+{
+}
+
 Text::~Text()
 {
 }
@@ -12,6 +17,7 @@ void			Text::draw(sf::RenderWindow &win)
 
 void			Text::mouseCaught(int x, int y)
 {
+  Item::mouseCaught(x, y);
   _text.setFont(_theme->f_text_focused);
   _text.setCharacterSize(_theme->size_text_focused);
   _text.setColor(_theme->c_text_focused);
@@ -20,6 +26,7 @@ void			Text::mouseCaught(int x, int y)
 
 void			Text::mouseLeft()
 {
+  Item::mouseLeft();
   _text.setFont(_theme->f_text);
   _text.setCharacterSize(_theme->size_text);
   _text.setColor(_theme->c_text);

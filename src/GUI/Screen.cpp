@@ -136,7 +136,7 @@ namespace Screen
   {
     int			i;
 
-    _window.clear();
+    _window.clear(BACKGROUND_CLEAR);
 
     checkEvent();
 
