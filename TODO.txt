@@ -1,6 +1,6 @@
 TODO
 
 - Title bar
-- Sprite item
 - Error checking
+  - Font copy opperator cancer
 - Compatibility check

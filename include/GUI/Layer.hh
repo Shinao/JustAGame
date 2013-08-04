@@ -2,7 +2,7 @@
 # define LAYER_HH_
 
 # include <SFML/Graphics.hpp>
-# include "Setting.hh"
+# include "jag.hh"
 # include "GUI/Action.hh"
 
 # include <iostream>

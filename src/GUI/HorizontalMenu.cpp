@@ -35,13 +35,13 @@ void			HorizontalMenu::update()
 
   for (auto item : _items)
   {
-    Rect		rec = item->getRect();
+    Rect		rsrc = item->getRect();
 
-    rec.left = x;
-    rec.top = _rec.top;
-    rec.height = _rec.height;
-    item->setRect(rec);
+    rsrc.left = x;
+    rsrc.top = _rec.top;
+    rsrc.height = _rec.height;
+    item->setRect(rsrc);
 
-    x += rec.width;
+    x += rsrc.width;
   }
 }

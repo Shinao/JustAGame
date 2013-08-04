@@ -1,6 +1,6 @@
 #include <SFML/System.hpp>
 #include "GUI/Screen.hh"
-#include "Setting.hh"
+#include "jag.hh"
 #include "GUI/Layer.hh"
 #include "Titlebar.hh"
 
@@ -9,9 +9,9 @@ int		main(int ac, char **av)
 {
   bool		updated = false;
   sf::Clock	timer;
-  sf::Time	sleeping_time = sf::milliseconds(Setting::FPS - Setting::MarginFPS);
+  sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
 
-  Setting::init();
+  jag::init();
   Screen::init();
   Screen::add(new Titlebar);
 
@@ -24,7 +24,7 @@ int		main(int ac, char **av)
   }
 
   Screen::clear();
-  Setting::clear();
+  jag::clear();
 
   return (EXIT_SUCCESS);
 }

@@ -2,7 +2,7 @@
 # define MENU_HH_
 
 # include <SFML/Graphics.hpp>
-# include "Setting.hh"
+# include "jag.hh"
 # include "GUI/Item.hh"
 # include "GUI/Action.hh"
 
@@ -21,7 +21,7 @@ class Menu : public Action
     Item			*_item_pressed;
 
   public:
-    Menu(Rect rec, Theme *theme = Setting::getCurrentTheme());
+    Menu(Rect rec, Theme *theme = jag::getCurrentTheme());
     virtual ~Menu();
 
     const Rect			&getRect() const;

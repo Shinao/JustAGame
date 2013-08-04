@@ -7,7 +7,6 @@ Item::Item(int id, Theme *theme, Alignment align, float scale)
   _margin(0),
   _id(id)
 {
-  mouseLeft();
 }
 
 Item::~Item()
@@ -54,15 +53,10 @@ void			Item::setTheme(Theme *theme)
 
 Rect			Item::getRect() const
 {
-  Rect			rec = _rec;
+  Rect			rec = getRectRessource();
 
   rec.width += _margin * 2;
   rec.height += _margin * 2;
-  return (_rec);
-}
-
-const Rect		&Item::getRectRessource() const
-{
   return (_rec);
 }
 
@@ -72,6 +66,27 @@ void			Item::setRect(const Rect &rec)
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+}
+
+sf::Vector2i		Item::getRessourcePosition()
+{
+  sf::Vector2i		pos;
+
+  // Getting width & height depending on text
+  auto			rsrc = getRectRessource(); 
+
+  // Getting x depending on alignment
+  pos.x = _rec.left;
+  pos.y = _rec.top;
+  if (_align == Center)
+    pos.x += rsrc.width / 2 + _margin;
+  else if (_align == Right)
+    pos.x += rsrc.width + _margin;
+
+  // Always align vertically
+  pos.y += (_rec.height - rsrc.height) / 2;
+
+  return (pos);
 }
 
 void			Item::setAlignment(Alignment align)

@@ -1,5 +1,5 @@
 #include <SFML/System.hpp>
-#include "Setting.hh"
+#include "jag.hh"
 #include "GUI/Screen.hh"
 
 namespace Screen
@@ -114,7 +114,7 @@ namespace Screen
       layer = NULL;
 
     // Recreate the window
-    _window.create(sf::VideoMode(Setting::windowWidth, Setting::windowHeight), "JustAGame", sf::Style::None);
+    _window.create(sf::VideoMode(jag::windowWidth, jag::windowHeight), "JustAGame", sf::Style::None);
     _window.setKeyRepeatEnabled(false);
 
     _layer_focused = NULL;
@@ -152,7 +152,7 @@ namespace Screen
       _layers[i]->draw(_window);
 
     // Waiting FPS frames
-    while (_timer.getElapsedTime().asMilliseconds() < Setting::FPS);
+    while (_timer.getElapsedTime().asMilliseconds() < jag::FPS);
     _timer.restart();
 
     _window.display();

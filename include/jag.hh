@@ -1,15 +1,17 @@
-#ifndef SETTING_HH_
-# define SETTING_HH_
+#ifndef JAG_HH_
+# define JAG_HH_
 
 # include <SFML/Graphics.hpp>
 # include "GUI/Theme.hh"
+
+# include <iostream>
 
 // Everything needed for the client application
 // Window properties - themes - fonts - etc
 
 typedef sf::Rect<int> Rect;
 
-namespace Setting
+namespace jag
 {
   // Can't catch me mothafucka
   namespace

@@ -6,19 +6,19 @@
 class Sprite : public Item
 {
   private:
-    Sprite(int id, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     sf::Sprite			*_sprite;
 
   public:
-    Sprite() = delete;
+    Sprite(int id, sf::Sprite *sprite, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     ~Sprite();
 
-    void			setSprite(sf::Sprite *text);
+    void			setSprite(sf::Sprite *sprite);
     sf::Sprite			*getSprite();
     void			setRect(const Rect &rec);
 
     void			draw(sf::RenderWindow &win);
     void			update();
+    Rect			getRectRessource() const;
 };
 
 #endif

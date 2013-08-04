@@ -43,6 +43,12 @@ bool			Menu::textEntered(const std::string &str)
 void			Menu::add(Item *item)
 {
   _items.push_back(item);
+
+  // Chcking tem
+  if (item->getTheme() == NULL)
+    item->setTheme(_theme);
+  item->mouseLeft();
+
   update();
 }
 

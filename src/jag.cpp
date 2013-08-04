@@ -1,6 +1,6 @@
-#include "Setting.hh"
+#include "jag.hh"
 
-namespace Setting
+namespace jag
 {
   void			init()
   {
@@ -17,12 +17,20 @@ namespace Setting
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->f_text.loadFromFile("rsrc/arial.ttf");
-    theme->f_text_focused = _theme->f_text;
+    // theme->f_text_focused = _theme->f_text;
     theme->c_border = sf::Color::Black;
     theme->c_border_focused = sf::Color::Blue;
     theme->size_border = 2;
 
     _theme = theme;
+
+    // Init ressources
+    sf::Image		&img = getRessource("close_window.png");
+    img.createMaskFromColor(sf::Color::Black);
+    sf::Image		&img1 = getRessource("minimize_window.png");
+    img1.createMaskFromColor(sf::Color::Black);
+    sf::Image		&img2 = getRessource("restore_window.png");
+    img2.createMaskFromColor(sf::Color::Black);
   }
 
   void			clear()

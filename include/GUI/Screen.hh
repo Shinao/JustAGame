@@ -25,8 +25,6 @@ namespace Screen
   {
     const sf::Color		BACKGROUND_CLEAR = sf::Color::White;
     const unsigned		MAX_LAYERS_EXPECTED = 100;
-    const unsigned		WINDOW_WIDTH = 800;
-    const unsigned		WINDOW_HEIGHT = 500;
     std::vector<Layer *>	_layers;
     sf::RenderWindow		_window;
     Layer			*_layer_focused;

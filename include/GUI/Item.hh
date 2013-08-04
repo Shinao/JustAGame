@@ -1,7 +1,7 @@
 #ifndef ITEM_HH_
 # define ITEM_HH_
 
-# include "Setting.hh"
+# include "jag.hh"
 
 // Abstract class item for text & sprite
 // Object depending on a menu
@@ -36,13 +36,14 @@ class Item
     void			setTheme(Theme *theme);
     Theme			*getTheme();
     Rect			getRect() const;
-    const Rect			&getRectRessource() const;
     virtual void		setRect(const Rect &rec);
     void			setAlignment(Alignment align);
     Alignment			getAlignment();
     void			setId(int id);
     int				getId() const;
+    sf::Vector2i		getRessourcePosition();
 
+    virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
