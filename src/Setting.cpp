@@ -30,6 +30,10 @@ namespace Setting
     // Clear themes
     for (auto it : _themes)
       delete it.second;
+
+    // Clear ressources
+    for (auto it : _rsrcs)
+      delete it.second;
   }
 
   Theme			*getCurrentTheme()
@@ -55,5 +59,22 @@ namespace Setting
   void			addTheme(const std::string &name, Theme *theme)
   {
     _themes[name] = theme;
+  }
+
+  sf::Image		&getRessource(const std::string &name)
+  {
+    auto		it = _rsrcs.find(RessourcePath + name);
+
+    if (it != _rsrcs.end())
+      return (*(it->second));
+
+    sf::Image		*img = new sf::Image;
+
+    // No image found - fucking users deleting files !
+    if (!img->loadFromFile(RessourcePath + name))
+      img->create(16, 16);
+
+    _rsrcs[RessourcePath + name] = img;
+    return (*img);
   }
 }

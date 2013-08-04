@@ -9,7 +9,7 @@ int		main(int ac, char **av)
 {
   bool		updated = false;
   sf::Clock	timer;
-  sf::Time	sleeping_time = sf::milliseconds(Setting::FPS - Setting::MARGIN_FPS);
+  sf::Time	sleeping_time = sf::milliseconds(Setting::FPS - Setting::MarginFPS);
 
   Setting::init();
   Screen::init();
