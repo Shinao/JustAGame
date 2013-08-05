@@ -6,33 +6,42 @@ namespace jag
   void			init()
   {
     Theme		*theme = new Theme;
-    _themes["whiteblack"] = theme;
+    _themes["titlebar"] = theme;
 
-    // Setting the white black theme
-    theme->c_text = sf::Color::Black;
-    theme->c_text_focused = sf::Color::Black;
-    theme->size_text = 12;
-    theme->size_text_focused = 12;
+    // Setting the titlebar theme
     theme->c_background = sf::Color::White;
     theme->c_background_focused = sf::Color::White;
+    theme->size_border = 0;
+
+    theme = new Theme;
+    _themes["menu"] = theme;
+    // Setting the menu theme
+    theme->c_text = sf::Color::Black;
+    theme->c_text_focused = sf::Color::Black;
+    theme->c_text_pressed = sf::Color::Black;
+    theme->size_text = 12;
+    theme->size_text_focused = 12;
+    theme->size_text_pressed = 12;
+    theme->c_background = sf::Color::White;
+    theme->c_background_focused = sf::Color::White;
+    theme->c_background_pressed = sf::Color::White;
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
+    theme->style_text_pressed = sf::Text::Regular;
     theme->f_text.loadFromFile("rsrc/arial.ttf");
     theme->f_text_focused = theme->f_text;
+    theme->f_text_pressed = theme->f_text;
     theme->c_border = sf::Color::Black;
     theme->c_border_focused = sf::Color::Blue;
+    theme->c_border_pressed = sf::Color::Blue;
     theme->size_border = 2;
 
     _theme = theme;
 
     // Init ressources
     sf::Image		&img = getRessource("close_window.png");
-    // img.createMaskFromColor(sf::Color(51, 51, 51));
-    // img.createMaskFromColor(sf::Color(36, 36, 80));
     sf::Image		&img1 = getRessource("minimize_window.png");
-    img1.createMaskFromColor(sf::Color::Black);
     sf::Image		&img2 = getRessource("restore_window.png");
-    img2.createMaskFromColor(sf::Color::Black);
   }
 
   void			clear()

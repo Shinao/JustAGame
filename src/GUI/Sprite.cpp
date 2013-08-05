@@ -26,7 +26,7 @@ void			Sprite::update()
 
 Rect			Sprite::getRectRessource() const
 {
-  return (_sprite->getTextureRect());
+  return (Rect(_sprite->getGlobalBounds()));
 }
 
 // Overriding setRect to reset position of the ressource

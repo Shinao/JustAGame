@@ -67,11 +67,13 @@ void			Menu::mouseCaught(int x, int y)
 
   // Checking on all items
   for (auto item : _items)
+  {
     if (item->getRect().contains(x, y))
     {
       item->mouseCaught(x, y);
       _item_focused = item;
       return ;
+    }
     }
 }
 
