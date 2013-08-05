@@ -20,10 +20,12 @@ Theme			*Item::getTheme()
 
 void			Item::pressed()
 {
+  std::cout << "pressed" << std::endl;
 }
 
 void			Item::unPressed()
 {
+  std::cout << "unpressed" << std::endl;
 }
 
 void			Item::draw(sf::RenderWindow &win)
@@ -38,12 +40,14 @@ bool			Item::textEntered(const std::string &)
 
 void			Item::mouseCaught(int x, int y)
 {
-  _box.setFillColor(_theme->c_border_focused);
+  std::cout << "mouuuuse" << std::endl;
+  _box.setFillColor(_theme->c_background_focused);
 }
 
 void			Item::mouseLeft()
 {
-  _box.setFillColor(_theme->c_border);
+  std::cout << "uuuunmouuuuse" << std::endl;
+  _box.setFillColor(_theme->c_background);
 }
 
 void			Item::setTheme(Theme *theme)
@@ -53,11 +57,10 @@ void			Item::setTheme(Theme *theme)
 
 Rect			Item::getRect() const
 {
-  Rect			rec = getRectRessource();
+  Rect			rsrc = getRectRessource();
 
-  rec.width += _margin * 2;
-  rec.height += _margin * 2;
-  return (_rec);
+  rsrc.width += _margin * 2;
+  return (rsrc);
 }
 
 void			Item::setRect(const Rect &rec)
@@ -78,9 +81,11 @@ sf::Vector2i		Item::getRessourcePosition()
   // Getting x depending on alignment
   pos.x = _rec.left;
   pos.y = _rec.top;
-  if (_align == Center)
+  if (_align == Left)
+    pos.x += _margin;
+  else if (_align == Center)
     pos.x += rsrc.width / 2 + _margin;
-  else if (_align == Right)
+  else
     pos.x += rsrc.width + _margin;
 
   // Always align vertically
@@ -99,7 +104,7 @@ Item::Alignment		Item::getAlignment()
   return (_align);
 }
 
-int			Item::getMargin()
+int			Item::getMargin() const
 {
   return (_margin);
 }

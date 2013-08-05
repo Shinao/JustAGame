@@ -207,4 +207,14 @@ namespace Screen
   {
     return (_window);
   }
+
+  sf::Vector2u					getWindowSize()
+  {
+    return (_window.getSize());
+  }
+
+  sf::Vector2i					getCursorPosition()
+  {
+    return (sf::Mouse::getPosition(_window));
+  }
 }

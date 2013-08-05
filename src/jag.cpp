@@ -1,4 +1,5 @@
 #include "jag.hh"
+#include "Utility/Graphic.hh"
 
 namespace jag
 {
@@ -26,7 +27,8 @@ namespace jag
 
     // Init ressources
     sf::Image		&img = getRessource("close_window.png");
-    img.createMaskFromColor(sf::Color::Black);
+    // img.createMaskFromColor(sf::Color(51, 51, 51));
+    // img.createMaskFromColor(sf::Color(36, 36, 80));
     sf::Image		&img1 = getRessource("minimize_window.png");
     img1.createMaskFromColor(sf::Color::Black);
     sf::Image		&img2 = getRessource("restore_window.png");

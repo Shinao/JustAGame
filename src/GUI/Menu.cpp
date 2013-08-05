@@ -5,12 +5,9 @@ Menu::Menu(Rect rec, Theme *theme)
   : _rec(rec),
   _theme(theme),
   _item_focused(NULL),
-  _item_pressed(NULL)
+  _item_pressed(NULL),
+  _margin(0)
 {
-  // Catching click
-  int id = actionId();
-  Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);
-  Screen::getSystem().connect(id, std::bind(&Menu::clicked, this));
 }
 
 Menu::~Menu()
@@ -47,7 +44,7 @@ void			Menu::add(Item *item)
   // Chcking tem
   if (item->getTheme() == NULL)
     item->setTheme(_theme);
-  item->mouseLeft();
+    item->mouseLeft();
 
   update();
 }
@@ -78,8 +75,16 @@ void			Menu::mouseCaught(int x, int y)
     }
 }
 
+void			Menu::setMargin(int margin)
+{
+  _margin = margin;
+  update();
+}
+
 void			Menu::mouseLeft()
 {
+  if (_item_focused != NULL)
+    _item_focused->mouseLeft();
 }
 
 void			Menu::remove(Item *item)
@@ -99,6 +104,7 @@ const Rect		&Menu::getRect() const
 void			Menu::setRect(const Rect &rec)
 {
   _rec = rec;
+  update();
 }
 
 void			Menu::setTheme(Theme *theme)

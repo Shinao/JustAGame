@@ -50,6 +50,8 @@ namespace Screen
   void				remove(Layer *layer);
   sf::WindowHandle		getWindowHandle();
   const sf::RenderWindow	&getWindow();
+  sf::Vector2u			getWindowSize();
+  sf::Vector2i			getCursorPosition();
 
   int						actionId();
   thor::ActionMap<int>				&getMap();

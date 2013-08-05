@@ -31,7 +31,7 @@ class Item
     Item(int id, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
-    int				getMargin();
+    int				getMargin() const;
     void			setMargin(int margin);
     void			setTheme(Theme *theme);
     Theme			*getTheme();

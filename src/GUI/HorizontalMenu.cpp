@@ -35,6 +35,9 @@ void			HorizontalMenu::update()
 
   for (auto item : _items)
   {
+    if (item->getMargin() < _margin)
+      item->setMargin(_margin);
+
     Rect		rsrc = item->getRect();
 
     rsrc.left = x;
@@ -44,4 +47,6 @@ void			HorizontalMenu::update()
 
     x += rsrc.width;
   }
+
+  _rec.width = x - _rec.left;
 }

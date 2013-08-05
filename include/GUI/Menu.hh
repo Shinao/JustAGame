@@ -9,7 +9,7 @@
 // Abstract class for Menu
 // Managing all items : input - focus - draw
 
-class Menu : public Action
+class Menu
 {
   protected:
     sf::RectangleShape		_border;
@@ -19,6 +19,7 @@ class Menu : public Action
     std::vector<Item *>		_items;
     Item			*_item_focused;
     Item			*_item_pressed;
+    int				_margin;
 
   public:
     Menu(Rect rec, Theme *theme = jag::getCurrentTheme());
@@ -32,6 +33,7 @@ class Menu : public Action
     void			clicked();
     void			add(Item *item);
     void			remove(Item *item);
+    void			setMargin(int margin);
 
     virtual void		update() = 0;
     virtual void		draw(sf::RenderWindow &win) = 0;

@@ -13,9 +13,6 @@ class HorizontalMenu : public Menu
     HorizontalMenu(Rect rec, Theme *theme = jag::getCurrentTheme());
     ~HorizontalMenu();
 
-    const Rect			&getRect() const;
-    void			setRect(const Rect &rec);
-
     void			draw(sf::RenderWindow &win);
     void			update();
 };
