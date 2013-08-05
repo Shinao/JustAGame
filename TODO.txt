@@ -2,5 +2,4 @@ TODO
 
 - Title bar
 - Error checking
-  - Font copy opperator cancer
 - Compatibility check

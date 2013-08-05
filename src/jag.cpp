@@ -17,7 +17,7 @@ namespace jag
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->f_text.loadFromFile("rsrc/arial.ttf");
-    // theme->f_text_focused = _theme->f_text;
+    theme->f_text_focused = theme->f_text;
     theme->c_border = sf::Color::Black;
     theme->c_border_focused = sf::Color::Blue;
     theme->size_border = 2;

@@ -36,6 +36,7 @@ badd +1 src\GUI\Sprite.cpp
 badd +0 include\GUI\Sprite.hh
 badd +0 src\jag.cpp
 badd +0 include\jag.hh
+badd +8 main.cpp
 silent! argdel *
 edit CMakeLists.txt
 set splitbelow splitright
@@ -125,12 +126,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 21 - ((20 * winheight(0) + 23) / 47)
+let s:l = 20 - ((19 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
-normal! 011l
+20
+normal! 028l
 wincmd w
 argglobal
 edit include\jag.hh
@@ -672,7 +673,7 @@ normal! 025l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 4
+tabnext 2
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
