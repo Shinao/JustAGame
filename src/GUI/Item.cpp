@@ -40,11 +40,13 @@ bool			Item::textEntered(const std::string &)
 
 void			Item::mouseCaught(int x, int y)
 {
+  std::cout << "mouuuuse" << std::endl;
   _box.setFillColor(_theme->c_background_focused);
 }
 
 void			Item::mouseLeft()
 {
+  std::cout << "uuuunmouuuuse" << std::endl;
   _box.setFillColor(_theme->c_background);
 }
 

@@ -178,12 +178,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 37 - ((23 * winheight(0) + 23) / 47)
+let s:l = 39 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-37
-normal! 026l
+39
+normal! 0
 wincmd w
 argglobal
 edit include\jag.hh
@@ -472,12 +472,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 43 - ((23 * winheight(0) + 23) / 47)
+let s:l = 79 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-43
-normal! 0
+79
+normal! 016l
 wincmd w
 argglobal
 edit include\GUI\Item.hh
@@ -570,12 +570,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 22 - ((21 * winheight(0) + 23) / 47)
+let s:l = 29 - ((25 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-22
-normal! 0
+29
+normal! 028l
 wincmd w
 argglobal
 edit include\GUI\Sprite.hh
@@ -668,7 +668,7 @@ normal! 030l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 5
+tabnext 2
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
