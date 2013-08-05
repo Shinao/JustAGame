@@ -84,7 +84,7 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 5
-normal! 020l
+normal! 014l
 tabedit include\GUI\Theme.hh
 set splitbelow splitright
 set nosplitbelow
@@ -472,12 +472,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 79 - ((23 * winheight(0) + 23) / 47)
+let s:l = 24 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-79
-normal! 016l
+24
+normal! 015l
 wincmd w
 argglobal
 edit include\GUI\Item.hh
@@ -490,12 +490,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 39 - ((0 * winheight(0) + 23) / 47)
+let s:l = 49 - ((35 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-39
-normal! 034l
+49
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -641,12 +641,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 30 - ((23 * winheight(0) + 23) / 47)
+let s:l = 27 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
-normal! 019l
+27
+normal! 0
 wincmd w
 argglobal
 edit include\Titlebar.hh
@@ -668,7 +668,29 @@ normal! 030l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 2
+tabedit main.cpp
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 31 - ((23 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+31
+normal! 049l
+tabnext 10
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

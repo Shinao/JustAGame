@@ -11,6 +11,8 @@
 class Item
 {
   public:
+    typedef void (*Callback)();
+
     enum Alignment
     {
       Left,
@@ -26,6 +28,7 @@ class Item
     Alignment			_align;
     sf::RectangleShape		_box;
     int				_id;
+    std::function<void ()>	_callback;
 
   public:
     Item(int id, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
@@ -42,6 +45,7 @@ class Item
     void			setId(int id);
     int				getId() const;
     sf::Vector2i		getRessourcePosition();
+    void			addCallback(Callback callback);
 
     virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);

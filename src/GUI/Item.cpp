@@ -20,6 +20,8 @@ Theme			*Item::getTheme()
 
 void			Item::pressed()
 {
+  if (_callback)
+    _callback();
   std::cout << "pressed" << std::endl;
 }
 
@@ -69,6 +71,11 @@ void			Item::setRect(const Rect &rec)
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+}
+
+void			Item::addCallback(Callback callback)
+{
+  _callback = callback;
 }
 
 sf::Vector2i		Item::getRessourcePosition()
