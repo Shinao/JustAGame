@@ -11,7 +11,7 @@ class Text : public Item
     sf::Text			_text;
 
   public:
-    Text(int id, const sf::String &text, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    Text(const sf::String &text, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     ~Text();
 
     void			setText(const sf::String &text);

@@ -1,11 +1,10 @@
 #include "GUI/Item.hh"
 
-  Item::Item(int id, Theme *theme, Alignment align, float scale)
+  Item::Item(Theme *theme, Alignment align, float scale)
 : _theme(theme),
   _align(align),
   _scale(scale),
   _margin(0),
-  _id(id),
   _focused(false),
   _pressed(false)
 {
@@ -145,14 +144,4 @@ int			Item::getMargin() const
 void			Item::setMargin(int margin)
 {
   _margin = margin;
-}
-
-void			Item::setId(int id)
-{
-  _id = id;
-}
-
-int			Item::getId() const
-{
-  return (_id);
 }

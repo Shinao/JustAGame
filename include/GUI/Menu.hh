@@ -29,8 +29,7 @@ class Menu
     const Rect			&getRect() const;
     void			setRect(const Rect &rec);
     void			setTheme(Theme *theme);
-    int				getFocused() const;
-    int				getPressed() const;
+    void			setPressed(Item *item);
     void			clicked();
     void			add(Item *item);
     void			remove(Item *item);

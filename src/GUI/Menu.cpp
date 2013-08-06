@@ -109,16 +109,8 @@ void			Menu::setTheme(Theme *theme)
     item->setTheme(theme);
 }
 
-int			Menu::getFocused() const
+void			Menu::setPressed(Item *item)
 {
-  if (_item_focused == NULL)
-    return (-1);
-  return (_item_focused->getId());
-}
-
-int			Menu::getPressed() const
-{
-  if (_item_pressed == NULL)
-    return (-1);
-  return (_item_pressed->getId());
+  _item_pressed = item;
+  item->pressed();
 }

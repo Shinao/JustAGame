@@ -8,9 +8,6 @@
 class Titlebar : public Layer
 {
   private:
-    const int			CLOSE_WINDOW = 1;
-    const int			MINIMIZE_WINDOW = 2;
-    const int			RESTORE_WINDOW = 3;
     const int			MENU_WIDTH = 28;
 
     const int			TITLEBAR_HEIGHT = 36;

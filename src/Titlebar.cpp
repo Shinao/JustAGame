@@ -23,11 +23,11 @@ Titlebar::Titlebar()
   _menu = new HorizontalMenu(_rec);
   _menu->setTheme(jag::getTheme("titlebar"));
   _menu->setMargin(8);
-  Sprite	*sprite = new Sprite(MINIMIZE_WINDOW, &_min_spr);
+  Sprite	*sprite = new Sprite(&_min_spr);
   _menu->add(sprite);
-  sprite = new Sprite(RESTORE_WINDOW, &_res_spr);
+  sprite = new Sprite(&_res_spr);
   _menu->add(sprite);
-  sprite = new Sprite(CLOSE_WINDOW, &_cross_spr);
+  sprite = new Sprite(&_cross_spr);
   _menu->add(sprite);
   sprite->setTheme(jag::getTheme("titlebar_cross"));
 

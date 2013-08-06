@@ -29,11 +29,10 @@ class Item
     Rect			_rec;
     Alignment			_align;
     sf::RectangleShape		_box;
-    int				_id;
     std::function<void ()>	_callback;
 
   public:
-    Item(int id, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    Item(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
     int				getMargin() const;
@@ -44,8 +43,6 @@ class Item
     virtual void		setRect(const Rect &rec);
     void			setAlignment(Alignment align);
     Alignment			getAlignment();
-    void			setId(int id);
-    int				getId() const;
     sf::Vector2i		getRessourcePosition();
     void			addCallback(Callback callback);
     void			removeCallback();
