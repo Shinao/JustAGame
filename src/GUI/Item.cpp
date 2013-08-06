@@ -25,13 +25,11 @@ void			Item::pressed()
   _pressed = true;
   if (_callback)
     _callback();
-  std::cout << "pressed" << std::endl;
 }
 
 void			Item::unPressed()
 {
   _pressed = false;
-  std::cout << "unpressed" << std::endl;
 }
 
 void			Item::draw(sf::RenderWindow &win)
@@ -48,14 +46,12 @@ void			Item::mouseCaught(int x, int y)
 {
   _focused = true;
   _box.setFillColor(_theme->c_background_focused);
-  std::cout << "mouuuuse" << std::endl;
 }
 
 void			Item::mouseLeft()
 {
   _focused = false;
   _box.setFillColor(_theme->c_background);
-  std::cout << "uuuunmouuuuse" << std::endl;
 }
 
 void			Item::setTheme(Theme *theme)

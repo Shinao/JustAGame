@@ -40,6 +40,7 @@ namespace Screen
     void			manageMouse(int x, int y);
     void			manageInput(sf::Event &event);
     void			updateFocused();
+    void			manageClick(int x, int y);
   }
 
   void				init();

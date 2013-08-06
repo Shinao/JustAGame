@@ -14,6 +14,12 @@ namespace jag
     theme->size_border = 0;
 
     theme = new Theme;
+    _themes["titlebar_cross"] = theme;
+    *theme = *(_themes["titlebar"]);
+    // Setting the titlebar cross icon theme
+    theme->c_background_focused = sf::Color(240, 180, 180);
+
+    theme = new Theme;
     _themes["menu"] = theme;
     // Setting the menu theme
     theme->c_text = sf::Color::Black;

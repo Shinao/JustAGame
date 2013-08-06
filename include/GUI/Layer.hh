@@ -37,6 +37,7 @@ class Layer : public Action
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual bool		textEntered(const std::string &str);
+    virtual void		clicked(int x, int y);
 
     // Layer properties
     void			setId(unsigned id);

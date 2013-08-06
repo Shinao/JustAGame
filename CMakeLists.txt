@@ -1,8 +1,9 @@
 cmake_minimum_required (VERSION 2.6)
 
 # 32 bits
-# Thor dependencies
-list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -m32")
+# C++ 11 because why not
+list (APPEND CMAKE_CXX_FLAGS "-std=c++11 -m32")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 project (justagame)
 
@@ -16,8 +17,8 @@ file (GLOB_RECURSE CLIENT_SRC src/*.cpp)
 
 add_executable (justagame ${CLIENT_SRC})
 
-target_link_libraries (justagame sfml-window)
 target_link_libraries (justagame sfml-graphics)
-target_link_libraries (justagame sfml-system)
+target_link_libraries (justagame sfml-window)
 target_link_libraries (justagame sfml-network)
+target_link_libraries (justagame sfml-system)
 target_link_libraries (justagame thor)

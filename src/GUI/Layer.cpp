@@ -35,6 +35,10 @@ bool			Layer::update(sf::RenderWindow &)
   return (false);
 }
 
+void			Layer::clicked(int, int)
+{
+}
+
 bool			Layer::catchMouse()
 {
   return (true);

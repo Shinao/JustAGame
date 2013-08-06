@@ -35,6 +35,7 @@ Titlebar::Titlebar()
   _menu->add(sprite);
   sprite = new Sprite(CLOSE_WINDOW, &_cross_spr);
   _menu->add(sprite);
+  sprite->setTheme(jag::getTheme("titlebar_cross"));
 
 
   // Updating position

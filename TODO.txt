@@ -1,8 +1,8 @@
 TODO
 
+- Screen - callback for event and not if else
 - Title bar
  . Line focus & pressed & default
- . Red background cross sprite
  . Callback close restore minimize
  . logo + title
 - Error checking

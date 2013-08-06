@@ -34,10 +34,13 @@ namespace Screen
 	  return ;
 	}
 
+	// Manage Exception
 	if (event.type == sf::Event::MouseMoved)
 	  manageMouse(event.mouseMove.x, event.mouseMove.y);
 	else if (event.type == sf::Event::TextEntered)
 	  manageInput(event);
+	else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+	  manageClick(event.mouseButton.x, event.mouseButton.y);
 	else
 	  _map.pushEvent(event);
       }
@@ -45,6 +48,12 @@ namespace Screen
       // All event pushed - time to callback
       _map.invokeCallbacks(_system, NULL);
       _map.clearEvents();
+    }
+
+    void			manageClick(int x, int y)
+    {
+      if (_layer_focused != NULL && _layer_focused->getRect().contains(x, y))
+	_layer_focused->clicked(x, y);
     }
 
     void			manageInput(sf::Event &event)
