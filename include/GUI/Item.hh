@@ -58,6 +58,7 @@ class Item
     virtual void		mouseLeft();
     virtual void		pressed();
     virtual void		unPressed();
+    virtual void		designChanged();
 };
 
 #endif

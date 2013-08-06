@@ -7,12 +7,6 @@ Titlebar::Titlebar()
   Rect	rec = Rect(0, 0, Screen::getWindowSize().x, TITLEBAR_HEIGHT);
   _rec = rec;
 
-  // Getting click
-  int id = actionId();
-  Screen::getMap()[id] = thor::Action(sf::Mouse::Left, thor::Action::PressOnce);
-  Screen::getSystem().connect(id, std::bind(&Titlebar::clicked, this));
-
-
   // Generating all items menu
   sf::Image	&img_close = jag::getRessource("close_window.png");
   sf::Image	&img_min = jag::getRessource("minimize_window.png");
@@ -37,11 +31,10 @@ Titlebar::Titlebar()
   _menu->add(sprite);
   sprite->setTheme(jag::getTheme("titlebar_cross"));
 
-
   // Updating position
-  rec.height = MENU_WIDTH;
-  // Update to get the rect size
+  // Update to get the menu size
   _menu->update();
+  rec.height = MENU_WIDTH;
   rec.left += Screen::getWindowSize().x - _menu->getRect().width;
   _menu->setRect(rec);
   _menu->update();
@@ -51,9 +44,9 @@ Titlebar::~Titlebar()
 {
 }
 
-void			Titlebar::clicked()
+void			Titlebar::clicked(int x, int y)
 {
-  if (_focused && _menu->getRect().contains(Screen::getCursorPosition()))
+  if (_menu->getRect().contains(x, y))
     _menu->clicked();
 }
 

@@ -1,7 +1,7 @@
 #include "GUI/Item.hh"
 
-Item::Item(int id, Theme *theme, Alignment align, float scale)
-  : _theme(theme),
+  Item::Item(int id, Theme *theme, Alignment align, float scale)
+: _theme(theme),
   _align(align),
   _scale(scale),
   _margin(0),
@@ -32,6 +32,21 @@ void			Item::unPressed()
   _pressed = false;
 }
 
+void			Item::designChanged()
+{
+  if (_pressed)
+  {
+  }
+  else if (_focused)
+  {
+    _box.setFillColor(_theme->c_background_focused);
+  }
+  else
+  {
+    _box.setFillColor(_theme->c_background);
+  }
+}
+
 void			Item::draw(sf::RenderWindow &win)
 {
   win.draw(_box);
@@ -45,18 +60,19 @@ bool			Item::textEntered(const std::string &)
 void			Item::mouseCaught(int x, int y)
 {
   _focused = true;
-  _box.setFillColor(_theme->c_background_focused);
+  designChanged();
 }
 
 void			Item::mouseLeft()
 {
   _focused = false;
-  _box.setFillColor(_theme->c_background);
+  designChanged();
 }
 
 void			Item::setTheme(Theme *theme)
 {
   _theme = theme;
+  designChanged();
 }
 
 Rect			Item::getRect() const

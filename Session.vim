@@ -79,12 +79,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 23) / 46)
+let s:l = 6 - ((5 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 044l
+6
+normal! 033l
 tabedit include\GUI\Theme.hh
 set splitbelow splitright
 set nosplitbelow
@@ -178,12 +178,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 20 - ((19 * winheight(0) + 23) / 46)
+let s:l = 14 - ((13 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
-normal! 054l
+14
+normal! 025l
 wincmd w
 argglobal
 edit include\jag.hh
@@ -281,7 +281,7 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 55
-normal! 035l
+normal! 010l
 wincmd w
 argglobal
 edit include\GUI\Screen.hh
@@ -294,12 +294,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 43 - ((26 * winheight(0) + 23) / 46)
+let s:l = 6 - ((5 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-43
-normal! 034l
+6
+normal! 028l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -348,7 +348,7 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 40
-normal! 015l
+normal! 012l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -374,12 +374,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 69 - ((22 * winheight(0) + 23) / 46)
+let s:l = 109 - ((30 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-69
-normal! 0
+109
+normal! 025l
 wincmd w
 argglobal
 edit include\GUI\Menu.hh
@@ -472,11 +472,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 28 - ((22 * winheight(0) + 23) / 46)
+let s:l = 22 - ((21 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-28
+22
 normal! 0
 wincmd w
 argglobal
@@ -490,12 +490,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 23) / 46)
+let s:l = 61 - ((42 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+61
+normal! 031l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -521,11 +521,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 54 - ((31 * winheight(0) + 23) / 46)
+let s:l = 8 - ((7 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-54
+8
 normal! 0
 wincmd w
 argglobal
@@ -539,7 +539,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 25 - ((0 * winheight(0) + 23) / 46)
+let s:l = 25 - ((24 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -570,11 +570,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 5 - ((4 * winheight(0) + 23) / 46)
+let s:l = 19 - ((18 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+19
 normal! 0
 wincmd w
 argglobal
@@ -588,13 +588,14 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 21 - ((0 * winheight(0) + 23) / 46)
+let s:l = 22 - ((21 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
-normal! 011l
+22
+normal! 010l
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\client.cpp
@@ -619,6 +620,7 @@ exe s:l
 normal! zt
 16
 normal! 02l
+2wincmd w
 tabedit src\Titlebar.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -641,12 +643,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 38 - ((22 * winheight(0) + 23) / 46)
+let s:l = 10 - ((9 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-38
-normal! 050l
+10
+normal! 0
 wincmd w
 argglobal
 edit include\Titlebar.hh
@@ -659,13 +661,14 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 14 - ((0 * winheight(0) + 23) / 46)
+let s:l = 28 - ((27 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
+28
 normal! 030l
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit main.cpp
@@ -690,7 +693,8 @@ exe s:l
 normal! zt
 40
 normal! 023l
-tabnext 2
+2wincmd w
+tabnext 13
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
