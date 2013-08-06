@@ -343,14 +343,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 12 - ((11 * winheight(0) + 23) / 47)
+let s:l = 7 - ((6 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 061l
+7
+normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\HorizontalMenu.cpp
@@ -400,7 +399,6 @@ normal! zt
 13
 normal! 026l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Item.cpp
@@ -450,7 +448,6 @@ normal! zt
 49
 normal! 019l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Text.cpp
@@ -500,7 +497,6 @@ normal! zt
 14
 normal! 09l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Sprite.cpp
@@ -550,7 +546,6 @@ normal! zt
 12
 normal! 011l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\client.cpp
@@ -575,7 +570,6 @@ exe s:l
 normal! zt
 18
 normal! 017l
-2wincmd w
 tabedit src\Titlebar.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -623,7 +617,6 @@ normal! zt
 11
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit main.cpp
@@ -648,8 +641,7 @@ exe s:l
 normal! zt
 40
 normal! 023l
-2wincmd w
-tabnext 8
+tabnext 6
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

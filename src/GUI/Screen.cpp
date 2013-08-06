@@ -132,8 +132,8 @@ namespace Screen
       delete layer;
 
     _layers.clear();
-    _window.close();
     _map.clearActions();
+    _layer_focused = NULL;
   }
 
   void			update()
