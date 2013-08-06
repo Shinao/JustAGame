@@ -5,7 +5,9 @@ Item::Item(int id, Theme *theme, Alignment align, float scale)
   _align(align),
   _scale(scale),
   _margin(0),
-  _id(id)
+  _id(id),
+  _focused(false),
+  _pressed(false)
 {
 }
 
@@ -20,6 +22,7 @@ Theme			*Item::getTheme()
 
 void			Item::pressed()
 {
+  _pressed = true;
   if (_callback)
     _callback();
   std::cout << "pressed" << std::endl;
@@ -27,6 +30,7 @@ void			Item::pressed()
 
 void			Item::unPressed()
 {
+  _pressed = false;
   std::cout << "unpressed" << std::endl;
 }
 
@@ -42,14 +46,16 @@ bool			Item::textEntered(const std::string &)
 
 void			Item::mouseCaught(int x, int y)
 {
-  std::cout << "mouuuuse" << std::endl;
+  _focused = true;
   _box.setFillColor(_theme->c_background_focused);
+  std::cout << "mouuuuse" << std::endl;
 }
 
 void			Item::mouseLeft()
 {
-  std::cout << "uuuunmouuuuse" << std::endl;
+  _focused = false;
   _box.setFillColor(_theme->c_background);
+  std::cout << "uuuunmouuuuse" << std::endl;
 }
 
 void			Item::setTheme(Theme *theme)
@@ -62,6 +68,9 @@ Rect			Item::getRect() const
   Rect			rsrc = getRectRessource();
 
   rsrc.width += _margin * 2;
+  rsrc.left -= _margin;
+  rsrc.height = _rec.height;
+  rsrc.top = _rec.top;
   return (rsrc);
 }
 
@@ -76,6 +85,11 @@ void			Item::setRect(const Rect &rec)
 void			Item::addCallback(Callback callback)
 {
   _callback = callback;
+}
+
+void			Item::removeCallback()
+{
+  _callback = nullptr;
 }
 
 sf::Vector2i		Item::getRessourcePosition()

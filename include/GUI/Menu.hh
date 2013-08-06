@@ -8,6 +8,7 @@
 
 // Abstract class for Menu
 // Managing all items : input - focus - draw
+// Menu must be updated when a change occur to avoid unnecesary proccess
 
 class Menu
 {

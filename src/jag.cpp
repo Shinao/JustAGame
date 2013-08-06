@@ -10,7 +10,7 @@ namespace jag
 
     // Setting the titlebar theme
     theme->c_background = sf::Color::White;
-    theme->c_background_focused = sf::Color::White;
+    theme->c_background_focused = sf::Color(228, 228, 228);
     theme->size_border = 0;
 
     theme = new Theme;

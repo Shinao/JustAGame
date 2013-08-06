@@ -21,6 +21,8 @@ class Item
     };
 
   protected:
+    bool			_focused;
+    bool			_pressed;
     int				_margin;
     float			_scale;
     Theme			*_theme;
@@ -46,6 +48,7 @@ class Item
     int				getId() const;
     sf::Vector2i		getRessourcePosition();
     void			addCallback(Callback callback);
+    void			removeCallback();
 
     virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);

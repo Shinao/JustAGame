@@ -44,9 +44,8 @@ void			Menu::add(Item *item)
   // Chcking tem
   if (item->getTheme() == NULL)
     item->setTheme(_theme);
-    item->mouseLeft();
 
-  update();
+  item->mouseLeft();
 }
 
 // Checking on all items and send a signal
@@ -67,20 +66,17 @@ void			Menu::mouseCaught(int x, int y)
 
   // Checking on all items
   for (auto item : _items)
-  {
     if (item->getRect().contains(x, y))
     {
       item->mouseCaught(x, y);
       _item_focused = item;
       return ;
     }
-    }
 }
 
 void			Menu::setMargin(int margin)
 {
   _margin = margin;
-  update();
 }
 
 void			Menu::mouseLeft()
@@ -94,8 +90,6 @@ void			Menu::remove(Item *item)
   for (auto it = _items.begin(); it != _items.end(); ++it)
     if ((*it) == item)
       _items.erase(it);
-
-  update();
 }
 
 const Rect		&Menu::getRect() const
@@ -106,7 +100,6 @@ const Rect		&Menu::getRect() const
 void			Menu::setRect(const Rect &rec)
 {
   _rec = rec;
-  update();
 }
 
 void			Menu::setTheme(Theme *theme)
