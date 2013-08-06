@@ -15,7 +15,7 @@ int		main(int ac, char **av)
   Screen::init();
   Screen::add(new Titlebar);
 
-  while (Screen::hasLayer())
+  while (Screen::isActive())
   {
     Screen::update();
 

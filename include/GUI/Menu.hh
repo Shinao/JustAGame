@@ -4,11 +4,11 @@
 # include <SFML/Graphics.hpp>
 # include "jag.hh"
 # include "GUI/Item.hh"
-# include "GUI/Action.hh"
 
 // Abstract class for Menu
 // Managing all items : input - focus - draw
 // Menu must be updated when a change occur to avoid unnecesary proccess
+// When it gets a new Item, it will manage it
 
 class Menu
 {

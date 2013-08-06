@@ -126,6 +126,16 @@ sf::Vector2i		Item::getRessourcePosition()
   return (pos);
 }
 
+bool			Item::isFocused() const
+{
+  return (_focused);
+}
+
+bool			Item::isPressed() const
+{
+  return (_pressed);
+}
+
 void			Item::setAlignment(Alignment align)
 {
   _align = align;

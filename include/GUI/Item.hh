@@ -46,6 +46,8 @@ class Item
     sf::Vector2i		getRessourcePosition();
     void			addCallback(Callback callback);
     void			removeCallback();
+    bool			isFocused() const;
+    bool			isPressed() const;
 
     virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);

@@ -32,7 +32,7 @@ bool			Layer::textEntered(const std::string &)
 
 bool			Layer::update(sf::RenderWindow &)
 {
-  return (false);
+  return (true);
 }
 
 void			Layer::clicked(int, int)

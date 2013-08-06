@@ -18,6 +18,9 @@
 
 // Because fuck static class
 // Init at first - clear at the end
+
+typedef const thor::ActionContext<int> & Context;
+
 namespace Screen
 {
   // Private attributes - methods
@@ -37,22 +40,25 @@ namespace Screen
 
     unsigned			getNextId();
     void			checkEvent();
-    void			manageMouse(int x, int y);
-    void			manageInput(sf::Event &event);
+    void			manageMouse(Context context);
+    void			manageInput(Context context);
     void			updateFocused();
-    void			manageClick(int x, int y);
+    void			manageClick(Context context);
   }
 
   void				init();
   void				clear();
   void				update();
-  bool				hasLayer();
   void				add(Layer *layer);
   void				remove(Layer *layer);
+  void				close(Context);
+  bool				isActive();
   sf::WindowHandle		getWindowHandle();
   const sf::RenderWindow	&getWindow();
   sf::Vector2u			getWindowSize();
   sf::Vector2i			getCursorPosition();
+  void				addCallback(const thor::Action &action,
+      				const std::function<void (Context)> &callback);
 
   int						actionId();
   thor::ActionMap<int>				&getMap();

@@ -3,7 +3,6 @@
 
 # include <SFML/Graphics.hpp>
 # include "jag.hh"
-# include "GUI/Action.hh"
 
 # include <iostream>
 
@@ -17,7 +16,7 @@
 // By default : update return false meaning the layer is not asbolute
 // catchMouse return false meaning mouse function will not be called
 // same thing goes for all the others event
-class Layer : public Action
+class Layer
 {
   private:
     int				_id;

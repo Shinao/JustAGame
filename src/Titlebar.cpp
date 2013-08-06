@@ -57,6 +57,7 @@ void			Titlebar::draw(sf::RenderWindow &window)
 
 bool			Titlebar::update(sf::RenderWindow &window)
 {
+  return (true);
 }
 
 bool			Titlebar::catchMouse()
