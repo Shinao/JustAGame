@@ -7,3 +7,4 @@ TODO
  . logo + title
 - Error checking
 - Compatibility check
+- Callback class for layer

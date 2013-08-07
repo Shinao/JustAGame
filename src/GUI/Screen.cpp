@@ -26,16 +26,15 @@ namespace Screen
 
       // Everything is done by callbacks - thanks C++11
       while (_window.pollEvent(event))
-	_map.pushEvent(event);
+	_event_manager.push(event);
 
       // All event pushed - time to callback
-      _map.invokeCallbacks(_system, &_window);
-      _map.clearEvents();
+      _event_manager.invokeCallbacks();
     }
 
     void			manageClick(Context context)
     {
-      int			x = context.event->mouseMove.x, y = context.event->mouseMove.y;
+      int			x = context.mouseMove.x, y = context.mouseMove.y;
 
       if (_layer_focused != NULL && _layer_focused->getRect().contains(x, y))
 	_layer_focused->clicked(x, y);
@@ -43,10 +42,8 @@ namespace Screen
 
     void			manageInput(Context context)
     {
-      const sf::Event		&event = *(context.event);
-
       std::string str = "";
-      sf::Utf<32>::encodeAnsi(event.text.unicode, std::back_inserter(str), '?');
+      sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
 
       for (int i = _layers.size() - 1; i >= 0; --i)
 	if (_layers[i]->textEntered(str))
@@ -55,7 +52,7 @@ namespace Screen
 
     void			manageMouse(Context context)
     {
-      int			x = context.event->mouseMove.x, y = context.event->mouseMove.y;
+      int			x = context.mouseMove.x, y = context.mouseMove.y;
 
       // If we have a layer focused
       if (_layer_focused != NULL)
@@ -116,13 +113,12 @@ namespace Screen
     _window.setKeyRepeatEnabled(false);
 
     _layer_focused = NULL;
-    _action_id = 0;
 
     // Add special event callback
-    addCallback(thor::Action(sf::Event::Closed), &close);
-    addCallback(thor::Action(sf::Mouse::Left, thor::Action::PressOnce), &manageClick);
-    addCallback(thor::Action(sf::Event::TextEntered), &manageInput);
-    addCallback(thor::Action(sf::Event::MouseMoved), &manageMouse);
+    _event_manager.add(Action(sf::Event::Closed), &close);
+    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), &manageClick);
+    _event_manager.add(Action(sf::Event::TextEntered), &manageInput);
+    _event_manager.add(Action(sf::Event::MouseMoved), &manageMouse);
   }
 
   void			clear()
@@ -132,7 +128,7 @@ namespace Screen
       delete layer;
 
     _layers.clear();
-    _map.clearActions();
+    _event_manager.clear();
     _layer_focused = NULL;
   }
 
@@ -149,12 +145,14 @@ namespace Screen
     {
       // Check if layer wants to be the last updated
       if (!_layers[i]->update(_window))
+      {
+	--i;
 	break ;
+      }
     }
 
     // Safety first - put your seat belt on please
-    if (i == -1)
-      i = 0;
+    ++i;
 
     // Now we now which one is the main layer - calling the draw on each layer on the top
     for (; i < _layers.size(); ++i)
@@ -185,37 +183,6 @@ namespace Screen
     _layers.pop_back();
     delete layer;
     updateFocused();
-  }
-
-  // void			addCallback(const thor::Action &action, const std::function<void ()> &callback)
-  // {
-  //   int			id = _action_id++;
-
-  //   _map[id] = action;
-  //   _system.connect(id, std::bind(callback));
-  // }
-
-  void			addCallback(const thor::Action &action, const std::function<void (Context)> &callback)
-  {
-    int			id = _action_id++;
-
-    _map[id] = action;
-    _system.connect(id, callback);
-  }
-
-  thor::ActionMap<int>			&getMap()
-  {
-    return (_map);
-  }
-
-  thor::ActionMap<int>::CallbackSystem	&getSystem()
-  {
-    return (_system);
-  }
-
-  int					actionId()
-  {
-    return (_action_id++);
   }
 
   sf::WindowHandle			getWindowHandle()

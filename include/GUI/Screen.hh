@@ -8,6 +8,7 @@
 # include <SFML/System.hpp>
 # include <Thor/Input.hpp>
 # include "GUI/Layer.hh"
+# include "GUI/EventManager.hh"
 
 # include <iostream>
 
@@ -19,7 +20,7 @@
 // Because fuck static class
 // Init at first - clear at the end
 
-typedef const thor::ActionContext<int> & Context;
+// typedef const thor::ActionContext<int> & Context;
 
 namespace Screen
 {
@@ -32,11 +33,7 @@ namespace Screen
     sf::RenderWindow		_window;
     Layer			*_layer_focused;
     sf::Clock			_timer;
-
-    // Actions binding
-    thor::ActionMap<int>			_map;
-    thor::ActionMap<int>::CallbackSystem	_system;
-    int						_action_id;
+    EventManager		_event_manager;
 
     unsigned			getNextId();
     void			checkEvent();
@@ -57,12 +54,6 @@ namespace Screen
   const sf::RenderWindow	&getWindow();
   sf::Vector2u			getWindowSize();
   sf::Vector2i			getCursorPosition();
-  void				addCallback(const thor::Action &action,
-      				const std::function<void (Context)> &callback);
-
-  int						actionId();
-  thor::ActionMap<int>				&getMap();
-  thor::ActionMap<int>::CallbackSystem		&getSystem();
 }
 
 #endif
