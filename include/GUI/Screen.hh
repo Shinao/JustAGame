@@ -53,9 +53,9 @@ namespace Screen
   void				remove(Layer *layer);
   void				close(Context);
   bool				isActive();
-  sf::WindowHandle		getWindowHandle();
+  sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
-  sf::Vector2u			getWindowSize();
+  sf::Vector2u			getSize();
   sf::Vector2i			getCursorPosition();
   EventManager			&getEventManager();
 }

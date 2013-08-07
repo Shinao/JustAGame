@@ -19,18 +19,17 @@ void			HorizontalMenu::draw(sf::RenderWindow &win)
     item->draw(win);
 }
 
+Rect			HorizontalMenu::getFilledRect() const
+{
+  Rect	rec = _rec;
+
+  rec.width = _filled_width;
+  return (rec);
+}
+
 // Something changed - Recalculating EVERYTHING
 void			HorizontalMenu::update()
 {
-  // Init border & background
-  _border.setSize(sf::Vector2f(_rec.width, _theme->size_border));
-  _border.setPosition(sf::Vector2f(_rec.left, _rec.top + _rec.height));
-  _border.setFillColor(_theme->c_border);
-
-  _box.setSize(sf::Vector2f(_rec.width, _rec.height));
-  _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
-  _box.setFillColor(_theme->c_background);
-
   // Init every item
   int			x = _rec.left;
 
@@ -49,5 +48,15 @@ void			HorizontalMenu::update()
     x += rsrc.width;
   }
 
-  _rec.width = x - _rec.left;
+  _filled_width = x - _rec.left;
+
+  // Init border & background
+  _border.setSize(sf::Vector2f(_rec.width - _filled_width, _theme->size_border));
+  _border.setPosition(sf::Vector2f(x, _rec.top + _rec.height));
+  _border.setFillColor(_theme->c_border);
+
+  _box.setSize(sf::Vector2f(_rec.width, _rec.height));
+  _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+  _box.setFillColor(_theme->c_background);
+
 }

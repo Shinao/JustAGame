@@ -192,7 +192,7 @@ namespace Screen
     updateFocused();
   }
 
-  sf::WindowHandle			getWindowHandle()
+  sf::WindowHandle			getHandle()
   {
     return (_window.getSystemHandle());
   }
@@ -202,7 +202,7 @@ namespace Screen
     return (_window);
   }
 
-  sf::Vector2u				getWindowSize()
+  sf::Vector2u				getSize()
   {
     return (_window.getSize());
   }

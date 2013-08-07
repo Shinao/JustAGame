@@ -9,12 +9,16 @@
 
 class HorizontalMenu : public Menu
 {
+  private:
+    int				_filled_width;
+
   public:
     HorizontalMenu(Rect rec, Theme *theme = jag::getCurrentTheme());
     ~HorizontalMenu();
 
     void			draw(sf::RenderWindow &win);
     void			update();
+    Rect			getFilledRect() const;
 };
 
 #endif

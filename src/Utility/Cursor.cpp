@@ -23,7 +23,7 @@ void sf::setCursor(sf::Cursor::Type t)
       // http://msdn.microsoft.com/en-us/library/ms648391%28v=vs.85%29.aspx
   }
 
-  SetClassLongPtr(Screen::getWindowHandle(), GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
+  SetClassLongPtr(Screen::getHandle(), GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
 }
 
 #elif defined(SFML_SYSTEM_LINUX)
@@ -50,7 +50,7 @@ void sf::setCursor(sf::Cursor::Type t)
       // http://www.tronche.com/gui/x/xlib/appendix/b/
   }
 
-  XDefineCursor(display, Screen::getWindowHandle(), cursor);
+  XDefineCursor(display, Screen::getHandle(), cursor);
   XFlush(display);
 
   delete display;

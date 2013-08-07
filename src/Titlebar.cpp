@@ -4,7 +4,7 @@
 
 Titlebar::Titlebar()
 {
-  Rect	rec = Rect(0, 0, Screen::getWindowSize().x, TITLEBAR_HEIGHT);
+  Rect	rec = Rect(0, 0, Screen::getSize().x, TITLEBAR_HEIGHT);
   _rec = rec;
 
   // Generating all items menu
@@ -35,7 +35,7 @@ Titlebar::Titlebar()
   // Update to get the menu size
   _menu->update();
   rec.height = MENU_WIDTH;
-  rec.left += Screen::getWindowSize().x - _menu->getRect().width;
+  rec.left += Screen::getSize().x - _menu->getFilledRect().width;
   _menu->setRect(rec);
   _menu->update();
 }

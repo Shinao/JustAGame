@@ -40,6 +40,7 @@ class Menu
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual bool		textEntered(const std::string &str);
+    virtual Rect		getFilledRect() const = 0;
 };
 
 #endif
