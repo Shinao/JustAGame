@@ -78,4 +78,6 @@ void			Titlebar::mouseCaught(int x, int y)
 void			Titlebar::mouseLeft()
 {
   Layer::mouseLeft();
+
+  _menu->mouseLeft();
 }

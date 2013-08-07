@@ -37,10 +37,13 @@ namespace Screen
 
     unsigned			getNextId();
     void			checkEvent();
-    void			manageMouse(Context context);
-    void			manageInput(Context context);
     void			updateFocused();
-    void			manageClick(Context context);
+
+    // Event catched
+    void			clicked(Context context);
+    void			mouseMoved(Context context);
+    void			textEntered(Context context);
+    void			mouseLeft(Context context);
   }
 
   void				init();
@@ -54,6 +57,7 @@ namespace Screen
   const sf::RenderWindow	&getWindow();
   sf::Vector2u			getWindowSize();
   sf::Vector2i			getCursorPosition();
+  EventManager			&getEventManager();
 }
 
 #endif

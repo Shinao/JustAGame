@@ -32,7 +32,7 @@ namespace Screen
       _event_manager.invokeCallbacks();
     }
 
-    void			manageClick(Context context)
+    void			clicked(Context context)
     {
       int			x = context.mouseMove.x, y = context.mouseMove.y;
 
@@ -40,7 +40,13 @@ namespace Screen
 	_layer_focused->clicked(x, y);
     }
 
-    void			manageInput(Context context)
+    void			mouseLeft(Context)
+    {
+      if (_layer_focused != NULL)
+	_layer_focused->mouseLeft();
+    }
+
+    void			textEntered(Context context)
     {
       std::string str = "";
       sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
@@ -50,7 +56,7 @@ namespace Screen
 	  return ;
     }
 
-    void			manageMouse(Context context)
+    void			mouseMoved(Context context)
     {
       int			x = context.mouseMove.x, y = context.mouseMove.y;
 
@@ -116,9 +122,10 @@ namespace Screen
 
     // Add special event callback
     _event_manager.add(Action(sf::Event::Closed), &close);
-    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), &manageClick);
-    _event_manager.add(Action(sf::Event::TextEntered), &manageInput);
-    _event_manager.add(Action(sf::Event::MouseMoved), &manageMouse);
+    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), &clicked);
+    _event_manager.add(Action(sf::Event::TextEntered), &textEntered);
+    _event_manager.add(Action(sf::Event::MouseMoved), &mouseMoved);
+    _event_manager.add(Action(sf::Event::MouseLeft), &mouseLeft);
   }
 
   void			clear()
@@ -213,5 +220,10 @@ namespace Screen
   bool					isActive()
   {
     return (_window.isOpen());
+  }
+
+  EventManager				&getEventManager()
+  {
+    return (_event_manager);
   }
 }

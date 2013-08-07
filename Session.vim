@@ -36,7 +36,7 @@ badd +1 src\GUI\Sprite.cpp
 badd +1 include\GUI\Sprite.hh
 badd +1 src\jag.cpp
 badd +1 include\jag.hh
-badd +9 main.cpp
+badd +30 main.cpp
 badd +1 src\Utility\Graphic.cpp
 badd +2 include\Utility\Graphic.cpp
 badd +1 include\Utility\Graphic.hh
@@ -93,7 +93,7 @@ if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 10
-normal! 021l
+normal! 025l
 wincmd w
 argglobal
 edit README.md
@@ -306,12 +306,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 10 - ((9 * winheight(0) + 23) / 47)
+let s:l = 7 - ((6 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
-normal! 09l
+7
+normal! 0
 wincmd w
 argglobal
 edit include\GUI\EventManager.hh
@@ -355,11 +355,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 92 - ((23 * winheight(0) + 23) / 47)
+let s:l = 45 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-92
+45
 normal! 0
 wincmd w
 argglobal
@@ -373,12 +373,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 36 - ((23 * winheight(0) + 23) / 47)
+let s:l = 45 - ((28 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 018l
+45
+normal! 021l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -453,12 +453,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 12 - ((11 * winheight(0) + 23) / 47)
+let s:l = 85 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 0
+85
+normal! 019l
 wincmd w
 argglobal
 edit include\GUI\Menu.hh
@@ -520,7 +520,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 13 - ((0 * winheight(0) + 23) / 47)
+let s:l = 13 - ((12 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -720,12 +720,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 60 - ((25 * winheight(0) + 23) / 47)
+let s:l = 83 - ((46 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-60
-normal! 013l
+83
+normal! 0
 wincmd w
 argglobal
 edit include\Titlebar.hh
@@ -747,28 +747,6 @@ normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabedit main.cpp
-set splitbelow splitright
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 40 - ((23 * winheight(0) + 23) / 47)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-40
-normal! 023l
 tabnext 2
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
