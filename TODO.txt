@@ -1,9 +1,9 @@
 TODO
 
 - Title bar
- . Line focus & pressed & default
- . Callback close restore minimize
+ . Callback minimize/restore hide and show content
  . logo + title
+- Layer moving window
 - Error checking
 - Compatibility check
 - Callback class for layer

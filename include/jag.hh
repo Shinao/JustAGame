@@ -13,10 +13,10 @@ typedef sf::Rect<int> Rect;
 
 namespace jag
 {
-
+  const std::string		WindowName = "JustAGame";
   const std::string		RessourcePath = "rsrc/";
-  const int			windowHeight = 400;
-  const int			windowWidth = 800;
+  const int			WindowHeight = 400;
+  const int			WindowWidth = 800;
   const int			FPS = 1000 / 60;
   const int			MarginFPS = 4;
 

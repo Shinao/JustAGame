@@ -24,12 +24,17 @@ Titlebar::Titlebar()
   _menu->setTheme(jag::getTheme("titlebar"));
   _menu->setMargin(8);
   Sprite	*sprite = new Sprite(&_min_spr);
+  sprite->autoRelease(true);
+  sprite->addCallback(&Screen::minimize);
   _menu->add(sprite);
   sprite = new Sprite(&_res_spr);
+  sprite->autoRelease(true);
+  sprite->addCallback(&Screen::restore);
   _menu->add(sprite);
   sprite = new Sprite(&_cross_spr);
-  _menu->add(sprite);
   sprite->setTheme(jag::getTheme("titlebar_cross"));
+  sprite->addCallback(&Screen::closeWindow);
+  _menu->add(sprite);
 
   // Updating position
   // Update to get the menu size
@@ -43,6 +48,17 @@ Titlebar::Titlebar()
 Titlebar::~Titlebar()
 {
 }
+
+void			Titlebar::minimizeWindow()
+{
+  Screen::minimize();
+}
+
+void			Titlebar::restoreWindow()
+{
+  Screen::restore();
+}
+
 
 void			Titlebar::clicked(int x, int y)
 {

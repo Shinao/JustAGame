@@ -30,7 +30,10 @@ namespace Screen
   void				add(Layer *layer);
   void				remove(Layer *layer);
   void				close(Context);
+  void				closeWindow();
   bool				isActive();
+  void				restore();
+  void				minimize();
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
   sf::Vector2u			getSize();

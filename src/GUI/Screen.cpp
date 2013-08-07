@@ -60,9 +60,9 @@ namespace Screen
 
     void			clicked(Context context)
     {
-      int			x = context.mouseMove.x, y = context.mouseMove.y;
+      int	x = context.mouseButton.x, y = context.mouseButton.y;
 
-      if (_layer_focused != NULL && _layer_focused->getRect().contains(x, y))
+      if (_layer_focused != NULL)
 	_layer_focused->clicked(x, y);
     }
 
@@ -74,7 +74,7 @@ namespace Screen
 
     void			textEntered(Context context)
     {
-      std::string str = "";
+      std::string	str = "";
       sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
 
       for (int i = _layers.size() - 1; i >= 0; --i)
@@ -84,7 +84,7 @@ namespace Screen
 
     void			mouseMoved(Context context)
     {
-      int			x = context.mouseMove.x, y = context.mouseMove.y;
+      int	x = context.mouseMove.x, y = context.mouseMove.y;
 
       // If we have a layer focused
       if (_layer_focused != NULL)
@@ -108,8 +108,8 @@ namespace Screen
 
     void			updateFocused()
     {
-      sf::Vector2i		cur = sf::Mouse::getPosition(_window);
-      Layer			*ly;
+      sf::Vector2i	cur = sf::Mouse::getPosition(_window);
+      Layer		*ly;
 
       for (int i = _layers.size() - 1; i >= 0; --i)
       {
@@ -138,8 +138,9 @@ namespace Screen
       _layers.reserve(MAX_LAYERS_EXPECTED);
 
     // Recreate the window
-    _window.create(sf::VideoMode(jag::windowWidth, jag::windowHeight), "JustAGame", sf::Style::None);
+    _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
     _window.setKeyRepeatEnabled(false);
+    restore();
 
     _layer_focused = NULL;
 
@@ -237,6 +238,11 @@ namespace Screen
 
   void					close(Context)
   {
+    closeWindow();
+  }
+
+  void					closeWindow()
+  {
     _window.close();
   }
 
@@ -249,4 +255,25 @@ namespace Screen
   {
     return (_event_manager);
   }
+
+  void					restore()
+  {
+    sf::VideoMode	screen = sf::VideoMode::getDesktopMode();
+
+    _window.setPosition(sf::Vector2i(screen.width / 2 - jag::WindowWidth / 2,
+			screen.height / 2 - jag::WindowHeight / 2));
+  }
+
+  // Ugly patch but nobody will see it.. Right ?!
+#ifdef SFML_SYSTEM_WINDOWS
+#include <windows.h>
+  void					minimize()
+  {
+    ShowWindow((HWND__ *) _window.getSystemHandle(), SW_MINIMIZE);
+  }
+#else
+  void					minimize()
+  {
+  }
+#endif
 }

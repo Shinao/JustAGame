@@ -105,6 +105,8 @@ void			Menu::setRect(const Rect &rec)
 void			Menu::setTheme(Theme *theme)
 {
   _theme = theme;
+  themeChanged();
+
   for (auto item : _items)
     item->setTheme(theme);
 }

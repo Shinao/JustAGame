@@ -3,6 +3,7 @@
 Item::Item(Theme *theme, Alignment align, float scale) :
   _focused(false),
   _pressed(false),
+  _release(true),
   _theme(theme),
   _align(align),
   _scale(scale),
@@ -33,22 +34,27 @@ void			Item::unPressed()
 
 void			Item::designChanged()
 {
-  if (_pressed)
+  if (!_release && _pressed)
   {
+    _box.setFillColor(_theme->c_background_pressed);
+    _border.setFillColor(_theme->c_border_pressed);
   }
   else if (_focused)
   {
     _box.setFillColor(_theme->c_background_focused);
+    _border.setFillColor(_theme->c_border_focused);
   }
   else
   {
     _box.setFillColor(_theme->c_background);
+    _border.setFillColor(_theme->c_border);
   }
 }
 
 void			Item::draw(sf::RenderWindow &win)
 {
   win.draw(_box);
+  win.draw(_border);
 }
 
 bool			Item::textEntered(const std::string &)
@@ -91,6 +97,8 @@ void			Item::setRect(const Rect &rec)
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+  _border.setSize(sf::Vector2f(_rec.width, _theme->size_border));
+  _border.setPosition(sf::Vector2f(_rec.left, _rec.top + _rec.height));
 }
 
 void			Item::addCallback(Callback callback)
@@ -154,4 +162,9 @@ int			Item::getMargin() const
 void			Item::setMargin(int margin)
 {
   _margin = margin;
+}
+
+void			Item::autoRelease(bool release)
+{
+  _release = release;
 }

@@ -19,6 +19,7 @@ class HorizontalMenu : public Menu
     void			draw(sf::RenderWindow &win);
     void			update();
     Rect			getFilledRect() const;
+    void			themeChanged();
 };
 
 #endif

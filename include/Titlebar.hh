@@ -23,6 +23,8 @@ class Titlebar : public Layer
     Titlebar();
     ~Titlebar();
     void			clicked(int x, int y);
+    void			minimizeWindow();
+    void			restoreWindow();
     void			draw(sf::RenderWindow &window);
     bool			update(sf::RenderWindow &window);
     bool			catchMouse();

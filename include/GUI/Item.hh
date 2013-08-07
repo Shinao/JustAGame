@@ -23,16 +23,18 @@ class Item
   protected:
     bool			_focused;
     bool			_pressed;
+    bool			_release;
     Theme			*_theme;
     Rect			_rec;
     Alignment			_align;
     float			_scale;
     int				_margin;
     sf::RectangleShape		_box;
+    sf::RectangleShape		_border;
     std::function<void ()>	_callback;
 
   public:
-    Item(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    Item(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
     int				getMargin() const;
@@ -48,6 +50,7 @@ class Item
     void			removeCallback();
     bool			isFocused() const;
     bool			isPressed() const;
+    void			autoRelease(bool unpress);
 
     virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);

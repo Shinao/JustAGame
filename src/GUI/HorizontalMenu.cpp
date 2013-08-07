@@ -3,6 +3,7 @@
 HorizontalMenu::HorizontalMenu(Rect rec, Theme *theme) :
   Menu(rec, theme)
 {
+  themeChanged();
 }
 
 HorizontalMenu::~HorizontalMenu()
@@ -25,6 +26,12 @@ Rect			HorizontalMenu::getFilledRect() const
 
   rec.width = _filled_width;
   return (rec);
+}
+
+void			HorizontalMenu::themeChanged()
+{
+  _border.setFillColor(_theme->c_border);
+  _box.setFillColor(_theme->c_background);
 }
 
 // Something changed - Recalculating EVERYTHING
@@ -53,10 +60,7 @@ void			HorizontalMenu::update()
   // Init border & background
   _border.setSize(sf::Vector2f(_rec.width - _filled_width, _theme->size_border));
   _border.setPosition(sf::Vector2f(x, _rec.top + _rec.height));
-  _border.setFillColor(_theme->c_border);
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
-  _box.setFillColor(_theme->c_background);
-
 }

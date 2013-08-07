@@ -41,6 +41,7 @@ class Menu
     virtual void		mouseLeft();
     virtual bool		textEntered(const std::string &str);
     virtual Rect		getFilledRect() const = 0;
+    virtual void		themeChanged() = 0;
 };
 
 #endif
