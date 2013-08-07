@@ -1,12 +1,12 @@
 #include "GUI/Item.hh"
 
-  Item::Item(Theme *theme, Alignment align, float scale)
-: _theme(theme),
+Item::Item(Theme *theme, Alignment align, float scale) :
+  _focused(false),
+  _pressed(false),
+  _theme(theme),
   _align(align),
   _scale(scale),
-  _margin(0),
-  _focused(false),
-  _pressed(false)
+  _margin(0)
 {
 }
 
@@ -56,7 +56,7 @@ bool			Item::textEntered(const std::string &)
   return (false);
 }
 
-void			Item::mouseCaught(int x, int y)
+void			Item::mouseCaught(int, int)
 {
   _focused = true;
   designChanged();

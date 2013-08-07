@@ -1,7 +1,7 @@
 #include "GUI/Text.hh"
 
-Text::Text(const sf::String &text, Theme *theme, Alignment align, float scale)
-  : Item(theme, align, scale)
+Text::Text(const sf::String &text, Theme *theme, Alignment align, float scale) :
+  Item(theme, align, scale)
 {
   _text.setString(text);
 }

@@ -1,8 +1,8 @@
 #include "GUI/Layer.hh"
 #include "GUI/Screen.hh"
 
-Layer::Layer()
-  : _focused(false)
+Layer::Layer() :
+  _focused(false)
 {
 }
 
@@ -15,7 +15,7 @@ void			Layer::setId(unsigned id)
   _id = id;
 }
 
-void			Layer::mouseCaught(int x, int y)
+void			Layer::mouseCaught(int, int)
 {
   _focused = true;
 }

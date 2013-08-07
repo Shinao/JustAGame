@@ -1,7 +1,7 @@
 #include "GUI/HorizontalMenu.hh"
 
-HorizontalMenu::HorizontalMenu(Rect rec, Theme *theme)
-  : Menu(rec, theme)
+HorizontalMenu::HorizontalMenu(Rect rec, Theme *theme) :
+  Menu(rec, theme)
 {
 }
 

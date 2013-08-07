@@ -5,9 +5,8 @@
 #include "Titlebar.hh"
 
 // Once upon a main
-int		main(int ac, char **av)
+int		main()
 {
-  bool		updated = false;
   sf::Clock	timer;
   sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
 

@@ -3,6 +3,14 @@
 
 namespace jag
 {
+  // Can't catch me mothafucka
+  namespace
+  {
+    std::map<std::string, Theme	*>	_themes;
+    std::map<std::string, sf::Image *>	_rsrcs;
+    Theme				*_theme;
+  }
+
   void			init()
   {
     Theme		*theme = new Theme;
@@ -45,9 +53,9 @@ namespace jag
     _theme = theme;
 
     // Init ressources
-    sf::Image		&img = getRessource("close_window.png");
-    sf::Image		&img1 = getRessource("minimize_window.png");
-    sf::Image		&img2 = getRessource("restore_window.png");
+    getRessource("close_window.png");
+    getRessource("minimize_window.png");
+    getRessource("restore_window.png");
   }
 
   void			clear()

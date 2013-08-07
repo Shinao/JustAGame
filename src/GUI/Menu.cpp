@@ -1,8 +1,8 @@
 #include "GUI/Screen.hh"
 #include "GUI/Menu.hh"
 
-Menu::Menu(Rect rec, Theme *theme)
-  : _rec(rec),
+Menu::Menu(Rect rec, Theme *theme) :
+  _rec(rec),
   _theme(theme),
   _item_focused(NULL),
   _item_pressed(NULL),

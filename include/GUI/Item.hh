@@ -23,11 +23,11 @@ class Item
   protected:
     bool			_focused;
     bool			_pressed;
-    int				_margin;
-    float			_scale;
     Theme			*_theme;
     Rect			_rec;
     Alignment			_align;
+    float			_scale;
+    int				_margin;
     sf::RectangleShape		_box;
     std::function<void ()>	_callback;
 

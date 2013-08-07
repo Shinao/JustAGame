@@ -11,6 +11,7 @@ Action::Action(const sf::Event::EventType &type)
 Action::Action(const sf::Event::EventType &type, const sf::Keyboard::Key &key)
 {
   _type = type;
+  _key = key;
   _precision = Keyboard;
 }
 

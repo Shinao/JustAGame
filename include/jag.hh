@@ -13,13 +13,6 @@ typedef sf::Rect<int> Rect;
 
 namespace jag
 {
-  // Can't catch me mothafucka
-  namespace
-  {
-    std::map<std::string, Theme	*>	_themes;
-    std::map<std::string, sf::Image *>	_rsrcs;
-    Theme				*_theme;
-  }
 
   const std::string		RessourcePath = "rsrc/";
   const int			windowHeight = 400;

@@ -2,7 +2,8 @@ cmake_minimum_required (VERSION 2.6)
 
 # 32 bits
 # C++ 11 because why not
-list (APPEND CMAKE_CXX_FLAGS "-std=c++11 -m32")
+# FULL WARNINGS BECAUSE I LIKE PAIN !
+list (APPEND CMAKE_CXX_FLAGS "-std=c++11 -m32 -W -Wall -Wextra")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 project (justagame)

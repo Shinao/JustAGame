@@ -55,7 +55,7 @@ void			Titlebar::draw(sf::RenderWindow &window)
   _menu->draw(window);
 }
 
-bool			Titlebar::update(sf::RenderWindow &window)
+bool			Titlebar::update(sf::RenderWindow &)
 {
   return (true);
 }

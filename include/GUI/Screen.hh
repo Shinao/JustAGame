@@ -24,28 +24,6 @@
 
 namespace Screen
 {
-  // Private attributes - methods
-  namespace
-  {
-    const sf::Color		BACKGROUND_CLEAR = sf::Color::White;
-    const unsigned		MAX_LAYERS_EXPECTED = 100;
-    std::vector<Layer *>	_layers;
-    sf::RenderWindow		_window;
-    Layer			*_layer_focused;
-    sf::Clock			_timer;
-    EventManager		_event_manager;
-
-    unsigned			getNextId();
-    void			checkEvent();
-    void			updateFocused();
-
-    // Event catched
-    void			clicked(Context context);
-    void			mouseMoved(Context context);
-    void			textEntered(Context context);
-    void			mouseLeft(Context context);
-  }
-
   void				init();
   void				clear();
   void				update();
