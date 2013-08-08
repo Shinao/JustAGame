@@ -82,14 +82,13 @@ namespace Screen
 
     void			mouseLeft(Context)
     {
-      // TODO
-      // Compatibility check
-      // if (_moving)
-      // _window.setPosition(_window.getPosition() + (getCursorPosition() - _pressed_pos));
-      // else {
-      if (_layer_focused != NULL)
-	_layer_focused->mouseLeft();
-      // }
+      if (_moving)
+	manageMoving();
+      else
+      {
+	if (_layer_focused != NULL)
+	  _layer_focused->mouseLeft();
+      }
     }
 
     void			textEntered(Context context)
@@ -105,7 +104,7 @@ namespace Screen
     void			manageMoving()
     {
       // Move the window depending on where we were when pressed
-      _window.setPosition(_window.getPosition() + (getCursorPosition() - _pressed_pos));
+      _window.setPosition(sf::Mouse::getPosition() - _pressed_pos);
     }
 
     void			mouseMoved(Context context)
@@ -295,7 +294,7 @@ namespace Screen
     _moving = moving;
 
     if (_moving)
-      _pressed_pos = getCursorPosition();
+      _pressed_pos = sf::Mouse::getPosition() - _window.getPosition();
   }
 
   // TODO

@@ -36,7 +36,7 @@ badd +1 src\GUI\Sprite.cpp
 badd +1 include\GUI\Sprite.hh
 badd +1 src\jag.cpp
 badd +1 include\jag.hh
-badd +30 main.cpp
+badd +7 main.cpp
 badd +1 src\Utility\Graphic.cpp
 badd +2 include\Utility\Graphic.cpp
 badd +1 include\Utility\Graphic.hh
@@ -357,12 +357,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 319 - ((43 * winheight(0) + 23) / 47)
+let s:l = 165 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-319
-normal! 04l
+165
+normal! 076l
 wincmd w
 argglobal
 edit include\GUI\Screen.hh
