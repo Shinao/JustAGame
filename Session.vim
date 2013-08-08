@@ -25,7 +25,7 @@ badd +1 include\GUI\Text.hh
 badd +1 src\GUI\Layer.cpp
 badd +1 include\GUI\Layer.hh
 badd +1 src\client.cpp
-badd +5 src\Utility\Cursor.cpp
+badd +33 src\Utility\Cursor.cpp
 badd +1 include\Utility\Cursor.hh
 badd +1 include\GUI\Theme.hh
 badd +6 src\GUI\Action.cpp
@@ -88,12 +88,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 23) / 47)
+let s:l = 4 - ((3 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
-normal! 013l
+4
+normal! 049l
 wincmd w
 argglobal
 edit README.md
@@ -226,12 +226,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 19 - ((18 * winheight(0) + 23) / 47)
+let s:l = 22 - ((21 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-19
-normal! 014l
+22
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -355,12 +355,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 270 - ((37 * winheight(0) + 23) / 47)
+let s:l = 279 - ((42 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-270
-normal! 07l
+279
+normal! 076l
 wincmd w
 argglobal
 edit include\GUI\Screen.hh
@@ -379,6 +379,55 @@ exe s:l
 normal! zt
 36
 normal! 020l
+wincmd w
+exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
+exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
+tabedit src\Utility\Cursor.cpp
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
+exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 34 - ((23 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+34
+normal! 0
+wincmd w
+argglobal
+edit include\Utility\Cursor.hh
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 27 - ((26 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+27
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -720,12 +769,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 28 - ((23 * winheight(0) + 23) / 47)
+let s:l = 50 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-28
-normal! 038l
+50
+normal! 027l
 wincmd w
 argglobal
 edit include\Titlebar.hh
@@ -738,16 +787,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 26 - ((25 * winheight(0) + 23) / 47)
+let s:l = 23 - ((22 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
-normal! 023l
+23
+normal! 021l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 2
+tabnext 5
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

@@ -43,6 +43,14 @@ Titlebar::Titlebar()
   rec.left += Screen::getSize().x - _menu->getFilledRect().width;
   _menu->setRect(rec);
   _menu->update();
+
+  // Display logo and icon
+  _icon_tex.loadFromImage(jag::getRessource("icon.png"));
+  _icon_spr.setTexture(_icon_tex);
+  _icon_spr.setPosition(8, 4);
+  _logo_tex.loadFromImage(jag::getRessource("logo.png"));
+  _logo_spr.setTexture(_logo_tex);
+  _logo_spr.setPosition(Screen::getSize().x / 2 - _logo_spr.getGlobalBounds().width / 2, 0);
 }
 
 Titlebar::~Titlebar()
@@ -69,6 +77,8 @@ void			Titlebar::clicked(int x, int y)
 void			Titlebar::draw(sf::RenderWindow &window)
 {
   _menu->draw(window);
+  window.draw(_logo_spr);
+  window.draw(_icon_spr);
 }
 
 bool			Titlebar::update(sf::RenderWindow &)

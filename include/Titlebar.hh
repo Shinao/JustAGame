@@ -18,6 +18,10 @@ class Titlebar : public Layer
     sf::Texture			_min_tex;
     sf::Sprite			_res_spr;
     sf::Texture			_res_tex;
+    sf::Sprite			_icon_spr;
+    sf::Texture			_icon_tex;
+    sf::Sprite			_logo_spr;
+    sf::Texture			_logo_tex;
 
   public:
     Titlebar();

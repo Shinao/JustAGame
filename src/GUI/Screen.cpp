@@ -271,9 +271,13 @@ namespace Screen
   {
     ShowWindow((HWND__ *) _window.getSystemHandle(), SW_MINIMIZE);
   }
-#else
+#elif defined(SFML_SYSTEM_LINUX)
   void					minimize()
   {
+    Display	*display = XOpenDisplay(NULL);
+
+    XIconifyWindow(display, _window.getSystemHandle(), DefaultScreen(display));
+    XFlush(display);
   }
 #endif
 }
