@@ -29,7 +29,7 @@ namespace Screen
     void			released(Context context);
     void			mouseMoved(Context context);
     void			textEntered(Context context);
-    void			mouseLeft(Context context);
+    void			mouseLeft(Context context = sf::Event());
 
     // Moving - capacity to the user to move the window
     bool			_moving = false;
@@ -287,7 +287,7 @@ namespace Screen
     sf::VideoMode	screen = sf::VideoMode::getDesktopMode();
 
     _window.setPosition(sf::Vector2i(screen.width / 2 - jag::WindowWidth / 2,
-			screen.height / 2 - jag::WindowHeight / 2));
+	  screen.height / 2 - jag::WindowHeight / 2));
   }
 
   void					moving(bool moving)
@@ -306,6 +306,7 @@ namespace Screen
   void					minimize()
   {
     ShowWindow((HWND__ *) _window.getSystemHandle(), SW_MINIMIZE);
+    mouseLeft();
   }
 #elif defined(SFML_SYSTEM_LINUX)
   void					minimize()
@@ -315,6 +316,7 @@ namespace Screen
     XIconifyWindow(display, _window.getSystemHandle(), DefaultScreen(display));
     XFlush(display);
     delete display;
+    mouseLeft();
   }
 #endif
 }

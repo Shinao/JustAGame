@@ -40,8 +40,7 @@ void				EventManager::invokeCallbacks()
   _events.clear();
 }
 
-int				EventManager::add(const Action &action,
-    				const std::function<void (Context)> &callback)
+int				EventManager::add(const Action &action, const Callback &callback)
 {
   int	id = _action_id++;
 

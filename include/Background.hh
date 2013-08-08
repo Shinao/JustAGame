@@ -13,8 +13,6 @@ class Background : public Layer
     ~Background();
     void			pressed(int x, int y);
     void			released(int x, int y);
-    void			minimizeWindow();
-    void			restoreWindow();
     void			draw(sf::RenderWindow &window);
     bool			update(sf::RenderWindow &window);
     bool			catchMouse();

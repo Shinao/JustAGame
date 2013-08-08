@@ -12,11 +12,13 @@ typedef const sf::Event & Context;
 
 class EventManager
 {
+  typedef std::function<void (Context)>	Callback;
+
   private:
     struct				Event
     {
       Action				action;
-      std::function<void (Context)>	callback;
+      Callback				callback;
     };
 
     int					_action_id;
@@ -29,8 +31,7 @@ class EventManager
     void				push(const sf::Event &event);
     void				clear();
     void				invokeCallbacks();
-    int					add(const Action &action,
-					const std::function<void (Context)> &callback);
+    int					add(const Action &action, const Callback &callback);
     void				remove(int id);
 };
 

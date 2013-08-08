@@ -57,16 +57,6 @@ Titlebar::~Titlebar()
 {
 }
 
-void			Titlebar::minimizeWindow()
-{
-  Screen::minimize();
-}
-
-void			Titlebar::restoreWindow()
-{
-  Screen::restore();
-}
-
 void			Titlebar::pressed(int x, int y)
 {
   if (!_menu->getRect().contains(x, y))

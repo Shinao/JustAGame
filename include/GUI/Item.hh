@@ -11,7 +11,7 @@
 class Item
 {
   public:
-    typedef void (*Callback)();
+    typedef std::function<void ()> Callback;
 
     enum Alignment
     {

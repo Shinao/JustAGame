@@ -21,14 +21,6 @@ void			Background::released(int, int)
   Screen::moving(false);
 }
 
-void			Background::minimizeWindow()
-{
-}
-
-void			Background::restoreWindow()
-{
-}
-
 void			Background::draw(sf::RenderWindow &window)
 {
   window.clear(jag::getCurrentTheme()->c_background);
