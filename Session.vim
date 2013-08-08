@@ -436,12 +436,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 23) / 47)
+let s:l = 14 - ((13 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
-normal! 021l
+14
+normal! 015l
 wincmd w
 argglobal
 edit src\Unix\Screen.cpp
@@ -454,11 +454,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 10 - ((9 * winheight(0) + 23) / 47)
+let s:l = 13 - ((12 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+13
 normal! 0
 wincmd w
 2wincmd w
@@ -809,12 +809,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 23) / 47)
+let s:l = 44 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
-normal! 061l
+44
+normal! 011l
 wincmd w
 argglobal
 edit include\Titlebar.hh
