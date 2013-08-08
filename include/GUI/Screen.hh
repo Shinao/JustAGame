@@ -34,6 +34,7 @@ namespace Screen
   bool				isActive();
   void				restore();
   void				minimize();
+  void				mouseLeft(Context context = sf::Event());
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
   void				moving(bool moving);

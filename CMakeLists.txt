@@ -16,6 +16,14 @@ include_directories (${INC_DIR})
 
 file (GLOB_RECURSE CLIENT_SRC src/*.cpp) 
 
+if (WIN32)
+  file (GLOB_RECURSE SRC_UNIX src/Unix/*.cpp) 
+  list(REMOVE_ITEM CLIENT_SRC ${SRC_UNIX})
+else (WIN32)
+  file (GLOB_RECURSE SRC_WIN src/Win32/*.cpp) 
+  list(REMOVE_ITEM CLIENT_SRC ${SRC_WIN})
+endif (WIN32)
+
 add_executable (justagame ${CLIENT_SRC})
 
 target_link_libraries (justagame sfml-graphics)

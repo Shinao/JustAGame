@@ -29,7 +29,6 @@ namespace Screen
     void			released(Context context);
     void			mouseMoved(Context context);
     void			textEntered(Context context);
-    void			mouseLeft(Context context = sf::Event());
 
     // Moving - capacity to the user to move the window
     bool			_moving = false;
@@ -78,17 +77,6 @@ namespace Screen
 
       if (_layer_focused != NULL)
 	_layer_focused->released(x, y);
-    }
-
-    void			mouseLeft(Context)
-    {
-      if (_moving)
-	manageMoving();
-      else
-      {
-	if (_layer_focused != NULL)
-	  _layer_focused->mouseLeft();
-      }
     }
 
     void			textEntered(Context context)
@@ -298,25 +286,15 @@ namespace Screen
       _pressed_pos = sf::Mouse::getPosition() - _window.getPosition();
   }
 
-  // TODO
-  // Compatibility check
-  // Ugly patch but nobody will see it.. Right ?!
-#ifdef SFML_SYSTEM_WINDOWS
-#include <windows.h>
-  void					minimize()
+  void					mouseLeft(Context)
   {
-    ShowWindow((HWND__ *) _window.getSystemHandle(), SW_MINIMIZE);
-    mouseLeft();
+    if (_moving)
+      manageMoving();
+    else
+    {
+      if (_layer_focused != NULL)
+	_layer_focused->mouseLeft();
+    }
   }
-#elif defined(SFML_SYSTEM_LINUX)
-  void					minimize()
-  {
-    Display	*display = XOpenDisplay(NULL);
 
-    XIconifyWindow(display, _window.getSystemHandle(), DefaultScreen(display));
-    XFlush(display);
-    delete display;
-    mouseLeft();
-  }
-#endif
 }
