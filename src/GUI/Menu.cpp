@@ -23,7 +23,7 @@ void			Menu::clicked()
   if (_item_focused != NULL)
   {
     if (_item_pressed != NULL && _item_pressed != _item_focused)
-      _item_pressed->unPressed();
+      _item_pressed->released();
 
     _item_focused->pressed();
     _item_pressed = _item_focused;

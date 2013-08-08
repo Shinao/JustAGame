@@ -36,6 +36,7 @@ namespace Screen
   void				minimize();
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
+  void				moving(bool moving);
   sf::Vector2u			getSize();
   sf::Vector2i			getCursorPosition();
   EventManager			&getEventManager();

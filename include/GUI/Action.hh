@@ -5,7 +5,7 @@
 
 // Class define capabilities to add actions
 
-struct Action
+class Action
 {
   private:
     sf::Event::EventType	_type;

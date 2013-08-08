@@ -35,7 +35,11 @@ bool			Layer::update(sf::RenderWindow &)
   return (true);
 }
 
-void			Layer::clicked(int, int)
+void			Layer::pressed(int, int)
+{
+}
+
+void			Layer::released(int, int)
 {
 }
 

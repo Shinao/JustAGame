@@ -28,6 +28,9 @@ void sf::setCursor(sf::Cursor::Type t)
 
 #elif defined(SFML_SYSTEM_LINUX)
 
+// TODO
+// Compatibility check
+
 void sf::setCursor(sf::Cursor::Type t)
 {
   display = XOpenDisplay(NULL);

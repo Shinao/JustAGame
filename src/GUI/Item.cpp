@@ -27,7 +27,7 @@ void			Item::pressed()
     _callback();
 }
 
-void			Item::unPressed()
+void			Item::released()
 {
   _pressed = false;
 }

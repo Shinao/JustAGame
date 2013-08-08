@@ -59,7 +59,7 @@ class Item
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual void		pressed();
-    virtual void		unPressed();
+    virtual void		released();
     virtual void		designChanged();
 };
 

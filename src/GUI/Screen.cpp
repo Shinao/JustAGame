@@ -25,10 +25,16 @@ namespace Screen
     void			updateFocused();
 
     // Event catched
-    void			clicked(Context context);
+    void			pressed(Context context);
+    void			released(Context context);
     void			mouseMoved(Context context);
     void			textEntered(Context context);
     void			mouseLeft(Context context);
+
+    // Moving - capacity to the user to move the window
+    bool			_moving = false;
+    sf::Vector2i		_pressed_pos;
+    void			manageMoving();
   }
 
   //
@@ -58,18 +64,32 @@ namespace Screen
       _event_manager.invokeCallbacks();
     }
 
-    void			clicked(Context context)
+    void			pressed(Context context)
     {
       int	x = context.mouseButton.x, y = context.mouseButton.y;
 
       if (_layer_focused != NULL)
-	_layer_focused->clicked(x, y);
+	_layer_focused->pressed(x, y);
+    }
+
+    void			released(Context context)
+    {
+      int	x = context.mouseButton.x, y = context.mouseButton.y;
+
+      if (_layer_focused != NULL)
+	_layer_focused->released(x, y);
     }
 
     void			mouseLeft(Context)
     {
+      // TODO
+      // Compatibility check
+      // if (_moving)
+      // _window.setPosition(_window.getPosition() + (getCursorPosition() - _pressed_pos));
+      // else {
       if (_layer_focused != NULL)
 	_layer_focused->mouseLeft();
+      // }
     }
 
     void			textEntered(Context context)
@@ -82,26 +102,30 @@ namespace Screen
 	  return ;
     }
 
+    void			manageMoving()
+    {
+      // Move the window depending on where we were when pressed
+      _window.setPosition(_window.getPosition() + (getCursorPosition() - _pressed_pos));
+    }
+
     void			mouseMoved(Context context)
     {
       int	x = context.mouseMove.x, y = context.mouseMove.y;
 
-      // If we have a layer focused
-      if (_layer_focused != NULL)
+      if (_moving)
       {
-	// Check if still on the same layer to avoid unnecessary check
-	if (_layer_focused->getRect().contains(x, y))
-	{
-	  _layer_focused->mouseCaught(x, y);
-	  return ;
-	}
-
-	// No ? Tell it lost focus
-	_layer_focused->mouseLeft();
+	manageMoving();
+	return ;
       }
 
-      // Get the new focus and call it
+      // Get the new focus
+      Layer	*old_focused = _layer_focused;
       updateFocused();
+
+      // Check if layer lost focused
+      if (old_focused != NULL && _layer_focused != old_focused)
+	old_focused->mouseLeft();
+
       if (_layer_focused != NULL)
 	_layer_focused->mouseCaught(x, y);
     }
@@ -146,9 +170,13 @@ namespace Screen
 
     // Add special event callback
     _event_manager.add(Action(sf::Event::Closed), &close);
-    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), &clicked);
+    _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), &pressed);
+    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), &released);
     _event_manager.add(Action(sf::Event::TextEntered), &textEntered);
     _event_manager.add(Action(sf::Event::MouseMoved), &mouseMoved);
+
+    // TODO
+    // Compatibility check
     _event_manager.add(Action(sf::Event::MouseLeft), &mouseLeft);
   }
 
@@ -166,8 +194,6 @@ namespace Screen
   void			update()
   {
     int			i;
-
-    _window.clear(BACKGROUND_CLEAR);
 
     checkEvent();
 
@@ -264,6 +290,16 @@ namespace Screen
 			screen.height / 2 - jag::WindowHeight / 2));
   }
 
+  void					moving(bool moving)
+  {
+    _moving = moving;
+
+    if (_moving)
+      _pressed_pos = getCursorPosition();
+  }
+
+  // TODO
+  // Compatibility check
   // Ugly patch but nobody will see it.. Right ?!
 #ifdef SFML_SYSTEM_WINDOWS
 #include <windows.h>
@@ -278,6 +314,7 @@ namespace Screen
 
     XIconifyWindow(display, _window.getSystemHandle(), DefaultScreen(display));
     XFlush(display);
+    delete display;
   }
 #endif
 }
