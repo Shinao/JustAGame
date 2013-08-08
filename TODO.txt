@@ -8,5 +8,4 @@ TODO
 - Compatibility check
  . Cursor
  . Window minimize
- . Moving window : mouse left
 - Callback class for layer

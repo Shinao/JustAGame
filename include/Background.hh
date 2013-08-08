@@ -7,6 +7,7 @@ class Background : public Layer
 {
   private:
     bool			_moving;
+    sf::RectangleShape		_bg;
 
   public:
     Background();

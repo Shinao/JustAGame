@@ -105,6 +105,7 @@ namespace Screen
     {
       // Move the window depending on where we were when pressed
       _window.setPosition(sf::Mouse::getPosition() - _pressed_pos);
+      _window.display();
     }
 
     void			mouseMoved(Context context)

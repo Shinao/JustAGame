@@ -19,6 +19,7 @@ namespace jag
   const int			WindowWidth = 1024;
   const int			FPS = 1000 / 60;
   const int			MarginFPS = 4;
+  const int			WindowBorderSize = 1;
 
   void				init();
   void				clear();

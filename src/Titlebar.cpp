@@ -4,7 +4,7 @@
 
 Titlebar::Titlebar()
 {
-  Rect	rec = Rect(0, 0, Screen::getSize().x, TITLEBAR_HEIGHT);
+  Rect	rec = Rect(jag::WindowBorderSize, jag::WindowBorderSize, Screen::getSize().x, TITLEBAR_HEIGHT);
   _rec = rec;
 
   // Generating all items menu
