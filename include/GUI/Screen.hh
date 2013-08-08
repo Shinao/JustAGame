@@ -41,6 +41,12 @@ namespace Screen
   sf::Vector2u			getSize();
   sf::Vector2i			getCursorPosition();
   EventManager			&getEventManager();
+
+  namespace Cursor
+  {
+    enum Type { Wait, Text, Normal, Hand };
+  }
+  void				setCursor(Cursor::Type type);
 }
 
 #endif
