@@ -48,6 +48,9 @@ badd +0 include\Background.hh
 badd +1 src\Win32\Screen.cpp
 badd +0 src\Unix\Screen.cpp
 badd +0 ..\Epitech\R-Type\CMakeLists.txt
+badd +576 src\RudeConfig\ConfigImpl.cpp
+badd +154 src\RudeConfig\ParserJuly2004.cpp
+badd +83 src\RudeConfig\Writer.cpp
 silent! argdel *
 edit CMakeLists.txt
 set splitbelow splitright
@@ -138,12 +141,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 12 - ((11 * winheight(0) + 23) / 47)
+let s:l = 13 - ((12 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 0
+13
+normal! 057l
 wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
@@ -461,7 +464,6 @@ normal! zt
 13
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Layer.cpp
@@ -486,12 +488,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 38 - ((25 * winheight(0) + 23) / 47)
+let s:l = 24 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-38
-normal! 028l
+24
+normal! 0
 wincmd w
 argglobal
 edit include\GUI\Layer.hh
@@ -511,7 +513,6 @@ normal! zt
 40
 normal! 025l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Menu.cpp
@@ -561,7 +562,6 @@ normal! zt
 44
 normal! 036l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\HorizontalMenu.cpp
@@ -611,7 +611,6 @@ normal! zt
 22
 normal! 025l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Item.cpp
@@ -661,7 +660,6 @@ normal! zt
 14
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Text.cpp
@@ -711,7 +709,6 @@ normal! zt
 14
 normal! 09l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\Sprite.cpp
@@ -761,7 +758,6 @@ normal! zt
 12
 normal! 011l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\client.cpp
@@ -786,7 +782,6 @@ exe s:l
 normal! zt
 6
 normal! 0
-2wincmd w
 tabedit src\Titlebar.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -834,7 +829,6 @@ normal! zt
 31
 normal! 018l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Background.cpp
@@ -884,10 +878,31 @@ normal! zt
 10
 normal! 027l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 9
+tabedit src\RudeConfig\ParserJuly2004.cpp
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnext 19
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
