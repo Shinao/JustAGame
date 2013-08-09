@@ -6,7 +6,6 @@
 # include <SFML/Graphics.hpp>
 # include <SFML/Window.hpp>
 # include <SFML/System.hpp>
-# include <Thor/Input.hpp>
 # include "GUI/Layer.hh"
 # include "GUI/EventManager.hh"
 
@@ -22,6 +21,8 @@
 
 // typedef const thor::ActionContext<int> & Context;
 
+enum CursorType { Wait, Text, Normal, Hand };
+
 namespace Screen
 {
   void				init();
@@ -33,7 +34,6 @@ namespace Screen
   void				closeWindow();
   bool				isActive();
   void				restore();
-  void				minimize();
   void				mouseLeft(Context context = sf::Event());
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
@@ -42,11 +42,9 @@ namespace Screen
   sf::Vector2i			getCursorPosition();
   EventManager			&getEventManager();
 
-  namespace Cursor
-  {
-    enum Type { Wait, Text, Normal, Hand };
-  }
-  void				setCursor(Cursor::Type type);
+  // Implementation Unix/Windows
+  void				minimize();
+  void				setCursor(CursorType type);
 }
 
 #endif

@@ -3,8 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 # 32 bits
 # C++ 11 because why not
 # FULL WARNINGS BECAUSE I LIKE PAIN !
-list (APPEND CMAKE_CXX_FLAGS "-std=c++11 -m32 -W -Wall -Wextra")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+list (APPEND CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra")
 
 project (justagame)
 
@@ -18,10 +17,10 @@ file (GLOB_RECURSE CLIENT_SRC src/*.cpp)
 
 if (WIN32)
   file (GLOB_RECURSE SRC_UNIX src/Unix/*.cpp) 
-  list(REMOVE_ITEM CLIENT_SRC ${SRC_UNIX})
+  list (REMOVE_ITEM CLIENT_SRC ${SRC_UNIX})
 else (WIN32)
   file (GLOB_RECURSE SRC_WIN src/Win32/*.cpp) 
-  list(REMOVE_ITEM CLIENT_SRC ${SRC_WIN})
+  list (REMOVE_ITEM CLIENT_SRC ${SRC_WIN})
 endif (WIN32)
 
 add_executable (justagame ${CLIENT_SRC})
