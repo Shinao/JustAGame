@@ -10,7 +10,7 @@ sf::Vector2i			Screen::_pressed_pos;
 sf::RenderWindow		Screen::_window;
 
 
-Screen::Screen() :
+Screen::Screen(Mode) :
   _layer_focused(NULL)
 {
   // Get enough space

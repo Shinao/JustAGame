@@ -9,7 +9,7 @@
 // Once upon a main
 int		main()
 {
-  Screen	screen;
+  Screen	screen(Screen::Setting);
   sf::Clock	timer;
   sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
 

@@ -48,7 +48,13 @@ class Screen
     void			textEntered(Context context);
 
   public:
-    Screen();
+    enum	Mode
+    {
+      Game,
+      Setting
+    };
+
+    Screen(Mode mode);
     ~Screen();
 
     static sf::WindowHandle		getHandle();
