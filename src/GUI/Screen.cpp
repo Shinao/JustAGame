@@ -146,6 +146,25 @@ void				Screen::updateFocused()
   _layer_focused = NULL;
 }
 
+void				Screen::removeLayers()
+{
+  if (_layers.size() > 0)
+  {
+    for (auto layer : _layers_to_remove)
+    {
+      // Moving all the layer from one index down
+      for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
+	_layers[i] = _layers[i + 1];
+
+      _layers.pop_back();
+      delete layer;
+    }
+    // Update focused in case we deleted it
+    updateFocused();
+  }
+}
+
+
 
 
 // 
@@ -181,6 +200,9 @@ void				Screen::update()
   _timer.restart();
 
   _window.display();
+
+  // Safely remove layers if asked
+  removeLayers();
 }
 
 void				Screen::add(Layer *layer)
@@ -194,13 +216,7 @@ void				Screen::add(Layer *layer)
 
 void				Screen::remove(Layer *layer)
 {
-  // Moving all the layer from one index down
-  for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
-    _layers[i] = _layers[i + 1];
-
-  _layers.pop_back();
-  delete layer;
-  updateFocused();
+  _layers_to_remove.push_back(layer);
 }
 
 sf::WindowHandle			Screen::getHandle()

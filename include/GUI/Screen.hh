@@ -32,6 +32,7 @@ class Screen
     static sf::Vector2i		_old_cursor_pos;
     static void			manageMoving();
 
+    std::vector<Layer *>	_layers_to_remove;
     std::vector<Layer *>	_layers;
     Layer			*_layer_focused;
     sf::Clock			_timer;
@@ -40,6 +41,7 @@ class Screen
     unsigned			getNextId();
     void			checkEvent();
     void			updateFocused();
+    void			removeLayers();
 
     // Event catched
     void			pressed(Context context);
