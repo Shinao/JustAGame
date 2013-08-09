@@ -61,7 +61,7 @@ Titlebar::~Titlebar()
 void			Titlebar::pressed(int x, int y)
 {
   if (!_menu->getRect().contains(x, y))
-    Screen::moving(true);
+    Screen::setMoving(true);
 }
 
 void			Titlebar::released(int x, int y)
@@ -69,7 +69,7 @@ void			Titlebar::released(int x, int y)
   if (_menu->getRect().contains(x, y))
     _menu->clicked();
   else
-    Screen::moving(false);
+    Screen::setMoving(false);
 }
 
 void			Titlebar::draw(sf::RenderWindow &window)
@@ -104,5 +104,5 @@ void			Titlebar::mouseLeft()
   Layer::mouseLeft();
 
   _menu->mouseLeft();
-  Screen::moving(false);
+  Screen::setMoving(false);
 }

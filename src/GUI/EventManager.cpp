@@ -1,4 +1,5 @@
 #include "GUI/EventManager.hh"
+#include <iostream>
 
 EventManager::EventManager()
 {

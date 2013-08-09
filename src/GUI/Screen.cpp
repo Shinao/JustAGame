@@ -93,7 +93,6 @@ namespace Screen
     {
       // Move the window depending on where we were when pressed
       _window.setPosition(sf::Mouse::getPosition() - _pressed_pos);
-      _window.display();
     }
 
     void			mouseMoved(Context context)
@@ -278,7 +277,7 @@ namespace Screen
 	  screen.height / 2 - jag::WindowHeight / 2));
   }
 
-  void					moving(bool moving)
+  void					setMoving(bool moving)
   {
     _moving = moving;
 
@@ -296,6 +295,7 @@ namespace Screen
 	_layer_focused->mouseLeft();
     }
   }
+
 
 
   // Linux Implementation
@@ -341,4 +341,5 @@ namespace Screen
     XFlush(display);
   }
 #endif
+
 }

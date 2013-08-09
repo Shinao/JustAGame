@@ -37,7 +37,7 @@ namespace Screen
   void				mouseLeft(Context context = sf::Event());
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
-  void				moving(bool moving);
+  void				setMoving(bool moving);
   sf::Vector2u			getSize();
   sf::Vector2i			getCursorPosition();
   EventManager			&getEventManager();

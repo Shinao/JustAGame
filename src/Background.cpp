@@ -18,12 +18,12 @@ Background::~Background()
 
 void			Background::pressed(int, int)
 {
-  Screen::moving(true);
+  Screen::setMoving(true);
 }
 
 void			Background::released(int, int)
 {
-  Screen::moving(false);
+  Screen::setMoving(false);
 }
 
 void			Background::draw(sf::RenderWindow &window)
@@ -43,5 +43,5 @@ bool			Background::catchMouse()
 
 void			Background::mouseLeft()
 {
-  Screen::moving(false);
+  Screen::setMoving(false);
 }
