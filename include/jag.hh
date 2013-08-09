@@ -9,6 +9,9 @@
 // Everything needed for the client application
 // Window properties - themes - fonts - etc
 
+// Because fuck static class
+// Init at first - clear at the end
+
 typedef sf::Rect<int> Rect;
 
 namespace jag

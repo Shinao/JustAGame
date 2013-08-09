@@ -1,11 +1,4 @@
 TODO
 
-- Title bar
- . Callback minimize/restore hide and show content
- . logo + title
-- Layer moving window
 - Error checking
-- Compatibility check
- . Cursor
- . Window minimize
 - Callback class for layer
