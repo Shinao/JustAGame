@@ -4,11 +4,40 @@
 
 
 // Static declaration
-
 bool 				Screen::_moving = false;
 sf::Vector2i			Screen::_old_cursor_pos;
 sf::Vector2i			Screen::_pressed_pos;
 sf::RenderWindow		Screen::_window;
+
+
+Screen::Screen() :
+  _layer_focused(NULL)
+{
+  // Get enough space
+  _layers.reserve(MAX_LAYERS_EXPECTED);
+
+  // Recreate the window
+  _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
+  _window.setKeyRepeatEnabled(false);
+  restore();
+
+  // Add special event callback
+  using namespace std::placeholders;
+
+  _event_manager.add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
+  _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::pressed, this, _1));
+  _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::released, this, _1));
+  _event_manager.add(Action(sf::Event::TextEntered), std::bind(&Screen::textEntered, this, _1));
+  _event_manager.add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, this, _1));
+  _event_manager.add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, this, _1));
+  _event_manager.add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, this, _1));
+}
+
+Screen::~Screen()
+{
+  for (auto layer : _layers)
+    delete layer;
+}
 
 
 
@@ -122,41 +151,6 @@ void				Screen::updateFocused()
 // 
 // Public 
 // 
-
-void				Screen::init()
-{
-  // Get enough space if possible
-  if (_layers.capacity() < MAX_LAYERS_EXPECTED)
-    _layers.reserve(MAX_LAYERS_EXPECTED);
-
-  // Recreate the window
-  _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
-  _window.setKeyRepeatEnabled(false);
-  restore();
-
-  _layer_focused = NULL;
-
-  // Add special event callback
-  using namespace std::placeholders;
-  _event_manager.add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
-  _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::pressed, this, _1));
-  _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::released, this, _1));
-  _event_manager.add(Action(sf::Event::TextEntered), std::bind(&Screen::textEntered, this, _1));
-  _event_manager.add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, this, _1));
-  _event_manager.add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, this, _1));
-  _event_manager.add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, this, _1));
-}
-
-void				Screen::clear()
-{
-  // Delete each layers
-  for (auto layer : _layers)
-    delete layer;
-
-  _layers.clear();
-  _event_manager.clear();
-  _layer_focused = NULL;
-}
 
 void				Screen::update()
 {

@@ -48,10 +48,8 @@ class Screen
     void			textEntered(Context context);
 
   public:
-    void				clear();
-    void				test() {}
-    void				context(Context) {}
-    void				testint(int) {}
+    Screen();
+    ~Screen();
 
     static sf::WindowHandle		getHandle();
     static const sf::RenderWindow	&getWindow();
@@ -68,7 +66,6 @@ class Screen
     static void				minimize();
     static void				setCursor(CursorType type);
 
-    void				init();
     void				update();
     void				add(Layer *layer);
     void				remove(Layer *layer);
