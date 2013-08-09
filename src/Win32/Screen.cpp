@@ -14,20 +14,20 @@ namespace Screen
     mouseLeft();
   }
 
-  void					setCursor(Cursor::Type type)
+  void					setCursor(CursorType type)
   {
     switch(type)
     {
-      case Cursor::Wait :
+      case Wait :
 	cursor = LoadCursor(NULL, IDC_WAIT);
 	break;
-      case Cursor::Hand :
+      case Hand :
 	cursor = LoadCursor(NULL, IDC_HAND);
 	break;
-      case Cursor::Normal :
+      case Normal :
 	cursor = LoadCursor(NULL, IDC_ARROW);
 	break;
-      case Cursor::Text :
+      case Text :
 	cursor = LoadCursor(NULL, IDC_IBEAM);
 	break;
 	//For more cursor options on Windows go here:
