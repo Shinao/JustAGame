@@ -17,7 +17,6 @@ class Background : public Layer
     void			draw(sf::RenderWindow &window);
     bool			update(sf::RenderWindow &window);
     bool			catchMouse();
-    void			mouseLeft();
 };
 
 #endif

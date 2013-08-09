@@ -40,8 +40,3 @@ bool			Background::catchMouse()
 {
   return (true);
 }
-
-void			Background::mouseLeft()
-{
-  Screen::setMoving(false);
-}

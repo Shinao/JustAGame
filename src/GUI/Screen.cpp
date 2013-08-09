@@ -6,6 +6,7 @@
 // Static declaration
 
 bool 				Screen::_moving = false;
+sf::Vector2i			Screen::_old_cursor_pos;
 sf::Vector2i			Screen::_pressed_pos;
 sf::RenderWindow		Screen::_window;
 
@@ -27,6 +28,9 @@ unsigned			Screen::getNextId()
 void				Screen::checkEvent()
 {
   sf::Event			event;
+
+  // Check if user wants to move the window
+  manageMoving();
 
   // Everything is done by callbacks - thanks C++11
   while (_window.pollEvent(event))
@@ -64,19 +68,24 @@ void				Screen::textEntered(Context context)
 
 void				Screen::manageMoving()
 {
-  // Move the window depending on where we were when pressed
-  _window.setPosition(sf::Mouse::getPosition() - _pressed_pos);
+  if (_moving)
+  {
+    // Get the new position of the cursor
+    sf::Vector2i cursor_pos = sf::Mouse::getPosition();
+
+    // Move the window depending on where we were when pressed
+    // Only if the position of the cursor has changed
+    if (cursor_pos != _old_cursor_pos)
+    {
+      _window.setPosition(cursor_pos - _pressed_pos);
+      _old_cursor_pos = cursor_pos;
+    }
+  }
 }
 
 void				Screen::mouseMoved(Context context)
 {
   int	x = context.mouseMove.x, y = context.mouseMove.y;
-
-  if (_moving)
-  {
-    manageMoving();
-    return ;
-  }
 
   // Get the new focus
   Layer	*old_focused = _layer_focused;

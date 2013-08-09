@@ -16,10 +16,7 @@ int		main()
   jag::init();
   screen.init();
   screen.add(new Background);
-  Titlebar *titlebar = new Titlebar;
-  screen.add(titlebar);
-
-  // screen.getEventManager().add(Action(sf::Event::Closed), std::bind(&Screen::context, &screen));
+  screen.add(new Titlebar);
 
   while (Screen::isActive())
   {

@@ -104,5 +104,4 @@ void			Titlebar::mouseLeft()
   Layer::mouseLeft();
 
   _menu->mouseLeft();
-  Screen::setMoving(false);
 }

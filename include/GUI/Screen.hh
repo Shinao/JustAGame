@@ -29,6 +29,7 @@ class Screen
     // Moving - capacity to the user to move the window
     static bool			_moving;
     static sf::Vector2i		_pressed_pos;
+    static sf::Vector2i		_old_cursor_pos;
     static void			manageMoving();
 
     std::vector<Layer *>	_layers;
