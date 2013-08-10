@@ -58,6 +58,7 @@ Titlebar::Titlebar()
 
 Titlebar::~Titlebar()
 {
+  delete _menu;
 }
 
 void			Titlebar::minimize()
