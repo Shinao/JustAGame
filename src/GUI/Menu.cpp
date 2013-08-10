@@ -2,6 +2,7 @@
 #include "GUI/Menu.hh"
 
 Menu::Menu(Rect rec, Theme *theme) :
+  _border_type(Border::None),
   _rec(rec),
   _theme(theme),
   _item_focused(NULL),
@@ -15,6 +16,18 @@ Menu::~Menu()
   for (auto item : _items)
     delete item;
 }
+
+void			Menu::draw(sf::RenderWindow &win)
+{
+  // Drawing background and border
+  win.draw(_box);
+  win.draw(_border);
+
+  // Draw each item
+  for (auto item : _items)
+    item->draw(win);
+}
+
 
 // Intercepted click - send it to item focused
 void			Menu::clicked()
@@ -41,9 +54,10 @@ void			Menu::add(Item *item)
 {
   _items.push_back(item);
 
-  // Chcking tem
+  // Update item
   if (item->getTheme() == NULL)
     item->setTheme(_theme);
+  item->setBorder(_border_type);
 
   item->mouseLeft();
 }
@@ -116,3 +130,19 @@ void			Menu::setPressed(Item *item)
   _item_pressed = item;
   item->pressed();
 }
+
+void			Menu::setBorder(Border::Type border)
+{
+  _border_type = border;
+
+  // Tell each item to add this type of border
+  for (auto item : _items)
+    item->setBorder(border);
+}
+
+void			Menu::themeChanged()
+{
+  _border.setFillColor(_theme->c_border);
+  _box.setFillColor(_theme->c_background);
+}
+

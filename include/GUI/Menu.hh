@@ -13,8 +13,9 @@
 class Menu
 {
   protected:
-    sf::RectangleShape		_border;
     sf::RectangleShape		_box;
+    sf::RectangleShape		_border;
+    Border::Type		_border_type;
     Rect			_rec;
     Theme			*_theme;
     std::vector<Item *>		_items;
@@ -34,14 +35,15 @@ class Menu
     void			add(Item *item);
     void			remove(Item *item);
     void			setMargin(int margin);
+    void			setBorder(Border::Type border);
 
     virtual void		update() = 0;
-    virtual void		draw(sf::RenderWindow &win) = 0;
+    virtual void		draw(sf::RenderWindow &win);
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual bool		textEntered(const std::string &str);
     virtual Rect		getFilledRect() const = 0;
-    virtual void		themeChanged() = 0;
+    virtual void		themeChanged();
 };
 
 #endif

@@ -5,6 +5,18 @@
 
 // Theme for the menus - properties and stuffs
 
+namespace Border
+{
+  enum Type
+  {
+    None,
+    Left,
+    Right,
+    Top,
+    Down
+  };
+}
+
 struct Theme
 {
   sf::Color			c_text;
@@ -26,6 +38,8 @@ struct Theme
   sf::Color			c_border_focused;
   sf::Color			c_border_pressed;
   unsigned			size_border;
+  unsigned			size_border_focused;
+  unsigned			size_border_pressed;
   sf::Color			c_mask_focused;
 };
 

@@ -1,4 +1,5 @@
 #include "GUI/Item.hh"
+#include "Utility/Graphic.hh"
 
 Item::Item(Theme *theme, Alignment align, float scale) :
   _focused(false),
@@ -7,7 +8,8 @@ Item::Item(Theme *theme, Alignment align, float scale) :
   _theme(theme),
   _align(align),
   _scale(scale),
-  _margin(0)
+  _margin(0),
+  _border_type(Border::None)
 {
 }
 
@@ -34,21 +36,32 @@ void			Item::released()
 
 void			Item::designChanged()
 {
+  unsigned		size_border;
+
   if (!_release && _pressed)
   {
-    _box.setFillColor(_theme->c_background_pressed);
     _border.setFillColor(_theme->c_border_pressed);
+    size_border = _theme->size_border_pressed;
+
+    _box.setFillColor(_theme->c_background_pressed);
   }
   else if (_focused)
   {
-    _box.setFillColor(_theme->c_background_focused);
     _border.setFillColor(_theme->c_border_focused);
+    size_border = _theme->size_border_focused;
+
+    _box.setFillColor(_theme->c_background_focused);
   }
   else
   {
-    _box.setFillColor(_theme->c_background);
     _border.setFillColor(_theme->c_border);
+    size_border = _theme->size_border;
+
+    _box.setFillColor(_theme->c_background);
   }
+
+  // Size of the border changed - set position according to the type of the border
+  Utility::initBorderByType(_border, _rec, size_border, _border_type);
 }
 
 void			Item::draw(sf::RenderWindow &win)
@@ -64,8 +77,11 @@ bool			Item::textEntered(const std::string &)
 
 void			Item::mouseCaught(int, int)
 {
-  _focused = true;
-  designChanged();
+  if (!_focused)
+  {
+    _focused = true;
+    designChanged();
+  }
 }
 
 void			Item::mouseLeft()
@@ -77,7 +93,6 @@ void			Item::mouseLeft()
 void			Item::setTheme(Theme *theme)
 {
   _theme = theme;
-  designChanged();
 }
 
 Rect			Item::getRect() const
@@ -97,8 +112,6 @@ void			Item::setRect(const Rect &rec)
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
-  _border.setSize(sf::Vector2f(_rec.width, _theme->size_border));
-  _border.setPosition(sf::Vector2f(_rec.left, _rec.top + _rec.height));
 }
 
 void			Item::addCallback(Callback callback)
@@ -167,4 +180,9 @@ void			Item::setMargin(int margin)
 void			Item::autoRelease(bool release)
 {
   _release = release;
+}
+
+void			Item::setBorder(Border::Type border)
+{
+  _border_type = border;
 }

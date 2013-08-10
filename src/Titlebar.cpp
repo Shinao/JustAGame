@@ -22,6 +22,7 @@ Titlebar::Titlebar()
 
   // Creating menu
   _menu = new HorizontalMenu(_rec);
+  _menu->setBorder(Border::Down);
   _menu->setTheme(jag::getTheme("titlebar"));
   _menu->setMargin(8);
   Sprite	*sprite = new Sprite(&_min_spr);
@@ -42,6 +43,7 @@ Titlebar::Titlebar()
   _menu->update();
   rec.height = MENU_WIDTH;
   rec.left = _rec.left + _rec.width - _menu->getFilledRect().width;
+  rec.width = _menu->getFilledRect().width;
   _menu->setRect(rec);
   _menu->update();
 

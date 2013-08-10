@@ -22,6 +22,8 @@ void			Sprite::update()
 
   sf::Vector2i		pos = getRessourcePosition();
   _sprite->setPosition(pos.x, pos.y);
+
+  designChanged();
 }
 
 Rect			Sprite::getRectRessource() const

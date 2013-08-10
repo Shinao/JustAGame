@@ -30,8 +30,9 @@ class Item
     float			_scale;
     int				_margin;
     sf::RectangleShape		_box;
-    sf::RectangleShape		_border;
     std::function<void ()>	_callback;
+    sf::RectangleShape		_border;
+    Border::Type		_border_type;
 
   public:
     Item(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
@@ -51,6 +52,7 @@ class Item
     bool			isFocused() const;
     bool			isPressed() const;
     void			autoRelease(bool unpress);
+    void			setBorder(Border::Type border);
 
     virtual Rect		getRectRessource() const = 0;
     virtual bool		textEntered(const std::string &str);
