@@ -22,7 +22,7 @@ Titlebar::Titlebar()
 
   // Creating menu
   _menu = new Menu(Menu::Horizontal, _rec);
-  _menu->setBorder(Border::Down);
+  _menu->setBorder(Border::None);
   _menu->setTheme(jag::getTheme("titlebar"));
   _menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
   _menu->shrinkToFit(true);
@@ -46,6 +46,7 @@ Titlebar::Titlebar()
   rec.left = _rec.left + _rec.width - _menu->getRect().width;
   rec.width = _menu->getRect().width;
   _menu->setRect(rec);
+  _menu->update();
   _menu->update();
 
   // Display logo and icon

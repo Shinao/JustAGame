@@ -1,5 +1,4 @@
 TODO
 
-- Bug when mouse focused on titlebar
 - Error checking
 - Callback class for layer
