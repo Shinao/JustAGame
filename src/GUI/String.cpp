@@ -1,22 +1,22 @@
-#include "GUI/Text.hh"
+#include "GUI/String.hh"
 
-Text::Text(const sf::String &text, Theme *theme, Alignment align, float scale) :
+String::String(const sf::String &text, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale)
 {
   _text.setString(text);
 }
 
-Text::~Text()
+String::~String()
 {
 }
 
-void			Text::draw(sf::RenderWindow &win)
+void			String::draw(sf::RenderWindow &win)
 {
   Item::draw(win);
   win.draw(_text);
 }
 
-void			Text::designChanged()
+void			String::designChanged()
 {
   Item::designChanged();
 
@@ -43,35 +43,37 @@ void			Text::designChanged()
   }
 }
 
-void			Text::update()
+void			String::update()
 {
   _text.setScale(sf::Vector2f(_scale, _scale));
 
   sf::Vector2i		pos = getRessourcePosition();
   _text.setPosition(pos.x, pos.y);
+
+  designChanged();
 }
 
-Rect			Text::getRectRessource() const
+Rect			String::getRectRessource() const
 {
   return (Rect(_text.getGlobalBounds()));
 }
 
 // Overriding setRect to reset position of the ressource
-void			Text::setRect(const Rect &rec)
+void			String::setRect(const Rect &rec)
 {
   Item::setRect(rec);
 
   update();
 }
 
-void			Text::setText(const sf::String &text)
+void			String::setString(const sf::String &text)
 {
   _text.setString(text);
 
   update();
 }
 
-const sf::String	&Text::getText()
+const sf::String	&String::getString()
 {
   return (_text.getString());
 }

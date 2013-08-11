@@ -3,14 +3,14 @@
 
 # include "GUI/Layer.hh"
 # include "GUI/HorizontalMenu.hh"
-# include "GUI/Sprite.hh"
 
 class Titlebar : public Layer
 {
-  private:
-    const int			MENU_WIDTH = 28;
+  public:
+    static const int		MENU_WIDTH = 28;
+    static const int		HEIGHT = 36;
 
-    const int			TITLEBAR_HEIGHT = 36;
+  private:
     HorizontalMenu		*_menu;
     sf::Sprite			_cross_spr;
     sf::Texture			_cross_tex;

@@ -1,6 +1,6 @@
 #include <SFML/System.hpp>
-#include "jag.hh"
 #include "GUI/Screen.hh"
+#include "jag.hh"
 
 
 // Static declaration

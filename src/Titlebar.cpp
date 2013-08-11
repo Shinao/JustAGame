@@ -1,11 +1,11 @@
-#include "GUI/Screen.hh"
 #include "Titlebar.hh"
-#include "GUI/Text.hh"
+#include "GUI/Screen.hh"
+#include "GUI/Sprite.hh"
 
 Titlebar::Titlebar()
 {
   Rect	rec = Rect(jag::WindowBorderSize, jag::WindowBorderSize,
-      		Screen::getSize().x - jag::WindowBorderSize * 2, TITLEBAR_HEIGHT);
+      		Screen::getSize().x - jag::WindowBorderSize * 2, HEIGHT);
   _rec = rec;
 
   // Generating all items menu

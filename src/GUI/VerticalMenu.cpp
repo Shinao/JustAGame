@@ -15,7 +15,7 @@ Rect			VerticalMenu::getFilledRect() const
 {
   Rect	rec = _rec;
 
-  rec.width = _filled_height;
+  rec.height = _filled_height;
   return (rec);
 }
 
@@ -34,7 +34,7 @@ void			VerticalMenu::update()
 
     rsrc.top = y;
     rsrc.left = _rec.left;
-    rsrc.height = _rec.height;
+    rsrc.width = _rec.width;
     item->setRect(rsrc);
 
     y += rsrc.height;
@@ -49,4 +49,3 @@ void			VerticalMenu::update()
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
 }
-

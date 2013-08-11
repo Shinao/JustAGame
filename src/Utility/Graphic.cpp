@@ -38,7 +38,7 @@ namespace Utility
 	  break;
 
 	case Border::Left:
-	  border.setPosition(rec.left, rec.top + rec.height);
+	  border.setPosition(rec.left - size_border, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
 	  break;
 

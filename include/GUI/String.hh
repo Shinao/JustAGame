@@ -5,17 +5,17 @@
 
 // Text specialization for an iten in a menu
 
-class Text : public Item
+class String : public Item
 {
   private:
     sf::Text			_text;
 
   public:
-    Text(const sf::String &text, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
-    ~Text();
+    String(const sf::String &text, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    ~String();
 
-    void			setText(const sf::String &text);
-    const sf::String		&getText();
+    void			setString(const sf::String &text);
+    const sf::String		&getString();
     void			setRect(const Rect &rec);
 
     void			draw(sf::RenderWindow &win);

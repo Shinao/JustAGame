@@ -4,6 +4,7 @@
 #include "GUI/Layer.hh"
 #include "Titlebar.hh"
 #include "Background.hh"
+#include "MainMenu.hh"
 #include "GUI/Action.hh"
 
 // Once upon a main
@@ -16,6 +17,7 @@ int		main()
   jag::init();
   screen.add(new Background);
   screen.add(new Titlebar);
+  screen.add(new MainMenu);
 
   while (Screen::isActive())
   {
