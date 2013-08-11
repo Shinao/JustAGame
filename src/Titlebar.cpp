@@ -24,7 +24,7 @@ Titlebar::Titlebar()
   _menu = new HorizontalMenu(_rec);
   _menu->setBorder(Border::Down);
   _menu->setTheme(jag::getTheme("titlebar"));
-  _menu->setMargin(sf::Vector2i(MENU_MARGIN, MENU_MARGIN));
+  _menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
   Sprite	*sprite = new Sprite(&_min_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::minimize, this));
@@ -41,7 +41,7 @@ Titlebar::Titlebar()
   // Updating position
   // Update to get the menu size
   _menu->update();
-  rec.height = MENU_WIDTH;
+  rec.height = MENU_HEIGHT;
   rec.left = _rec.left + _rec.width - _menu->getFilledRect().width;
   rec.width = _menu->getFilledRect().width;
   _menu->setRect(rec);

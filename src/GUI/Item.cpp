@@ -102,6 +102,14 @@ Rect			Item::getRect() const
   rsrc.height += _margin.y * 2;
   rsrc.left -= _margin.x;
   rsrc.top -= _margin.y;
+
+  // Depending on Vertical or Horizontal Menu
+  // We keep the largest size
+  if (rsrc.width < _rec.width)
+    rsrc.width = _rec.width;
+  if (rsrc.height < _rec.height)
+    rsrc.height = _rec.height;
+
   return (rsrc);
 }
 

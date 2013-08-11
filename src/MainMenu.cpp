@@ -9,7 +9,7 @@ MainMenu::MainMenu()
   _rec = rec;
   _menu = new VerticalMenu(rec);
   _menu->setBorder(Border::Left);
-  _menu->setMargin(sf::Vector2i(MARGIN, MARGIN));
+  _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
 
   String	*text = new String("Servers");
   _menu->add(text);
