@@ -151,7 +151,7 @@ void				Screen::updateFocused()
 
 void				Screen::removeLayers()
 {
-  if (_layers.size() > 0)
+  if (_layers_to_remove.size() > 0)
   {
     for (auto layer : _layers_to_remove)
     {
@@ -162,6 +162,7 @@ void				Screen::removeLayers()
       _layers.pop_back();
       delete layer;
     }
+
     // Update focused in case we deleted it
     updateFocused();
   }

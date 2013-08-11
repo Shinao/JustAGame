@@ -26,11 +26,13 @@ void			Item::pressed()
   _pressed = true;
   if (_callback)
     _callback();
+  designChanged();
 }
 
 void			Item::released()
 {
   _pressed = false;
+  designChanged();
 }
 
 void			Item::designChanged()

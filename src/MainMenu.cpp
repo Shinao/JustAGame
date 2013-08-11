@@ -13,6 +13,7 @@ MainMenu::MainMenu()
   _menu->shrinkToFit(true);
 
   String	*text = new String("SERVERS");
+  text->addCallback(std::bind(&MainMenu::cbServer, this));
   _menu->add(text);
   _menu->update();
 }
@@ -58,4 +59,8 @@ void			MainMenu::mouseLeft()
   Layer::mouseLeft();
 
   _menu->mouseLeft();
+}
+
+void			MainMenu::cbServer()
+{
 }
