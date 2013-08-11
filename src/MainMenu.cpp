@@ -11,7 +11,7 @@ MainMenu::MainMenu()
   _menu->setBorder(Border::Left);
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
 
-  String	*text = new String("Servers");
+  String	*text = new String("SERVERS");
   _menu->add(text);
   _menu->update();
 }

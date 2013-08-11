@@ -48,7 +48,7 @@ void			String::update()
   _text.setScale(sf::Vector2f(_scale, _scale));
 
   sf::Vector2i		pos = getRessourcePosition();
-  _text.setPosition(pos.x, pos.y);
+  _text.setPosition(pos.x - _text.getLocalBounds().left, pos.y - _text.getLocalBounds().top);
 
   designChanged();
 }
