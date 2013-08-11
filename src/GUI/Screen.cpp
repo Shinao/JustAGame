@@ -10,16 +10,19 @@ sf::Vector2i			Screen::_pressed_pos;
 sf::RenderWindow		Screen::_window;
 
 
-Screen::Screen(Mode) :
+Screen::Screen(Mode mode) :
   _layer_focused(NULL)
 {
   // Get enough space
   _layers.reserve(MAX_LAYERS_EXPECTED);
 
-  // Recreate the window
-  _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
-  _window.setKeyRepeatEnabled(false);
-  restore();
+  // Recreate the window depending on the mode
+  if (mode == Setting)
+  {
+    _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
+    _window.setKeyRepeatEnabled(false);
+    restore();
+  }
 
   // Add special event callback
   using namespace std::placeholders;
