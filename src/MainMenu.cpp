@@ -7,9 +7,10 @@ MainMenu::MainMenu()
 {
   Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, PADDING + Titlebar::HEIGHT, WIDTH, HEIGHT);
   _rec = rec;
-  _menu = new VerticalMenu(rec);
+  _menu = new Menu(Menu::Vertical, rec);
   _menu->setBorder(Border::Left);
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
+  _menu->shrinkToFit(true);
 
   String	*text = new String("SERVERS");
   _menu->add(text);

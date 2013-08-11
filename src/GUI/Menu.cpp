@@ -1,12 +1,15 @@
 #include "GUI/Screen.hh"
 #include "GUI/Menu.hh"
+#include "Utility/Graphic.hh"
 
-Menu::Menu(Rect rec, Theme *theme) :
+Menu::Menu(Type type, Rect rec, Theme *theme) :
+  _type(type),
   _border_type(Border::None),
   _rec(rec),
   _theme(theme),
   _item_focused(NULL),
-  _item_pressed(NULL)
+  _item_pressed(NULL),
+  _shrink(false)
 {
 }
 
@@ -27,6 +30,58 @@ void			Menu::draw(sf::RenderWindow &win)
     item->draw(win);
 }
 
+// Something changed - Recalculating EVERYTHING
+void			Menu::update()
+{
+  // Depending on the type - we fill only one side
+  int			filled;
+  if (_type == Horizontal)
+    filled = _rec.left;
+  else
+    filled = _rec.top;
+
+  // Init every item
+  for (auto item : _items)
+  {
+    item->setMargin(_margin);
+
+    Rect		rsrc = item->getRect();
+
+    if (_type == Horizontal)
+    {
+      rsrc.left = filled;
+      rsrc.top = _rec.top;
+      rsrc.height = _rec.height;
+
+      filled += rsrc.width;
+    }
+    else
+    {
+      rsrc.top = filled;
+      rsrc.left = _rec.left;
+      rsrc.width = _rec.width;
+
+      filled += rsrc.height;
+    }
+
+    item->setRect(rsrc);
+  }
+
+  // Shrink if needed
+  if (_shrink)
+  {
+    if (_type == Horizontal)
+      _rec.width = filled - _rec.left;
+    else
+      _rec.height = filled - _rec.top;
+  }
+
+  // Init box and border
+  Utility::initBorderByType(_border, _rec, _theme->size_border, _border_type);
+
+  _box.setSize(sf::Vector2f(_rec.width, _rec.height));
+  _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+}
 
 // Intercepted click - send it to item focused
 void			Menu::clicked()
@@ -145,3 +200,7 @@ void			Menu::themeChanged()
   _box.setFillColor(_theme->c_background);
 }
 
+void			Menu::shrinkToFit(bool shrink)
+{
+  _shrink = shrink;
+}

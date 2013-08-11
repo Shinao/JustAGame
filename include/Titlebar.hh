@@ -2,7 +2,7 @@
 # define TITLEBAR_HH_
 
 # include "GUI/Layer.hh"
-# include "GUI/HorizontalMenu.hh"
+# include "GUI/Menu.hh"
 
 class Titlebar : public Layer
 {
@@ -12,7 +12,7 @@ class Titlebar : public Layer
     static const int		HEIGHT = 36;
 
   private:
-    HorizontalMenu		*_menu;
+    Menu			*_menu;
     sf::Sprite			_cross_spr;
     sf::Texture			_cross_tex;
     sf::Sprite			_min_spr;

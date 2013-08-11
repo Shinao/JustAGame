@@ -2,7 +2,7 @@
 # define MAIN_MENU_HH_
 
 # include "GUI/Layer.hh"
-# include "GUI/VerticalMenu.hh"
+# include "GUI/Menu.hh"
 
 class MainMenu : public Layer
 {
@@ -13,7 +13,7 @@ class MainMenu : public Layer
     static const int		MARGIN = 32;
 
   private:
-    VerticalMenu		*_menu;
+    Menu			*_menu;
 
   public:
     MainMenu();

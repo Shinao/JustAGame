@@ -12,7 +12,15 @@
 
 class Menu
 {
+  public:
+    enum Type
+    {
+      Horizontal,
+      Vertical
+    };
+
   protected:
+    Type			_type;
     sf::RectangleShape		_box;
     sf::RectangleShape		_border;
     Border::Type		_border_type;
@@ -22,9 +30,10 @@ class Menu
     Item			*_item_focused;
     Item			*_item_pressed;
     sf::Vector2i		_margin;
+    bool			_shrink;
 
   public:
-    Menu(Rect rec, Theme *theme = jag::getCurrentTheme());
+    Menu(Type type, Rect rec, Theme *theme = jag::getCurrentTheme());
     virtual ~Menu();
 
     const Rect			&getRect() const;
@@ -36,14 +45,14 @@ class Menu
     void			remove(Item *item);
     void			setMargin(const sf::Vector2i &margin);
     void			setBorder(Border::Type border);
+    void			shrinkToFit(bool shrink);
 
-    virtual void		update() = 0;
-    virtual void		draw(sf::RenderWindow &win);
-    virtual void		mouseCaught(int x, int y);
-    virtual void		mouseLeft();
-    virtual bool		textEntered(const std::string &str);
-    virtual Rect		getFilledRect() const = 0;
-    virtual void		themeChanged();
+    void			update();
+    void			draw(sf::RenderWindow &win);
+    void			mouseCaught(int x, int y);
+    void			mouseLeft();
+    bool			textEntered(const std::string &str);
+    void			themeChanged();
 };
 
 #endif
