@@ -120,12 +120,7 @@ void				Screen::mouseMoved(Context context)
   int	x = context.mouseMove.x, y = context.mouseMove.y;
 
   // Get the new focus
-  Layer	*old_focused = _layer_focused;
   updateFocused();
-
-  // Check if layer lost focused
-  if (old_focused != NULL && _layer_focused != old_focused)
-    old_focused->mouseLeft();
 
   if (_layer_focused != NULL)
     _layer_focused->mouseCaught(x, y);
@@ -141,6 +136,11 @@ void				Screen::updateFocused()
     ly = _layers[i];
     if (ly->catchMouse() && ly->getRect().contains(cur.x, cur.y))
     {
+      // Check if layer lost focused
+      if (_layer_focused != NULL && _layer_focused != _layers[i])
+	_layer_focused->mouseLeft();
+
+      // Update focused
       _layer_focused = _layers[i];
       return ;
     }
@@ -149,7 +149,7 @@ void				Screen::updateFocused()
   _layer_focused = NULL;
 }
 
-void				Screen::removeLayers()
+void				Screen::manageLayers()
 {
   if (_layers_to_remove.size() > 0)
   {
@@ -205,8 +205,8 @@ void				Screen::update()
 
   _window.display();
 
-  // Safely remove layers if asked
-  removeLayers();
+  // Safely remove layers if asked and things
+  manageLayers();
 }
 
 void				Screen::add(Layer *layer)

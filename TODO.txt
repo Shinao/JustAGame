@@ -1,6 +1,5 @@
 TODO
 
 - Bug when mouse focused on titlebar
-- No mouseleft MainMenu for item
 - Error checking
 - Callback class for layer

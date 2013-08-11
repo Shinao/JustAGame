@@ -41,7 +41,7 @@ class Screen
     unsigned			getNextId();
     void			checkEvent();
     void			updateFocused();
-    void			removeLayers();
+    void			manageLayers();
 
     // Event catched
     void			pressed(Context context);
