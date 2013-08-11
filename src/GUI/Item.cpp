@@ -100,8 +100,8 @@ Rect			Item::getRect() const
 
   rsrc.width += _margin.x * 2;
   rsrc.height += _margin.y * 2;
-  rsrc.left -= _margin.x;
-  rsrc.top -= _margin.y;
+  rsrc.left = _rec.left;
+  rsrc.top = _rec.top;
 
   // Depending on Vertical or Horizontal Menu
   // We keep the largest size
@@ -149,7 +149,7 @@ sf::Vector2i		Item::getRessourcePosition()
     pos.x += rsrc.width + _margin.x;
 
   // Always align vertically
-  pos.y += _margin.y;
+  pos.y += (_rec.height - rsrc.height) / 2;
 
   return (pos);
 }
