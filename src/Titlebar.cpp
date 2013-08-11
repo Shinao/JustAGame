@@ -24,7 +24,7 @@ Titlebar::Titlebar()
   _menu = new HorizontalMenu(_rec);
   _menu->setBorder(Border::Down);
   _menu->setTheme(jag::getTheme("titlebar"));
-  _menu->setMargin(8);
+  _menu->setMargin(sf::Vector2i(MENU_MARGIN, MENU_MARGIN));
   Sprite	*sprite = new Sprite(&_min_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::minimize, this));

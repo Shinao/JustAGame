@@ -6,8 +6,7 @@ Menu::Menu(Rect rec, Theme *theme) :
   _rec(rec),
   _theme(theme),
   _item_focused(NULL),
-  _item_pressed(NULL),
-  _margin(0)
+  _item_pressed(NULL)
 {
 }
 
@@ -88,7 +87,7 @@ void			Menu::mouseCaught(int x, int y)
     }
 }
 
-void			Menu::setMargin(int margin)
+void			Menu::setMargin(const sf::Vector2i &margin)
 {
   _margin = margin;
 }

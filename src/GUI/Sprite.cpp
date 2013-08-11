@@ -49,4 +49,3 @@ sf::Sprite		*Sprite::getSprite()
 {
   return (_sprite);
 }
-

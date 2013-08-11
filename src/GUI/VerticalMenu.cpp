@@ -27,8 +27,7 @@ void			VerticalMenu::update()
 
   for (auto item : _items)
   {
-    if (item->getMargin() < _margin)
-      item->setMargin(_margin);
+    item->setMargin(_margin);
 
     Rect		rsrc = item->getRect();
 

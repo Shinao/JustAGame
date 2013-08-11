@@ -28,7 +28,7 @@ class Item
     Rect			_rec;
     Alignment			_align;
     float			_scale;
-    int				_margin;
+    sf::Vector2i		_margin;
     sf::RectangleShape		_box;
     std::function<void ()>	_callback;
     sf::RectangleShape		_border;
@@ -38,8 +38,8 @@ class Item
     Item(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     virtual ~Item();
 
-    int				getMargin() const;
-    void			setMargin(int margin);
+    const sf::Vector2i		&getMargin() const;
+    void			setMargin(const sf::Vector2i &margin);
     void			setTheme(Theme *theme);
     Theme			*getTheme();
     Rect			getRect() const;

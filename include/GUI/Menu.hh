@@ -21,7 +21,7 @@ class Menu
     std::vector<Item *>		_items;
     Item			*_item_focused;
     Item			*_item_pressed;
-    int				_margin;
+    sf::Vector2i		_margin;
 
   public:
     Menu(Rect rec, Theme *theme = jag::getCurrentTheme());
@@ -34,7 +34,7 @@ class Menu
     void			clicked();
     void			add(Item *item);
     void			remove(Item *item);
-    void			setMargin(int margin);
+    void			setMargin(const sf::Vector2i &margin);
     void			setBorder(Border::Type border);
 
     virtual void		update() = 0;

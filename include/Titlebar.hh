@@ -8,6 +8,7 @@ class Titlebar : public Layer
 {
   public:
     static const int		MENU_WIDTH = 28;
+    static const int		MENU_MARGIN = 8;
     static const int		HEIGHT = 36;
 
   private:

@@ -8,7 +8,6 @@ Item::Item(Theme *theme, Alignment align, float scale) :
   _theme(theme),
   _align(align),
   _scale(scale),
-  _margin(0),
   _border_type(Border::None)
 {
 }
@@ -99,10 +98,10 @@ Rect			Item::getRect() const
 {
   Rect			rsrc = getRectRessource();
 
-  rsrc.width += _margin * 2;
-  rsrc.left -= _margin;
-  rsrc.height = _rec.height;
-  rsrc.top = _rec.top;
+  rsrc.width += _margin.x * 2;
+  rsrc.height += _margin.y * 2;
+  rsrc.left -= _margin.x;
+  rsrc.top -= _margin.y;
   return (rsrc);
 }
 
@@ -135,14 +134,14 @@ sf::Vector2i		Item::getRessourcePosition()
   pos.x = _rec.left;
   pos.y = _rec.top;
   if (_align == Left)
-    pos.x += _margin;
+    pos.x += _margin.x;
   else if (_align == Center)
-    pos.x += rsrc.width / 2 + _margin;
+    pos.x += rsrc.width / 2 + _margin.x;
   else
-    pos.x += rsrc.width + _margin;
+    pos.x += rsrc.width + _margin.x;
 
   // Always align vertically
-  pos.y += (_rec.height - rsrc.height) / 2;
+  pos.y += _margin.y;
 
   return (pos);
 }
@@ -167,12 +166,12 @@ Item::Alignment		Item::getAlignment()
   return (_align);
 }
 
-int			Item::getMargin() const
+const sf::Vector2i	&Item::getMargin() const
 {
   return (_margin);
 }
 
-void			Item::setMargin(int margin)
+void			Item::setMargin(const sf::Vector2i &margin)
 {
   _margin = margin;
 }
