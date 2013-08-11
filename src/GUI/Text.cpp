@@ -16,22 +16,31 @@ void			Text::draw(sf::RenderWindow &win)
   win.draw(_text);
 }
 
-void			Text::mouseCaught(int x, int y)
+void			Text::designChanged()
 {
-  Item::mouseCaught(x, y);
-  _text.setFont(_theme->f_text_focused);
-  _text.setCharacterSize(_theme->size_text_focused);
-  _text.setColor(_theme->c_text_focused);
-  _text.setStyle(_theme->style_text_focused);
-}
+  Item::designChanged();
 
-void			Text::mouseLeft()
-{
-  Item::mouseLeft();
-  _text.setFont(_theme->f_text);
-  _text.setCharacterSize(_theme->size_text);
-  _text.setColor(_theme->c_text);
-  _text.setStyle(_theme->style_text);
+  if (!_release && _pressed)
+  {
+    _text.setFont(_theme->f_text_pressed);
+    _text.setCharacterSize(_theme->size_text_pressed);
+    _text.setColor(_theme->c_text_pressed);
+    _text.setStyle(_theme->style_text_pressed);
+  }
+  else if (_focused)
+  {
+    _text.setFont(_theme->f_text_focused);
+    _text.setCharacterSize(_theme->size_text_focused);
+    _text.setColor(_theme->c_text_focused);
+    _text.setStyle(_theme->style_text_focused);
+  }
+  else
+  {
+    _text.setFont(_theme->f_text);
+    _text.setCharacterSize(_theme->size_text);
+    _text.setColor(_theme->c_text);
+    _text.setStyle(_theme->style_text);
+  }
 }
 
 void			Text::update()

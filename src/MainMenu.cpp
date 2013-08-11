@@ -2,6 +2,8 @@
 
 MainMenu::MainMenu()
 {
+  Rect	rec = Rect();
+  _menu = new VerticalMenu(rec);
 }
 
 MainMenu::~MainMenu()

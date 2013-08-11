@@ -4,7 +4,7 @@
 Item::Item(Theme *theme, Alignment align, float scale) :
   _focused(false),
   _pressed(false),
-  _release(true),
+  _release(false),
   _theme(theme),
   _align(align),
   _scale(scale),
