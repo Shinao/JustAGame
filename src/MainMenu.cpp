@@ -15,6 +15,9 @@ MainMenu::MainMenu()
   String	*text = new String("SERVERS");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   _menu->add(text);
+  text = new String("SOURCE CODE");
+  _menu->add(text);
+
   _menu->update();
 }
 

@@ -47,8 +47,8 @@ namespace jag
     theme->f_text_focused = theme->f_text;
     theme->f_text_pressed = theme->f_text;
     theme->c_border = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_border_focused = sf::Color(186, 186, GRAY);
-    theme->c_border_pressed = sf::Color(156, 156, 255);
+    theme->c_border_focused = sf::Color(GRAY - 16, GRAY - 16, GRAY - 16);
+    theme->c_border_pressed = sf::Color(186, 186, GRAY);
     theme->size_border = 2;
     theme->size_border_focused = 2;
     theme->size_border_pressed = 2;
