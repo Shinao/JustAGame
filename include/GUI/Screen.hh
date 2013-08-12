@@ -1,24 +1,13 @@
 #ifndef SCREEN_HH_
 # define SCREEN_HH_
 
-# include <vector>
-# include <cstdio>
-# include <SFML/Graphics.hpp>
-# include <SFML/Window.hpp>
-# include <SFML/System.hpp>
 # include "GUI/Layer.hh"
 # include "GUI/EventManager.hh"
-
-# include <iostream>
 
 // Screen is the layer manager
 // Update them and display them
 // Manage mouse depending on the type and location and dispatch it to the appropriate layer
 // Keyboard input are managed by callbacks with map & system attributes
-
-// typedef const thor::ActionContext<int> & Context;
-
-enum CursorType { Wait, Text, Normal, Hand };
 
 class Screen
 {
@@ -73,6 +62,7 @@ class Screen
     // Implementation Unix/Windows
     static void				minimize();
     static void				setCursor(CursorType type);
+    static void				openUrl(const std::string &url);
 
     void				update();
     void				add(Layer *layer);

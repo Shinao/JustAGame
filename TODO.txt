@@ -1,3 +1,4 @@
 TODO
 
+- Theme dynamic White/Black
 - Error checking

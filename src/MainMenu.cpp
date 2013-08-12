@@ -16,6 +16,7 @@ MainMenu::MainMenu()
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   _menu->add(text);
   text = new String("SOURCE CODE");
+  text->addCallback(std::bind(&MainMenu::cbSourceCode, this));
   _menu->add(text);
 
   _menu->update();
@@ -66,4 +67,9 @@ void			MainMenu::mouseLeft()
 
 void			MainMenu::cbServer()
 {
+}
+
+void			MainMenu::cbSourceCode()
+{
+  Screen::openUrl("https://github.com/Shinao/JustAGame");
 }

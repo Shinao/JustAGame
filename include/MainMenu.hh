@@ -15,6 +15,7 @@ class MainMenu : public Layer
   private:
     Menu			*_menu;
     void			cbServer();
+    void			cbSourceCode();
 
   public:
     MainMenu();

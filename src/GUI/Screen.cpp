@@ -1,6 +1,7 @@
 #include <SFML/System.hpp>
 #include "GUI/Screen.hh"
 #include "jag.hh"
+#include "OSSpecific.hh"
 
 
 // Static declaration
@@ -263,6 +264,21 @@ EventManager				&Screen::getEventManager()
   return (_event_manager);
 }
 
+void					Screen::minimize()
+{
+  minimizeImpl(_window.getSystemHandle());
+}
+
+void					Screen::setCursor(CursorType type)
+{
+  setCursorImpl(_window.getSystemHandle(), type);
+}
+
+void					Screen::openUrl(const std::string &url)
+{
+  openUrlImpl(url);
+}
+
 void						Screen::restore()
 {
   sf::VideoMode	screen = sf::VideoMode::getDesktopMode();
@@ -289,49 +305,3 @@ void					Screen::mouseLeft(Context)
       _layer_focused->mouseLeft();
   }
 }
-
-
-
-// Linux Implementation
-// Patch - include Xlib + SFML = CANCER
-#ifdef SFML_SYSTEM_LINUX
-
-#include <X11/Xlib.h>
-#include <X11/cursorfont.h>
-
-namespace
-{
-  XID					cursor;
-  Display				*display = XOpenDisplay(NULL);
-}
-
-void					Screen::minimize()
-{
-  XIconifyWindow(display, getHandle(), DefaultScreen(display));
-  XFlush(display);
-}
-
-void					Screen::setCursor(CursorType type)
-{
-  switch(type)
-  {
-    case Wait:
-      cursor = XCreateFontCursor(display, XC_watch);
-      break;
-    case Hand:
-      cursor = XCreateFontCursor(display, XC_hand1);
-      break;
-    case Normal:
-      cursor = XCreateFontCursor(display, XC_left_ptr);
-      break;
-    case Text:
-      cursor = XCreateFontCursor(display, XC_xterm);
-      break;
-      // For more cursor options on Linux go here:
-      // http://www.tronche.com/gui/x/xlib/appendix/b/
-  }
-
-  XDefineCursor(display, getHandle(), cursor);
-  XFlush(display);
-}
-#endif

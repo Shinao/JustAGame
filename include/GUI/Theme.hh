@@ -5,6 +5,8 @@
 
 // Theme for the menus - properties and stuffs
 
+enum CursorType { Wait, Text, Normal, Hand };
+
 namespace Border
 {
   enum Type

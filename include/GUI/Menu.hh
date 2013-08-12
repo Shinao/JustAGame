@@ -1,7 +1,6 @@
 #ifndef MENU_HH_
 # define MENU_HH_
 
-# include <SFML/Graphics.hpp>
 # include "jag.hh"
 # include "GUI/Item.hh"
 

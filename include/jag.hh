@@ -1,10 +1,7 @@
 #ifndef JAG_HH_
 # define JAG_HH_
 
-# include <SFML/Graphics.hpp>
 # include "GUI/Theme.hh"
-
-# include <iostream>
 
 // Everything needed for the client application
 // Window properties - themes - fonts - etc

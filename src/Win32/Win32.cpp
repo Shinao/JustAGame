@@ -1,19 +1,20 @@
+#include <string>
 #include <windows.h>
-#include "GUI/Screen.hh"
+#include "GUI/Theme.hh"
 
 namespace
 {
-  HCURSOR				cursor;
+  HCURSOR			cursor;
 }
 
-void					Screen::minimize()
+void				minimizeImpl(sf::WindowHandle handle)
 {
-  ShowWindow((HWND__ *) Screen::getWindow().getSystemHandle(), SW_MINIMIZE);
+  ShowWindow((HWND__ *) handle, SW_MINIMIZE);
 }
 
-void					Screen::setCursor(CursorType type)
+void				setCursorImpl(sf::WindowHandle handle, CursorType type)
 {
-  switch(type)
+  switch (type)
   {
     case Wait :
       cursor = LoadCursor(NULL, IDC_WAIT);
@@ -31,5 +32,10 @@ void					Screen::setCursor(CursorType type)
       // http://msdn.microsoft.com/en-us/library/ms648391%28v=vs.85%29.aspx
   }
 
-  SetClassLongPtr(Screen::getHandle(), GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
+  SetClassLongPtr(handle, GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
+}
+
+void			openUrlImpl(const std::string &url)
+{
+  system(std::string("start \"\"" + url).c_str());
 }

@@ -1,7 +1,6 @@
 #ifndef EVENT_MANAGER_HH_
 # define EVENT_MANAGER_HH_
 
-# include <SFML/Window.hpp>
 # include <functional>
 # include <map>
 # include "GUI/Action.hh"

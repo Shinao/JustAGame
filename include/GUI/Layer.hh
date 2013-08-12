@@ -1,10 +1,7 @@
 #ifndef LAYER_HH_
 # define LAYER_HH_
 
-# include <SFML/Graphics.hpp>
 # include "jag.hh"
-
-# include <iostream>
 
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc

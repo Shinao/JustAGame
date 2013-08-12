@@ -8,7 +8,7 @@ Background::Background() :
   _rec = Rect(0, 0, Screen::getSize().x, Screen::getSize().y);
   _bg.setPosition(jag::WindowBorderSize, jag::WindowBorderSize);
   _bg.setFillColor(jag::getCurrentTheme()->c_background);
-  _bg.setOutlineColor(jag::getCurrentTheme()->c_border);
+  _bg.setOutlineColor(sf::Color::Black);
   _bg.setOutlineThickness(jag::WindowBorderSize);
 }
 

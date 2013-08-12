@@ -39,7 +39,7 @@ namespace jag
     theme->size_text_pressed = 12;
     theme->c_background = sf::Color::White;
     theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_background_pressed = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_background_pressed = sf::Color(GRAY - 8, GRAY - 8, GRAY - 8);
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->style_text_pressed = sf::Text::Regular;
