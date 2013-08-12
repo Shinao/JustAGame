@@ -16,6 +16,7 @@ typedef sf::Rect<int> Rect;
 
 namespace jag
 {
+  const int			GRAY = 246;
   const std::string		WindowName = "JustAGame";
   const std::string		RessourcePath = "rsrc/";
   const int			WindowHeight = 576;

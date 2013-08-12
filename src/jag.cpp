@@ -18,7 +18,7 @@ namespace jag
 
     // Setting the titlebar theme
     theme->c_background = sf::Color::Transparent;
-    theme->c_background_focused = sf::Color(228, 228, 228);
+    theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
     theme->c_background_pressed = sf::Color::Transparent;
     theme->size_border = 0;
 
@@ -26,7 +26,7 @@ namespace jag
     _themes["titlebar_cross"] = theme;
     *theme = *(_themes["titlebar"]);
     // Setting the titlebar cross icon theme
-    theme->c_background_focused = sf::Color(240, 180, 180);
+    theme->c_background_focused = sf::Color(GRAY, 186, 186);
 
     theme = new Theme;
     _themes["menu"] = theme;
@@ -38,17 +38,17 @@ namespace jag
     theme->size_text_focused = 12;
     theme->size_text_pressed = 12;
     theme->c_background = sf::Color::White;
-    theme->c_background_focused = sf::Color(228, 228, 228);
-    theme->c_background_pressed = sf::Color(228, 228, 228);
+    theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_background_pressed = sf::Color(GRAY, GRAY, GRAY);
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->style_text_pressed = sf::Text::Regular;
     theme->f_text.loadFromFile("rsrc/arial.ttf");
     theme->f_text_focused = theme->f_text;
     theme->f_text_pressed = theme->f_text;
-    theme->c_border = sf::Color::Black;
-    theme->c_border_focused = sf::Color::Red;
-    theme->c_border_pressed = sf::Color::Blue;
+    theme->c_border = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_border_focused = sf::Color(186, 186, GRAY);
+    theme->c_border_pressed = sf::Color(156, 156, 255);
     theme->size_border = 2;
     theme->size_border_focused = 2;
     theme->size_border_pressed = 2;
