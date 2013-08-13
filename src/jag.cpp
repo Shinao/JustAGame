@@ -53,6 +53,8 @@ namespace jag
     theme->size_border_focused = 2;
     theme->size_border_pressed = 2;
 
+    _theme = theme;
+
     theme = new Theme;
     _themes["black"] = theme;
     *theme = *_themes["white"];
@@ -66,8 +68,6 @@ namespace jag
     theme->c_text = sf::Color(150, 150, 150);
     theme->c_text_focused = sf::Color(150, 150, 150);
     theme->c_text_pressed = sf::Color(200, 200, 200);
-
-    _theme = theme;
 
     // Init ressources
     getRessource("close_window.png");

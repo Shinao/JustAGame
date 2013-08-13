@@ -15,6 +15,14 @@ MainMenu::MainMenu()
   String	*text = new String("SERVERS");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   _menu->add(text);
+  text = new String("PLAYER");
+  _menu->add(text);
+  text = new String("KEY BINDINGS");
+  _menu->add(text);
+  text = new String("AUDIO");
+  _menu->add(text);
+  text = new String("VIDEO");
+  _menu->add(text);
   text = new String("SOURCE CODE");
   text->addCallback(std::bind(&MainMenu::cbSourceCode, this));
   _menu->add(text);

@@ -5,8 +5,6 @@
 # include "jag.hh"
 # include "GUI/Theme.hh"
 
-# include <iostream>
-
 namespace Utility
 {
   void			changeColor(sf::Image &img, sf::Color c_old, sf::Color c_new);
