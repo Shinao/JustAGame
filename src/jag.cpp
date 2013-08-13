@@ -31,15 +31,15 @@ namespace jag
     theme = new Theme;
     _themes["white"] = theme;
     // Setting the menu theme
-    theme->c_text = sf::Color::Black;
-    theme->c_text_focused = sf::Color::Black;
-    theme->c_text_pressed = sf::Color::Black;
+    theme->c_text = sf::Color(100, 100, 100);
+    theme->c_text_focused = sf::Color(100, 100, 100);
+    theme->c_text_pressed = sf::Color(50, 50, 50);
     theme->size_text = 12;
     theme->size_text_focused = 12;
     theme->size_text_pressed = 12;
     theme->c_background = sf::Color::White;
     theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_background_pressed = sf::Color(GRAY - 8, GRAY - 8, GRAY - 8);
+    theme->c_background_pressed = sf::Color(GRAY - 4, GRAY - 4, GRAY - 4);
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->style_text_pressed = sf::Text::Regular;
@@ -64,8 +64,8 @@ namespace jag
     theme->c_border_focused *= toBlack;
     theme->c_border_pressed *= toBlack;
     theme->c_text = sf::Color(150, 150, 150);
-    theme->c_text_focused = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_text_pressed = sf::Color::White;
+    theme->c_text_focused = sf::Color(150, 150, 150);
+    theme->c_text_pressed = sf::Color(200, 200, 200);
 
     _theme = theme;
 
