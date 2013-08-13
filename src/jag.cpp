@@ -29,7 +29,7 @@ namespace jag
     theme->c_background_focused = sf::Color(GRAY, 186, 186);
 
     theme = new Theme;
-    _themes["menu"] = theme;
+    _themes["white"] = theme;
     // Setting the menu theme
     theme->c_text = sf::Color::Black;
     theme->c_text_focused = sf::Color::Black;
@@ -52,6 +52,20 @@ namespace jag
     theme->size_border = 2;
     theme->size_border_focused = 2;
     theme->size_border_pressed = 2;
+
+    theme = new Theme;
+    _themes["black"] = theme;
+    *theme = *_themes["white"];
+    sf::Color toBlack(60, 60, 60);
+    theme->c_background *= toBlack;
+    theme->c_background_focused *= toBlack;
+    theme->c_background_pressed *= toBlack;
+    theme->c_border *=  toBlack;
+    theme->c_border_focused *= toBlack;
+    theme->c_border_pressed *= toBlack;
+    theme->c_text = sf::Color(150, 150, 150);
+    theme->c_text_focused = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_text_pressed = sf::Color::White;
 
     _theme = theme;
 

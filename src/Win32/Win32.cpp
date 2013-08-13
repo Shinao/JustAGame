@@ -35,8 +35,6 @@ void				setCursorImpl(sf::WindowHandle handle, CursorType type)
   SetClassLongPtr(handle, GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
 }
 
-#include <iostream>
-
 void			openUrlImpl(const std::string &url)
 {
   system(std::string("start """ + url).c_str());
