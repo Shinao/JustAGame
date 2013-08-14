@@ -10,7 +10,7 @@ class MainMenu : public Layer
 {
   public:
     static const int		WIDTH = 160;
-    static const int		HEIGHT = 200;
+    static const int		HEIGHT = 400;
     static const int		PADDING = 32;
     static const int		MARGIN = 32;
 

@@ -93,13 +93,17 @@ void			Item::mouseCaught(int, int)
 
 void			Item::mouseLeft()
 {
-  _focused = false;
-  designChanged();
+  if (_focused)
+  {
+    _focused = false;
+    designChanged();
+  }
 }
 
 void			Item::setTheme(Theme *theme)
 {
   _theme = theme;
+  designChanged();
 }
 
 Rect			Item::getRect() const

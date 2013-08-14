@@ -81,6 +81,8 @@ void			Menu::update()
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+
+  themeChanged();
 }
 
 // Intercepted click - send it to item focused
