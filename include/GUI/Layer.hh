@@ -3,6 +3,8 @@
 
 # include "jag.hh"
 
+class Screen;
+
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc
 // It's an abtract class - inherit from it
@@ -19,11 +21,12 @@ class Layer
     int				_id;
 
   protected:
+    Screen			&_screen;
     Rect			_rec;
     bool			_focused;
 
   public:
-    Layer();
+    Layer(Screen &screen);
     virtual ~Layer();
 
     // Event management

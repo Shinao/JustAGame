@@ -2,10 +2,13 @@
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
 #include "Titlebar.hh"
+#include "ServerMenu.hh"
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(Screen &screen) :
+  Layer::Layer(screen),
+  _layer_menu(NULL)
 {
-  Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, PADDING + Titlebar::HEIGHT, WIDTH, HEIGHT);
+  Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, jag::MarginMenu + Titlebar::HEIGHT, WIDTH, HEIGHT);
   _rec = rec;
   _menu = new Menu(Menu::Vertical, rec);
   _menu->setBorder(Border::Left);
@@ -15,13 +18,18 @@ MainMenu::MainMenu()
   String	*text = new String("SERVERS");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   _menu->add(text);
+  _menu->setPressed(text);
   text = new String("PLAYER");
+  text->addCallback(std::bind(&MainMenu::cbPlayer, this));
   _menu->add(text);
   text = new String("KEY BINDINGS");
+  text->addCallback(std::bind(&MainMenu::cbKeyBindings, this));
   _menu->add(text);
   text = new String("AUDIO");
+  text->addCallback(std::bind(&MainMenu::cbAudio, this));
   _menu->add(text);
   text = new String("VIDEO");
+  text->addCallback(std::bind(&MainMenu::cbVideo, this));
   _menu->add(text);
   text = new String("SOURCE CODE");
   text->addCallback(std::bind(&MainMenu::cbSourceCode, this));
@@ -33,6 +41,7 @@ MainMenu::MainMenu()
 MainMenu::~MainMenu()
 {
   delete _menu;
+  _screen.remove(_layer_menu);
 }
 
 void			MainMenu::released(int x, int y)
@@ -74,6 +83,24 @@ void			MainMenu::mouseLeft()
 }
 
 void			MainMenu::cbServer()
+{
+  _layer_menu = new ServerMenu(_screen);
+}
+
+void			MainMenu::cbPlayer()
+{
+  _screen.remove(_layer_menu);
+}
+
+void			MainMenu::cbKeyBindings()
+{
+}
+
+void			MainMenu::cbAudio()
+{
+}
+
+void			MainMenu::cbVideo()
 {
 }
 

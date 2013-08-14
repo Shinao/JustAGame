@@ -23,16 +23,22 @@ Theme			*Item::getTheme()
 
 void			Item::pressed()
 {
-  _pressed = true;
-  if (_callback)
-    _callback();
-  designChanged();
+  if (!_pressed)
+  {
+    _pressed = true;
+    if (_callback)
+      _callback();
+    designChanged();
+  }
 }
 
 void			Item::released()
 {
-  _pressed = false;
-  designChanged();
+  if (_pressed)
+  {
+    _pressed = false;
+    designChanged();
+  }
 }
 
 void			Item::designChanged()

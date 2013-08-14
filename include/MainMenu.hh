@@ -4,6 +4,8 @@
 # include "GUI/Layer.hh"
 # include "GUI/Menu.hh"
 
+#include <iostream>
+
 class MainMenu : public Layer
 {
   public:
@@ -14,11 +16,16 @@ class MainMenu : public Layer
 
   private:
     Menu			*_menu;
+    Layer			*_layer_menu;
     void			cbServer();
+    void			cbPlayer();
+    void			cbKeyBindings();
+    void			cbAudio();
+    void			cbVideo();
     void			cbSourceCode();
 
   public:
-    MainMenu();
+    MainMenu(Screen &screen);
     ~MainMenu();
     void			released(int x, int y);
     void			draw(sf::RenderWindow &window);

@@ -157,12 +157,15 @@ void				Screen::manageLayers()
     for (auto layer : _layers_to_remove)
     {
       // Moving all the layer from one index down
+      layer->getId();
       for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
 	_layers[i] = _layers[i + 1];
 
       _layers.pop_back();
       delete layer;
     }
+
+    _layers_to_remove.clear();
 
     // Update focused in case we deleted it
     updateFocused();

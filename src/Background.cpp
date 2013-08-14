@@ -2,7 +2,8 @@
 #include "jag.hh"
 #include "GUI/Screen.hh"
 
-Background::Background() :
+Background::Background(Screen &screen) :
+  Layer::Layer(screen),
   _bg(sf::Vector2f(Screen::getSize() - sf::Vector2u(jag::WindowBorderSize * 2, jag::WindowBorderSize * 2)))
 {
   _rec = Rect(0, 0, Screen::getSize().x, Screen::getSize().y);

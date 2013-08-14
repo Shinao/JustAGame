@@ -15,9 +15,9 @@ int		main()
   sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
 
   jag::init();
-  screen.add(new Background);
-  screen.add(new Titlebar);
-  screen.add(new MainMenu);
+  new Background(screen);
+  new Titlebar(screen);
+  new MainMenu(screen);
 
   while (Screen::isActive())
   {

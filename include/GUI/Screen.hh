@@ -4,6 +4,8 @@
 # include "GUI/Layer.hh"
 # include "GUI/EventManager.hh"
 
+#include <iostream>
+
 // Screen is the layer manager
 // Update them and display them
 // Manage mouse depending on the type and location and dispatch it to the appropriate layer

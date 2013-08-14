@@ -1,7 +1,7 @@
 #ifndef BACKGROUND_HH_
 # define BACKGROUND_HH_
 
-#include "GUI/Layer.hh"
+# include "GUI/Layer.hh"
 
 class Background : public Layer
 {
@@ -10,7 +10,7 @@ class Background : public Layer
     sf::RectangleShape		_bg;
 
   public:
-    Background();
+    Background(Screen &screen);
     ~Background();
     void			pressed(int x, int y);
     void			released(int x, int y);
