@@ -23,6 +23,7 @@ class MainMenu : public Layer
     void			cbAudio();
     void			cbVideo();
     void			cbSourceCode();
+    void			cbReleased();
 
   public:
     MainMenu(Screen &screen);

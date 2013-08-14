@@ -17,19 +17,24 @@ MainMenu::MainMenu(Screen &screen) :
 
   String	*text = new String("SERVERS");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   _menu->setPressed(text);
   text = new String("PLAYER");
   text->addCallback(std::bind(&MainMenu::cbPlayer, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("KEY BINDINGS");
   text->addCallback(std::bind(&MainMenu::cbKeyBindings, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("AUDIO");
   text->addCallback(std::bind(&MainMenu::cbAudio, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("VIDEO");
   text->addCallback(std::bind(&MainMenu::cbVideo, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("SOURCE CODE");
   text->addCallback(std::bind(&MainMenu::cbSourceCode, this));
@@ -82,6 +87,11 @@ void			MainMenu::mouseLeft()
   _menu->mouseLeft();
 }
 
+void			MainMenu::cbReleased()
+{
+  _screen.remove(_layer_menu);
+}
+
 void			MainMenu::cbServer()
 {
   _layer_menu = new ServerMenu(_screen);
@@ -89,7 +99,6 @@ void			MainMenu::cbServer()
 
 void			MainMenu::cbPlayer()
 {
-  _screen.remove(_layer_menu);
 }
 
 void			MainMenu::cbKeyBindings()

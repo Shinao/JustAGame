@@ -26,9 +26,9 @@ void			Item::pressed()
   if (!_pressed)
   {
     _pressed = true;
-    if (_callback)
-      _callback();
     designChanged();
+    if (_callback_pressed)
+      _callback_pressed();
   }
 }
 
@@ -38,6 +38,8 @@ void			Item::released()
   {
     _pressed = false;
     designChanged();
+    if (_callback_released)
+      _callback_released();
   }
 }
 
@@ -133,14 +135,12 @@ void			Item::setRect(const Rect &rec)
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
 }
 
-void			Item::addCallback(Callback callback)
+void			Item::addCallback(Callback callback, State state)
 {
-  _callback = callback;
-}
-
-void			Item::removeCallback()
-{
-  _callback = nullptr;
+  if (state == Pressed)
+    _callback_pressed = callback;
+  else
+    _callback_released = callback;
 }
 
 sf::Vector2i		Item::getRessourcePosition()

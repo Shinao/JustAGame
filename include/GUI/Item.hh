@@ -20,6 +20,12 @@ class Item
       Center
     };
 
+    enum State
+    {
+      Pressed,
+      Released
+    };
+
   protected:
     bool			_focused;
     bool			_pressed;
@@ -30,7 +36,8 @@ class Item
     float			_scale;
     sf::Vector2i		_margin;
     sf::RectangleShape		_box;
-    std::function<void ()>	_callback;
+    Callback			_callback_pressed;
+    Callback			_callback_released;
     sf::RectangleShape		_border;
     Border::Type		_border_type;
 
@@ -47,8 +54,7 @@ class Item
     void			setAlignment(Alignment align);
     Alignment			getAlignment();
     sf::Vector2i		getRessourcePosition();
-    void			addCallback(Callback callback);
-    void			removeCallback();
+    void			addCallback(Callback callback, State state = Pressed);
     bool			isFocused() const;
     bool			isPressed() const;
     void			autoRelease(bool unpress);
