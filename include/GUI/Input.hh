@@ -7,8 +7,13 @@
 
 class Input : public Item
 {
+  public:
+    const int			INPUT_WIDTH = 160;
+    const int			INPUT_HEIGHT = 32;
+
   private:
     sf::String			_text;
+    sf::RectangleShape		_input;
 
   public:
     Input(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);

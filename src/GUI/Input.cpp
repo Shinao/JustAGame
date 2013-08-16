@@ -12,7 +12,6 @@ Input::~Input()
 void			Input::draw(sf::RenderWindow &win)
 {
   Item::draw(win);
-
 }
 
 void			Input::designChanged()
@@ -32,6 +31,7 @@ void			Input::designChanged()
 
 void			Input::update()
 {
+  _input.setPosition(_rec.left, _rec.top);
 
   designChanged();
 }
