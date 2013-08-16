@@ -3,6 +3,8 @@
 #include "GUI/String.hh"
 #include "Titlebar.hh"
 
+#include "GUI/Input.hh"
+
 ServerMenu::ServerMenu(Screen &screen) :
   Layer::Layer(screen)
 {
@@ -16,6 +18,9 @@ ServerMenu::ServerMenu(Screen &screen) :
   _menu->add(text);
   text = new String("LOCAL");
   _menu->add(text);
+
+  Input *input = new Input;
+  _menu->add(new Input);
 
   _menu->update();
 }

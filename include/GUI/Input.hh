@@ -1,5 +1,5 @@
-#ifndef TEXT_HH_
-# define TEXT_HH_
+#ifndef INPUT_HH_
+# define INPUT_HH_
 
 # include "GUI/Item.hh"
 
@@ -8,12 +8,15 @@
 class Input : public Item
 {
   public:
-    const int			INPUT_WIDTH = 160;
-    const int			INPUT_HEIGHT = 32;
+    const int 			INPUT_THICKNESS = 1;
+    const int			INPUT_WIDTH = 124;
+    const int			INPUT_HEIGHT = 28;
 
   private:
-    sf::String			_text;
+    sf::Text			_text;
     sf::RectangleShape		_input;
+    sf::Vector2i		_size;
+    int				_thickness;
 
   public:
     Input(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
