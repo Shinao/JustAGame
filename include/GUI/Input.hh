@@ -30,6 +30,11 @@ class Input : public Item
     void			update();
     Rect			getRectRessource() const;
     void			designChanged();
+
+    const sf::Vector2i		&getSize() const;
+    void			setSize(const sf::Vector2i &size);
+    int				getThickness() const;
+    void			setThickness(int thickness);
 };
 
 #endif

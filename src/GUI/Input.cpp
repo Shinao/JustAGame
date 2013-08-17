@@ -80,3 +80,22 @@ const sf::String	&Input::getInput()
   return (_text.getString());
 }
 
+const sf::Vector2i	&Input::getSize() const
+{
+  return (_size);
+}
+
+void			Input::setSize(const sf::Vector2i &size)
+{
+  _size = size;
+}
+
+int			Input::getThickness() const
+{
+  return (_thickness);
+}
+
+void			Input::setThickness(int thickness)
+{
+  _thickness = thickness;
+}
