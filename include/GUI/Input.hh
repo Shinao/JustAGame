@@ -2,10 +2,12 @@
 # define INPUT_HH_
 
 # include "GUI/Item.hh"
+# include "GUI/EventManager.hh"
+# include "GUI/EventCallback.hh"
 
 // Text specialization for an iten in a menu
 
-class Input : public Item
+class Input : public Item, public EventCallback
 {
   public:
     const int			PADDING_TEXT = 4;
@@ -20,7 +22,7 @@ class Input : public Item
     int				_thickness;
 
   public:
-    Input(Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    Input(EventManager &event, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     ~Input();
 
     void			setInput(const sf::String &text);

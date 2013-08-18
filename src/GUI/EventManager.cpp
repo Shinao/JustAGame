@@ -40,9 +40,9 @@ void				EventManager::invokeCallbacks()
   _events.clear();
 }
 
-int				EventManager::add(const Action &action, const Callback &callback)
+EventID				EventManager::add(const Action &action, const Callback &callback)
 {
-  int	id = _action_id++;
+  EventID	id = _action_id++;
 
   Event event;
   event.action = action;
@@ -51,7 +51,7 @@ int				EventManager::add(const Action &action, const Callback &callback)
   return (id);
 }
 
-void				EventManager::remove(int id)
+void				EventManager::remove(EventID id)
 {
   _map.erase(id);
 }

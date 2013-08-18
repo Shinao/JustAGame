@@ -1,7 +1,8 @@
 #include "GUI/Input.hh"
 
-Input::Input(Theme *theme, Alignment align, float scale) :
+Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
+  EventCallback(event),
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
   _thickness(INPUT_THICKNESS)
 {
@@ -45,8 +46,6 @@ void			Input::designChanged()
   }
   _input.setOutlineColor(_theme->c_border_focused);
 }
-
-#include <iostream>
 
 void			Input::update()
 {

@@ -19,7 +19,7 @@ ServerMenu::ServerMenu(Screen &screen) :
   text = new String("LOCAL");
   _menu->add(text);
 
-  _menu->add(new Input);
+  _menu->add(new Input(_screen.getEventManager()));
 
   _menu->update();
 }

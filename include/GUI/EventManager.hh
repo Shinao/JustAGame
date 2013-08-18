@@ -7,12 +7,12 @@
 
 // EventManager store all the event that the user push then invoke the callbacks if the events match
 
+typedef int EventID;
 typedef const sf::Event & Context;
+typedef std::function<void (Context)>	Callback;
 
 class EventManager
 {
-  typedef std::function<void (Context)>	Callback;
-
   private:
     struct				Event
     {
@@ -20,7 +20,7 @@ class EventManager
       Callback				callback;
     };
 
-    int					_action_id;
+    EventID				_action_id;
     std::vector<sf::Event>		_events;
     std::map<int, Event>		_map;
 
@@ -30,8 +30,8 @@ class EventManager
     void				push(const sf::Event &event);
     void				clear();
     void				invokeCallbacks();
-    int					add(const Action &action, const Callback &callback);
-    void				remove(int id);
+    EventID				add(const Action &action, const Callback &callback);
+    void				remove(EventID id);
 };
 
 #endif
