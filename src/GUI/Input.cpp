@@ -5,6 +5,7 @@ Input::Input(Theme *theme, Alignment align, float scale) :
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
   _thickness(INPUT_THICKNESS)
 {
+  _text.setString("Hello");
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
 }
@@ -32,23 +33,27 @@ void			Input::designChanged()
 
   if (!_release && _pressed)
   {
-    _input.setFillColor(_theme->c_border_pressed);
+    _input.setFillColor(_theme->c_border);
   }
   else if (_focused)
   {
-    _input.setFillColor(_theme->c_border_focused);
+    _input.setFillColor(_theme->c_border);
   }
   else
   {
     _input.setFillColor(_theme->c_border);
   }
-  _input.setOutlineColor(_input.getFillColor() + sf::Color(16, 16, 16));
+  _input.setOutlineColor(_theme->c_border_focused);
 }
+
+#include <iostream>
 
 void			Input::update()
 {
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
+  _text.setPosition(pos.x + PADDING_TEXT, pos.y + ((INPUT_HEIGHT -
+	  (_text.getLocalBounds().height + _text.getLocalBounds().top)) / 2));
 
   designChanged();
 }

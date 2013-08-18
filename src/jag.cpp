@@ -26,7 +26,7 @@ namespace jag
     _themes["titlebar_cross"] = theme;
     *theme = *(_themes["titlebar"]);
     // Setting the titlebar cross icon theme
-    theme->c_background_focused = sf::Color(255, 200, 200, 200);
+    theme->c_background_focused = sf::Color(255, 200, 200, 224);
 
     theme = new Theme;
     _themes["white"] = theme;

@@ -8,6 +8,7 @@
 class Input : public Item
 {
   public:
+    const int			PADDING_TEXT = 4;
     const int 			INPUT_THICKNESS = 1;
     const int			INPUT_WIDTH = 124;
     const int			INPUT_HEIGHT = 28;

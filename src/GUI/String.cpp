@@ -48,14 +48,14 @@ void			String::update()
   _text.setScale(sf::Vector2f(_scale, _scale));
 
   sf::Vector2i		pos = getRessourcePosition();
-  _text.setPosition(pos.x - _text.getLocalBounds().left, pos.y - _text.getLocalBounds().top);
+  _text.setPosition(pos.x - _text.getLocalBounds().left, pos.y - _text.getLocalBounds().top / 2);
 
   designChanged();
 }
 
 Rect			String::getRectRessource() const
 {
-  return (Rect(_text.getGlobalBounds()));
+  return (Rect(_text.getLocalBounds()));
 }
 
 // Overriding setRect to reset position of the ressource
