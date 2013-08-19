@@ -1,6 +1,7 @@
 #include "GUI/EventManager.hh"
 
-EventManager::EventManager()
+EventManager::EventManager() :
+  _action_id(0)
 {
   _events.reserve(100);
 }

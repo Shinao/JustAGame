@@ -10,13 +10,13 @@ namespace
   Display			*display = XOpenDisplay(NULL);
 }
 
-void				minimizeImpl(Window *handle)
+void				minimizeImpl(Window handle)
 {
   XIconifyWindow(display, handle, DefaultScreen(display));
   XFlush(display);
 }
 
-void				setCursorImpl(Window *handle, CursorType type)
+void				setCursorImpl(Window handle, CursorType type)
 {
   switch (type)
   {
@@ -36,7 +36,7 @@ void				setCursorImpl(Window *handle, CursorType type)
       // http://www.tronche.com/gui/x/xlib/appendix/b/
   }
 
-  XDefineCursor(display, getHandle(), cursor);
+  XDefineCursor(display, handle, cursor);
   XFlush(display);
 }
 
