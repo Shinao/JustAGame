@@ -14,7 +14,7 @@ class EventCallback
     ~EventCallback();
 
     void				addCallback(const Action &action, const Callback &callback);
-    void				clearCallback();
+    void				clearCallbacks();
 };
 
 #endif

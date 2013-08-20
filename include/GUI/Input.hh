@@ -33,6 +33,9 @@ class Input : public Item, public EventCallback
     void			update();
     Rect			getRectRessource() const;
     void			designChanged();
+    void			pressed();
+    void			released();
+    bool			textEntered(const std::string &str);
 
     const sf::Vector2i		&getSize() const;
     void			setSize(const sf::Vector2i &size);

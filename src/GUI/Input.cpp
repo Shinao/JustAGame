@@ -103,3 +103,23 @@ void			Input::setThickness(int thickness)
 {
   _thickness = thickness;
 }
+
+void			Input::pressed()
+{
+  Item::pressed();
+}
+
+void			Input::released()
+{
+  Item::released();
+
+  clearCallbacks();
+}
+
+#include <iostream>
+
+bool			Input::textEntered(const std::string &str)
+{
+  _text.setString(_text.getString() + str);
+  return (true);
+}

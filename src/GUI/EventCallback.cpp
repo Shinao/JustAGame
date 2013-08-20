@@ -7,7 +7,7 @@ EventCallback::EventCallback(EventManager &event) :
 
 EventCallback::~EventCallback()
 {
-  clearCallback();
+  clearCallbacks();
 }
 
 void		EventCallback::addCallback(const Action &action, const Callback &callback)
@@ -15,8 +15,10 @@ void		EventCallback::addCallback(const Action &action, const Callback &callback)
   _events.push_back(_event.add(action, callback));
 }
 
-void		EventCallback::clearCallback()
+void		EventCallback::clearCallbacks()
 {
   for (auto event : _events)
     _event.remove(event);
+
+  _events.clear();
 }
