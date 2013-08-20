@@ -35,7 +35,6 @@ class Layer
     virtual bool		catchMouse();
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
-    virtual bool		textEntered(const std::string &str);
     virtual void		pressed(int x, int y);
     virtual void		released(int x, int y);
 

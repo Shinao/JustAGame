@@ -27,11 +27,6 @@ void			Layer::mouseLeft()
   _focused = false;
 }
 
-bool			Layer::textEntered(const std::string &)
-{
-  return (false);
-}
-
 bool			Layer::update(sf::RenderWindow &)
 {
   return (true);

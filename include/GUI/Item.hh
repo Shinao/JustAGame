@@ -61,7 +61,6 @@ class Item
     void			setBorder(Border::Type border);
 
     virtual Rect		getRectRessource() const = 0;
-    virtual bool		textEntered(const std::string &str);
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
     virtual void		mouseCaught(int x, int y);

@@ -38,7 +38,6 @@ class Screen
     void			pressed(Context context);
     void			released(Context context);
     void			mouseMoved(Context context);
-    void			textEntered(Context context);
 
   public:
     enum	Mode

@@ -6,14 +6,14 @@
 class EventCallback
 {
   private:
-    EventManager			_event;
+    EventManager			&_event;
     std::vector<EventID>		_events;
 
   public:
     EventCallback(EventManager &event);
     ~EventCallback();
 
-    void				addCallback(const Action &action, const Callback &callback);
+    void				catchEvent(const Action &action, const Callback &callback);
     void				clearCallbacks();
 };
 

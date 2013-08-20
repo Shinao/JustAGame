@@ -10,7 +10,7 @@ EventCallback::~EventCallback()
   clearCallbacks();
 }
 
-void		EventCallback::addCallback(const Action &action, const Callback &callback)
+void		EventCallback::catchEvent(const Action &action, const Callback &callback)
 {
   _events.push_back(_event.add(action, callback));
 }

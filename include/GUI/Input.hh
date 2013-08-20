@@ -35,12 +35,15 @@ class Input : public Item, public EventCallback
     void			designChanged();
     void			pressed();
     void			released();
-    bool			textEntered(const std::string &str);
+    void			textEntered(Context context);
 
     const sf::Vector2i		&getSize() const;
     void			setSize(const sf::Vector2i &size);
     int				getThickness() const;
     void			setThickness(int thickness);
+
+    // Callback
+    void			clickCallback(Context event);
 };
 
 #endif

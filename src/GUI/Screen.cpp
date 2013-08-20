@@ -31,7 +31,6 @@ Screen::Screen(Mode mode) :
   _event_manager.add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
   _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::pressed, this, _1));
   _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::released, this, _1));
-  _event_manager.add(Action(sf::Event::TextEntered), std::bind(&Screen::textEntered, this, _1));
   _event_manager.add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, this, _1));
   _event_manager.add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, this, _1));
   _event_manager.add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, this, _1));
@@ -87,16 +86,6 @@ void				Screen::released(Context context)
 
   if (_layer_focused != NULL)
     _layer_focused->released(x, y);
-}
-
-void				Screen::textEntered(Context context)
-{
-  std::string	str = "";
-  sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
-
-  for (int i = _layers.size() - 1; i >= 0; --i)
-    if (_layers[i]->textEntered(str))
-      return ;
 }
 
 void				Screen::manageMoving()

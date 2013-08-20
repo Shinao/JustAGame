@@ -104,9 +104,17 @@ void			Input::setThickness(int thickness)
   _thickness = thickness;
 }
 
+#include <iostream>
+
 void			Input::pressed()
 {
   Item::pressed();
+
+  // Add all callback for an input
+  using namespace std::placeholders;
+
+  catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
+  catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::clickCallback, this, _1));
 }
 
 void			Input::released()
@@ -116,10 +124,19 @@ void			Input::released()
   clearCallbacks();
 }
 
-#include <iostream>
-
-bool			Input::textEntered(const std::string &str)
+void			Input::textEntered(Context &context)
 {
+  std::string	str = "";
+  sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
+
   _text.setString(_text.getString() + str);
-  return (true);
+}
+
+
+// Callback
+
+void			Input::clickCallback(Context context)
+{
+  if (!getRect().contains(sf::Vector2i(context.mouseButton.x, context.mouseButton.y)))
+    released();
 }

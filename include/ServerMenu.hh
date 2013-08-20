@@ -24,7 +24,6 @@ class ServerMenu : public Layer
     bool			catchMouse();
     void			mouseCaught(int x, int y);
     void			mouseLeft();
-    bool			textEntered(const std::string &str);
 };
 
 #endif

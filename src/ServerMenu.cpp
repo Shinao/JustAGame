@@ -66,8 +66,3 @@ void			ServerMenu::mouseLeft()
 
   _menu->mouseLeft();
 }
-
-bool			ServerMenu::textEntered(const std::string &str)
-{
-  return (_menu->textEntered(str));
-}

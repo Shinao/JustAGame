@@ -50,7 +50,6 @@ class Menu
     void			draw(sf::RenderWindow &win);
     void			mouseCaught(int x, int y);
     void			mouseLeft();
-    bool			textEntered(const std::string &str);
     void			themeChanged();
 };
 

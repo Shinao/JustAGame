@@ -79,11 +79,6 @@ void			Item::draw(sf::RenderWindow &win)
   win.draw(_border);
 }
 
-bool			Item::textEntered(const std::string &)
-{
-  return (false);
-}
-
 void			Item::mouseCaught(int, int)
 {
   if (!_focused)

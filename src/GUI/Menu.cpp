@@ -99,13 +99,6 @@ void			Menu::clicked()
   }
 }
 
-bool			Menu::textEntered(const std::string &str)
-{
-  if (_item_pressed != NULL)
-    return (_item_pressed->textEntered(str));
-  return (false);
-}
-
 void			Menu::add(Item *item)
 {
   _items.push_back(item);
