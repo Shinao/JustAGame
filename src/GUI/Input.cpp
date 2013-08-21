@@ -9,6 +9,7 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _text.setString("Hello");
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
+  _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - 12));
 }
 
 Input::~Input()
@@ -21,6 +22,21 @@ void			Input::draw(sf::RenderWindow &win)
 
   win.draw(_input);
   win.draw(_text);
+
+  // Only draw when pressed
+  if (_pressed)
+  {
+
+    // Toggle cursor for blinking
+    if (_cursor_blink.getElapsedTime().asMilliseconds() > CURSOR_BLINK_SPEED)
+    {
+      _draw_cursor = !_draw_cursor;
+      _cursor_blink.restart();
+    }
+
+    if (_draw_cursor)
+      win.draw(_cursor);
+  }
 }
 
 void			Input::designChanged()
@@ -31,6 +47,7 @@ void			Input::designChanged()
   _text.setCharacterSize(_theme->size_text);
   _text.setColor(_theme->c_text);
   _text.setStyle(_theme->style_text);
+  _cursor.setFillColor(_theme->c_border_pressed);
 
   if (!_release && _pressed)
   {
@@ -51,6 +68,7 @@ void			Input::update()
 {
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
+  _cursor.setPosition(pos.x + 4, pos.y + 6);
   _text.setPosition(pos.x + PADDING_TEXT, pos.y + ((INPUT_HEIGHT -
 	  (_text.getLocalBounds().height + _text.getLocalBounds().top)) / 2));
 

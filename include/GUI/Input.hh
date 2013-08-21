@@ -14,12 +14,17 @@ class Input : public Item, public EventCallback
     const int 			INPUT_THICKNESS = 1;
     const int			INPUT_WIDTH = 124;
     const int			INPUT_HEIGHT = 28;
+    const int			CURSOR_BLINK_SPEED = 500;
 
   private:
     sf::Text			_text;
     sf::RectangleShape		_input;
     sf::Vector2i		_size;
     int				_thickness;
+
+    sf::RectangleShape		_cursor;
+    sf::Clock			_cursor_blink;
+    bool			_draw_cursor;
 
   public:
     Input(EventManager &event, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);

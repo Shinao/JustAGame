@@ -27,5 +27,3 @@ class ServerMenu : public Layer
 };
 
 #endif
-
-
