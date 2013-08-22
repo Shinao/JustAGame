@@ -4,9 +4,10 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
   EventCallback(event),
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
-  _thickness(INPUT_THICKNESS)
+  _thickness(INPUT_THICKNESS),
+  _cursor_pos(0)
 {
-  _text.setString("Hello");
+  setInput("Hello");
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - 12));
@@ -26,7 +27,6 @@ void			Input::draw(sf::RenderWindow &win)
   // Only draw when pressed
   if (_pressed)
   {
-
     // Toggle cursor for blinking
     if (_cursor_blink.getElapsedTime().asMilliseconds() > CURSOR_BLINK_SPEED)
     {
@@ -48,6 +48,7 @@ void			Input::designChanged()
   _text.setColor(_theme->c_text);
   _text.setStyle(_theme->style_text);
   _cursor.setFillColor(_theme->c_border_pressed);
+  _selection.setFillColor(_theme->c_border_pressed);
 
   if (!_release && _pressed)
   {
@@ -68,7 +69,7 @@ void			Input::update()
 {
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
-  _cursor.setPosition(pos.x + 4, pos.y + 6);
+
   _text.setPosition(pos.x + PADDING_TEXT, pos.y + ((INPUT_HEIGHT -
 	  (_text.getLocalBounds().height + _text.getLocalBounds().top)) / 2));
 
@@ -95,6 +96,7 @@ void			Input::setRect(const Rect &rec)
 void			Input::setInput(const sf::String &text)
 {
   _text.setString(text);
+  _cursor_pos = text.getSize();
 }
 
 const sf::String	&Input::getInput()
@@ -132,7 +134,23 @@ void			Input::pressed()
   using namespace std::placeholders;
 
   catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
-  catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::clickCallback, this, _1));
+  catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::click, this, _1));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Left), std::bind(&Input::goLeft, this, _1));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Right), std::bind(&Input::goRight, this, _1));
+
+  // Cursor at the end of the string
+  _cursor_pos = _text.getString().getSize();
+  updateCursor();
+}
+
+void			Input::updateCursor()
+{
+  sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos);
+  _cursor.setPosition(cur_pos.x, cur_pos.y);
+
+  // Reset timer - Show visible because we update it
+  _draw_cursor = true;
+  _cursor_blink.restart();
 }
 
 void			Input::released()
@@ -153,8 +171,24 @@ void			Input::textEntered(Context &context)
 
 // Callback
 
-void			Input::clickCallback(Context context)
+void			Input::click(Context context)
 {
   if (!getRect().contains(sf::Vector2i(context.mouseButton.x, context.mouseButton.y)))
     released();
+}
+
+void			Input::goLeft(Context)
+{
+  if (_cursor_pos > 0)
+    --_cursor_pos;
+
+  updateCursor();
+}
+
+void			Input::goRight(Context)
+{
+  if (_cursor_pos < (int) _text.getString().getSize())
+    ++_cursor_pos;
+
+  updateCursor();
 }

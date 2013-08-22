@@ -5,6 +5,8 @@
 # include "GUI/EventManager.hh"
 # include "GUI/EventCallback.hh"
 
+#include <iostream>
+
 // Text specialization for an iten in a menu
 
 class Input : public Item, public EventCallback
@@ -14,17 +16,21 @@ class Input : public Item, public EventCallback
     const int 			INPUT_THICKNESS = 1;
     const int			INPUT_WIDTH = 124;
     const int			INPUT_HEIGHT = 28;
-    const int			CURSOR_BLINK_SPEED = 500;
+    const int			CURSOR_BLINK_SPEED = 750;
 
   private:
     sf::Text			_text;
     sf::RectangleShape		_input;
+    sf::RectangleShape		_selection;
     sf::Vector2i		_size;
     int				_thickness;
 
     sf::RectangleShape		_cursor;
     sf::Clock			_cursor_blink;
     bool			_draw_cursor;
+    int				_cursor_pos;
+
+    void			updateCursor();
 
   public:
     Input(EventManager &event, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
@@ -48,7 +54,9 @@ class Input : public Item, public EventCallback
     void			setThickness(int thickness);
 
     // Callback
-    void			clickCallback(Context event);
+    void			click(Context event);
+    void			goLeft(Context event);
+    void			goRight(Context event);
 };
 
 #endif
