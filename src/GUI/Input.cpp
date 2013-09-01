@@ -5,7 +5,8 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   EventCallback(event),
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
   _thickness(INPUT_THICKNESS),
-  _cursor_pos(0)
+  _cursor_pos(0),
+  _cursor_selection(-1)
 {
   setInput("Hello");
   _input.setSize(sf::Vector2f(_size));
@@ -27,15 +28,21 @@ void			Input::draw(sf::RenderWindow &win)
   // Only draw when pressed
   if (_pressed)
   {
-    // Toggle cursor for blinking
-    if (_cursor_blink.getElapsedTime().asMilliseconds() > CURSOR_BLINK_SPEED)
+    // Draw selection or cursor
+    if (_cursor_selection != -1)
+      win.draw(_selection);
+    else
     {
-      _draw_cursor = !_draw_cursor;
-      _cursor_blink.restart();
-    }
+      // Toggle cursor for blinking
+      if (_cursor_blink.getElapsedTime().asMilliseconds() > CURSOR_BLINK_SPEED)
+      {
+	_draw_cursor = !_draw_cursor;
+	_cursor_blink.restart();
+      }
 
-    if (_draw_cursor)
-      win.draw(_cursor);
+      if (_draw_cursor)
+	win.draw(_cursor);
+    }
   }
 }
 
@@ -48,7 +55,7 @@ void			Input::designChanged()
   _text.setColor(_theme->c_text);
   _text.setStyle(_theme->style_text);
   _cursor.setFillColor(_theme->c_border_pressed);
-  _selection.setFillColor(_theme->c_border_pressed);
+  _selection.setFillColor(_theme->c_border * sf::Color(1, 1, 1, 64));
 
   if (!_release && _pressed)
   {
@@ -124,15 +131,12 @@ void			Input::setThickness(int thickness)
   _thickness = thickness;
 }
 
-#include <iostream>
-
 void			Input::pressed()
 {
   Item::pressed();
 
   // Add all callback for an input
   using namespace std::placeholders;
-
   catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
   catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::click, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Left), std::bind(&Input::goLeft, this, _1));
@@ -151,6 +155,16 @@ void			Input::updateCursor()
   // Reset timer - Show visible because we update it
   _draw_cursor = true;
   _cursor_blink.restart();
+
+  // Update selection if exist
+  if (_cursor_selection != -1)
+  {
+    sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection);
+
+    int start_x = std::min(selection_pos.x, cur_pos.x);
+    _selection.setPosition(start_x, cur_pos.y);
+    _selection.setSize(sf::Vector2f(std::abs(selection_pos.x - cur_pos.x), INPUT_HEIGHT - 12));
+  }
 }
 
 void			Input::released()
@@ -168,8 +182,26 @@ void			Input::textEntered(Context &context)
   _text.setString(_text.getString() + str);
 }
 
+bool			Input::isShiftPressed()
+{
+  return (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::LShift));
+}
 
-// Callback
+void			Input::checkSelection()
+{
+  // Check shift if selection then keep cursor pos
+  if (isShiftPressed())
+  {
+    if (_cursor_selection == -1)
+      _cursor_selection = _cursor_pos;
+  }
+  else
+    _cursor_selection = -1;
+}
+
+
+// Callback function
 
 void			Input::click(Context context)
 {
@@ -179,16 +211,24 @@ void			Input::click(Context context)
 
 void			Input::goLeft(Context)
 {
-  if (_cursor_pos > 0)
-    --_cursor_pos;
+  checkSelection();
 
+  // Check out of text
+  if (_cursor_pos == 0)
+    return ;
+
+  --_cursor_pos;
   updateCursor();
 }
 
 void			Input::goRight(Context)
 {
-  if (_cursor_pos < (int) _text.getString().getSize())
-    ++_cursor_pos;
+  checkSelection();
 
+  // Check out of text
+  if (_cursor_pos >= (int) _text.getString().getSize())
+    return ;
+
+  ++_cursor_pos;
   updateCursor();
 }

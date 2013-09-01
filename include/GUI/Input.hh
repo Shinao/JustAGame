@@ -29,8 +29,12 @@ class Input : public Item, public EventCallback
     sf::Clock			_cursor_blink;
     bool			_draw_cursor;
     int				_cursor_pos;
+    int				_cursor_selection;
 
     void			updateCursor();
+    bool			isShiftPressed();
+    void			checkSelection();
+
 
   public:
     Input(EventManager &event, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
