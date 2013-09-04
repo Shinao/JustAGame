@@ -1,4 +1,9 @@
 TODO
 
+- Input
+  - Check no ASCII Character
+  - Ctrl-A
+  - Delete/Suppr
+  - Move cursor when insert
 - Theme dynamic White/Black
 - Error checking
