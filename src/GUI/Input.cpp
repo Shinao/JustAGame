@@ -179,7 +179,15 @@ void			Input::textEntered(Context &context)
   std::string	str = "";
   sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
 
-  _text.setString(_text.getString() + str);
+  // Check printable characters
+  if (std::all_of(str.begin(), str.end(), isprint))
+  {
+    std::string	text = _text.getString();
+    text.insert(_cursor_pos, str);
+    _text.setString(text);
+    _cursor_pos += str.length();
+    updateCursor();
+  }
 }
 
 bool			Input::isShiftPressed()
