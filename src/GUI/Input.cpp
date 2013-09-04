@@ -183,6 +183,16 @@ void			Input::textEntered(Context &context)
   if (std::all_of(str.begin(), str.end(), isprint))
   {
     std::string	text = _text.getString();
+
+    // Check selection : erase it
+    if (_cursor_selection != -1)
+    {
+      int	min_pos = std::min(_cursor_pos, _cursor_selection);
+      text.erase(min_pos, std::abs(_cursor_selection - _cursor_pos));
+      _cursor_pos = min_pos;
+      _cursor_selection = -1;
+    }
+
     text.insert(_cursor_pos, str);
     _text.setString(text);
     _cursor_pos += str.length();
