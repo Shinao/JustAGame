@@ -13,6 +13,7 @@ class Input : public Item, public EventCallback
 {
   public:
     const int			PADDING_TEXT = 4;
+    const int			PADDING_CURSOR = 6;
     const int 			INPUT_THICKNESS = 1;
     const int			INPUT_WIDTH = 124;
     const int			INPUT_HEIGHT = 28;
@@ -34,6 +35,7 @@ class Input : public Item, public EventCallback
     void			updateCursor();
     bool			isShiftPressed();
     void			checkSelection();
+    void			updateText();
 
 
   public:

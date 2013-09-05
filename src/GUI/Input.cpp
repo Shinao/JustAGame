@@ -8,10 +8,10 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _cursor_pos(0),
   _cursor_selection(-1)
 {
-  setInput("Hello");
+  // setInput("Hello");
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
-  _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - 12));
+  _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
 }
 
 Input::~Input()
@@ -77,10 +77,18 @@ void			Input::update()
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
 
+  designChanged();
+
+  updateCursor();
+  updateText();
+}
+
+void			Input::updateText()
+{
+  sf::Vector2i		pos = getRessourcePosition();
+
   _text.setPosition(pos.x + PADDING_TEXT, pos.y + ((INPUT_HEIGHT -
 	  (_text.getLocalBounds().height + _text.getLocalBounds().top)) / 2));
-
-  designChanged();
 }
 
 Rect			Input::getRectRessource() const
@@ -150,7 +158,7 @@ void			Input::pressed()
 void			Input::updateCursor()
 {
   sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos);
-  _cursor.setPosition(cur_pos.x, cur_pos.y);
+  _cursor.setPosition(cur_pos.x, _input.getGlobalBounds().top + PADDING_CURSOR + INPUT_THICKNESS);
 
   // Reset timer - Show visible because we update it
   _draw_cursor = true;
@@ -183,6 +191,7 @@ void			Input::textEntered(Context &context)
   if (std::all_of(str.begin(), str.end(), isprint))
   {
     std::string	text = _text.getString();
+    bool	was_empty = text.empty();
 
     // Check selection : erase it
     if (_cursor_selection != -1)
@@ -196,7 +205,11 @@ void			Input::textEntered(Context &context)
     text.insert(_cursor_pos, str);
     _text.setString(text);
     _cursor_pos += str.length();
+
     updateCursor();
+    // Update position if first character : need to adjust the position
+    if (was_empty)
+      updateText();
   }
 }
 
