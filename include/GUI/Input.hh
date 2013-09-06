@@ -20,6 +20,7 @@ class Input : public Item, public EventCallback
     const int			CURSOR_BLINK_SPEED = 750;
 
   private:
+    std::string			_string;
     sf::Text			_text;
     sf::RectangleShape		_input;
     sf::RectangleShape		_selection;
@@ -36,14 +37,15 @@ class Input : public Item, public EventCallback
     bool			isShiftPressed();
     void			checkSelection();
     void			updateText();
+    void			removeSelection();
 
 
   public:
     Input(EventManager &event, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
     ~Input();
 
-    void			setInput(const sf::String &text);
-    const sf::String		&getInput();
+    void			setInput(const std::string &text);
+    const std::string		&getInput();
     void			setRect(const Rect &rec);
 
     void			draw(sf::RenderWindow &win);

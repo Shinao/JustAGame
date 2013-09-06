@@ -108,15 +108,16 @@ void			Input::setRect(const Rect &rec)
   update();
 }
 
-void			Input::setInput(const sf::String &text)
+void			Input::setInput(const std::string &text)
 {
+  _string = text;
   _text.setString(text);
-  _cursor_pos = text.getSize();
+  _cursor_pos = text.size();
 }
 
-const sf::String	&Input::getInput()
+const std::string	&Input::getInput()
 {
-  return (_text.getString());
+  return (_string);
 }
 
 const sf::Vector2i	&Input::getSize() const
@@ -186,6 +187,17 @@ void			Input::released()
   clearCallbacks();
 }
 
+void			Input::removeSelection()
+{
+  int	min_pos = std::min(_cursor_pos, _cursor_selection);
+
+  _string.erase(min_pos, std::abs(_cursor_selection - _cursor_pos));
+  _text.setString(_string);
+
+  _cursor_pos = min_pos;
+  _cursor_selection = -1;
+}
+
 void			Input::textEntered(Context &context)
 {
   std::string	str = "";
@@ -194,20 +206,14 @@ void			Input::textEntered(Context &context)
   // Check printable characters
   if (std::all_of(str.begin(), str.end(), isprint))
   {
-    std::string	text = _text.getString();
-    bool	was_empty = text.empty();
+    bool	was_empty = _string.empty();
 
     // Check selection : erase it
     if (_cursor_selection != -1)
-    {
-      int	min_pos = std::min(_cursor_pos, _cursor_selection);
-      text.erase(min_pos, std::abs(_cursor_selection - _cursor_pos));
-      _cursor_pos = min_pos;
-      _cursor_selection = -1;
-    }
+      removeSelection();
 
-    text.insert(_cursor_pos, str);
-    _text.setString(text);
+    _string.insert(_cursor_pos, str);
+    _text.setString(_string);
     _cursor_pos += str.length();
 
     updateCursor();
@@ -261,7 +267,7 @@ void			Input::goRight(Context)
   checkSelection();
 
   // Check out of text
-  if (_cursor_pos >= (int) _text.getString().getSize())
+  if (_cursor_pos >= (int) _string.size())
     return ;
 
   ++_cursor_pos;
@@ -274,30 +280,30 @@ void			Input::selectAll(Context)
       sf::Keyboard::isKeyPressed(sf::Keyboard::RControl))
   {
     _cursor_pos = 0;
-    _cursor_selection = _text.getString().getSize();
+    _cursor_selection = _string.size();
     updateCursor();
   }
 }
 
 void			Input::removeFront(Context)
 {
-  std::string	str = _text.getString();
-
-  if ((unsigned) _cursor_pos < str.length())
+  if (_cursor_selection != -1)
+    removeSelection();
+  else if ((unsigned) _cursor_pos < _string.length())
   {
-    str.erase(_cursor_pos, 1);
-    _text.setString(str);
+    _string.erase(_cursor_pos, 1);
+    _text.setString(_string);
   }
 }
 
 void			Input::removeBack(Context)
 {
-  std::string	str = _text.getString();
-
-  if ((unsigned) _cursor_pos > 0)
+  if (_cursor_selection != -1)
+    removeSelection();
+  else if ((unsigned) _cursor_pos > 0)
   {
-    str.erase(_cursor_pos - 1, 1);
-    _text.setString(str);
+    _string.erase(_cursor_pos - 1, 1);
+    _text.setString(_string);
 
     --_cursor_pos;
     updateCursor();
