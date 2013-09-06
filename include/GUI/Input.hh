@@ -63,6 +63,9 @@ class Input : public Item, public EventCallback
     void			click(Context event);
     void			goLeft(Context event);
     void			goRight(Context event);
+    void			selectAll(Context event);
+    void			removeFront(Context event);
+    void			removeBack(Context event);
 };
 
 #endif

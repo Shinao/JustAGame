@@ -149,6 +149,10 @@ void			Input::pressed()
   catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::click, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Left), std::bind(&Input::goLeft, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Right), std::bind(&Input::goRight, this, _1));
+  // Special input
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::A), std::bind(&Input::selectAll, this, _1));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Delete), std::bind(&Input::removeFront, this, _1));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::BackSpace), std::bind(&Input::removeBack, this, _1));
 
   // Cursor at the end of the string
   _cursor_pos = _text.getString().getSize();
@@ -262,4 +266,40 @@ void			Input::goRight(Context)
 
   ++_cursor_pos;
   updateCursor();
+}
+
+void			Input::selectAll(Context)
+{
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::RControl))
+  {
+    _cursor_pos = 0;
+    _cursor_selection = _text.getString().getSize();
+    updateCursor();
+  }
+}
+
+void			Input::removeFront(Context)
+{
+  std::string	str = _text.getString();
+
+  if ((unsigned) _cursor_pos < str.length())
+  {
+    str.erase(_cursor_pos, 1);
+    _text.setString(str);
+  }
+}
+
+void			Input::removeBack(Context)
+{
+  std::string	str = _text.getString();
+
+  if ((unsigned) _cursor_pos > 0)
+  {
+    str.erase(_cursor_pos - 1, 1);
+    _text.setString(str);
+
+    --_cursor_pos;
+    updateCursor();
+  }
 }
