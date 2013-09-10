@@ -83,6 +83,44 @@ void			Input::update()
   updateText();
 }
 
+void			Input::managePartialText()
+{
+  int	width_text = _text.getLocalBounds().width;
+
+  // Text displayed is out of input
+  if (width_text > INPUT_WIDTH)
+  {
+    std::string	partial_text("");
+    int	size_filled = 0;
+    int x_cursor = _text.findCharacterPos(_cursor_pos).x;
+    int	delim_cursor;
+
+    // Get partial text - Go left if we can else go right
+    for (delim_cursor = _cursor_pos; delim_cursor >= 0; --delim_cursor)
+    {
+      size_filled = x_cursor - _text.findCharacterPos(delim_cursor).x;
+
+      // Check if enough characters
+      if (size_filled > INPUT_WIDTH)
+      {
+	++delim_cursor;
+	break ;
+      }
+    }
+
+    // Append left characters found
+    partial_text.append(_string.substr(delim_cursor, _cursor_pos - delim_cursor));
+
+    // delim_cursor is equal to 0 - search to right
+    if (delim_cursor == 0)
+    {
+    }
+
+    // We found all the limit - set it
+    _text.setString(partial_text);
+  }
+}
+
 void			Input::updateText()
 {
   sf::Vector2i		pos = getRessourcePosition();
@@ -220,6 +258,8 @@ void			Input::textEntered(Context &context)
     // Update position if first character : need to adjust the position
     if (was_empty)
       updateText();
+
+    managePartialText();
   }
 }
 

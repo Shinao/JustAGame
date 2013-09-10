@@ -38,6 +38,7 @@ class Input : public Item, public EventCallback
     void			checkSelection();
     void			updateText();
     void			removeSelection();
+    void			managePartialText();
 
 
   public:

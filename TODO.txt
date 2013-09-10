@@ -1,7 +1,8 @@
 TODO
 
 - Input
-  - Ctrl-A
-  - Delete/Suppr
+  - Cursor partial text out of range
+  - Right characters partial text
+  - last character partial text problem
 - Theme dynamic White/Black
 - Error checking
