@@ -12,6 +12,7 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
+  _render_texture.create(INPUT_WIDTH - INPUT_THICKNESS - 2, INPUT_HEIGHT);
 }
 
 Input::~Input()
@@ -23,7 +24,7 @@ void			Input::draw(sf::RenderWindow &win)
   Item::draw(win);
 
   win.draw(_input);
-  win.draw(_text);
+  win.draw(_render);
 
   // Only draw when pressed
   if (_pressed)
@@ -76,57 +77,36 @@ void			Input::update()
 {
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
+  _render.setPosition(pos.x + PADDING_TEXT, pos.y);
 
   designChanged();
 
-  updateCursor();
-  updateText();
+  updateRendering();
 }
 
-void			Input::managePartialText()
+void			Input::updateRendering()
 {
   int	width_text = _text.getLocalBounds().width;
+  int	x_diff = 0;
 
   // Text displayed is out of input
   if (width_text > INPUT_WIDTH)
   {
-    std::string	partial_text("");
-    int	size_filled = 0;
-    int x_cursor = _text.findCharacterPos(_cursor_pos).x;
-    int	delim_cursor;
+    x_diff = _text.findCharacterPos(_cursor_pos).x - _text.findCharacterPos(0).x;
 
-    // Get partial text - Go left if we can else go right
-    for (delim_cursor = _cursor_pos; delim_cursor >= 0; --delim_cursor)
-    {
-      size_filled = x_cursor - _text.findCharacterPos(delim_cursor).x;
-
-      // Check if enough characters
-      if (size_filled > INPUT_WIDTH)
-      {
-	++delim_cursor;
-	break ;
-      }
-    }
-
-    // Append left characters found
-    partial_text.append(_string.substr(delim_cursor, _cursor_pos - delim_cursor));
-
-    // delim_cursor is equal to 0 - search to right
-    if (delim_cursor == 0)
-    {
-    }
-
-    // We found all the limit - set it
-    _text.setString(partial_text);
+    if (x_diff > INPUT_HEIGHT)
+      x_diff = x_diff - INPUT_HEIGHT;
+    else
+      x_diff = 0;
   }
-}
 
-void			Input::updateText()
-{
-  sf::Vector2i		pos = getRessourcePosition();
+  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getLocalBounds().height - _text.getLocalBounds().top) / 2);
+  _render_texture.clear(sf::Color::Transparent);
+  _render_texture.draw(_text);
+  _render_texture.display();
+  _render.setTexture(_render_texture.getTexture());
 
-  _text.setPosition(pos.x + PADDING_TEXT, pos.y + ((INPUT_HEIGHT -
-	  (_text.getLocalBounds().height + _text.getLocalBounds().top)) / 2));
+  updateCursor();
 }
 
 Rect			Input::getRectRessource() const
@@ -200,7 +180,7 @@ void			Input::pressed()
 
 void			Input::updateCursor()
 {
-  sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos);
+  sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos) + _render.getPosition();
   _cursor.setPosition(cur_pos.x, _input.getGlobalBounds().top + PADDING_CURSOR + INPUT_THICKNESS);
 
   // Reset timer - Show visible because we update it
@@ -244,8 +224,6 @@ void			Input::textEntered(Context &context)
   // Check printable characters
   if (std::all_of(str.begin(), str.end(), isprint))
   {
-    bool	was_empty = _string.empty();
-
     // Check selection : erase it
     if (_cursor_selection != -1)
       removeSelection();
@@ -254,12 +232,7 @@ void			Input::textEntered(Context &context)
     _text.setString(_string);
     _cursor_pos += str.length();
 
-    updateCursor();
-    // Update position if first character : need to adjust the position
-    if (was_empty)
-      updateText();
-
-    managePartialText();
+    updateRendering();
   }
 }
 
@@ -299,7 +272,8 @@ void			Input::goLeft(Context)
     return ;
 
   --_cursor_pos;
-  updateCursor();
+
+  updateRendering();
 }
 
 void			Input::goRight(Context)
@@ -311,7 +285,8 @@ void			Input::goRight(Context)
     return ;
 
   ++_cursor_pos;
-  updateCursor();
+
+  updateRendering();
 }
 
 void			Input::selectAll(Context)
@@ -321,7 +296,8 @@ void			Input::selectAll(Context)
   {
     _cursor_pos = 0;
     _cursor_selection = _string.size();
-    updateCursor();
+
+    updateRendering();
   }
 }
 
@@ -334,6 +310,8 @@ void			Input::removeFront(Context)
     _string.erase(_cursor_pos, 1);
     _text.setString(_string);
   }
+
+  updateRendering();
 }
 
 void			Input::removeBack(Context)
@@ -346,6 +324,7 @@ void			Input::removeBack(Context)
     _text.setString(_string);
 
     --_cursor_pos;
-    updateCursor();
   }
+
+  updateRendering();
 }

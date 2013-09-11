@@ -32,13 +32,14 @@ class Input : public Item, public EventCallback
     bool			_draw_cursor;
     int				_cursor_pos;
     int				_cursor_selection;
+    sf::Sprite			_render;
+    sf::RenderTexture		_render_texture;
 
     void			updateCursor();
     bool			isShiftPressed();
     void			checkSelection();
-    void			updateText();
+    void			updateRendering();
     void			removeSelection();
-    void			managePartialText();
 
 
   public:
