@@ -1,5 +1,4 @@
 #include "GUI/Input.hh"
-
 Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
   EventCallback(event),
@@ -12,7 +11,7 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
-  _render_texture.create(INPUT_WIDTH - INPUT_THICKNESS - 2, INPUT_HEIGHT);
+  _render_texture.create(INPUT_WIDTH - INPUT_THICKNESS - PADDING_CURSOR, INPUT_HEIGHT);
 }
 
 Input::~Input()
@@ -94,8 +93,8 @@ void			Input::updateRendering()
   {
     x_diff = _text.findCharacterPos(_cursor_pos).x - _text.findCharacterPos(0).x;
 
-    if (x_diff > INPUT_HEIGHT)
-      x_diff = x_diff - INPUT_HEIGHT;
+    if (x_diff > INPUT_WIDTH)
+      x_diff = _render_texture.getSize().x - x_diff;
     else
       x_diff = 0;
   }
