@@ -89,11 +89,11 @@ void			Input::updateRendering()
   int	x_diff = 0;
 
   // Text displayed is out of input
-  if (width_text > INPUT_WIDTH)
+  if (width_text >= INPUT_WIDTH - PADDING_TEXT)
   {
     x_diff = _text.findCharacterPos(_cursor_pos).x - _text.findCharacterPos(0).x;
 
-    if (x_diff > INPUT_WIDTH)
+    if (x_diff >= INPUT_WIDTH - PADDING_TEXT - INPUT_THICKNESS * 2)
       x_diff = _render_texture.getSize().x - x_diff;
     else
       x_diff = 0;
@@ -159,7 +159,12 @@ void			Input::setThickness(int thickness)
 
 void			Input::pressed()
 {
+  // Check if not already pressed
+  if (_pressed)
+    return ;
+
   Item::pressed();
+
 
   // Add all callback for an input
   using namespace std::placeholders;
@@ -189,11 +194,17 @@ void			Input::updateCursor()
   // Update selection if exist
   if (_cursor_selection != -1)
   {
-    sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection);
+    sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection) + _render.getPosition();
 
     int start_x = std::min(selection_pos.x, cur_pos.x);
     _selection.setPosition(start_x, cur_pos.y);
-    _selection.setSize(sf::Vector2f(std::abs(selection_pos.x - cur_pos.x), INPUT_HEIGHT - 12));
+
+    // Checking selection out of input
+    int width = std::abs(selection_pos.x - cur_pos.x);
+    if (width > INPUT_WIDTH - PADDING_TEXT * 2)
+      width = INPUT_WIDTH - PADDING_TEXT * 2;
+
+    _selection.setSize(sf::Vector2f(width, INPUT_HEIGHT - PADDING_CURSOR * 2));
   }
 }
 
@@ -254,7 +265,9 @@ void			Input::checkSelection()
 }
 
 
-// Callback function
+//
+// Callback functions
+//
 
 void			Input::click(Context context)
 {
