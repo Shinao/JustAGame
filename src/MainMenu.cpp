@@ -2,6 +2,7 @@
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
 #include "Titlebar.hh"
+#include "KeyBinding.hh"
 #include "ServerMenu.hh"
 
 MainMenu::MainMenu(Screen &screen) :
@@ -103,6 +104,7 @@ void			MainMenu::cbPlayer()
 
 void			MainMenu::cbKeyBindings()
 {
+  _layer_menu = new KeyBinding(_screen);
 }
 
 void			MainMenu::cbAudio()

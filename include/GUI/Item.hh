@@ -6,7 +6,7 @@
 // Abstract class item for text & sprite
 // Object depending on a menu
 // Item should always have a theme
-// Item has an ID usefull for the getPressed and Focused function of the menu
+// Item has an ID useful for the getPressed and Focused function of the menu
 
 class Item
 {
