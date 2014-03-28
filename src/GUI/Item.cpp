@@ -90,6 +90,7 @@ void			Item::mouseCaught(int, int)
 
 void			Item::mouseLeft()
 {
+  // TODO - check if checking is really necessary
   if (_focused)
   {
     _focused = false;

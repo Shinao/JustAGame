@@ -7,6 +7,8 @@
 #include "MainMenu.hh"
 #include "GUI/Action.hh"
 
+#include "Test.hh"
+
 // Once upon a main
 int		main()
 {
@@ -14,10 +16,14 @@ int		main()
   sf::Clock	timer;
   sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
 
+  // Init ressources
   jag::init();
+
   new Background(screen);
   new Titlebar(screen);
   new MainMenu(screen);
+
+  new Test(screen);
 
   while (Screen::isActive())
   {
@@ -27,6 +33,7 @@ int		main()
     sf::sleep(sleeping_time);
   }
 
+  // Free ressources
   jag::clear();
 
   return (EXIT_SUCCESS);

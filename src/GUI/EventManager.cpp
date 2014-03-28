@@ -25,7 +25,7 @@ void				EventManager::clear()
 
 void				EventManager::invokeCallbacks()
 {
-  // Checkk all event
+  // Check all event
   for (auto event : _events)
   {
     // Check if item is equal
@@ -33,6 +33,8 @@ void				EventManager::invokeCallbacks()
       if (item.second.action == event)
       {
 	item.second.callback(event);
+
+	// TODO - Remove useless continue?
 	continue ;
       }
   }

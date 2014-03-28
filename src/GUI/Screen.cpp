@@ -21,7 +21,7 @@ Screen::Screen(Mode mode) :
   if (mode == Setting)
   {
     _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
-    _window.setKeyRepeatEnabled(false);
+    // _window.setKeyRepeatEnabled(false);
     restore();
   }
 
@@ -177,6 +177,7 @@ void				Screen::update()
   for (i = _layers.size() - 1; i >= 0; --i)
   {
     // Check if layer wants to be the last updated
+    // TODO Remove useless feature non-update ?
     if (!_layers[i]->update(_window))
     {
       --i;
@@ -187,7 +188,7 @@ void				Screen::update()
   // Safety first - put your seat belt on please
   ++i;
 
-  // Now we now which one is the main layer - calling the draw on each layer on the top
+  // Now we know which one is the main layer - calling the draw on each layer on the top
   for (; (unsigned) i < _layers.size(); ++i)
     _layers[i]->draw(_window);
 

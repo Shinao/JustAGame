@@ -5,4 +5,5 @@ TODO
   - Right characters partial text
   - last character partial text problem
 - Theme dynamic White/Black
+- Checking TODO Check
 - Error checking

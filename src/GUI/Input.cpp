@@ -7,7 +7,8 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _cursor_pos(0),
   _cursor_selection(-1)
 {
-  // setInput("Hello");
+  setInput("Hello");
+
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
@@ -99,7 +100,7 @@ void			Input::updateRendering()
       x_diff = 0;
   }
 
-  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getLocalBounds().height - _text.getLocalBounds().top) / 2);
+  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getCharacterSize()- _text.getLocalBounds().top) / 2);
   _render_texture.clear(sf::Color::Transparent);
   _render_texture.draw(_text);
   _render_texture.display();
