@@ -58,14 +58,6 @@ Rect			String::getRectRessource() const
   return (Rect(_text.getLocalBounds()));
 }
 
-// Overriding setRect to reset position of the ressource
-void			String::setRect(const Rect &rec)
-{
-  Item::setRect(rec);
-
-  update();
-}
-
 void			String::setString(const sf::String &text)
 {
   _text.setString(text);

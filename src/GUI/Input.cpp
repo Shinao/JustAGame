@@ -1,4 +1,5 @@
 #include "GUI/Input.hh"
+
 Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
   EventCallback(event),
@@ -7,8 +8,6 @@ Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
   _cursor_pos(0),
   _cursor_selection(-1)
 {
-  setInput("Hello");
-
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
@@ -59,17 +58,12 @@ void			Input::designChanged()
   _selection.setFillColor(_theme->c_border * sf::Color(1, 1, 1, 64));
 
   if (!_release && _pressed)
-  {
     _input.setFillColor(_theme->c_border);
-  }
   else if (_focused)
-  {
     _input.setFillColor(_theme->c_border);
-  }
   else
-  {
     _input.setFillColor(_theme->c_border);
-  }
+
   _input.setOutlineColor(_theme->c_border_focused);
 }
 
@@ -116,14 +110,6 @@ Rect			Input::getRectRessource() const
   rec.height = INPUT_HEIGHT;
 
   return (rec);
-}
-
-// Overriding setRect to reset position of the ressource
-void			Input::setRect(const Rect &rec)
-{
-  Item::setRect(rec);
-
-  update();
 }
 
 void			Input::setInput(const std::string &text)

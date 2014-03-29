@@ -3,7 +3,7 @@
 
 # include "GUI/Item.hh"
 
-// Text specialization for an iten in a menu
+// Text specialization for an item in a menu.. or not
 
 class String : public Item
 {
@@ -16,7 +16,6 @@ class String : public Item
 
     void			setString(const sf::String &text);
     const sf::String		&getString();
-    void			setRect(const Rect &rec);
 
     void			draw(sf::RenderWindow &win);
     void			update();

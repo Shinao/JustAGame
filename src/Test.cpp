@@ -7,13 +7,16 @@
 Test::Test(Screen &screen) :
   Layer::Layer(screen)
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT, 200, HEIGHT);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT, 400, HEIGHT);;
   _menu = new Menu(Menu::Horizontal, _rec);
 
   Input	*text = new Input(screen.getEventManager());
   _menu->add(text);
 
   _menu->update();
+
+  _btn = new String("Click me");
+  // _btn->setRect(Rect(200, _rec.top, 100, HEIGHT));
 }
 
 Test::~Test()
@@ -50,6 +53,9 @@ void			Test::mouseCaught(int x, int y)
     _menu->mouseCaught(x, y);
   else
     _menu->mouseLeft();
+
+  if (_btn->getRect().contains(Screen::getCursorPosition()))
+    _btn->mouseCaught(x, y);
 }
 
 void			Test::mouseLeft()

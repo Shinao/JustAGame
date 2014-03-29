@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-// Text specialization for an iten in a menu
+// Input text
 
 class Input : public Item, public EventCallback
 {
@@ -48,7 +48,6 @@ class Input : public Item, public EventCallback
 
     void			setInput(const std::string &text);
     const std::string		&getInput();
-    void			setRect(const Rect &rec);
 
     void			draw(sf::RenderWindow &win);
     void			update();

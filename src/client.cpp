@@ -14,7 +14,7 @@ int		main()
 {
   Screen	screen(Screen::Setting);
   sf::Clock	timer;
-  sf::Time	sleeping_time = sf::milliseconds(jag::FPS - jag::MarginFPS);
+  sf::Time	sleeping_time = sf::milliseconds(jag::FPSTime - jag::MarginFPS);
 
   // Init ressources
   jag::init();

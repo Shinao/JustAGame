@@ -39,7 +39,7 @@ namespace jag
     theme->size_text_pressed = 12;
     theme->c_background = sf::Color::White;
     theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_background_pressed = sf::Color(GRAY - 8, GRAY - 8, GRAY - 8);
+    theme->c_background_pressed = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->style_text_pressed = sf::Text::Regular;
@@ -68,6 +68,18 @@ namespace jag
     theme->c_text = sf::Color(150, 150, 150);
     theme->c_text_focused = sf::Color(150, 150, 150);
     theme->c_text_pressed = sf::Color(200, 200, 200);
+
+    // Button theme
+    theme = new Theme;
+    _themes["button"] = theme;
+    *theme = *_themes["white"];
+    theme->c_background = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_background_focused = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
+    theme->c_background_pressed = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
+    theme->c_border = sf::Color(GRAY - 16, GRAY - 16, GRAY - 16);
+    theme->c_border_pressed = sf::Color(186, 186, GRAY);
+    theme->c_border_focused = sf::Color(186, 186, GRAY);
+
 
     // Init ressources
     getRessource("close_window.png");

@@ -129,6 +129,8 @@ void			Item::setRect(const Rect &rec)
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
+
+  update();
 }
 
 void			Item::addCallback(Callback callback, State state)

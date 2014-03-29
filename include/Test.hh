@@ -3,6 +3,7 @@
 
 # include "GUI/Layer.hh"
 # include "GUI/Menu.hh"
+# include "GUI/String.hh"
 
 class Test : public Layer
 {
@@ -11,6 +12,7 @@ class Test : public Layer
 
   private:
     Menu			*_menu;
+    String			*_btn;
 
   public:
     Test(Screen &screen);

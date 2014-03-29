@@ -194,7 +194,7 @@ void				Screen::update()
     _layers[i]->draw(_window);
 
   // Waiting FPS frames
-  while (_timer.getElapsedTime().asMilliseconds() < jag::FPS);
+  while (_timer.getElapsedTime().asMilliseconds() < jag::FPSTime);
   _timer.restart();
 
   _window.display();

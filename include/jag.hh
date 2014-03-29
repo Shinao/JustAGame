@@ -18,7 +18,7 @@ namespace jag
   const std::string		RessourcePath = "rsrc/";
   const int			WindowHeight = 576;
   const int			WindowWidth = 1024;
-  const int			FPS = 1000 / 60;
+  const int			FPSTime = 1000 / 60;
   const int			MarginFPS = 4;
   const int			WindowBorderSize = 1;
   const int			MarginMenu = 64;
