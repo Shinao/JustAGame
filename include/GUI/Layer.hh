@@ -25,10 +25,11 @@ class Layer
     Screen				&_screen;
     Rect				_rec;
     bool				_focused;
-    std::map<std::string, Drawable *>	_drawables;
 
     // Drawable Management
+    std::map<std::string, Drawable *>	_drawables;
     void				addDrawable(Drawable *drawable, std::string name);
+    Drawable				*getDrawable(std::string name);
 
   public:
     Layer(Screen &screen);

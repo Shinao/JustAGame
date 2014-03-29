@@ -27,6 +27,11 @@ void			Layer::draw(sf::RenderWindow &window)
     drawable.second->draw(window);
 }
 
+Drawable		*Layer::getDrawable(std::string name)
+{
+  return (_drawables[name]);
+}
+
 void			Layer::setId(unsigned id)
 {
   _id = id;
