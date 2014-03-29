@@ -28,7 +28,7 @@ namespace Utility
       switch (type)
       {
 	case Border::Top:
-	  border.setPosition(rec.left - size_border, rec.top);
+	  border.setPosition(rec.left, rec.top);
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;
 
@@ -38,7 +38,7 @@ namespace Utility
 	  break;
 
 	case Border::Left:
-	  border.setPosition(rec.left - size_border, rec.top);
+	  border.setPosition(rec.left, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
 	  break;
 

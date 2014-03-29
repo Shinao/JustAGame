@@ -34,7 +34,7 @@ void				EventManager::invokeCallbacks()
       {
 	item.second.callback(event);
 
-	// TODO - Remove useless continue?
+	// TODO - Remove useless continue ?
 	continue ;
       }
   }

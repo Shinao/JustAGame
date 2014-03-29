@@ -22,7 +22,6 @@ class MainMenu : public Layer
     void			cbKeyBindings();
     void			cbAudio();
     void			cbVideo();
-    void			cbSourceCode();
     void			cbReleased();
 
   public:

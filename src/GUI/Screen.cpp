@@ -21,6 +21,7 @@ Screen::Screen(Mode mode) :
   if (mode == Setting)
   {
     _window.create(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
+    // TODO - Wait until finished if needed to remove it
     // _window.setKeyRepeatEnabled(false);
     restore();
   }

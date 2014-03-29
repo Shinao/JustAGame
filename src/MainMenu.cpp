@@ -16,7 +16,7 @@ MainMenu::MainMenu(Screen &screen) :
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
   _menu->shrinkToFit(true);
 
-  String	*text = new String("SERVERS");
+  String *text = new String("SERVERS");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
@@ -37,8 +37,8 @@ MainMenu::MainMenu(Screen &screen) :
   text->addCallback(std::bind(&MainMenu::cbVideo, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  text = new String("SOURCE CODE");
-  text->addCallback(std::bind(&MainMenu::cbSourceCode, this));
+  text = new String("GitHub [Source]");
+  text->addCallback([] () { Screen::openUrl("https://github.com/Shinao/JustAGame"); });
   _menu->add(text);
 
   _menu->update();
@@ -58,7 +58,16 @@ void			MainMenu::released(int x, int y)
 
 void			MainMenu::draw(sf::RenderWindow &window)
 {
+  // TODO - Create slider
+  sf::View view(sf::FloatRect(_rec.left, _rec.top, _rec.width, _rec.height));
+  view.setViewport(sf::FloatRect((float) _rec.left / window.getSize().x,
+	(float) _rec.top / window.getSize().y, (float) _rec.width / window.getSize().x,
+	(float) _rec.height / window.getSize().y));
+  window.setView(view);
+
   _menu->draw(window);
+
+  window.setView(window.getDefaultView());
 }
 
 bool			MainMenu::update(sf::RenderWindow &)
@@ -113,9 +122,4 @@ void			MainMenu::cbAudio()
 
 void			MainMenu::cbVideo()
 {
-}
-
-void			MainMenu::cbSourceCode()
-{
-  Screen::openUrl("https://github.com/Shinao/JustAGame");
 }

@@ -100,7 +100,7 @@ void			Input::updateRendering()
       x_diff = 0;
   }
 
-  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getCharacterSize()- _text.getLocalBounds().top) / 2);
+  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getCharacterSize() - _text.getLocalBounds().top) / 2);
   _render_texture.clear(sf::Color::Transparent);
   _render_texture.draw(_text);
   _render_texture.display();
