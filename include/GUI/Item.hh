@@ -2,13 +2,14 @@
 # define ITEM_HH_
 
 # include "jag.hh"
+# include "GUI/Drawable.hh"
 
 // Abstract class item for text & sprite
 // Object depending on a menu
 // Item should always have a theme
 // Item has an ID useful for the getPressed and Focused function of the menu
 
-class Item
+class Item : public Drawable
 {
   public:
     typedef std::function<void ()> Callback;
@@ -30,8 +31,6 @@ class Item
     bool			_focused;
     bool			_pressed;
     bool			_release;
-    Theme			*_theme;
-    Rect			_rec;
     Alignment			_align;
     float			_scale;
     sf::Vector2i		_margin;
@@ -47,7 +46,6 @@ class Item
 
     const sf::Vector2i		&getMargin() const;
     void			setMargin(const sf::Vector2i &margin);
-    void			setTheme(Theme *theme);
     Theme			*getTheme();
     Rect			getRect() const;
     virtual void		setRect(const Rect &rec);

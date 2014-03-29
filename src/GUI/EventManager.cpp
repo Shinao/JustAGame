@@ -8,7 +8,6 @@ EventManager::EventManager() :
 
 EventManager::~EventManager()
 {
-  clear();
 }
 
 void				EventManager::push(const sf::Event &event)

@@ -20,22 +20,18 @@ ServerMenu::ServerMenu(Screen &screen) :
   _menu->add(text);
 
   _menu->update();
+
+  addDrawable(_menu, "menu");
 }
 
 ServerMenu::~ServerMenu()
 {
-  delete _menu;
 }
 
 void			ServerMenu::released(int x, int y)
 {
   if (_menu->getRect().contains(x, y))
     _menu->clicked();
-}
-
-void			ServerMenu::draw(sf::RenderWindow &window)
-{
-  _menu->draw(window);
 }
 
 bool			ServerMenu::update(sf::RenderWindow &)

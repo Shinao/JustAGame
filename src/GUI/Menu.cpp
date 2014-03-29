@@ -5,12 +5,12 @@
 Menu::Menu(Type type, Rect rec, Theme *theme) :
   _type(type),
   _border_type(Border::None),
-  _rec(rec),
-  _theme(theme),
   _item_focused(NULL),
   _item_pressed(NULL),
   _shrink(false)
 {
+  _theme = theme;
+  _rec = rec;
 }
 
 Menu::~Menu()
@@ -82,7 +82,7 @@ void			Menu::update()
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
 
-  themeChanged();
+  designChanged();
 }
 
 // Intercepted click - send it to item focused
@@ -155,7 +155,7 @@ void			Menu::remove(Item *item)
       _items.erase(it);
 }
 
-const Rect		&Menu::getRect() const
+Rect			Menu::getRect() const
 {
   return (_rec);
 }
@@ -167,8 +167,7 @@ void			Menu::setRect(const Rect &rec)
 
 void			Menu::setTheme(Theme *theme)
 {
-  _theme = theme;
-  themeChanged();
+  Drawable::setTheme(theme);
 
   for (auto item : _items)
     item->setTheme(theme);
@@ -189,7 +188,7 @@ void			Menu::setBorder(Border::Type border)
     item->setBorder(border);
 }
 
-void			Menu::themeChanged()
+void			Menu::designChanged()
 {
   _border.setFillColor(_theme->c_border);
   _box.setFillColor(_theme->c_background);

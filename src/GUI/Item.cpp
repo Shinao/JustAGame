@@ -5,11 +5,11 @@ Item::Item(Theme *theme, Alignment align, float scale) :
   _focused(false),
   _pressed(false),
   _release(false),
-  _theme(theme),
   _align(align),
   _scale(scale),
   _border_type(Border::None)
 {
+  _theme = theme;
 }
 
 Item::~Item()
@@ -96,12 +96,6 @@ void			Item::mouseLeft()
     _focused = false;
     designChanged();
   }
-}
-
-void			Item::setTheme(Theme *theme)
-{
-  _theme = theme;
-  designChanged();
 }
 
 Rect			Item::getRect() const

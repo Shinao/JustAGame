@@ -19,7 +19,6 @@ class ServerMenu : public Layer
     ServerMenu(Screen &screen);
     ~ServerMenu();
     void			released(int x, int y);
-    void			draw(sf::RenderWindow &window);
     bool			update(sf::RenderWindow &window);
     bool			catchMouse();
     void			mouseCaught(int x, int y);

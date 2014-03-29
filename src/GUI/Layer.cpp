@@ -10,6 +10,21 @@ Layer::Layer(Screen &screen) :
 
 Layer::~Layer()
 {
+  // Clear Drawables
+  for (auto drawable : _drawables)
+    delete drawable.second;
+}
+
+void			Layer::addDrawable(Drawable *drawable, std::string name)
+{
+  _drawables[name] = drawable;
+}
+
+void			Layer::draw(sf::RenderWindow &window)
+{
+  // Draw all Drawables
+  for (auto drawable : _drawables)
+    drawable.second->draw(window);
 }
 
 void			Layer::setId(unsigned id)
