@@ -11,6 +11,7 @@ TODO
 - Theme button
 
 ###After all
-- Theme dynamic White/Black
+- Better theme white
+- Theme dynamic White/Black ?
 - Checking TODO Check
 - Error checking - Exception handling

@@ -4,6 +4,8 @@ JustAGame
 ###Description
 
 Multiplayer multi-mode game written in C++.
+Homemade baked GUI. Framework networking - graphical and more.
+Wow. So powerful.
 
 
 ###Libraries
