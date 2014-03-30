@@ -7,16 +7,19 @@
 Test::Test(Screen &screen) :
   Layer::Layer(screen)
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT, 400, HEIGHT);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT, 100, HEIGHT);;
   _menu = new Menu(Menu::Horizontal, _rec);
+  _rec.width = 300;
 
   Input	*text = new Input(screen.getEventManager());
   _menu->add(text);
 
   _menu->update();
 
-  _btn = new String("Click me");
-  // _btn->setRect(Rect(200, _rec.top, 100, HEIGHT));
+  String *btn = new String("Click me");
+  btn->setRect(Rect(300, _rec.top, 100, HEIGHT));
+  btn->setString("RHLAKJDHAS");
+  add(btn, "btn");
 }
 
 Test::~Test()
@@ -26,12 +29,16 @@ Test::~Test()
 
 void			Test::mouseReleased(int x, int y)
 {
+  Layer::mouseReleased(x, y);
+
   if (_menu->getRect().contains(x, y))
     _menu->mouseReleased(x, y);
 }
 
 void			Test::draw(sf::RenderWindow &window)
 {
+  Layer::draw(window);
+
   _menu->draw(window);
 }
 
@@ -43,9 +50,6 @@ void			Test::mouseCaught(int x, int y)
     _menu->mouseCaught(x, y);
   else
     _menu->mouseLeft();
-
-  if (_btn->getRect().contains(Screen::getCursorPosition()))
-    _btn->mouseCaught(x, y);
 }
 
 void			Test::mouseLeft()

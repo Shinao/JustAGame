@@ -12,7 +12,6 @@ class Test : public Layer
 
   private:
     Menu			*_menu;
-    String			*_btn;
 
   public:
     Test(Screen &screen);

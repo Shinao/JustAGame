@@ -11,7 +11,7 @@ class ListBox : public Item
     Menu			*_menu;
 
   public:
-    ListBox(Menu *menu, Theme *theme = NULL, Alignment align = Left, float scale = 1.0f);
+    ListBox(Menu *menu, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     ~ListBox();
 
     void			draw(sf::RenderWindow &win);

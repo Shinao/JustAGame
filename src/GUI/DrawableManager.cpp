@@ -33,10 +33,15 @@ Drawable		*DrawableManager::get(std::string name)
 void			DrawableManager::mouseCaught(int x, int y)
 {
   // Check already focused
-  if (_drawable_focused != NULL && _drawable_focused->getRect().contains(x, y))
+  if (_drawable_focused != NULL)
   {
+    if (_drawable_focused->getRect().contains(x, y))
+    {
       _drawable_focused->mouseCaught(x, y);
       return ;
+    }
+    else
+      _drawable_focused->mouseLeft();
   }
 
   // Find new one
@@ -49,8 +54,11 @@ void			DrawableManager::mouseCaught(int x, int y)
 
       drawable.second->mouseCaught(x, y);
       _drawable_focused = drawable.second;
-      break ;
+      return ;
     }
+
+  // Nothing found
+  _drawable_focused = NULL;
 }
 
 void			DrawableManager::mouseLeft()
