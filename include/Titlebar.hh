@@ -12,7 +12,6 @@ class Titlebar : public Layer
     static const int		HEIGHT = 36;
 
   private:
-    Menu			*_menu;
     sf::Sprite			_cross_spr;
     sf::Texture			_cross_tex;
     sf::Sprite			_min_spr;
@@ -32,10 +31,6 @@ class Titlebar : public Layer
     void			minimize();
     void			restore();
     void			draw(sf::RenderWindow &window);
-    bool			update(sf::RenderWindow &window);
-    bool			catchMouse();
-    void			mouseCaught(int x, int y);
-    void			mouseLeft();
 };
 
 #endif

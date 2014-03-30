@@ -31,13 +31,3 @@ void			Background::draw(sf::RenderWindow &window)
 {
   window.draw(_bg);
 }
-
-bool			Background::update(sf::RenderWindow &)
-{
-  return (true);
-}
-
-bool			Background::catchMouse()
-{
-  return (true);
-}

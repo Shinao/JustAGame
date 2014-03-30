@@ -4,7 +4,7 @@
 # include "jag.hh"
 
 // Drawable class inherited by all GUI ELement
-// Easy manageable Theme/Position/...
+// Manageable by DrawableManager
 
 class Drawable
 {

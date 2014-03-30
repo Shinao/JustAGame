@@ -21,19 +21,9 @@ ServerMenu::ServerMenu(Screen &screen) :
 
   _menu->update();
 
-  addDrawable(_menu, "menu");
+  add(_menu, "menu");
 }
 
 ServerMenu::~ServerMenu()
 {
-}
-
-bool			ServerMenu::update(sf::RenderWindow &)
-{
-  return (true);
-}
-
-bool			ServerMenu::catchMouse()
-{
-  return (true);
 }

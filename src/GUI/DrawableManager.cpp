@@ -13,7 +13,7 @@ DrawableManager::~DrawableManager()
     delete drawable.second;
 }
 
-void			DrawableManager::addDrawable(Drawable *drawable, std::string name)
+void			DrawableManager::add(Drawable *drawable, std::string name)
 {
   _drawables[name] = drawable;
 }
@@ -25,7 +25,7 @@ void			DrawableManager::draw(sf::RenderWindow &window)
     drawable.second->draw(window);
 }
 
-Drawable		*DrawableManager::getDrawable(std::string name)
+Drawable		*DrawableManager::get(std::string name)
 {
   return (_drawables[name]);
 }

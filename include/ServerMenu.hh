@@ -18,8 +18,6 @@ class ServerMenu : public Layer
   public:
     ServerMenu(Screen &screen);
     ~ServerMenu();
-    bool			update(sf::RenderWindow &window);
-    bool			catchMouse();
 };
 
 #endif

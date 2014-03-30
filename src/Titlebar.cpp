@@ -22,33 +22,34 @@ Titlebar::Titlebar(Screen &screen) :
   _res_spr.setTexture(_res_tex);
 
   // Creating menu
-  _menu = new Menu(Menu::Horizontal, _rec);
-  _menu->setBorder(Border::None);
-  _menu->setTheme(jag::getTheme("titlebar"));
-  _menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
-  _menu->shrinkToFit(true);
+  Menu *menu = new Menu(Menu::Horizontal, _rec);
+  menu->setBorder(Border::None);
+  menu->setTheme(jag::getTheme("titlebar"));
+  menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
+  menu->shrinkToFit(true);
   Sprite	*sprite = new Sprite(&_min_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::minimize, this));
-  _menu->add(sprite);
+  menu->add(sprite);
   sprite = new Sprite(&_res_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::restore, this));
-  _menu->add(sprite);
+  menu->add(sprite);
   sprite = new Sprite(&_cross_spr);
   sprite->setTheme(jag::getTheme("titlebar_cross"));
   sprite->addCallback(&Screen::closeWindow);
-  _menu->add(sprite);
+  menu->add(sprite);
 
   // Updating position
   // Update to get the menu size
-  _menu->update();
+  menu->update();
   rec.height = MENU_HEIGHT;
-  rec.left = _rec.left + _rec.width - _menu->getRect().width;
-  rec.width = _menu->getRect().width;
-  _menu->setRect(rec);
-  _menu->update();
-  _menu->update();
+  rec.left = _rec.left + _rec.width - menu->getRect().width;
+  rec.width = menu->getRect().width;
+  menu->setRect(rec);
+  menu->update();
+
+  add(menu, "menu");
 
   // Display logo and icon
   _icon_tex.loadFromImage(jag::getRessource("icon.png"));
@@ -61,13 +62,12 @@ Titlebar::Titlebar(Screen &screen) :
 
 Titlebar::~Titlebar()
 {
-  delete _menu;
 }
 
 void			Titlebar::minimize()
 {
   // Fix no event send when window minimized and lost focus
-  _menu->mouseLeft();
+  get("menu")->mouseLeft();
 
   Screen::minimize();
 }
@@ -75,7 +75,7 @@ void			Titlebar::minimize()
 void			Titlebar::restore()
 {
   // Fix no event send when window change position and mouse left
-  _menu->mouseLeft();
+  get("menu")->mouseLeft();
   sf::Mouse::setPosition(sf::Mouse::getPosition());
 
   Screen::restore();
@@ -83,48 +83,22 @@ void			Titlebar::restore()
 
 void			Titlebar::mousePressed(int x, int y)
 {
-  if (!_menu->getRect().contains(x, y))
-    Screen::setMoving(true);
+  Layer::mousePressed(x, y);
+
+  Screen::setMoving(true);
 }
 
 void			Titlebar::mouseReleased(int x, int y)
 {
-  if (_menu->getRect().contains(x, y))
-    _menu->mouseReleased(x, y);
-  else
-    Screen::setMoving(false);
+  Layer::mouseReleased(x, y);
+
+  Screen::setMoving(false);
 }
 
 void			Titlebar::draw(sf::RenderWindow &window)
 {
-  _menu->draw(window);
+  Layer::draw(window);
+
   window.draw(_logo_spr);
   window.draw(_icon_spr);
-}
-
-bool			Titlebar::update(sf::RenderWindow &)
-{
-  return (true);
-}
-
-bool			Titlebar::catchMouse()
-{
-  return (true);
-}
-
-void			Titlebar::mouseCaught(int x, int y)
-{
-  Layer::mouseCaught(x, y);
-
-  if (_menu->getRect().contains(Screen::getCursorPosition()))
-    _menu->mouseCaught(x, y);
-  else
-    _menu->mouseLeft();
-}
-
-void			Titlebar::mouseLeft()
-{
-  Layer::mouseLeft();
-
-  _menu->mouseLeft();
 }

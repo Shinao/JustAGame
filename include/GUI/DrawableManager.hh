@@ -14,8 +14,8 @@ class DrawableManager
     Drawable				*_drawable_focused;
 
     std::map<std::string, Drawable *>	_drawables;
-    void				addDrawable(Drawable *drawable, std::string name);
-    Drawable				*getDrawable(std::string name);
+    void				add(Drawable *drawable, std::string name);
+    Drawable				*get(std::string name);
 
   public:
     DrawableManager();

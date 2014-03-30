@@ -70,16 +70,6 @@ void			MainMenu::draw(sf::RenderWindow &window)
   window.setView(window.getDefaultView());
 }
 
-bool			MainMenu::update(sf::RenderWindow &)
-{
-  return (true);
-}
-
-bool			MainMenu::catchMouse()
-{
-  return (true);
-}
-
 void			MainMenu::mouseCaught(int x, int y)
 {
   Layer::mouseCaught(x, y);

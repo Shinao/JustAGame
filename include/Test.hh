@@ -19,8 +19,6 @@ class Test : public Layer
     ~Test();
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
-    bool			update(sf::RenderWindow &window);
-    bool			catchMouse();
     void			mouseCaught(int x, int y);
     void			mouseLeft();
 };

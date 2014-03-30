@@ -15,8 +15,6 @@ class Background : public Layer
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
-    bool			update(sf::RenderWindow &window);
-    bool			catchMouse();
 };
 
 #endif

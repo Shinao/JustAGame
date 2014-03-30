@@ -35,16 +35,6 @@ void			Test::draw(sf::RenderWindow &window)
   _menu->draw(window);
 }
 
-bool			Test::update(sf::RenderWindow &)
-{
-  return (true);
-}
-
-bool			Test::catchMouse()
-{
-  return (true);
-}
-
 void			Test::mouseCaught(int x, int y)
 {
   Layer::mouseCaught(x, y);
