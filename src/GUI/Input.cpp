@@ -144,13 +144,13 @@ void			Input::setThickness(int thickness)
   _thickness = thickness;
 }
 
-void			Input::pressed()
+void			Input::mouseReleased(int x, int y)
 {
   // Check if not already pressed
   if (_pressed)
     return ;
 
-  Item::pressed();
+  Item::mouseReleased(x, y);
 
 
   // Add all callback for an input

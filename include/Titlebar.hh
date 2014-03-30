@@ -27,8 +27,8 @@ class Titlebar : public Layer
   public:
     Titlebar(Screen &screen);
     ~Titlebar();
-    void			pressed(int x, int y);
-    void			released(int x, int y);
+    void			mousePressed(int x, int y);
+    void			mouseReleased(int x, int y);
     void			minimize();
     void			restore();
     void			draw(sf::RenderWindow &window);

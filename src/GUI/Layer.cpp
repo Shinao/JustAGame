@@ -10,26 +10,11 @@ Layer::Layer(Screen &screen) :
 
 Layer::~Layer()
 {
-  // Clear Drawables
-  for (auto drawable : _drawables)
-    delete drawable.second;
-}
-
-void			Layer::addDrawable(Drawable *drawable, std::string name)
-{
-  _drawables[name] = drawable;
 }
 
 void			Layer::draw(sf::RenderWindow &window)
 {
-  // Draw all Drawables
-  for (auto drawable : _drawables)
-    drawable.second->draw(window);
-}
-
-Drawable		*Layer::getDrawable(std::string name)
-{
-  return (_drawables[name]);
+  DrawableManager::draw(window);
 }
 
 void			Layer::setId(unsigned id)
@@ -37,13 +22,17 @@ void			Layer::setId(unsigned id)
   _id = id;
 }
 
-void			Layer::mouseCaught(int, int)
+void			Layer::mouseCaught(int x, int y)
 {
+  DrawableManager::mouseCaught(x, y);
+
   _focused = true;
 }
 
 void			Layer::mouseLeft()
 {
+  DrawableManager::mouseLeft();
+
   _focused = false;
 }
 
@@ -52,12 +41,13 @@ bool			Layer::update(sf::RenderWindow &)
   return (true);
 }
 
-void			Layer::pressed(int, int)
+void			Layer::mousePressed(int, int)
 {
 }
 
-void			Layer::released(int, int)
+void			Layer::mouseReleased(int x, int y)
 {
+  DrawableManager::mouseReleased(x, y);
 }
 
 bool			Layer::catchMouse()

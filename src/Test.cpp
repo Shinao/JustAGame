@@ -24,10 +24,10 @@ Test::~Test()
   delete _menu;
 }
 
-void			Test::released(int x, int y)
+void			Test::mouseReleased(int x, int y)
 {
   if (_menu->getRect().contains(x, y))
-    _menu->clicked();
+    _menu->mouseReleased(x, y);
 }
 
 void			Test::draw(sf::RenderWindow &window)

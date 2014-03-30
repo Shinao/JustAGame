@@ -34,11 +34,9 @@ class Menu : public Drawable
     Menu(Type type, Rect rec, Theme *theme = jag::getCurrentTheme());
     virtual ~Menu();
 
-    Rect			getRect() const;
-    void			setRect(const Rect &rec);
     void			setTheme(Theme *theme);
     void			setPressed(Item *item);
-    void			clicked();
+    void			mouseReleased(int x, int y);
     void			add(Item *item);
     void			remove(Item *item);
     void			setMargin(const sf::Vector2i &margin);

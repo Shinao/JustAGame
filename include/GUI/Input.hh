@@ -53,7 +53,7 @@ class Input : public Item, public EventCallback
     void			update();
     Rect			getRectRessource() const;
     void			designChanged();
-    void			pressed();
+    void			mouseReleased(int x, int y);
     void			released();
     void			textEntered(Context context);
 

@@ -30,8 +30,8 @@ Screen::Screen(Mode mode) :
   using namespace std::placeholders;
 
   _event_manager.add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
-  _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::pressed, this, _1));
-  _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::released, this, _1));
+  _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, this, _1));
+  _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, this, _1));
   _event_manager.add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, this, _1));
   _event_manager.add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, this, _1));
   _event_manager.add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, this, _1));
@@ -73,20 +73,20 @@ void				Screen::checkEvent()
   _event_manager.invokeCallbacks();
 }
 
-void				Screen::pressed(Context context)
+void				Screen::mousePressed(Context context)
 {
   int	x = context.mouseButton.x, y = context.mouseButton.y;
 
   if (_layer_focused != NULL)
-    _layer_focused->pressed(x, y);
+    _layer_focused->mousePressed(x, y);
 }
 
-void				Screen::released(Context context)
+void				Screen::mouseReleased(Context context)
 {
   int	x = context.mouseButton.x, y = context.mouseButton.y;
 
   if (_layer_focused != NULL)
-    _layer_focused->released(x, y);
+    _layer_focused->mouseReleased(x, y);
 }
 
 void				Screen::manageMoving()

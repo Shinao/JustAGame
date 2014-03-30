@@ -17,12 +17,12 @@ Background::~Background()
 {
 }
 
-void			Background::pressed(int, int)
+void			Background::mousePressed(int, int)
 {
   Screen::setMoving(true);
 }
 
-void			Background::released(int, int)
+void			Background::mouseReleased(int, int)
 {
   Screen::setMoving(false);
 }

@@ -2,13 +2,13 @@
 #include "Utility/Graphic.hh"
 
 Item::Item(Theme *theme, Alignment align, float scale) :
-  _focused(false),
   _pressed(false),
   _release(false),
   _align(align),
   _scale(scale),
   _border_type(Border::None)
 {
+  _focused = false;
   _theme = theme;
 }
 
@@ -16,12 +16,7 @@ Item::~Item()
 {
 }
 
-Theme			*Item::getTheme()
-{
-  return (_theme);
-}
-
-void			Item::pressed()
+void			Item::mouseReleased(int, int)
 {
   if (!_pressed)
   {
@@ -79,25 +74,6 @@ void			Item::draw(sf::RenderWindow &win)
   win.draw(_border);
 }
 
-void			Item::mouseCaught(int, int)
-{
-  if (!_focused)
-  {
-    _focused = true;
-    designChanged();
-  }
-}
-
-void			Item::mouseLeft()
-{
-  // TODO - check if checking is really necessary
-  if (_focused)
-  {
-    _focused = false;
-    designChanged();
-  }
-}
-
 Rect			Item::getRect() const
 {
   Rect			rsrc = getRectRessource();
@@ -119,12 +95,10 @@ Rect			Item::getRect() const
 
 void			Item::setRect(const Rect &rec)
 {
-  _rec = rec;
+  _box.setSize(sf::Vector2f(rec.width, rec.height));
+  _box.setPosition(sf::Vector2f(rec.left, rec.top));
 
-  _box.setSize(sf::Vector2f(_rec.width, _rec.height));
-  _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
-
-  update();
+  Drawable::setRect(rec);
 }
 
 void			Item::addCallback(Callback callback, State state)

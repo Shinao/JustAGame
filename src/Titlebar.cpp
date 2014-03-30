@@ -81,16 +81,16 @@ void			Titlebar::restore()
   Screen::restore();
 }
 
-void			Titlebar::pressed(int x, int y)
+void			Titlebar::mousePressed(int x, int y)
 {
   if (!_menu->getRect().contains(x, y))
     Screen::setMoving(true);
 }
 
-void			Titlebar::released(int x, int y)
+void			Titlebar::mouseReleased(int x, int y)
 {
   if (_menu->getRect().contains(x, y))
-    _menu->clicked();
+    _menu->mouseReleased(x, y);
   else
     Screen::setMoving(false);
 }

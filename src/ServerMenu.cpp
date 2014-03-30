@@ -28,12 +28,6 @@ ServerMenu::~ServerMenu()
 {
 }
 
-void			ServerMenu::released(int x, int y)
-{
-  if (_menu->getRect().contains(x, y))
-    _menu->clicked();
-}
-
 bool			ServerMenu::update(sf::RenderWindow &)
 {
   return (true);
@@ -42,21 +36,4 @@ bool			ServerMenu::update(sf::RenderWindow &)
 bool			ServerMenu::catchMouse()
 {
   return (true);
-}
-
-void			ServerMenu::mouseCaught(int x, int y)
-{
-  Layer::mouseCaught(x, y);
-
-  if (_menu->getRect().contains(Screen::getCursorPosition()))
-    _menu->mouseCaught(x, y);
-  else
-    _menu->mouseLeft();
-}
-
-void			ServerMenu::mouseLeft()
-{
-  Layer::mouseLeft();
-
-  _menu->mouseLeft();
 }

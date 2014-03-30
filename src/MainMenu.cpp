@@ -50,10 +50,10 @@ MainMenu::~MainMenu()
   _screen.remove(_layer_menu);
 }
 
-void			MainMenu::released(int x, int y)
+void			MainMenu::mouseReleased(int x, int y)
 {
   if (_menu->getRect().contains(x, y))
-    _menu->clicked();
+    _menu->mouseReleased(x, y);
 }
 
 void			MainMenu::draw(sf::RenderWindow &window)

@@ -35,8 +35,8 @@ class Screen
     void			manageLayers();
 
     // Event catched
-    void			pressed(Context context);
-    void			released(Context context);
+    void			mousePressed(Context context);
+    void			mouseReleased(Context context);
     void			mouseMoved(Context context);
 
   public:

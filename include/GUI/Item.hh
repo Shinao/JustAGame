@@ -28,7 +28,6 @@ class Item : public Drawable
     };
 
   protected:
-    bool			_focused;
     bool			_pressed;
     bool			_release;
     Alignment			_align;
@@ -46,7 +45,6 @@ class Item : public Drawable
 
     const sf::Vector2i		&getMargin() const;
     void			setMargin(const sf::Vector2i &margin);
-    Theme			*getTheme();
     Rect			getRect() const;
     virtual void		setRect(const Rect &rec);
     void			setAlignment(Alignment align);
@@ -61,9 +59,7 @@ class Item : public Drawable
     virtual Rect		getRectRessource() const = 0;
     virtual void		draw(sf::RenderWindow &win);
     virtual void		update() = 0;
-    virtual void		mouseCaught(int x, int y);
-    virtual void		mouseLeft();
-    virtual void		pressed();
+    virtual void		mouseReleased(int x, int y);
     virtual void		released();
     virtual void		designChanged();
 };

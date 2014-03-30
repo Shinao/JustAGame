@@ -9,6 +9,7 @@ Menu::Menu(Type type, Rect rec, Theme *theme) :
   _item_pressed(NULL),
   _shrink(false)
 {
+  _focused = false;
   _theme = theme;
   _rec = rec;
 }
@@ -86,7 +87,7 @@ void			Menu::update()
 }
 
 // Intercepted click - send it to item focused
-void			Menu::clicked()
+void			Menu::mouseReleased(int x, int y)
 {
   // Toggle pressed
   if (_item_focused != NULL)
@@ -94,7 +95,7 @@ void			Menu::clicked()
     if (_item_pressed != NULL && _item_pressed != _item_focused)
       _item_pressed->released();
 
-    _item_focused->pressed();
+    _item_focused->mouseReleased(x, y);
     _item_pressed = _item_focused;
   }
 }
@@ -155,16 +156,6 @@ void			Menu::remove(Item *item)
       _items.erase(it);
 }
 
-Rect			Menu::getRect() const
-{
-  return (_rec);
-}
-
-void			Menu::setRect(const Rect &rec)
-{
-  _rec = rec;
-}
-
 void			Menu::setTheme(Theme *theme)
 {
   Drawable::setTheme(theme);
@@ -176,7 +167,7 @@ void			Menu::setTheme(Theme *theme)
 void			Menu::setPressed(Item *item)
 {
   _item_pressed = item;
-  item->pressed();
+  item->mouseReleased(0, 0);
 }
 
 void			Menu::setBorder(Border::Type border)

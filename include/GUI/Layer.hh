@@ -3,6 +3,7 @@
 
 # include "jag.hh"
 # include "GUI/Drawable.hh"
+# include "GUI/DrawableManager.hh"
 
 class Screen;
 
@@ -16,7 +17,7 @@ class Screen;
 // By default : update return false meaning the layer is not asbolute
 // catchMouse return false meaning mouse function will not be called
 // same thing goes for all the others event
-class Layer
+class Layer : public DrawableManager
 {
   private:
     int					_id;
@@ -25,11 +26,6 @@ class Layer
     Screen				&_screen;
     Rect				_rec;
     bool				_focused;
-
-    // Drawable Management
-    std::map<std::string, Drawable *>	_drawables;
-    void				addDrawable(Drawable *drawable, std::string name);
-    Drawable				*getDrawable(std::string name);
 
   public:
     Layer(Screen &screen);
@@ -41,8 +37,8 @@ class Layer
     virtual bool		catchMouse();
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
-    virtual void		pressed(int x, int y);
-    virtual void		released(int x, int y);
+    virtual void		mousePressed(int x, int y);
+    virtual void		mouseReleased(int x, int y);
 
     // Layer properties
     void			setId(unsigned id);
