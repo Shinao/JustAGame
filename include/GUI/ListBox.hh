@@ -3,19 +3,21 @@
 
 # include "GUI/Menu.hh"
 # include "GUI/DrawableManager.hh"
+# include "EventCallback.hh"
 
 // ListBox : hide/show a menu
 
-class ListBox : public Item, public DrawableManager
+class ListBox : public Item, public DrawableManager, public EventCallback
 {
   private:
     Menu			*_menu;
     Item			*_button;
     bool			_is_open;
     Item			*_selected_item;
+    bool			_patch_has_moved;
 
   public:
-    ListBox(Item *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    ListBox(EventManager &event, Item *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     ~ListBox();
 
     // ListBox

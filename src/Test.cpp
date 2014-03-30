@@ -7,7 +7,7 @@
 Test::Test(Screen &screen) :
   Layer::Layer(screen)
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 100, HEIGHT);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 100, 300);;
   _menu = new Menu(Menu::Horizontal, _rec);
   _rec.width = 500;
 
@@ -21,13 +21,13 @@ Test::Test(Screen &screen) :
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
 
-  ListBox *lb = new ListBox(new String("ListBOX"));
+  ListBox *lb = new ListBox(screen.getEventManager(), new String("ListBOX"), jag::getTheme("button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));
   lb->add(new String("he3"));
-  lb->add(new String("ASJDHAdsad"));
-  lb->setRect(Rect(350, _rec.top, 100, HEIGHT));
+  lb->add(new String("ASJDHAdsadsdasdasdsad"));
+  lb->setRect(Rect(350, _rec.top, 100, 32));
   add(lb, "lb");
 }
 

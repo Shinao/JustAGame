@@ -105,9 +105,6 @@ void			Menu::add(Item *item)
 {
   _items.push_back(item);
 
-  // Update item
-  if (item->getTheme() == NULL)
-    item->setTheme(_theme);
   item->setBorder(_border_type);
 }
 
