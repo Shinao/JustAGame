@@ -11,6 +11,7 @@ typedef int EventID;
 typedef const sf::Event & Context;
 typedef std::function<void (Context)>	Callback;
 
+
 class EventManager
 {
   private:
