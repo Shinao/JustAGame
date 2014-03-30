@@ -1,7 +1,7 @@
 #include "GUI/ListBox.hh"
 #include <iostream>
 
-ListBox::ListBox(EventManager &event, Item *button, Theme *theme, Alignment align, float scale) :
+ListBox::ListBox(EventManager &event, String *button, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
   EventCallback(event),
   _button(button),
@@ -54,8 +54,9 @@ void			ListBox::toggle()
 	if (!_patch_has_moved)
 	return ;
 
-	if (_menu->getRect().contains(context.mouseButton.x, context.mouseButton.y));
-	else
+	if (_menu->getRect().contains(context.mouseButton.x, context.mouseButton.y))
+	_menu->mouseReleased(context.mouseButton.x, context.mouseButton.y);
+
 	toggle();
 	});
   }
@@ -68,10 +69,24 @@ void			ListBox::toggle()
   }
 }
 
-void			ListBox::add(Item *item)
+void			ListBox::callbackItemChanged(Callback cb)
+{
+  _callback_item_changed = cb;
+}
+
+void			ListBox::add(String *item)
 {
   _menu->add(item);
   _menu->update();
+
+  // Add callback Item to redirect to the listbox item changed
+  item->addCallback([&, item]() {
+      _selected_item = item;
+      _button->setString(item->getString());
+
+      if (_callback_item_changed)
+      _callback_item_changed();
+      });
 }
 
 void			ListBox::draw(sf::RenderWindow &win)

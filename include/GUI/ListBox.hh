@@ -2,6 +2,7 @@
 # define LISTBOX_HH_
 
 # include "GUI/Menu.hh"
+# include "GUI/String.hh"
 # include "GUI/DrawableManager.hh"
 # include "EventCallback.hh"
 
@@ -11,19 +12,21 @@ class ListBox : public Item, public DrawableManager, public EventCallback
 {
   private:
     Menu			*_menu;
-    Item			*_button;
+    String			*_button;
     bool			_is_open;
     Item			*_selected_item;
     bool			_patch_has_moved;
+    Callback			_callback_item_changed;
 
   public:
-    ListBox(EventManager &event, Item *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    ListBox(EventManager &event, String *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     ~ListBox();
 
     // ListBox
     bool			isOpen();
     void			toggle();
-    void			add(Item *item);
+    void			add(String *item);
+    void			callbackItemChanged(Callback cb);
 
     void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);
