@@ -21,13 +21,15 @@ void			Item::mouseReleased(int, int)
   if (!_pressed)
   {
     _pressed = true;
-    designChanged();
+
+    if (_release)
+      _pressed = false;
+    else
+      designChanged();
 
     if (_callback_pressed)
       _callback_pressed();
 
-    if (_release)
-      _pressed = false;
   }
 }
 
@@ -47,7 +49,7 @@ void			Item::designChanged()
 {
   unsigned		size_border;
 
-  if (!_release && _pressed)
+  if (_pressed)
   {
     _border.setFillColor(_theme->c_border_pressed);
     size_border = _theme->size_border_pressed;

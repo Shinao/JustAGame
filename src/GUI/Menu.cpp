@@ -58,6 +58,7 @@ void			Menu::update()
     }
     else
     {
+
       rsrc.top = filled;
       rsrc.left = _rec.left;
       rsrc.width = _rec.width;
@@ -108,8 +109,6 @@ void			Menu::add(Item *item)
   if (item->getTheme() == NULL)
     item->setTheme(_theme);
   item->setBorder(_border_type);
-
-  item->mouseLeft();
 }
 
 // Checking on all items and send a signal

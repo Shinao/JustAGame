@@ -4,6 +4,9 @@ String::String(const sf::String &text, Theme *theme, Alignment align, float scal
   Item(theme, align, scale)
 {
   _text.setString(text);
+
+  // Set font & CharacterSize
+  designChanged();
 }
 
 String::~String()
@@ -20,7 +23,7 @@ void			String::designChanged()
 {
   Item::designChanged();
 
-  if (!_release && _pressed)
+  if (_pressed)
   {
     _text.setFont(_theme->f_text_pressed);
     _text.setCharacterSize(_theme->size_text_pressed);

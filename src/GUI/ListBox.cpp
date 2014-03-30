@@ -4,6 +4,7 @@
 ListBox::ListBox(Item *button, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
   _button(button),
+  _is_open(false),
   _selected_item(NULL)
 {
   DrawableManager::add(button, "button");
