@@ -2,7 +2,6 @@ TODO
 ----
 
 ###Urgent
-- Item without menu CANCER
 
 ###GUI
 - ListBox

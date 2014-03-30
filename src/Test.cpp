@@ -7,9 +7,9 @@
 Test::Test(Screen &screen) :
   Layer::Layer(screen)
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT, 100, HEIGHT);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 100, HEIGHT);;
   _menu = new Menu(Menu::Horizontal, _rec);
-  _rec.width = 300;
+  _rec.width = 500;
 
   Input	*text = new Input(screen.getEventManager());
   _menu->add(text);
@@ -17,9 +17,18 @@ Test::Test(Screen &screen) :
   _menu->update();
 
   String *btn = new String("Click me");
-  btn->setRect(Rect(300, _rec.top, 100, HEIGHT));
+  btn->setRect(Rect(200, _rec.top, 100, HEIGHT));
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
+
+  ListBox *lb = new ListBox(new String("ListBOX"));
+  lb->add(new String("heeloo"));
+  lb->add(new String("hee1"));
+  lb->add(new String("heeloo2"));
+  lb->add(new String("he3"));
+  lb->add(new String("ASJDHAdsad"));
+  lb->setRect(Rect(350, _rec.top, 100, HEIGHT));
+  add(lb, "lb");
 }
 
 Test::~Test()

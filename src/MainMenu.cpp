@@ -38,7 +38,7 @@ MainMenu::MainMenu(Screen &screen) :
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("GitHub [Source]");
-  text->addCallback([] () { Screen::openUrl("https://github.com/Shinao/JustAGame"); });
+  text->addCallback([]() { Screen::openUrl("https://github.com/Shinao/JustAGame"); });
   _menu->add(text);
 
   _menu->update();

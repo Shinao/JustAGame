@@ -22,8 +22,12 @@ void			Item::mouseReleased(int, int)
   {
     _pressed = true;
     designChanged();
+
     if (_callback_pressed)
       _callback_pressed();
+
+    if (_release)
+      _pressed = false;
   }
 }
 
@@ -33,6 +37,7 @@ void			Item::released()
   {
     _pressed = false;
     designChanged();
+
     if (_callback_released)
       _callback_released();
   }

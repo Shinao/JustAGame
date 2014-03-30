@@ -4,6 +4,7 @@
 # include "GUI/Layer.hh"
 # include "GUI/Menu.hh"
 # include "GUI/String.hh"
+# include "GUI/ListBox.hh"
 
 class Test : public Layer
 {
