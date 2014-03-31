@@ -3,6 +3,7 @@
 #include "Utility/Graphic.hh"
 
 Menu::Menu(Type type, Rect rec, Theme *theme) :
+  Drawable(theme),
   _type(type),
   _border_type(Border::None),
   _item_focused(NULL),
@@ -10,7 +11,6 @@ Menu::Menu(Type type, Rect rec, Theme *theme) :
   _shrink(false)
 {
   _focused = false;
-  _theme = theme;
   _rec = rec;
 }
 

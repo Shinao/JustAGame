@@ -1,5 +1,10 @@
 #include "GUI/Drawable.hh"
 
+Drawable::Drawable(Theme *theme)
+{
+  _theme = theme;
+}
+
 void			Drawable::setTheme(Theme *theme)
 {
   _theme = theme;

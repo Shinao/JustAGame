@@ -19,10 +19,15 @@ ListBox::ListBox(EventManager &event, String *button, Theme *theme, Alignment al
   _menu->shrinkToFit(true);
 
   _button->setBorder(Border::Bottom);
+
+  _scroller = new Scroller(event, _menu);
 }
 
 ListBox::~ListBox()
 {
+  // DrawableManager doesnt contain menu if closed
+  if (!_is_open)
+    delete _scroller;
 }
 
 bool			ListBox::isOpen()
@@ -44,31 +49,31 @@ void			ListBox::toggle()
     // Fix Event Released button automatic close menu
     _patch_has_moved = false;
 
-    DrawableManager::add(_menu, "menu");
+    DrawableManager::add(_scroller, "scroller");
 
     // Mouse event by EventManager since we have a popup
     using namespace std::placeholders;
     catchEvent(Action(sf::Event::MouseMoved), [&](Context context) { 
 	_patch_has_moved = true;
-	if (_menu->getRect().contains(context.mouseMove.x, context.mouseMove.y))
-	_menu->mouseCaught(context.mouseMove.x, context.mouseMove.y);
+	if (_scroller->getRect().contains(context.mouseMove.x, context.mouseMove.y))
+	_scroller->mouseCaught(context.mouseMove.x, context.mouseMove.y);
 	else
-	_menu->mouseLeft();
+	_scroller->mouseLeft();
 	});
 
     catchEvent(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), [&](Context context) {
 	if (!_patch_has_moved)
 	  return ;
 
-	if (_menu->getRect().contains(context.mouseButton.x, context.mouseButton.y))
-	  _menu->mouseReleased(context.mouseButton.x, context.mouseButton.y);
+	if (_scroller->getRect().contains(context.mouseButton.x, context.mouseButton.y))
+	  _scroller->mouseReleased(context.mouseButton.x, context.mouseButton.y);
 
 	toggle();
 	});
   }
   else
   {
-    DrawableManager::forget("menu");
+    DrawableManager::forget("scroller");
     released();
 
     // Clear callbacks
@@ -146,7 +151,12 @@ void			ListBox::setRect(const Rect &rec)
   Item::setRect(rec);
 
   _button->setRect(rec);
-  _menu->setRect(Rect(rec.left, rec.top + rec.height + _button->getTheme()->size_border, rec.width, _menu->getRect().height));
+
+  Rect scroller_rec = Rect(rec.left, rec.top + rec.height + _button->getTheme()->size_border,
+      rec.width, 50);
+  _scroller->setRect(scroller_rec);
+  scroller_rec.height = _menu->getRect().height;
+  _menu->setRect(scroller_rec);
 }
 
 

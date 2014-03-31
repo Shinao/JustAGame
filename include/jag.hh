@@ -22,6 +22,7 @@ namespace jag
   const int			MarginFPS = 4;
   const int			WindowBorderSize = 1;
   const int			MarginMenu = 64;
+  const int			ScrollerHeight = 164;
 
   void				init();
   void				clear();

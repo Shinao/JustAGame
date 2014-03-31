@@ -4,13 +4,16 @@
 # include "GUI/Menu.hh"
 # include "GUI/String.hh"
 # include "GUI/DrawableManager.hh"
+# include "GUI/Scroller.hh"
 # include "EventCallback.hh"
 
 // ListBox : hide/show a menu
+// Use a Scroller if too big
 
 class ListBox : public Item, public DrawableManager, public EventCallback
 {
   private:
+    Scroller			*_scroller;
     Menu			*_menu;
     String			*_button;
     bool			_is_open;

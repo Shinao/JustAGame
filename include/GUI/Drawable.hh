@@ -14,6 +14,7 @@ class Drawable
     bool			_focused;
 
   public:
+    Drawable(Theme *theme = jag::getCurrentTheme());
     virtual ~Drawable() {};
 
     virtual Rect		getRect() const;
