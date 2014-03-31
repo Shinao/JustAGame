@@ -11,6 +11,7 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
 {
   private:
     Drawable			*_drawable;
+    sf::RectangleShape		_scroll_box;
 
   public:
     Scroller(EventManager &event, Drawable *drawable, Theme *theme = jag::getCurrentTheme());

@@ -58,16 +58,7 @@ void			MainMenu::mouseReleased(int x, int y)
 
 void			MainMenu::draw(sf::RenderWindow &window)
 {
-  // TODO - Create slider
-  sf::View view(sf::FloatRect(_rec.left, _rec.top, _rec.width, _rec.height));
-  view.setViewport(sf::FloatRect((float) _rec.left / window.getSize().x,
-	(float) _rec.top / window.getSize().y, (float) _rec.width / window.getSize().x,
-	(float) _rec.height / window.getSize().y));
-  window.setView(view);
-
   _menu->draw(window);
-
-  window.setView(window.getDefaultView());
 }
 
 void			MainMenu::mouseCaught(int x, int y)
