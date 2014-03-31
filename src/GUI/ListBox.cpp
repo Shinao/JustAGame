@@ -10,14 +10,15 @@ ListBox::ListBox(EventManager &event, String *button, Theme *theme, Alignment al
 {
   DrawableManager::add(button, "button");
   button->addCallback([&]() { toggle(); });
-  button->autoRelease(true);
   button->setTheme(theme);
   button->setAlignment(Item::Alignment::Center);
 
   // Menu that we will toggle
-  _menu = new Menu(Menu::Vertical, Rect(0, 0, 0, 0));
+  _menu = new Menu(Menu::Vertical, Rect(0, 0, 0, 0), theme);
   _menu->setMargin(sf::Vector2i(6, 6));
   _menu->shrinkToFit(true);
+
+  _button->setBorder(Border::Bottom);
 }
 
 ListBox::~ListBox()
@@ -27,6 +28,11 @@ ListBox::~ListBox()
 bool			ListBox::isOpen()
 {
   return (_is_open);
+}
+
+Item			*ListBox::getSelectedItem()
+{
+  return (_selected_item);
 }
 
 void			ListBox::toggle()
@@ -52,10 +58,10 @@ void			ListBox::toggle()
 
     catchEvent(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), [&](Context context) {
 	if (!_patch_has_moved)
-	return ;
+	  return ;
 
 	if (_menu->getRect().contains(context.mouseButton.x, context.mouseButton.y))
-	_menu->mouseReleased(context.mouseButton.x, context.mouseButton.y);
+	  _menu->mouseReleased(context.mouseButton.x, context.mouseButton.y);
 
 	toggle();
 	});
@@ -63,10 +69,18 @@ void			ListBox::toggle()
   else
   {
     DrawableManager::forget("menu");
+    released();
 
     // Clear callbacks
     EventCallback::clearCallbacks();
   }
+}
+
+void			ListBox::released()
+{
+  Item::released();
+
+  _button->released();
 }
 
 void			ListBox::callbackItemChanged(Callback cb)
@@ -77,6 +91,7 @@ void			ListBox::callbackItemChanged(Callback cb)
 void			ListBox::add(String *item)
 {
   _menu->add(item);
+  item->setTheme(_theme);
   _menu->update();
 
   // Add callback Item to redirect to the listbox item changed
@@ -85,8 +100,8 @@ void			ListBox::add(String *item)
       _button->setString(item->getString());
 
       if (_callback_item_changed)
-      _callback_item_changed();
-      });
+        _callback_item_changed();
+  });
 }
 
 void			ListBox::draw(sf::RenderWindow &win)
@@ -128,7 +143,7 @@ void			ListBox::setRect(const Rect &rec)
   Item::setRect(rec);
 
   _button->setRect(rec);
-  _menu->setRect(Rect(rec.left, rec.top + rec.height, rec.width, _menu->getRect().height));
+  _menu->setRect(Rect(rec.left, rec.top + rec.height + _button->getTheme()->size_border, rec.width, _menu->getRect().height));
 }
 
 

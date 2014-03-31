@@ -32,7 +32,7 @@ namespace Utility
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;
 
-	case Border::Down:
+	case Border::Bottom:
 	  border.setPosition(rec.left, rec.top + rec.height);
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;

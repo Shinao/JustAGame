@@ -27,6 +27,8 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     void			toggle();
     void			add(String *item);
     void			callbackItemChanged(Callback cb);
+    Item			*getSelectedItem();
+    void			released();
 
     void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);

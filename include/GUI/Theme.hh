@@ -15,7 +15,7 @@ namespace Border
     Left,
     Right,
     Top,
-    Down
+    Bottom
   };
 }
 

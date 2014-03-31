@@ -11,7 +11,7 @@ ServerMenu::ServerMenu(Screen &screen) :
   Rect	rec = Rect(PADDING, jag::MarginMenu + Titlebar::HEIGHT - HEIGHT, WIDTH, HEIGHT);
   _rec = rec;
   _menu = new Menu(Menu::Horizontal, rec);
-  _menu->setBorder(Border::Down);
+  _menu->setBorder(Border::Bottom);
   _menu->setMargin(sf::Vector2i(MARGIN, 0));
 
   String	*text = new String("INTERNET");
