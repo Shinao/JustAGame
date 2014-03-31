@@ -1,4 +1,5 @@
 #include "GUI/Scroller.hh"
+#include <iostream>
 
 Scroller::Scroller(EventManager &event, Drawable *drawable, Theme *theme) :
   Drawable(theme),
@@ -6,10 +7,46 @@ Scroller::Scroller(EventManager &event, Drawable *drawable, Theme *theme) :
   _drawable(drawable)
 {
   add(drawable);
+
+  catchEvent(Action(sf::Event::MouseWheelMoved), [&](Context context) {
+      int add_drawable = context.mouseWheel.delta * Scrolling;
+      int add_scroll = context.mouseWheel.delta * ((float) Scrolling / _drawable->getRect().height * _rec.height);
+
+      _scroll_box.setPosition(_scroll_box.getPosition().x, _scroll_box.getPosition().y - add_scroll);
+      _drawable->setRect(Rect(_drawable->getRect().left, _drawable->getRect().top + add_drawable, 
+	  _drawable->getRect().width, _drawable->getRect().height)); 
+
+      // Avoid out-of-bounds
+      checkOutOfBounds(context.mouseWheel.delta);
+      });
 }
 
 Scroller::~Scroller()
 {
+}
+
+void			Scroller::checkOutOfBounds(int delta)
+{
+  if (delta < 0)
+  {
+    bool out = _drawable->getRect().top + _drawable->getRect().height < _rec.top + _rec.height;
+
+    if (out)
+    {
+      _scroll_box.setPosition(_scroll_box.getPosition().x, _rec.top + _rec.height - _scroll_box.getSize().y);
+      _drawable->setRect(Rect(_drawable->getRect().left, _rec.top + _rec.height - _drawable->getRect().height, _drawable->getRect().width, _drawable->getRect().height));
+    }
+  }
+  else
+  {
+    bool out = _drawable->getRect().top > _rec.top;
+
+    if (out)
+    {
+      _scroll_box.setPosition(_scroll_box.getPosition().x, _rec.top);
+      _drawable->setRect(Rect(_drawable->getRect().left, _rec.top, _drawable->getRect().width, _drawable->getRect().height));
+    }
+  }
 }
 
 void			Scroller::draw(sf::RenderWindow &win)
@@ -45,9 +82,9 @@ void			Scroller::setRect(const Rect &rec)
   Drawable::setRect(rec);
 
   // Set position and size of scroll box
-  _scroll_box.setPosition(rec.left + rec.width - jag::ScrollerSize, rec.top);
+  _scroll_box.setPosition(rec.left + rec.width - ScrollerSize, rec.top);
   // Set size by content showing proportion
-  _scroll_box.setSize(sf::Vector2f(jag::ScrollerSize, (float) rec.height / _drawable->getRect().height * rec.height));
+  _scroll_box.setSize(sf::Vector2f(ScrollerSize, (float) rec.height / _drawable->getRect().height * rec.height));
 }
 
 void		Scroller::mouseCaught(int x, int y)

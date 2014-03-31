@@ -10,8 +10,13 @@
 class Scroller : public Drawable, public DrawableManager, public EventCallback
 {
   private:
+    const int			ScrollerSize = 8;
+    const int			Scrolling = 8;
+
     Drawable			*_drawable;
     sf::RectangleShape		_scroll_box;
+
+    void			checkOutOfBounds(int delta);
 
   public:
     Scroller(EventManager &event, Drawable *drawable, Theme *theme = jag::getCurrentTheme());
