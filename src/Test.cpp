@@ -21,7 +21,7 @@ Test::Test(Screen &screen) :
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
 
-  ListBox *lb = new ListBox(screen.getEventManager(), new String("ListBOX"), jag::getTheme("button"), Item::Alignment::Center);
+  ListBox *lb = new ListBox(screen.getEventManager(), new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));

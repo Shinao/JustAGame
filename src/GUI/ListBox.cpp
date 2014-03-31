@@ -96,6 +96,9 @@ void			ListBox::add(String *item)
 
   // Add callback Item to redirect to the listbox item changed
   item->addCallback([&, item]() {
+      if (item == _selected_item)
+        return ;
+
       _selected_item = item;
       _button->setString(item->getString());
 

@@ -129,7 +129,7 @@ sf::Vector2i		Item::getRessourcePosition()
   if (_align == Left)
     pos.x += _margin.x;
   else if (_align == Center)
-    pos.x += rsrc.width / 2 + _margin.x;
+    pos.x += _rec.width / 2 - rsrc.width / 2 + _margin.x;
   else
     pos.x += rsrc.width + _margin.x;
 
