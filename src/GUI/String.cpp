@@ -48,6 +48,22 @@ void			String::designChanged()
 
 void			String::update()
 {
+  // Check out of bounds
+  sf::String str = _text.getString();
+  bool formatted = false;
+  while (_text.getLocalBounds().width + _margin.x > _rec.width && str != "")
+  {
+    formatted = true;
+    str.erase(str.getSize() - 1, 1);
+    _text.setString(str);
+  }
+  if (formatted)
+  {
+    for (int i = 1; i < 4; ++i)
+      str[str.getSize() - i] = '.';
+    _text.setString(str);
+  }
+
   _text.setScale(sf::Vector2f(_scale, _scale));
 
   sf::Vector2i		pos = getRessourcePosition();
@@ -61,26 +77,17 @@ Rect			String::getRectRessource() const
   return (Rect(_text.getLocalBounds()));
 }
 
+void			String::setRect(const Rect &rec)
+{
+  _text.setString(_text_original);
+
+  Item::setRect(rec);
+}
+
 void			String::setString(const sf::String &text)
 {
   _text_original = text;
   _text.setString(text);
-
-  // Check out of bounds
-  sf::String str = _text.getString();
-  bool formatted = false;
-  while (_text.getLocalBounds().width > _rec.width)
-  {
-    formatted = true;
-    str.erase(str.getSize() - 1, 1);
-    _text.setString(str);
-  }
-  if (formatted)
-  {
-    for (int i = 1; i < 4; ++i)
-      str[str.getSize() - i] = '.';
-    _text.setString(str);
-  }
 
   update();
 }

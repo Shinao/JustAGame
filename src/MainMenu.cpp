@@ -16,7 +16,7 @@ MainMenu::MainMenu() :
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
   _menu->shrinkToFit(true);
 
-  String *text = new String("SERVERS");
+  String *text = new String("SERVERS SDADASDASDASDASDASDASD");
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);

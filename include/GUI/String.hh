@@ -19,6 +19,7 @@ class String : public Item
     void			setString(const sf::String &text);
     const sf::String		&getString();
 
+    void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);
     void			update();
     Rect			getRectRessource() const;
