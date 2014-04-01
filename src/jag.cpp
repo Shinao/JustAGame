@@ -81,10 +81,8 @@ namespace jag
     _themes["input"] = theme;
     *theme = *_themes["white"];
     theme->c_background = theme->c_background_focused;
-    theme->c_background_pressed = theme->c_background;
     theme->c_border = sf::Color(GRAY - 20, GRAY - 20, GRAY - 20);
-    theme->c_border_pressed = _themes["white"]->c_background_pressed;
-    theme->c_text_pressed = theme->c_text;
+    theme->c_border_pressed = theme->c_border_focused;
 
 
     // Init ressources

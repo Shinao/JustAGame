@@ -1,7 +1,6 @@
 # TODO
 
 ###Urgent
-- Cancer input
 
 ###GUI
 - Table

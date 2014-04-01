@@ -167,6 +167,7 @@ void			Input::mouseReleased(int x, int y)
   using namespace std::placeholders;
   catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
   catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::click, this, _1));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&Input::released, this));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Left), std::bind(&Input::goLeft, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Right), std::bind(&Input::goRight, this, _1));
   // Special input
@@ -198,8 +199,9 @@ void			Input::updateCursor()
 
     // Checking selection out of input
     int width = std::abs(selection_pos.x - cur_pos.x);
-    if (width > INPUT_WIDTH - PADDING_TEXT * 2)
-      width = INPUT_WIDTH - PADDING_TEXT * 2;
+    int out = (width + start_x) - (_rec.left + INPUT_WIDTH);
+    if (out > 0)
+      width -= out;
 
     _selection.setSize(sf::Vector2f(width, INPUT_HEIGHT - PADDING_CURSOR * 2));
   }
