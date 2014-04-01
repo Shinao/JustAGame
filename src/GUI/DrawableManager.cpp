@@ -111,4 +111,11 @@ void			DrawableManager::mouseReleased(int x, int y)
       drawable.second->mouseReleased(x, y);
       break ;
     }
+
+  for (auto drawable : _forgot_drawables)
+    if (drawable.second->getRect().contains(x, y))
+    {
+      drawable.second->mouseReleased(x, y);
+      break ;
+    }
 }
