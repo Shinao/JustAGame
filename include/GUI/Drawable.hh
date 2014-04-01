@@ -25,6 +25,8 @@ class Drawable
     virtual void		update() = 0;
     Theme			*getTheme();
 
+    void			setTooltip(const sf::String text, const sf::Vector2i &pos);
+
     // Event
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();

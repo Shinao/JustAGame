@@ -2,7 +2,6 @@
 # define LAYER_HH_
 
 # include "jag.hh"
-# include "GUI/Drawable.hh"
 # include "GUI/DrawableManager.hh"
 
 // A layer is a part of a screen
@@ -31,7 +30,7 @@ class Layer : public DrawableManager
     // Event management
     virtual void		draw(sf::RenderWindow &window);
     virtual bool		update(sf::RenderWindow &window);
-    virtual bool		catchMouse();
+    virtual bool		catchMouse() const;
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual void		mousePressed(int x, int y);

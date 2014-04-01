@@ -1,4 +1,6 @@
 #include "GUI/Drawable.hh"
+#include "GUI/Tooltip.hh"
+#include "GUI/Screen.hh"
 
 Drawable::Drawable(Theme *theme)
 {
@@ -49,4 +51,9 @@ void			Drawable::mouseLeft()
 
 void			Drawable::mouseReleased(int, int)
 {
+}
+
+void			Drawable::setTooltip(const sf::String text, const sf::Vector2i &pos)
+{
+  Screen::add(new Tooltip(text, pos));
 }

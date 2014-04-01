@@ -49,7 +49,7 @@ void			Layer::mouseReleased(int x, int y)
   DrawableManager::mouseReleased(x, y);
 }
 
-bool			Layer::catchMouse()
+bool			Layer::catchMouse() const
 {
   return (true);
 }

@@ -11,8 +11,8 @@
 class Scroller : public Drawable, public DrawableManager, public EventCallback
 {
   private:
-    const int			ScrollerSize = 8;
-    const int			Scrolling = 8;
+    static const int		ScrollerSize = 8;
+    static const int		Scrolling = 8;
 
     Drawable			*_drawable;
     sf::RectangleShape		_scroll_box;
