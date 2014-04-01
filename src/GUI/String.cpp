@@ -3,7 +3,7 @@
 String::String(const sf::String &text, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale)
 {
-  _text.setString(text);
+  setString(text);
 
   // Set font & CharacterSize
   designChanged();
@@ -63,7 +63,24 @@ Rect			String::getRectRessource() const
 
 void			String::setString(const sf::String &text)
 {
+  _text_original = text;
   _text.setString(text);
+
+  // Check out of bounds
+  sf::String str = _text.getString();
+  bool formatted = false;
+  while (_text.getLocalBounds().width > _rec.width)
+  {
+    formatted = true;
+    str.erase(str.getSize() - 1, 1);
+    _text.setString(str);
+  }
+  if (formatted)
+  {
+    for (int i = 1; i < 4; ++i)
+      str[str.getSize() - i] = '.';
+    _text.setString(str);
+  }
 
   update();
 }

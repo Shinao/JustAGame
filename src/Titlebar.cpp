@@ -30,14 +30,17 @@ Titlebar::Titlebar() :
   Sprite	*sprite = new Sprite(&_min_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::minimize, this));
+  sprite->setTooltip("Minimize Window");
   menu->add(sprite);
   sprite = new Sprite(&_res_spr);
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::restore, this));
+  sprite->setTooltip("Center Window");
   menu->add(sprite);
   sprite = new Sprite(&_cross_spr);
   sprite->setTheme(jag::getTheme("titlebar_cross"));
   sprite->addCallback(&Screen::closeWindow);
+  sprite->setTooltip("Close Window");
   menu->add(sprite);
 
   // Updating position

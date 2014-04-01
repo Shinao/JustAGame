@@ -4,11 +4,13 @@
 # include "GUI/Item.hh"
 
 // Text specialization for an item in a menu.. or not
+// Format the text (..) if iis too big
 
 class String : public Item
 {
   private:
     sf::Text			_text;
+    sf::String			_text_original;
 
   public:
     String(const sf::String &text, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);

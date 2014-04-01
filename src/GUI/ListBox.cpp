@@ -114,10 +114,8 @@ void			ListBox::add(String *item)
 
 void			ListBox::draw(sf::RenderWindow &win)
 {
-  Screen::scissor(_rec);
   Item::draw(win);
   DrawableManager::draw(win);
-  Screen::undoScissor();
 }
 
 void			ListBox::designChanged()
@@ -154,7 +152,7 @@ void			ListBox::setRect(const Rect &rec)
 
   _button->setRect(rec);
 
-  Rect scroller_rec = Rect(rec.left, rec.top + rec.height + _button->getTheme()->size_border,
+  Rect scroller_rec = Rect(rec.left, rec.top + rec.height,
       rec.width, 50);
   _scroller->setRect(scroller_rec);
   scroller_rec.height = _menu->getRect().height;

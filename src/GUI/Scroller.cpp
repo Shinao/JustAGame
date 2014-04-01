@@ -9,8 +9,8 @@ Scroller::Scroller(Drawable *drawable, Theme *theme) :
   add(drawable);
 
   catchEvent(Action(sf::Event::MouseWheelMoved), [&](Context context) {
-      int add_drawable = context.mouseWheel.delta * Scrolling;
-      int add_scroll = context.mouseWheel.delta * ((float) Scrolling / _drawable->getRect().height * _rec.height);
+      int add_drawable = context.mouseWheel.delta * SCROLLING;
+      int add_scroll = context.mouseWheel.delta * ((float) SCROLLING / _drawable->getRect().height * _rec.height);
 
       _scroll_box.setPosition(_scroll_box.getPosition().x, _scroll_box.getPosition().y - add_scroll);
       _drawable->setRect(Rect(_drawable->getRect().left, _drawable->getRect().top + add_drawable, 
@@ -78,9 +78,9 @@ void			Scroller::setRect(const Rect &rec)
   Drawable::setRect(rec);
 
   // Set position and size of scroll box
-  _scroll_box.setPosition(rec.left + rec.width - ScrollerSize, rec.top);
+  _scroll_box.setPosition(rec.left + rec.width - SCROLLER_SIZE, rec.top);
   // Set size by content showing proportion
-  _scroll_box.setSize(sf::Vector2f(ScrollerSize, (float) rec.height / _drawable->getRect().height * rec.height));
+  _scroll_box.setSize(sf::Vector2f(SCROLLER_SIZE, (float) rec.height / _drawable->getRect().height * rec.height));
 }
 
 void		Scroller::mouseCaught(int x, int y)
