@@ -12,10 +12,8 @@ Test::Test() :
   _rec.width = 500;
 
   Input	*text = new Input();
-  _menu->add(text);
-  text->mouseReleased(0, 0);
-
-  _menu->update();
+  text->setRect(Rect(100, _rec.top + 100, Input::INPUT_WIDTH, Input::INPUT_HEIGHT));
+  add(text);
 
   String *btn = new String("Click me");
   btn->setRect(Rect(200, _rec.top, 100, HEIGHT));

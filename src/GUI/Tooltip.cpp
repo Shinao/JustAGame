@@ -5,7 +5,7 @@
 Tooltip::Tooltip(const sf::String &text, const sf::Vector2i &pos) :
   Layer::Layer()
 {
-  _string = new String(text, jag::getTheme("button"), Item::Alignment::Center);
+  _string = new String(text, jag::getTheme("tooltip"), Item::Alignment::Center);
   _string->setMargin(sf::Vector2i(8, 0));
   int string_width = _string->getRect().width;
 
@@ -32,7 +32,7 @@ Tooltip::Tooltip(const sf::String &text, const sf::Vector2i &pos) :
       _string->setRect(Rect(pos.x + BarSize, pos.y + SpaceFromCursor - StringHeight, string_width, StringHeight));
   }
 
-  _bar.setFillColor(jag::getTheme("button")->c_border_pressed);
+  _bar.setFillColor(jag::getTheme("tooltip")->c_border);
 }
 
 Tooltip::~Tooltip()

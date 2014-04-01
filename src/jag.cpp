@@ -26,20 +26,20 @@ namespace jag
     _themes["titlebar_cross"] = theme;
     *theme = *(_themes["titlebar"]);
     // Setting the titlebar cross icon theme
-    theme->c_background_focused = sf::Color(255, 200, 200, 224);
+    theme->c_background_focused = sf::Color(GRAY, GRAY - 60, GRAY - 60);
 
     theme = new Theme;
     _themes["white"] = theme;
     // Setting the menu theme
     theme->c_text = sf::Color(100, 100, 100);
     theme->c_text_focused = sf::Color(100, 100, 100);
-    theme->c_text_pressed = sf::Color(50, 50, 50);
+    theme->c_text_pressed = sf::Color(255, 255, 255);
     theme->size_text = 12;
     theme->size_text_focused = 12;
     theme->size_text_pressed = 12;
     theme->c_background = sf::Color::White;
     theme->c_background_focused = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_background_pressed = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
+    theme->c_background_pressed = sf::Color(100, 100, 100);
     theme->style_text = sf::Text::Regular;
     theme->style_text_focused = sf::Text::Regular;
     theme->style_text_pressed = sf::Text::Regular;
@@ -47,38 +47,44 @@ namespace jag
     theme->f_text_focused = theme->f_text;
     theme->f_text_pressed = theme->f_text;
     theme->c_border = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_border_focused = sf::Color(GRAY - 16, GRAY - 16, GRAY - 16);
-    theme->c_border_pressed = sf::Color(186, 186, GRAY);
-    theme->size_border = 2;
-    theme->size_border_focused = 2;
-    theme->size_border_pressed = 2;
+    theme->c_border_focused = sf::Color(GRAY - 40, GRAY - 20, GRAY);
+    theme->c_border_pressed = sf::Color(63, 146, 210);
+    theme->size_border = 3;
+    theme->size_border_focused = 3;
+    theme->size_border_pressed = 3;
 
     _theme = theme;
-
-    theme = new Theme;
-    _themes["black"] = theme;
-    *theme = *_themes["white"];
-    sf::Color toBlack(60, 60, 60);
-    theme->c_background *= toBlack;
-    theme->c_background_focused *= toBlack;
-    theme->c_background_pressed *= toBlack;
-    theme->c_border *=  toBlack;
-    theme->c_border_focused *= toBlack;
-    theme->c_border_pressed *= toBlack;
-    theme->c_text = sf::Color(150, 150, 150);
-    theme->c_text_focused = sf::Color(150, 150, 150);
-    theme->c_text_pressed = sf::Color(200, 200, 200);
 
     // Button theme
     theme = new Theme;
     _themes["button"] = theme;
     *theme = *_themes["white"];
     theme->c_background = sf::Color(GRAY, GRAY, GRAY);
-    theme->c_background_focused = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
-    theme->c_background_pressed = sf::Color(GRAY - 18, GRAY - 18, GRAY - 8);
-    theme->c_border = sf::Color(GRAY - 16, GRAY - 16, GRAY - 16);
-    theme->c_border_pressed = sf::Color(186, 186, GRAY);
-    theme->c_border_focused = sf::Color(186, 186, GRAY);
+    theme->c_background_focused = theme->c_background_pressed;
+    theme->c_text_focused = theme->c_text_pressed;
+    theme->c_border = theme->c_border_focused;
+    theme->c_border_focused = theme->c_border_pressed;
+
+    theme = new Theme;
+    _themes["itemListBox"] = theme;
+    *theme = *_themes["button"];
+    theme->c_background_focused = sf::Color(GRAY - 20, GRAY - 20, GRAY - 20);
+    theme->c_text_focused = _themes["white"]->c_text_focused;
+
+    theme = new Theme;
+    _themes["tooltip"] = theme;
+    *theme = *_themes["white"];
+    theme->c_background = theme->c_background_focused;
+    theme->c_border = theme->c_border_focused;
+
+    theme = new Theme;
+    _themes["input"] = theme;
+    *theme = *_themes["white"];
+    theme->c_background = theme->c_background_focused;
+    theme->c_background_pressed = theme->c_background;
+    theme->c_border = sf::Color(GRAY - 20, GRAY - 20, GRAY - 20);
+    theme->c_border_pressed = _themes["white"]->c_background_pressed;
+    theme->c_text_pressed = theme->c_text;
 
 
     // Init ressources

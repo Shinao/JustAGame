@@ -12,12 +12,12 @@
 class Input : public Item, public EventCallback
 {
   public:
-    const int			PADDING_TEXT = 4;
-    const int			PADDING_CURSOR = 6;
-    const int 			INPUT_THICKNESS = 1;
-    const int			INPUT_WIDTH = 124;
-    const int			INPUT_HEIGHT = 28;
-    const int			CURSOR_BLINK_SPEED = 750;
+    static const int		PADDING_TEXT = 4;
+    static const int		PADDING_CURSOR = 6;
+    static const int 		INPUT_THICKNESS = 1;
+    static const int		INPUT_WIDTH = 124;
+    static const int		INPUT_HEIGHT = 28;
+    static const int		CURSOR_BLINK_SPEED = 750;
 
   private:
     std::string			_string;
@@ -43,7 +43,7 @@ class Input : public Item, public EventCallback
 
 
   public:
-    Input(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    Input(Theme *theme = jag::getTheme("input"), Alignment align = Left, float scale = 1.0f);
     ~Input();
 
     void			setInput(const std::string &text);

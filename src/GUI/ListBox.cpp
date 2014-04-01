@@ -96,7 +96,7 @@ void			ListBox::callbackItemChanged(Callback cb)
 void			ListBox::add(String *item)
 {
   _menu->add(item);
-  item->setTheme(_theme);
+  item->setTheme(jag::getTheme("itemListBox"));
   _menu->update();
 
   // Add callback Item to redirect to the listbox item changed

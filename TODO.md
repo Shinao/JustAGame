@@ -1,12 +1,14 @@
 # TODO
 
 ###Urgent
-- Input shift out of bounds
+- Cancer input
 
 ###GUI
+- Table
 - MessageBox modal
+- Transparent theme
+- Better theme white
 
 ###After all
-- Better theme white
 - Checking TODO Check
 - Error checking - Exception handling

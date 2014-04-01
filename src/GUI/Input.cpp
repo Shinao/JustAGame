@@ -52,19 +52,29 @@ void			Input::designChanged()
 
   _text.setFont(_theme->f_text);
   _text.setCharacterSize(_theme->size_text);
-  _text.setColor(_theme->c_text);
   _text.setStyle(_theme->style_text);
   _cursor.setFillColor(_theme->c_border_pressed);
   _selection.setFillColor(_theme->c_border * sf::Color(1, 1, 1, 64));
 
   if (!_release && _pressed)
-    _input.setFillColor(_theme->c_border);
+  {
+    _input.setFillColor(_theme->c_background_pressed);
+    _input.setOutlineColor(_theme->c_border_pressed);
+    _text.setColor(_theme->c_text_pressed);
+  }
   else if (_focused)
-    _input.setFillColor(_theme->c_border);
+  {
+    _input.setFillColor(_theme->c_background_focused);
+    _input.setOutlineColor(_theme->c_border_focused);
+    _text.setColor(_theme->c_text_focused);
+  }
   else
-    _input.setFillColor(_theme->c_border);
+  {
+    _input.setFillColor(_theme->c_background);
+    _input.setOutlineColor(_theme->c_border);
+    _text.setColor(_theme->c_text);
+  }
 
-  _input.setOutlineColor(_theme->c_border_focused);
 }
 
 void			Input::update()
