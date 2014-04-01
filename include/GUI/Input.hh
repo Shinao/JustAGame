@@ -43,7 +43,7 @@ class Input : public Item, public EventCallback
 
 
   public:
-    Input(EventManager &event, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    Input(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     ~Input();
 
     void			setInput(const std::string &text);

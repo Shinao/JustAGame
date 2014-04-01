@@ -1,8 +1,8 @@
 #include "GUI/Input.hh"
 
-Input::Input(EventManager &event, Theme *theme, Alignment align, float scale) :
+Input::Input(Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
-  EventCallback(event),
+  EventCallback(),
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
   _thickness(INPUT_THICKNESS),
   _cursor_pos(0),

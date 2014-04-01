@@ -22,7 +22,7 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     Callback			_callback_item_changed;
 
   public:
-    ListBox(EventManager &event, String *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    ListBox(String *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
     ~ListBox();
 
     // ListBox

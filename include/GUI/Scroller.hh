@@ -20,7 +20,7 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
     void			checkOutOfBounds(int delta);
 
   public:
-    Scroller(EventManager &event, Drawable *drawable, Theme *theme = jag::getCurrentTheme());
+    Scroller(Drawable *drawable, Theme *theme = jag::getCurrentTheme());
     ~Scroller();
 
     void			setRect(const Rect &rec);

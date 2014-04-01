@@ -1,9 +1,9 @@
 #include "GUI/Scroller.hh"
 #include <iostream>
 
-Scroller::Scroller(EventManager &event, Drawable *drawable, Theme *theme) :
+Scroller::Scroller(Drawable *drawable, Theme *theme) :
   Drawable(theme),
-  EventCallback(event),
+  EventCallback(),
   _drawable(drawable)
 {
   add(drawable);

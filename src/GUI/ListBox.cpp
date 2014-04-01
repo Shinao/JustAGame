@@ -1,9 +1,9 @@
 #include "GUI/ListBox.hh"
 #include <iostream>
 
-ListBox::ListBox(EventManager &event, String *button, Theme *theme, Alignment align, float scale) :
+ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
-  EventCallback(event),
+  EventCallback(),
   _button(button),
   _is_open(false),
   _selected_item(NULL)
@@ -20,7 +20,7 @@ ListBox::ListBox(EventManager &event, String *button, Theme *theme, Alignment al
 
   _button->setBorder(Border::Bottom);
 
-  _scroller = new Scroller(event, _menu);
+  _scroller = new Scroller(_menu);
 }
 
 ListBox::~ListBox()

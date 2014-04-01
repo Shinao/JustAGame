@@ -2,15 +2,15 @@
 # define EVENT_CALLBACk_HH_
 
 # include "GUI/EventManager.hh"
+# include "GUI/Screen.hh"
 
 class EventCallback
 {
   private:
-    EventManager			&_event;
     std::vector<EventID>		_events;
 
   public:
-    EventCallback(EventManager &event);
+    EventCallback();
     ~EventCallback();
 
     void				catchEvent(const Action &action, const Callback &callback);

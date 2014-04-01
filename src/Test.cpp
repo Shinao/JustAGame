@@ -11,7 +11,7 @@ Test::Test() :
   _menu = new Menu(Menu::Horizontal, _rec);
   _rec.width = 500;
 
-  Input	*text = new Input(Screen::getEventManager());
+  Input	*text = new Input();
   _menu->add(text);
 
   _menu->update();
@@ -21,7 +21,7 @@ Test::Test() :
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
 
-  ListBox *lb = new ListBox(Screen::getEventManager(), new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
+  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));
