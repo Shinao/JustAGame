@@ -7,6 +7,15 @@ Homemade baked GUI. Framework networking - graphical and more.
 Wow. So powerful.
 
 
+####Build
+
+```
+cmake .
+make
+./justagame
+```
+
+
 ####Libraries
 
 - SFML - Multimedia library - http://www.sfml-dev.org/
