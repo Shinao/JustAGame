@@ -25,7 +25,6 @@ void			Input::draw(sf::RenderWindow &win)
 
   Screen::scissor(Rect(_rec.left + PADDING_TEXT, _rec.top, _rec.width - PADDING_TEXT, _rec.height));
   win.draw(_text);
-  Screen::undoScissor();
 
   // Only draw when pressed
   if (_pressed)
@@ -46,6 +45,7 @@ void			Input::draw(sf::RenderWindow &win)
 	win.draw(_cursor);
     }
   }
+  Screen::undoScissor();
 }
 
 void			Input::designChanged()
@@ -195,9 +195,6 @@ void			Input::updateCursor()
 
     // Checking selection out of input
     int width = std::abs(selection_pos.x - cur_pos.x);
-    int out = (width + start_x) - (_rec.left + INPUT_WIDTH);
-    if (out > 0)
-      width -= out;
 
     _selection.setSize(sf::Vector2f(width, INPUT_HEIGHT - PADDING_CURSOR * 2));
   }
