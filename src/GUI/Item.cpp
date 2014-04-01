@@ -77,6 +77,8 @@ void			Item::designChanged()
 
 void			Item::draw(sf::RenderWindow &win)
 {
+  Drawable::draw(win);
+
   win.draw(_box);
   win.draw(_border);
 }
@@ -129,7 +131,7 @@ sf::Vector2i		Item::getRessourcePosition()
   if (_align == Left)
     pos.x += _margin.x;
   else if (_align == Center)
-    pos.x += _rec.width / 2 - rsrc.width / 2 + _margin.x;
+    pos.x += _rec.width / 2 - rsrc.width / 2;
   else
     pos.x += rsrc.width + _margin.x;
 

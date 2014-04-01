@@ -24,7 +24,7 @@ namespace Screen
     std::vector<Layer *>	_layers_to_remove;
     std::vector<Layer *>	_layers;
     Layer			*_layer_focused;
-    sf::Clock			_timer;
+    sf::Clock			_timer_wait;
     EventManager		_event_manager;
 
     unsigned			getNextId();
@@ -231,8 +231,8 @@ namespace Screen
       _layers[i]->draw(_window);
 
     // Waiting FPS frames
-    while (_timer.getElapsedTime().asMilliseconds() < jag::FPSTime);
-    _timer.restart();
+    while (_timer_wait.getElapsedTime().asMilliseconds() < jag::FPSTime);
+    _timer_wait.restart();
 
     _window.display();
 

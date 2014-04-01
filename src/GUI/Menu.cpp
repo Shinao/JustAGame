@@ -22,6 +22,8 @@ Menu::~Menu()
 
 void			Menu::draw(sf::RenderWindow &win)
 {
+  Drawable::draw(win);
+
   // Drawing background and border
   win.draw(_box);
   win.draw(_border);

@@ -27,8 +27,9 @@ Test::Test() :
   lb->add(new String("heeloo2"));
   lb->add(new String("he3"));
   lb->add(new String("ASJDHAdsadsdasdasdsad"));
-  lb->setRect(Rect(350, _rec.top, 100, 32));
+  lb->setRect(Rect(420, _rec.top + 20, 100, 32));
   add(lb, "lb");
+  lb->setTooltip("Hello you!");
 }
 
 Test::~Test()
