@@ -15,7 +15,7 @@ class Test : public Layer
     Menu			*_menu;
 
   public:
-    Test(Screen &screen);
+    Test();
     ~Test();
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);

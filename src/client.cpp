@@ -12,22 +12,22 @@
 // Once upon a main
 int		main()
 {
-  Screen	screen(Screen::Setting);
   sf::Clock	timer;
   sf::Time	sleeping_time = sf::milliseconds(jag::FPSTime - jag::MarginFPS);
 
   // Init ressources
+  Screen::init(Screen::Setting);
   jag::init();
 
-  new Background(screen);
-  new Titlebar(screen);
-  new MainMenu(screen);
+  new Background();
+  new Titlebar();
+  new MainMenu();
 
-  new Test(screen);
+  new Test();
 
   while (Screen::isActive())
   {
-    screen.update();
+    Screen::update();
 
     // Sleep FPS minus MARGIN_FPS ms - keep FPS stable if lots of updates
     sf::sleep(sleeping_time);
@@ -35,6 +35,7 @@ int		main()
 
   // Free ressources
   jag::clear();
+  Screen::clear();
 
   return (EXIT_SUCCESS);
 }

@@ -1,11 +1,10 @@
 #include "GUI/Layer.hh"
 #include "GUI/Screen.hh"
 
-Layer::Layer(Screen &screen) :
-  _screen(screen),
+Layer::Layer() :
   _focused(false)
 {
-  screen.add(this);
+  Screen::add(this);
 }
 
 Layer::~Layer()

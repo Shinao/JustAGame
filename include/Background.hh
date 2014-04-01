@@ -10,7 +10,7 @@ class Background : public Layer
     sf::RectangleShape		_bg;
 
   public:
-    Background(Screen &screen);
+    Background();
     ~Background();
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);

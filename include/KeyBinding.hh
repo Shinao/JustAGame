@@ -14,7 +14,7 @@ class KeyBinding : public Layer
   private:
 
   public:
-    KeyBinding(Screen &screen);
+    KeyBinding();
     ~KeyBinding();
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);

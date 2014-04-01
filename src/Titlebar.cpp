@@ -2,8 +2,8 @@
 #include "GUI/Screen.hh"
 #include "GUI/Sprite.hh"
 
-Titlebar::Titlebar(Screen &screen) :
-  Layer::Layer(screen)
+Titlebar::Titlebar() :
+  Layer::Layer()
 {
   Rect	rec = Rect(jag::WindowBorderSize, jag::WindowBorderSize,
       		Screen::getSize().x - jag::WindowBorderSize * 2, HEIGHT);

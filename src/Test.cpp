@@ -4,14 +4,14 @@
 
 #include "GUI/Input.hh"
 
-Test::Test(Screen &screen) :
-  Layer::Layer(screen)
+Test::Test() :
+  Layer::Layer()
 {
   _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 100, 300);;
   _menu = new Menu(Menu::Horizontal, _rec);
   _rec.width = 500;
 
-  Input	*text = new Input(screen.getEventManager());
+  Input	*text = new Input(Screen::getEventManager());
   _menu->add(text);
 
   _menu->update();
@@ -21,7 +21,7 @@ Test::Test(Screen &screen) :
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
 
-  ListBox *lb = new ListBox(screen.getEventManager(), new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
+  ListBox *lb = new ListBox(Screen::getEventManager(), new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));

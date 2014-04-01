@@ -16,7 +16,7 @@ class ServerMenu : public Layer
     Menu			*_menu;
 
   public:
-    ServerMenu(Screen &screen);
+    ServerMenu();
     ~ServerMenu();
 };
 

@@ -25,7 +25,7 @@ class MainMenu : public Layer
     void			cbReleased();
 
   public:
-    MainMenu(Screen &screen);
+    MainMenu();
     ~MainMenu();
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);

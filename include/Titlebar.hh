@@ -24,7 +24,7 @@ class Titlebar : public Layer
     sf::Texture			_logo_tex;
 
   public:
-    Titlebar(Screen &screen);
+    Titlebar();
     ~Titlebar();
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);

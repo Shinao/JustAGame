@@ -5,8 +5,6 @@
 # include "GUI/Drawable.hh"
 # include "GUI/DrawableManager.hh"
 
-class Screen;
-
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc
 // It's an abtract class - inherit from it
@@ -23,12 +21,11 @@ class Layer : public DrawableManager
     int					_id;
 
   protected:
-    Screen				&_screen;
     Rect				_rec;
     bool				_focused;
 
   public:
-    Layer(Screen &screen);
+    Layer();
     virtual ~Layer();
 
     // Event management

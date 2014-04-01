@@ -1,8 +1,8 @@
 #include "KeyBinding.hh"
 #include "GUI/Screen.hh"
 
-KeyBinding::KeyBinding(Screen &screen) :
-  Layer::Layer(screen)
+KeyBinding::KeyBinding() :
+  Layer::Layer()
 {
 }
 
@@ -14,7 +14,7 @@ void			KeyBinding::mouseReleased(int, int)
 {
 }
 
-void			KeyBinding::draw(sf::RenderWindow &window)
+void			KeyBinding::draw(sf::RenderWindow &)
 {
 }
 

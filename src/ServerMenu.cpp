@@ -5,8 +5,8 @@
 
 #include "GUI/Input.hh"
 
-ServerMenu::ServerMenu(Screen &screen) :
-  Layer::Layer(screen)
+ServerMenu::ServerMenu() :
+  Layer::Layer()
 {
   Rect	rec = Rect(PADDING, jag::MarginMenu + Titlebar::HEIGHT - HEIGHT, WIDTH, HEIGHT);
   _rec = rec;

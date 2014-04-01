@@ -5,8 +5,8 @@
 #include "KeyBinding.hh"
 #include "ServerMenu.hh"
 
-MainMenu::MainMenu(Screen &screen) :
-  Layer::Layer(screen),
+MainMenu::MainMenu() :
+  Layer::Layer(),
   _layer_menu(NULL)
 {
   Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, jag::MarginMenu + Titlebar::HEIGHT, WIDTH, HEIGHT);
@@ -47,7 +47,7 @@ MainMenu::MainMenu(Screen &screen) :
 MainMenu::~MainMenu()
 {
   delete _menu;
-  _screen.remove(_layer_menu);
+  Screen::remove(_layer_menu);
 }
 
 void			MainMenu::mouseReleased(int x, int y)
@@ -80,12 +80,12 @@ void			MainMenu::mouseLeft()
 
 void			MainMenu::cbReleased()
 {
-  _screen.remove(_layer_menu);
+  Screen::remove(_layer_menu);
 }
 
 void			MainMenu::cbServer()
 {
-  _layer_menu = new ServerMenu(_screen);
+  _layer_menu = new ServerMenu();
 }
 
 void			MainMenu::cbPlayer()
@@ -94,7 +94,7 @@ void			MainMenu::cbPlayer()
 
 void			MainMenu::cbKeyBindings()
 {
-  _layer_menu = new KeyBinding(_screen);
+  _layer_menu = new KeyBinding();
 }
 
 void			MainMenu::cbAudio()
