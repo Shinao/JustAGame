@@ -33,7 +33,7 @@ namespace Utility
 	  break;
 
 	case Border::Bottom:
-	  border.setPosition(rec.left, rec.top + rec.height);
+	  border.setPosition(rec.left, rec.top + rec.height - size_border);
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;
 
@@ -43,7 +43,7 @@ namespace Utility
 	  break;
 
 	default:
-	  border.setPosition(rec.left + rec.width, rec.top);
+	  border.setPosition(rec.left + rec.width - size_border, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
       }
   }

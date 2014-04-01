@@ -114,8 +114,10 @@ void			ListBox::add(String *item)
 
 void			ListBox::draw(sf::RenderWindow &win)
 {
+  Screen::scissor(_rec);
   Item::draw(win);
   DrawableManager::draw(win);
+  Screen::undoScissor();
 }
 
 void			ListBox::designChanged()
