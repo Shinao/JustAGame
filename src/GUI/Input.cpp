@@ -104,7 +104,8 @@ void			Input::updateRendering()
       x_diff = 0;
   }
 
-  _text.setPosition(_rec.left + PADDING_TEXT + x_diff, _rec.top + ((INPUT_HEIGHT - _text.getCharacterSize() - _text.getLocalBounds().top) / 2));
+  _text.setPosition(_rec.left + PADDING_TEXT + x_diff, _rec.top +
+      ((INPUT_HEIGHT - _text.getCharacterSize() - INPUT_THICKNESS * 2) / 2));
 
   updateCursor();
 }
