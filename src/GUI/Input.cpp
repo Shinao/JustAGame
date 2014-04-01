@@ -105,7 +105,7 @@ void			Input::updateRendering()
   }
 
   _text.setPosition(_rec.left + PADDING_TEXT + x_diff, _rec.top +
-      ((INPUT_HEIGHT - _text.getCharacterSize() - INPUT_THICKNESS * 2) / 2));
+      ((INPUT_HEIGHT - _text.getCharacterSize() - 2) / 2));
 
   updateCursor();
 }
