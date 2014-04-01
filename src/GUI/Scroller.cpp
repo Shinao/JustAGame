@@ -51,18 +51,14 @@ void			Scroller::checkOutOfBounds(int delta)
 
 void			Scroller::draw(sf::RenderWindow &win)
 {
-  // Draw only in our area with View
-  sf::View view(sf::FloatRect(_rec.left, _rec.top, _rec.width, _rec.height));
-  view.setViewport(sf::FloatRect((float) _rec.left / win.getSize().x,
-	(float) _rec.top / win.getSize().y, (float) _rec.width / win.getSize().x,
-	(float) _rec.height / win.getSize().y));
-  win.setView(view);
+  // Define drawing area
+  Screen::scissor(_rec);
 
   DrawableManager::draw(win);
   win.draw(_scroll_box);
 
   // Restore view
-  win.setView(win.getDefaultView());
+  Screen::undoScissor();
 }
 
 void			Scroller::designChanged()

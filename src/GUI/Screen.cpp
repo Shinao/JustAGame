@@ -298,3 +298,20 @@ void					Screen::mouseLeft(Context)
       _layer_focused->mouseLeft();
   }
 }
+
+void					Screen::scissor(Rect rec)
+{
+  // Draw only in our area with View
+  sf::View view(sf::FloatRect(rec.left, rec.top, rec.width, rec.height));
+
+  view.setViewport(sf::FloatRect((float) rec.left / _window.getSize().x,
+	(float) rec.top / _window.getSize().y, (float) rec.width / _window.getSize().x,
+	(float) rec.height / _window.getSize().y));
+
+  _window.setView(view);
+}
+
+void					Screen::undoScissor()
+{
+  _window.setView(_window.getDefaultView());
+}

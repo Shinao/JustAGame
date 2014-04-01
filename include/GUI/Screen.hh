@@ -59,6 +59,8 @@ class Screen
     static void				closeWindow();
     static void				close(Context);
     void				mouseLeft(Context context = sf::Event());
+    static void				scissor(Rect rec);
+    static void				undoScissor();
 
     // Implementation Unix/Windows
     static void				minimize();

@@ -1,6 +1,7 @@
 #ifndef SCROLLER_HH_
 # define SCROLLER_HH_
 
+# include "GUI/Screen.hh"
 # include "GUI/Drawable.hh"
 # include "GUI/DrawableManager.hh"
 # include "EventCallback.hh"
