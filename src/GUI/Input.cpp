@@ -11,7 +11,6 @@ Input::Input(Theme *theme, Alignment align, float scale) :
   _input.setSize(sf::Vector2f(_size));
   _input.setOutlineThickness(INPUT_THICKNESS);
   _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
-  _render_texture.create(INPUT_WIDTH - INPUT_THICKNESS - PADDING_CURSOR, INPUT_HEIGHT);
 }
 
 Input::~Input()
@@ -23,7 +22,10 @@ void			Input::draw(sf::RenderWindow &win)
   Item::draw(win);
 
   win.draw(_input);
-  win.draw(_render);
+
+  Screen::scissor(Rect(_rec.left + PADDING_TEXT, _rec.top, _rec.width - PADDING_TEXT, _rec.height));
+  win.draw(_text);
+  Screen::undoScissor();
 
   // Only draw when pressed
   if (_pressed)
@@ -52,7 +54,6 @@ void			Input::designChanged()
 
   _text.setFont(_theme->f_text);
   _text.setCharacterSize(_theme->size_text);
-  _text.setStyle(_theme->style_text);
   _cursor.setFillColor(_theme->c_border_pressed);
   _selection.setFillColor(_theme->c_border * sf::Color(1, 1, 1, 64));
 
@@ -74,14 +75,13 @@ void			Input::designChanged()
     _input.setOutlineColor(_theme->c_border);
     _text.setColor(_theme->c_text);
   }
-
 }
 
 void			Input::update()
 {
   sf::Vector2i		pos = getRessourcePosition();
   _input.setPosition(pos.x, pos.y);
-  _render.setPosition(pos.x + PADDING_TEXT, pos.y);
+  _text.setPosition(pos.x + PADDING_TEXT, pos.y);
 
   designChanged();
 
@@ -99,16 +99,12 @@ void			Input::updateRendering()
     x_diff = _text.findCharacterPos(_cursor_pos).x - _text.findCharacterPos(0).x;
 
     if (x_diff >= INPUT_WIDTH - PADDING_TEXT - INPUT_THICKNESS * 2)
-      x_diff = _render_texture.getSize().x - x_diff;
+      x_diff = (INPUT_WIDTH - PADDING_TEXT * 2) - x_diff;
     else
       x_diff = 0;
   }
 
-  _text.setPosition(x_diff, (INPUT_HEIGHT - _text.getCharacterSize() - _text.getLocalBounds().top) / 2);
-  _render_texture.clear(sf::Color::Transparent);
-  _render_texture.draw(_text);
-  _render_texture.display();
-  _render.setTexture(_render_texture.getTexture());
+  _text.setPosition(_rec.left + PADDING_TEXT + x_diff, _rec.top + ((INPUT_HEIGHT - _text.getCharacterSize() - _text.getLocalBounds().top) / 2));
 
   updateCursor();
 }
@@ -182,7 +178,7 @@ void			Input::mouseReleased(int x, int y)
 
 void			Input::updateCursor()
 {
-  sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos) + _render.getPosition();
+  sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos);
   _cursor.setPosition(cur_pos.x, _input.getGlobalBounds().top + PADDING_CURSOR + INPUT_THICKNESS);
 
   // Reset timer - Show visible because we update it
@@ -192,7 +188,7 @@ void			Input::updateCursor()
   // Update selection if exist
   if (_cursor_selection != -1)
   {
-    sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection) + _render.getPosition();
+    sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection);
 
     int start_x = std::min(selection_pos.x, cur_pos.x);
     _selection.setPosition(start_x, cur_pos.y);
