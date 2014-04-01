@@ -12,7 +12,7 @@ class Tooltip;
 class Drawable
 {
   protected:
-    static const int		DelayTooltip = 1500;
+    static const int		DelayTooltip = 1000;
 
     Rect			_rec;
     Theme			*_theme;
