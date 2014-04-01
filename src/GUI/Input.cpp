@@ -267,10 +267,8 @@ void			Input::goLeft(Context)
   checkSelection();
 
   // Check out of text
-  if (_cursor_pos == 0)
-    return ;
-
-  --_cursor_pos;
+  if (_cursor_pos != 0)
+    --_cursor_pos;
 
   updateRendering();
 }
@@ -280,10 +278,8 @@ void			Input::goRight(Context)
   checkSelection();
 
   // Check out of text
-  if (_cursor_pos >= (int) _string.size())
-    return ;
-
-  ++_cursor_pos;
+  if (_cursor_pos < (int) _string.size())
+    ++_cursor_pos;
 
   updateRendering();
 }

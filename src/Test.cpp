@@ -7,12 +7,13 @@
 Test::Test() :
   Layer::Layer()
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 100, 300);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 150, 300);;
   _menu = new Menu(Menu::Horizontal, _rec);
   _rec.width = 500;
 
   Input	*text = new Input();
   _menu->add(text);
+  text->mouseReleased(0, 0);
 
   _menu->update();
 
