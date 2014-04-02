@@ -6,7 +6,6 @@
 - Table
 - MessageBox modal
 - Transparent theme
-- Better theme white
 
 ###After all
 - Checking TODO Check

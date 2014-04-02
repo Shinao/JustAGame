@@ -25,8 +25,9 @@ namespace Screen
     std::vector<Layer *>	_layers;
     Layer			*_layer_focused;
     sf::Clock			_timer_wait;
-    EventManager		_event_manager;
+    EventManager		*_event_manager;
 
+    void			catchLayersEvents();
     unsigned			getNextId();
     void			checkEvent();
     void			updateFocused();
@@ -36,6 +37,13 @@ namespace Screen
     void			mousePressed(Context context);
     void			mouseReleased(Context context);
     void			mouseMoved(Context context);
+
+    // Modal
+    // EventManager		*_event_manager_modal_backup;
+    // void			catchLayersEventsModal();
+    // void			mousePressedModal(Context context);
+    // void			mouseReleasedModal(Context context);
+    // void			mouseMovedModal(Context context);
   }
 
 
@@ -45,6 +53,7 @@ namespace Screen
 
   void			init(Mode mode)
   {
+    _event_manager = new EventManager();
     _moving = false;
     _layer_focused = NULL;
     // Get enough space
@@ -59,15 +68,7 @@ namespace Screen
       restore();
     }
 
-    // Add special event callback
-    using namespace std::placeholders;
-
-    _event_manager.add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
-    _event_manager.add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, _1));
-    _event_manager.add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, _1));
-    _event_manager.add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, _1));
-    _event_manager.add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, _1));
-    _event_manager.add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, _1));
+    catchLayersEvents();
   }
 
   void			clear()
@@ -84,6 +85,19 @@ namespace Screen
 
   namespace
   {
+    void			catchLayersEvents()
+    {
+      // Add special event callback
+      using namespace std::placeholders;
+
+      _event_manager->add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
+      _event_manager->add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, _1));
+      _event_manager->add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, _1));
+      _event_manager->add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, _1));
+      _event_manager->add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, _1));
+      _event_manager->add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, _1));
+    }
+
     unsigned			getNextId()
     {
       // Check not enough space : double capacity
@@ -102,10 +116,10 @@ namespace Screen
 
       // Everything is done by callbacks - thanks C++11
       while (_window.pollEvent(event))
-	_event_manager.push(event);
+	_event_manager->push(event);
 
       // All event pushed - time to callback
-      _event_manager.invokeCallbacks();
+      _event_manager->invokeCallbacks();
     }
 
     void				mousePressed(Context context)
@@ -291,7 +305,7 @@ namespace Screen
 
   EventManager				&getEventManager()
   {
-    return (_event_manager);
+    return (*_event_manager);
   }
 
   void					minimize()
@@ -352,4 +366,19 @@ namespace Screen
   {
     _window.setView(_window.getDefaultView());
   }
+
+  // void					setModal(bool modal)
+  // {
+  //   if (modal)
+  //   {
+  //     _event_manager_modal_backup = _event_manager;
+  //     _event_manager = new EventManager();
+  //     catchLayersEventsModal();
+  //   }
+  //   else
+  //   {
+  //     delete _event_manager;
+  //     _event_manager = _event_manager_modal_backup;
+  //   }
+  // }
 }

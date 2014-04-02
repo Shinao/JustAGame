@@ -20,6 +20,10 @@ Test::Test() :
   btn->setString("RHLAKJDHAS");
   add(btn, "btn");
 
+  StringArea *area = new StringArea("Lorem ipsum dolar si vis pacem para bellum. Caesar ma grosse bute.");
+  area->setRect(Rect(400, _rec.top + 120, 100, HEIGHT));
+  add(area);
+
   ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));

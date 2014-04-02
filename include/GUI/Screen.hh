@@ -49,6 +49,7 @@ namespace Screen
   void				add(Layer *layer);
   void				remove(Layer *layer);
   EventManager			&getEventManager();
+  void				setModal(bool modal);
 };
 
 #endif
