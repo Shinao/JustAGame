@@ -33,6 +33,8 @@ Test::Test() :
   lb->setRect(Rect(420, _rec.top + 20, 100, 32));
   add(lb, "lb");
   lb->setTooltip("Hello you!");
+
+  new MessageBox("Hello", "This is a test.");
 }
 
 Test::~Test()

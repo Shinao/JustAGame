@@ -6,6 +6,7 @@
 # include "GUI/String.hh"
 # include "GUI/ListBox.hh"
 # include "GUI/StringArea.hh"
+# include "GUI/MessageBox.hh"
 
 class Test : public Layer
 {

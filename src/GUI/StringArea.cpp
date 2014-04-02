@@ -9,6 +9,8 @@ StringArea::StringArea(const sf::String &str, Theme *theme) :
 
 StringArea::~StringArea()
 {
+  for (auto text : _texts)
+    delete text;
 }
 
 void			StringArea::setString(const sf::String &str)
