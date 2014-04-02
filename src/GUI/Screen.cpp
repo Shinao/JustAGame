@@ -195,6 +195,9 @@ namespace Screen
       {
 	for (auto layer : _layers_to_remove)
 	{
+	  if (layer == _layer_focused)
+	    _layer_focused = NULL;
+
 	  // Moving all the layer from one index down
 	  for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
 	    _layers[i] = _layers[i + 1];

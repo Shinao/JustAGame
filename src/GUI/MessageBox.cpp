@@ -4,6 +4,7 @@
 
 MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   Layer::Layer(),
+  _draw_fog(true),
   _y_button_start(16)
 {
   // Layer take all the space (Modal)
@@ -38,6 +39,10 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   add(g_desc);
 
   _background.setSize(sf::Vector2f(_background.getSize().x, _background.getSize().y + g_desc->getRectRessource().height));
+
+  _fog.setPosition(0, 0);
+  _fog.setSize(sf::Vector2f(_rec.width, _rec.height));
+  _fog.setFillColor(sf::Color(100, 100, 100, 50));
 }
 
 MessageBox::~MessageBox()
@@ -46,6 +51,9 @@ MessageBox::~MessageBox()
 
 void			MessageBox::draw(sf::RenderWindow &window)
 {
+  if (_draw_fog)
+    window.draw(_fog);
+
   window.draw(_background);
 
   Layer::draw(window);
@@ -55,10 +63,17 @@ void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
 {
   String	*button = new String(str, jag::getTheme("MessageBoxButton"));
   button->setAlignment(Item::Alignment::Center);
-  button->addCallback(cb);
+  button->addCallback([&](){ Screen::remove(this); cb();});
   button->setBorder(Border::Right);
   button->setRect(Rect(_background.getPosition().x + MESSAGEBOX_WIDTH - _y_button_start - BUTTON_WIDTH,
       _background.getPosition().y + _background.getSize().y - STATUS_BAR_HEIGHT + BUTTON_HEIGHT / 2,
       BUTTON_WIDTH, BUTTON_HEIGHT));
   add(button);
+
+  _y_button_start += BUTTON_WIDTH + 8;
+}
+
+void			MessageBox::drawFog(bool draw)
+{
+  _draw_fog = draw;
 }
