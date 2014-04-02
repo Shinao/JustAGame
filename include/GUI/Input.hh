@@ -70,4 +70,3 @@ class Input : public Item, public EventCallback
 };
 
 #endif
-

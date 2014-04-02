@@ -22,7 +22,7 @@ Titlebar::Titlebar() :
   _res_spr.setTexture(_res_tex);
 
   // Creating menu
-  Menu *menu = new Menu(Menu::Horizontal, _rec);
+  Menu *menu = new Menu(Menu::Horizontal);
   menu->setBorder(Border::None);
   menu->setTheme(jag::getTheme("Titlebar"));
   menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));

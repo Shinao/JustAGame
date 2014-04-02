@@ -31,7 +31,7 @@ class Menu : public Drawable
     bool			_shrink;
 
   public:
-    Menu(Type type, Rect rec, Theme *theme = jag::getCurrentTheme());
+    Menu(Type type, Theme *theme = jag::getCurrentTheme());
     virtual ~Menu();
 
     void			setTheme(Theme *theme);

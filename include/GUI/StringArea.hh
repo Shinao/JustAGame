@@ -30,5 +30,3 @@ class StringArea : public Item
 };
 
 #endif
-
-

@@ -23,4 +23,3 @@ class KeyBinding : public Layer
 };
 
 #endif
-

@@ -35,4 +35,3 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
 };
 
 #endif
-

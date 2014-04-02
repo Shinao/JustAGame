@@ -37,5 +37,3 @@ class MessageBox : public Layer, public EventCallback
 };
 
 #endif
-
-

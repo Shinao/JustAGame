@@ -69,14 +69,16 @@ void			String::update()
   _text.setScale(sf::Vector2f(_scale, _scale));
 
   sf::Vector2i pos = getRessourcePosition();
-  _text.setPosition(pos.x, pos.y - (int) (_text.getLocalBounds().top + 1) / 2);
+  _text.setPosition(pos.x, pos.y - (int) _text.getLocalBounds().top / 2);
 
   designChanged();
 }
 
 Rect			String::getRectRessource() const
 {
-  return (Rect(_text.getLocalBounds()));
+  Rect rec = Rect(_text.getLocalBounds());
+  rec.height = _text.getCharacterSize();
+  return (rec);
 }
 
 void			String::setRect(const Rect &rec)

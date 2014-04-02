@@ -7,6 +7,7 @@
 # include "GUI/ListBox.hh"
 # include "GUI/StringArea.hh"
 # include "GUI/MessageBox.hh"
+# include "GUI/Table.hh"
 
 class Test : public Layer
 {
@@ -14,7 +15,6 @@ class Test : public Layer
     static const int		HEIGHT = 64;
 
   private:
-    Menu			*_menu;
 
   public:
     Test();
@@ -26,4 +26,3 @@ class Test : public Layer
 };
 
 #endif
-

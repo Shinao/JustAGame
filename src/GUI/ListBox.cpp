@@ -14,7 +14,7 @@ ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   button->setAlignment(Item::Alignment::Center);
 
   // Menu that we will toggle
-  _menu = new Menu(Menu::Vertical, Rect(0, 0, 0, 0), theme);
+  _menu = new Menu(Menu::Vertical, theme);
   _menu->setMargin(sf::Vector2i(6, 6));
   _menu->shrinkToFit(true);
 

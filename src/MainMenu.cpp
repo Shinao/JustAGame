@@ -11,7 +11,8 @@ MainMenu::MainMenu() :
 {
   Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, jag::MarginMenu + Titlebar::HEIGHT, WIDTH, HEIGHT);
   _rec = rec;
-  _menu = new Menu(Menu::Vertical, rec);
+  _menu = new Menu(Menu::Vertical);
+  _menu->setRect(_rec);
   _menu->setBorder(Border::Left);
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
   _menu->shrinkToFit(true);
