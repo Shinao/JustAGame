@@ -29,7 +29,7 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   add(g_title);
 
   StringArea *g_desc = new StringArea(desc, _theme);
-  rec.top += TITLE_HEIGHT;
+  rec.top += TITLE_HEIGHT + jag::getTheme("MessageBoxTitle")->size_border;
   rec.height = 300;
   g_desc->setMargin(sf::Vector2i(8, 26));
   g_desc->setRect(rec);

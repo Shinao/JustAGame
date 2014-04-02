@@ -28,22 +28,22 @@ namespace Utility
       switch (type)
       {
 	case Border::Top:
-	  border.setPosition(rec.left, rec.top);
+	  border.setPosition(rec.left, rec.top - size_border);
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;
 
 	case Border::Bottom:
-	  border.setPosition(rec.left, rec.top + rec.height - size_border);
+	  border.setPosition(rec.left, rec.top + rec.height);
 	  border.setSize(sf::Vector2f(rec.width, size_border));
 	  break;
 
 	case Border::Left:
-	  border.setPosition(rec.left, rec.top);
+	  border.setPosition(rec.left - size_border, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
 	  break;
 
 	default:
-	  border.setPosition(rec.left + rec.width - size_border, rec.top);
+	  border.setPosition(rec.left + rec.width, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
       }
   }

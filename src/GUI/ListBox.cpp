@@ -8,7 +8,7 @@ ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   _is_open(false),
   _selected_item(NULL)
 {
-  DrawableManager::add(button, "Button");
+  DrawableManager::add(button);
   button->addCallback([&]() { toggle(); });
   button->setTheme(theme);
   button->setAlignment(Item::Alignment::Center);
@@ -152,7 +152,7 @@ void			ListBox::setRect(const Rect &rec)
 
   _button->setRect(rec);
 
-  Rect scroller_rec = Rect(rec.left, rec.top + rec.height,
+  Rect scroller_rec = Rect(rec.left, rec.top + rec.height + _theme->size_border,
       rec.width, 50);
   _scroller->setRect(scroller_rec);
   scroller_rec.height = _menu->getRect().height;

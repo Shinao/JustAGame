@@ -24,7 +24,7 @@ Test::Test() :
   area->setRect(Rect(400, _rec.top + 120, 100, HEIGHT));
   add(area);
 
-  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("button"), Item::Alignment::Center);
+  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("Button"), Item::Alignment::Center);
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));
@@ -36,6 +36,7 @@ Test::Test() :
 
   MessageBox *msg = new MessageBox("Connection", "LLoading some Game. Please waLoading some Game. Please waLoading some Game. Please waoading some Game. Please wait.");
   msg->addButton("Hello");
+  msg->addButton("BIIdADJHKASD");
 }
 
 Test::~Test()
