@@ -20,12 +20,12 @@ class MessageBox : public Layer
     sf::RectangleShape		_fog;
     bool			_draw_fog;
     Theme			*_theme;
-    sf::RectangleShape		_background;
     sf::RectangleShape		_button_bar;
     int				_y_button_start;
+    bool			_has_button;
 
   public:
-    MessageBox(const sf::String &title, const sf::String &desc);
+    MessageBox(const sf::String &title, Item *desc);
     ~MessageBox();
 
     void			letTitlebar(bool let);
