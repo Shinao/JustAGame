@@ -29,7 +29,7 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   StringArea *g_desc = new StringArea(desc, _theme);
   rec.top += TITLE_HEIGHT;
   rec.height = MESSAGEBOX_HEIGHT - STATUS_BAR_HEIGHT - TITLE_HEIGHT;
-  g_desc->setMargin(sf::Vector2i(4, 0));
+  g_desc->setMargin(sf::Vector2i(8, 0));
   g_desc->setRect(rec);
   add(g_desc);
 }

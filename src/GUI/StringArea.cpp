@@ -31,6 +31,8 @@ void			StringArea::updateRendering()
   sf::Text rendu(_string, _theme->f_text, _theme->size_text);
   sf::String str = _string;
 
+  sf::Vector2i rsrc_pos = getRessourcePosition();
+
   while (str.getSize() > 0)
   {
     pos = 0;
@@ -42,7 +44,7 @@ void			StringArea::updateRendering()
     formatted_str.erase(pos, str.getSize() - pos);
 
     sf::Text *formatted = new sf::Text(formatted_str, _theme->f_text, _theme->size_text);
-    formatted->setPosition(_rec.left, _rec.top + y);
+    formatted->setPosition(rsrc_pos.x, rsrc_pos.y + y);
 
     y += formatted->getCharacterSize() + LINE_HEIGHT;
     if ((int) (y + _rec.top + rendu.getCharacterSize()) > _rec.top + _rec.height)
