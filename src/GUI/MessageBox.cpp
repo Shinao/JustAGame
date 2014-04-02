@@ -4,11 +4,17 @@
 #include "Titlebar.hh"
 
 MessageBox::MessageBox(const sf::String &title, Item *desc) :
-  Layer::Layer(),
+  Layer(),
+  EventCallback(),
   _draw_fog(true),
   _y_button_start(16),
   _has_button(false)
 {
+  // Escape say goodbye
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
+      Screen::remove(this);
+      });
+
   // Layer take all the space (Modal)
   _rec.left = 0;
   _rec.top = 0;

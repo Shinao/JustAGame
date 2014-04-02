@@ -1,13 +1,14 @@
 #ifndef MESSAGEBOX_HH_
 # define MESSAGEBOX_HH_
 
+# include "GUI/EventCallback.hh"
 # include "GUI/Layer.hh"
 # include "GUI/String.hh"
 # include "GUI/StringArea.hh"
 
 // MessageBox - Layer since it should surpass all Drawables
 
-class MessageBox : public Layer
+class MessageBox : public Layer, public EventCallback
 {
   private:
     const static int		WIDTH = 320;

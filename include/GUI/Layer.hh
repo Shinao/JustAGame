@@ -14,6 +14,7 @@
 // By default : update return false meaning the layer is not asbolute
 // catchMouse return false meaning mouse function will not be called
 // same thing goes for all the others event
+
 class Layer : public DrawableManager
 {
   private:
