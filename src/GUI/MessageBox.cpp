@@ -1,6 +1,7 @@
 #include "GUI/Screen.hh"
 #include "GUI/MessageBox.hh"
 #include "jag.hh"
+#include "Titlebar.hh"
 
 MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   Layer::Layer(),
@@ -13,9 +14,11 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   _rec.width = Screen::getSize().x;
   _rec.height = Screen::getSize().y;
 
+  letTitlebar(true);
+
   _theme = jag::getTheme("MessageBox");
 
-  Rect rec = Rect(Screen::getSize().x / 2 - MESSAGEBOX_WIDTH / 2, Screen::getSize().y / 2 - MESSAGEBOX_HEIGHT / 2, MESSAGEBOX_WIDTH, MESSAGEBOX_HEIGHT);
+  Rect rec = Rect(Screen::getSize().x / 2 - WIDTH / 2, Screen::getSize().y / 2 - HEIGHT / 2, WIDTH, HEIGHT);
   _background.setPosition(rec.left, rec.top);
   _background.setSize(sf::Vector2f(rec.width, rec.height));
   _background.setFillColor(_theme->c_background);
@@ -65,7 +68,7 @@ void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
   button->setAlignment(Item::Alignment::Center);
   button->addCallback([&](){ Screen::remove(this); cb();});
   button->setBorder(Border::Right);
-  button->setRect(Rect(_background.getPosition().x + MESSAGEBOX_WIDTH - _y_button_start - BUTTON_WIDTH,
+  button->setRect(Rect(_background.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _background.getPosition().y + _background.getSize().y - STATUS_BAR_HEIGHT + BUTTON_HEIGHT / 2,
       BUTTON_WIDTH, BUTTON_HEIGHT));
   add(button);
@@ -76,4 +79,12 @@ void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
 void			MessageBox::drawFog(bool draw)
 {
   _draw_fog = draw;
+}
+
+void			MessageBox::letTitlebar(bool let)
+{
+  if (let)
+    _rec.top = Titlebar::HEIGHT;
+  else
+    _rec.top = 0;
 }

@@ -24,7 +24,7 @@ Titlebar::Titlebar() :
   // Creating menu
   Menu *menu = new Menu(Menu::Horizontal, _rec);
   menu->setBorder(Border::None);
-  menu->setTheme(jag::getTheme("titlebar"));
+  menu->setTheme(jag::getTheme("Titlebar"));
   menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
   menu->shrinkToFit(true);
   Sprite	*sprite = new Sprite(&_min_spr);
@@ -38,7 +38,7 @@ Titlebar::Titlebar() :
   sprite->setTooltip("Center Window");
   menu->add(sprite);
   sprite = new Sprite(&_cross_spr);
-  sprite->setTheme(jag::getTheme("titlebar_cross"));
+  sprite->setTheme(jag::getTheme("TitlebarCross"));
   sprite->addCallback(&Screen::closeWindow);
   sprite->setTooltip("Close Window");
   menu->add(sprite);

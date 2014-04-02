@@ -10,8 +10,8 @@
 class MessageBox : public Layer
 {
   private:
-    const static int		MESSAGEBOX_WIDTH = 320;
-    const static int		MESSAGEBOX_HEIGHT = 130;
+    const static int		WIDTH = 320;
+    const static int		HEIGHT = 130;
     const static int		TITLE_HEIGHT = 42;
     const static int		STATUS_BAR_HEIGHT = 50;
     const static int		BUTTON_HEIGHT = 26;
@@ -27,6 +27,7 @@ class MessageBox : public Layer
     MessageBox(const sf::String &title, const sf::String &desc);
     ~MessageBox();
 
+    void			letTitlebar(bool let);
     void			drawFog(bool draw);
     void			addButton(const sf::String &str, Item::Callback cb = NULL);
 
