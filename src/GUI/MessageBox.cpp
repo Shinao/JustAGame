@@ -75,7 +75,7 @@ void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
 
   String	*button = new String(str, jag::getTheme("MessageBoxButton"));
   button->setAlignment(Item::Alignment::Center);
-  button->addCallback([&](){ Screen::remove(this); cb();});
+  button->addCallback([&, cb](){ Screen::remove(this); if (cb) { cb(); } });
   button->setBorder(Border::Right);
   button->setRect(Rect(_button_bar.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _button_bar.getPosition().y + BUTTON_HEIGHT / 2,
