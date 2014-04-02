@@ -11,9 +11,9 @@ class MessageBox : public Layer
 {
   private:
     const static int		WIDTH = 320;
-    const static int		HEIGHT = 130;
+    const static int		HEIGHT = 150;
     const static int		TITLE_HEIGHT = 42;
-    const static int		STATUS_BAR_HEIGHT = 50;
+    const static int		BUTTON_BAR_HEIGHT = 50;
     const static int		BUTTON_HEIGHT = 26;
     const static int		BUTTON_WIDTH = 60;
 
@@ -21,6 +21,7 @@ class MessageBox : public Layer
     bool			_draw_fog;
     Theme			*_theme;
     sf::RectangleShape		_background;
+    sf::RectangleShape		_button_bar;
     int				_y_button_start;
 
   public:

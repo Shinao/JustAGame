@@ -111,7 +111,7 @@ namespace jag
     theme->size_text_pressed = theme->size_text;
     theme->c_text = theme->c_text_pressed;
     theme->c_text_focused = theme->c_text_pressed;
-    theme->c_background = theme->c_background_pressed;
+    theme->c_background = black;
     theme->c_background_focused = theme->c_background_pressed;
     theme->c_border = theme->c_border_pressed;
     theme->c_border_focused = theme->c_border_pressed;

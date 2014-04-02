@@ -34,9 +34,9 @@ Test::Test() :
   add(lb, "lb");
   lb->setTooltip("Hello you!");
 
-  // MessageBox *msg = new MessageBox("Connection", "LLoading some Game. Please waLoading some Game. Please waLoading some Game. Please waoading some Game. Please wait.");
-  // msg->addButton("Hello");
-  // msg->addButton("BIIdADJHKASD");
+  MessageBox *msg = new MessageBox("Connection", "LLoading some Game. Please waLoading some Game. Please waLoading some Game. Please waoading some Game. Please wait.");
+  msg->addButton("Hello");
+  msg->addButton("BIIdADJHKASD");
 }
 
 Test::~Test()
