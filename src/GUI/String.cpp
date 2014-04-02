@@ -49,14 +49,16 @@ void			String::designChanged()
 void			String::update()
 {
   // Check out of bounds
-  sf::String str = _text.getString();
-  bool formatted = false;
+  sf::String	str = _text.getString();
+  bool		formatted = false;
+
   while (_text.getLocalBounds().width + _margin.x > _rec.width && str != "")
   {
     formatted = true;
     str.erase(str.getSize() - 1, 1);
     _text.setString(str);
   }
+
   if (formatted)
   {
     for (int i = 1; i < 4; ++i)

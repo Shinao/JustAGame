@@ -10,19 +10,22 @@
 class MessageBox : public Layer
 {
   private:
-    const static int		MESSAGEBOX_WIDTH = 200;
-    const static int		MESSAGEBOX_HEIGHT = 150;
-    const static int		TITLE_HEIGHT = 50;
-    const static int		STATUS_BAR_HEIGHT = 60;
+    const static int		MESSAGEBOX_WIDTH = 320;
+    const static int		MESSAGEBOX_HEIGHT = 130;
+    const static int		TITLE_HEIGHT = 42;
+    const static int		STATUS_BAR_HEIGHT = 50;
+    const static int		BUTTON_HEIGHT = 26;
+    const static int		BUTTON_WIDTH = 60;
 
     Theme			*_theme;
     sf::RectangleShape		_background;
-    // String			*_title;
-    // StringArea			*_desc;
+    int				_y_button_start;
 
   public:
     MessageBox(const sf::String &title, const sf::String &desc);
     ~MessageBox();
+
+    void			addButton(const sf::String &str, Item::Callback cb = NULL);
 
     void			draw(sf::RenderWindow &window);
 };

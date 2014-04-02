@@ -3,7 +3,8 @@
 #include "jag.hh"
 
 MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
-  Layer::Layer()
+  Layer::Layer(),
+  _y_button_start(16)
 {
   // Layer take all the space (Modal)
   _rec.left = 0;
@@ -11,7 +12,7 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   _rec.width = Screen::getSize().x;
   _rec.height = Screen::getSize().y;
 
-  _theme = jag::getTheme("messagebox");
+  _theme = jag::getTheme("MessageBox");
 
   Rect rec = Rect(Screen::getSize().x / 2 - MESSAGEBOX_WIDTH / 2, Screen::getSize().y / 2 - MESSAGEBOX_HEIGHT / 2, MESSAGEBOX_WIDTH, MESSAGEBOX_HEIGHT);
   _background.setPosition(rec.left, rec.top);
@@ -20,18 +21,23 @@ MessageBox::MessageBox(const sf::String &title, const sf::String &desc) :
   _background.setOutlineColor(_theme->c_border);
   _background.setOutlineThickness(_theme->size_border);
 
-  String *g_title = new String(title, _theme);
+  String *g_title = new String(title, jag::getTheme("MessageBoxTitle"));
   rec.height = TITLE_HEIGHT;
-  g_title->setMargin(sf::Vector2i(4, 0));
+  g_title->setBorder(Border::Bottom);
+  g_title->setMargin(sf::Vector2i(8, 0));
   g_title->setRect(rec);
   add(g_title);
 
   StringArea *g_desc = new StringArea(desc, _theme);
   rec.top += TITLE_HEIGHT;
-  rec.height = MESSAGEBOX_HEIGHT - STATUS_BAR_HEIGHT - TITLE_HEIGHT;
-  g_desc->setMargin(sf::Vector2i(8, 0));
+  rec.height = 300;
+  g_desc->setMargin(sf::Vector2i(8, 26));
+  g_desc->setRect(rec);
+  rec.height = g_desc->getRectRessource().height;
   g_desc->setRect(rec);
   add(g_desc);
+
+  _background.setSize(sf::Vector2f(_background.getSize().x, _background.getSize().y + g_desc->getRectRessource().height));
 }
 
 MessageBox::~MessageBox()
@@ -43,4 +49,16 @@ void			MessageBox::draw(sf::RenderWindow &window)
   window.draw(_background);
 
   Layer::draw(window);
+}
+
+void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
+{
+  String	*button = new String(str, jag::getTheme("MessageBoxButton"));
+  button->setAlignment(Item::Alignment::Center);
+  button->addCallback(cb);
+  button->setBorder(Border::Right);
+  button->setRect(Rect(_background.getPosition().x + MESSAGEBOX_WIDTH - _y_button_start - BUTTON_WIDTH,
+      _background.getPosition().y + _background.getSize().y - STATUS_BAR_HEIGHT + BUTTON_HEIGHT / 2,
+      BUTTON_WIDTH, BUTTON_HEIGHT));
+  add(button);
 }

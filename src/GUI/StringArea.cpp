@@ -25,13 +25,13 @@ void			StringArea::updateRendering()
     delete text;
   _texts.clear();
 
-  unsigned y = 0;
-  unsigned pos;
+  unsigned	y = 0;
+  unsigned	pos;
 
-  sf::Text rendu(_string, _theme->f_text, _theme->size_text);
-  sf::String str = _string;
+  sf::Text	rendu(_string, _theme->f_text, _theme->size_text);
+  sf::String	str = _string;
 
-  sf::Vector2i rsrc_pos = getRessourcePosition();
+  sf::Vector2i	rsrc_pos = getRessourcePosition();
 
   while (str.getSize() > 0)
   {
@@ -44,7 +44,7 @@ void			StringArea::updateRendering()
     formatted_str.erase(pos, str.getSize() - pos);
 
     sf::Text *formatted = new sf::Text(formatted_str, _theme->f_text, _theme->size_text);
-    formatted->setPosition(rsrc_pos.x, rsrc_pos.y + y);
+    formatted->setPosition(rsrc_pos.x, _rec.top + y + _margin.y);
 
     y += formatted->getCharacterSize() + LINE_HEIGHT;
     if ((int) (y + _rec.top + rendu.getCharacterSize()) > _rec.top + _rec.height)
@@ -117,7 +117,7 @@ void			StringArea::setRect(const Rect &rec)
 
 Rect			StringArea::getRectRessource() const
 {
-  int y = 0;
+  int	y = 0;
 
   for (auto text : _texts)
     y += text->getCharacterSize() + LINE_HEIGHT;

@@ -14,7 +14,7 @@ namespace jag
   void			init()
   {
     Theme		*theme = new Theme;
-    _themes["titlebar"] = theme;
+    _themes["Titlebar"] = theme;
 
     // Setting the titlebar theme
     theme->c_background = sf::Color::Transparent;
@@ -23,13 +23,13 @@ namespace jag
     theme->size_border = 0;
 
     theme = new Theme;
-    _themes["titlebar_cross"] = theme;
-    *theme = *(_themes["titlebar"]);
+    _themes["TitlebarCross"] = theme;
+    *theme = *(_themes["Titlebar"]);
     // Setting the titlebar cross icon theme
     theme->c_background_focused = sf::Color(GRAY, GRAY - 60, GRAY - 60);
 
     theme = new Theme;
-    _themes["white"] = theme;
+    _themes["White"] = theme;
     // Setting the menu theme
     theme->c_text = sf::Color(100, 100, 100);
     theme->c_text_focused = sf::Color(100, 100, 100);
@@ -57,8 +57,8 @@ namespace jag
 
     // Button theme
     theme = new Theme;
-    _themes["button"] = theme;
-    *theme = *_themes["white"];
+    _themes["Button"] = theme;
+    *theme = *_themes["White"];
     theme->c_background = sf::Color(GRAY, GRAY, GRAY);
     theme->c_background_focused = theme->c_background_pressed;
     theme->c_text_focused = theme->c_text_pressed;
@@ -66,27 +66,27 @@ namespace jag
     theme->c_border_focused = theme->c_border_pressed;
 
     theme = new Theme;
-    _themes["itemListBox"] = theme;
-    *theme = *_themes["button"];
+    _themes["ItemListBox"] = theme;
+    *theme = *_themes["Button"];
     theme->c_background_focused = sf::Color(GRAY - 20, GRAY - 20, GRAY - 20);
-    theme->c_text_focused = _themes["white"]->c_text_focused;
+    theme->c_text_focused = _themes["White"]->c_text_focused;
 
     theme = new Theme;
-    _themes["tooltip"] = theme;
-    *theme = *_themes["white"];
+    _themes["Tooltip"] = theme;
+    *theme = *_themes["White"];
     theme->c_background = theme->c_background_focused;
     theme->c_border = theme->c_border_focused;
 
     theme = new Theme;
-    _themes["input"] = theme;
-    *theme = *_themes["white"];
+    _themes["Input"] = theme;
+    *theme = *_themes["White"];
     theme->c_background = theme->c_background_focused;
     theme->c_border = sf::Color(GRAY - 20, GRAY - 20, GRAY - 20);
     theme->c_border_pressed = theme->c_border_focused;
 
     theme = new Theme;
-    _themes["messagebox"] = theme;
-    *theme = *_themes["white"];
+    _themes["MessageBox"] = theme;
+    *theme = *_themes["White"];
     theme->c_text = theme->c_text_pressed;
     theme->c_text_focused = theme->c_text_pressed;
     theme->c_background = theme->c_background_pressed;
@@ -94,6 +94,28 @@ namespace jag
     // theme->c_border_pressed = theme->c_border_focused;
     // theme->c_border_pressed = theme->c_border_focused;
 
+    theme = new Theme;
+    _themes["MessageBoxTitle"] = theme;
+    *theme = *_themes["MessageBox"];
+    theme->size_text = theme->size_text + 2;
+    theme->size_text_focused = theme->size_text;
+    theme->size_text_pressed = theme->size_text;
+    theme->c_text = theme->c_text_pressed;
+    theme->c_text_focused = theme->c_text_pressed;
+    theme->c_background = theme->c_background_pressed;
+    theme->c_background_focused = theme->c_background_pressed;
+    theme->c_border = theme->c_border_pressed;
+    theme->c_border_focused = theme->c_border_pressed;
+
+    // Button theme
+    theme = new Theme;
+    _themes["MessageBoxButton"] = theme;
+    *theme = *_themes["Button"];
+    theme->c_background = sf::Color(GRAY, GRAY, GRAY);
+    theme->c_text_focused = theme->c_text_pressed;
+    theme->c_border = theme->c_border_focused;
+    theme->c_background_focused = theme->c_border;
+    theme->c_border_focused = theme->c_background;
 
 
     // Init ressources
