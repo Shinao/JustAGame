@@ -120,11 +120,15 @@ void			Menu::mouseCaught(int x, int y)
     if (_item_focused->getRect().contains(x, y))
     {
       _item_focused->mouseCaught(x, y);
+      Drawable::mouseCaught(x, y);
       return ;
     }
     // Not found
     _item_focused->mouseLeft();
     _item_focused = NULL;
+
+    if (_cb_item_unfocused)
+      _cb_item_unfocused();
   }
 
   // Checking on all items
@@ -133,7 +137,11 @@ void			Menu::mouseCaught(int x, int y)
     {
       item->mouseCaught(x, y);
       _item_focused = item;
-      return ;
+
+      if (_cb_item_focused)
+	_cb_item_focused();
+
+      break ;
     }
 
   Drawable::mouseCaught(x, y);
@@ -147,7 +155,12 @@ void			Menu::setMargin(const sf::Vector2i &margin)
 void			Menu::mouseLeft()
 {
   if (_item_focused != NULL)
+  {
     _item_focused->mouseLeft();
+
+    if (_cb_item_unfocused)
+      _cb_item_unfocused();
+  }
 
   Drawable::mouseLeft();
 }
@@ -196,4 +209,36 @@ void			Menu::shrinkToFit(bool shrink)
 Item			*Menu::getFocused()
 {
   return (_item_focused);
+}
+
+void			Menu::addItemsCallback(Callback cb, State state)
+{
+  if (state == Focused)
+    _cb_item_focused = cb;
+  else if (state == Unfocused)
+    _cb_item_unfocused = cb;
+}
+
+void			Menu::setIndexState(int index, State state)
+{
+  if (_item_focused != NULL)
+  {
+    _item_focused->mouseLeft();
+    _item_focused = NULL;
+  }
+
+  if (state == Focused)
+  {
+    _item_focused = _items[index];
+    _item_focused->mouseCaught(0, 0);
+  }
+}
+
+int			Menu::getIndex(Item *search)
+{
+  for (unsigned i = 0; i < _items.size(); ++i)
+    if (_items[i] == search)
+      return (i);
+
+  return (-1);
 }

@@ -29,6 +29,8 @@ class Menu : public Drawable
     Item			*_item_pressed;
     sf::Vector2i		_margin;
     bool			_shrink;
+    Callback			_cb_item_focused;
+    Callback			_cb_item_unfocused;
 
   public:
     Menu(Type type, Theme *theme = jag::getCurrentTheme());
@@ -43,6 +45,9 @@ class Menu : public Drawable
     void			setBorder(Border::Type border);
     void			shrinkToFit(bool shrink);
     Item			*getFocused();
+    void			addItemsCallback(Callback cb, State state);
+    void			setIndexState(int index, State state);
+    int				getIndex(Item *item);
 
     void			update();
     void			draw(sf::RenderWindow &win);

@@ -54,13 +54,15 @@ void			Table::init(int nb_column)
   // Add event for each menu - One event to rull them ALL
   for (auto menu : _menus)
   {
-    menu->addCallback([&](){
+    menu->addItemsCallback([&, menu](){
 	for (auto menu_other : _menus)
-	{
-	  if (menu_other != menu);
-	    // menu_other->mouseCaught(menu
-	}
+	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Focused);
     }, Drawable::Focused);
+
+    menu->addItemsCallback([&, menu](){
+	for (auto menu_other : _menus)
+	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Unfocused);
+    }, Drawable::Unfocused);
   }
 }
 
