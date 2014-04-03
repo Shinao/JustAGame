@@ -100,6 +100,8 @@ void			Menu::mouseReleased(int x, int y)
     _item_focused->mouseReleased(x, y);
     _item_pressed = _item_focused;
   }
+
+  Drawable::mouseReleased(x, y);
 }
 
 void			Menu::add(Item *item)
@@ -133,6 +135,8 @@ void			Menu::mouseCaught(int x, int y)
       _item_focused = item;
       return ;
     }
+
+  Drawable::mouseCaught(x, y);
 }
 
 void			Menu::setMargin(const sf::Vector2i &margin)
@@ -144,6 +148,8 @@ void			Menu::mouseLeft()
 {
   if (_item_focused != NULL)
     _item_focused->mouseLeft();
+
+  Drawable::mouseLeft();
 }
 
 void			Menu::remove(Item *item)
@@ -185,4 +191,9 @@ void			Menu::designChanged()
 void			Menu::shrinkToFit(bool shrink)
 {
   _shrink = shrink;
+}
+
+Item			*Menu::getFocused()
+{
+  return (_item_focused);
 }

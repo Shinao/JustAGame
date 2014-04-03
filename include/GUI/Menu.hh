@@ -42,6 +42,7 @@ class Menu : public Drawable
     void			setMargin(const sf::Vector2i &margin);
     void			setBorder(Border::Type border);
     void			shrinkToFit(bool shrink);
+    Item			*getFocused();
 
     void			update();
     void			draw(sf::RenderWindow &win);

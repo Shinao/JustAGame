@@ -50,6 +50,18 @@ void			Table::init(int nb_column)
 
     x += width;
   }
+
+  // Add event for each menu - One event to rull them ALL
+  for (auto menu : _menus)
+  {
+    menu->addCallback([&](){
+	for (auto menu_other : _menus)
+	{
+	  if (menu_other != menu);
+	    // menu_other->mouseCaught(menu
+	}
+    }, Drawable::Focused);
+  }
 }
 
 void		Table::mouseCaught(int x, int y)

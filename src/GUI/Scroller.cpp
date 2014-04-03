@@ -85,15 +85,18 @@ void			Scroller::setRect(const Rect &rec)
 
 void		Scroller::mouseCaught(int x, int y)
 {
+  Drawable::mouseCaught(x, y);
   DrawableManager::mouseCaught(x, y);
 }
 
 void		Scroller::mouseLeft()
 {
+  Drawable::mouseLeft();
   DrawableManager::mouseLeft();
 }
 
 void		Scroller::mouseReleased(int x, int y)
 {
+  Drawable::mouseReleased(x, y);
   DrawableManager::mouseReleased(x, y);
 }
