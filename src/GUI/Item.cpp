@@ -2,13 +2,10 @@
 #include "Utility/Graphic.hh"
 
 Item::Item(Theme *theme, Alignment align, float scale) :
-  _pressed(false),
-  _release(false),
   _align(align),
   _scale(scale),
   _border_type(Border::None)
 {
-  _focused = false;
   _theme = theme;
 }
 
@@ -16,33 +13,14 @@ Item::~Item()
 {
 }
 
-void			Item::mouseReleased(int, int)
+void			Item::mouseReleased(int x, int y)
 {
-  if (!_pressed)
-  {
-    _pressed = true;
-
-    if (_release)
-      _pressed = false;
-    else
-      designChanged();
-
-    if (_callback_pressed)
-      _callback_pressed();
-
-  }
+  Drawable::mouseReleased(x, y);
 }
 
 void			Item::released()
 {
-  if (_pressed)
-  {
-    _pressed = false;
-    designChanged();
-
-    if (_callback_released)
-      _callback_released();
-  }
+  Drawable::released();
 }
 
 void			Item::designChanged()
@@ -110,14 +88,6 @@ void			Item::setRect(const Rect &rec)
   Drawable::setRect(rec);
 }
 
-void			Item::addCallback(Callback callback, State state)
-{
-  if (state == Pressed)
-    _callback_pressed = callback;
-  else
-    _callback_released = callback;
-}
-
 sf::Vector2i		Item::getRessourcePosition()
 {
   sf::Vector2i		pos;
@@ -141,16 +111,6 @@ sf::Vector2i		Item::getRessourcePosition()
   return (pos);
 }
 
-bool			Item::isFocused() const
-{
-  return (_focused);
-}
-
-bool			Item::isPressed() const
-{
-  return (_pressed);
-}
-
 void			Item::setAlignment(Alignment align)
 {
   _align = align;
@@ -169,11 +129,6 @@ const sf::Vector2i	&Item::getMargin() const
 void			Item::setMargin(const sf::Vector2i &margin)
 {
   _margin = margin;
-}
-
-void			Item::autoRelease(bool release)
-{
-  _release = release;
 }
 
 void			Item::setBorder(Border::Type border)

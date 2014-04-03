@@ -11,12 +11,31 @@ class Tooltip;
 
 class Drawable
 {
+  public:
+    typedef std::function<void ()> Callback;
+
+    enum State
+    {
+      Pressed,
+      Released,
+      Focused,
+      Unfocused
+    };
+
   protected:
     static const int		DelayTooltip = 1000;
 
     Rect			_rec;
     Theme			*_theme;
+
+    // Event
     bool			_focused;
+    bool			_pressed;
+    bool			_release;
+    Callback			_callback_pressed;
+    Callback			_callback_released;
+    Callback			_callback_focused;
+    Callback			_callback_unfocused;
 
     // Tooltip
     Tooltip			*_tooltip;
@@ -40,6 +59,11 @@ class Drawable
     void			setTooltip(const sf::String &text);
 
     // Event
+    void			addCallback(Callback callback, State state = Pressed);
+    bool			isFocused() const;
+    bool			isPressed() const;
+    void			autoRelease(bool unpress);
+    void			released();
     virtual void		mouseCaught(int x, int y);
     virtual void		mouseLeft();
     virtual void		mouseReleased(int x, int y);

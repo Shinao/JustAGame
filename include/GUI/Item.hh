@@ -12,8 +12,6 @@
 class Item : public Drawable
 {
   public:
-    typedef std::function<void ()> Callback;
-
     enum Alignment
     {
       Left,
@@ -21,21 +19,11 @@ class Item : public Drawable
       Center
     };
 
-    enum State
-    {
-      Pressed,
-      Released
-    };
-
   protected:
-    bool			_pressed;
-    bool			_release;
     Alignment			_align;
     float			_scale;
     sf::Vector2i		_margin;
     sf::RectangleShape		_box;
-    Callback			_callback_pressed;
-    Callback			_callback_released;
     sf::RectangleShape		_border;
     Border::Type		_border_type;
 
@@ -50,10 +38,6 @@ class Item : public Drawable
     void			setAlignment(Alignment align);
     Alignment			getAlignment();
     sf::Vector2i		getRessourcePosition();
-    void			addCallback(Callback callback, State state = Pressed);
-    bool			isFocused() const;
-    bool			isPressed() const;
-    void			autoRelease(bool unpress);
     void			setBorder(Border::Type border);
 
     virtual Rect		getRectRessource() const = 0;
