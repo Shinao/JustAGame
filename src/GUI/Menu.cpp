@@ -95,10 +95,16 @@ void			Menu::mouseReleased(int x, int y)
   if (_item_focused != NULL)
   {
     if (_item_pressed != NULL && _item_pressed != _item_focused)
+    {
       _item_pressed->released();
+    if (_cb_item_released)
+      _cb_item_released();
+    }
 
     _item_focused->mouseReleased(x, y);
     _item_pressed = _item_focused;
+    if (_cb_item_pressed)
+      _cb_item_pressed();
   }
 
   Drawable::mouseReleased(x, y);
@@ -211,26 +217,45 @@ Item			*Menu::getFocused()
   return (_item_focused);
 }
 
+Item			*Menu::getPressed()
+{
+  return (_item_pressed);
+}
+
 void			Menu::addItemsCallback(Callback cb, State state)
 {
   if (state == Focused)
     _cb_item_focused = cb;
   else if (state == Unfocused)
     _cb_item_unfocused = cb;
+  else if (state == Pressed)
+    _cb_item_pressed = cb;
+  else
+    _cb_item_released = cb;
 }
 
 void			Menu::setIndexState(int index, State state)
 {
-  if (_item_focused != NULL)
+  if ((state == Focused || state == Unfocused) && _item_focused != NULL)
   {
     _item_focused->mouseLeft();
     _item_focused = NULL;
+  }
+  if ((state == Pressed || state == Released) && _item_pressed != NULL)
+  {
+    _item_pressed->released();
+    _item_pressed = NULL;
   }
 
   if (state == Focused)
   {
     _item_focused = _items[index];
     _item_focused->mouseCaught(0, 0);
+  }
+  else if (state == Pressed)
+  {
+    _item_pressed = _items[index];
+    _item_pressed->mouseReleased(0, 0);
   }
 }
 

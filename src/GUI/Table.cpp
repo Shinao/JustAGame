@@ -63,6 +63,16 @@ void			Table::init(int nb_column)
 	for (auto menu_other : _menus)
 	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Unfocused);
     }, Drawable::Unfocused);
+
+    menu->addItemsCallback([&, menu](){
+	for (auto menu_other : _menus)
+	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Pressed);
+    }, Drawable::Pressed);
+
+    menu->addItemsCallback([&, menu](){
+	for (auto menu_other : _menus)
+	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Released);
+    }, Drawable::Released);
   }
 }
 

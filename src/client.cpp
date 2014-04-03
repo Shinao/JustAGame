@@ -5,6 +5,7 @@
 #include "Titlebar.hh"
 #include "Background.hh"
 #include "MainMenu.hh"
+#include "StatusBar.hh"
 #include "GUI/Action.hh"
 
 #include "Test.hh"
@@ -22,6 +23,7 @@ int		main()
   new Background();
   new Titlebar();
   new MainMenu();
+  new StatusBar();
 
   new Test();
 

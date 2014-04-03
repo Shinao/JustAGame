@@ -1,13 +1,12 @@
 #include "Test.hh"
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
-
 #include "GUI/Input.hh"
 
 Test::Test() :
   Layer::Layer()
 {
-  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 1000, 600);;
+  _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 700, 600);;
 
   Input	*text = new Input();
   text->setRect(Rect(100, _rec.top + 100, Input::INPUT_WIDTH, Input::INPUT_HEIGHT));

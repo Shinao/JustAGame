@@ -31,6 +31,8 @@ class Menu : public Drawable
     bool			_shrink;
     Callback			_cb_item_focused;
     Callback			_cb_item_unfocused;
+    Callback			_cb_item_pressed;
+    Callback			_cb_item_released;
 
   public:
     Menu(Type type, Theme *theme = jag::getCurrentTheme());
@@ -45,6 +47,7 @@ class Menu : public Drawable
     void			setBorder(Border::Type border);
     void			shrinkToFit(bool shrink);
     Item			*getFocused();
+    Item			*getPressed();
     void			addItemsCallback(Callback cb, State state);
     void			setIndexState(int index, State state);
     int				getIndex(Item *item);

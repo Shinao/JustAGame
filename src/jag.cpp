@@ -100,8 +100,6 @@ namespace jag
     theme->c_text_focused = theme->c_text_pressed;
     theme->c_background = theme->c_background_pressed;
     theme->c_background_focused = theme->c_background_pressed;
-    // theme->c_border_pressed = theme->c_border_focused;
-    // theme->c_border_pressed = theme->c_border_focused;
 
     theme = new Theme;
     _themes["MessageBoxTitle"] = theme;
@@ -125,6 +123,18 @@ namespace jag
     theme->c_border = theme->c_border_focused;
     theme->c_background_focused = theme->c_border;
     theme->c_border_focused = theme->c_background;
+
+    // Transparent theme
+    theme = new Theme;
+    _themes["Ping"] = theme;
+    *theme = *_themes["White"];
+    theme->c_background_focused = sf::Color::Transparent;
+    theme->c_background_pressed = sf::Color::Transparent;
+    theme->c_text_focused = theme->c_text;
+    theme->c_text_pressed = theme->c_text;
+    theme->c_border = blue_focus;
+    theme->c_border_focused = blue_focus;
+    theme->c_border_pressed = blue_focus;
 
 
     // Init ressources
