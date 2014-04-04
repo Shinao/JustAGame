@@ -25,7 +25,7 @@ int		main()
   new MainMenu();
   new StatusBar();
 
-  new Test();
+  // new Test();
 
   while (Screen::isActive())
   {

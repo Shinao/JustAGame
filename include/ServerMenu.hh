@@ -1,6 +1,7 @@
 #ifndef SERVER_MENU_HH_
 # define SERVER_MENU_HH_
 
+# include <SFML/Network.hpp>
 # include "GUI/Layer.hh"
 # include "GUI/Menu.hh"
 
@@ -14,10 +15,18 @@ class ServerMenu : public Layer
 
   private:
     Menu			*_menu;
+    bool			_internet;
+
+    sf::SocketSelector		_listener;
+    sf::UdpSocket		_socket;
 
   public:
     ServerMenu();
     ~ServerMenu();
+
+    void			refreshServers();
+
+    bool			update(sf::RenderWindow &);
 };
 
 #endif

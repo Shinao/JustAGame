@@ -16,8 +16,8 @@ make
 
 ####Dependencies
  - Library SFML/Box2D
- - C++11 (For Windows folks : refer to mingw-w64 (Sorry need std::thread))
- - cmake/make
+ - C++11 Compiler
+ - Cmake/Make
 
 ####Libraries
 
