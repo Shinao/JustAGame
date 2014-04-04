@@ -14,6 +14,11 @@ make
 ./justagame
 ```
 
+####Dependencies
+ - Library SFML/Box2D
+ - C++11 (For Windows folks : refer to mingw-w64 (Sorry need std::thread))
+ - cmake/make
+
 ####Libraries
 
 - SFML - Multimedia library - http://www.sfml-dev.org/
