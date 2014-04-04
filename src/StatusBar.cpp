@@ -2,6 +2,9 @@
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
 
+const int MAX_LATENCY = 2000;
+const int NUMBER_CYCLE = 10;
+
 
 void	*latency(void *);
 
@@ -24,6 +27,13 @@ StatusBar::StatusBar() :
 
   add(text, "ping");
 
+  text = new String("LATENCY", jag::getTheme("Ping"));
+  text->setAlignment(Item::Alignment::Center);
+  text->setTooltip("Latency from google");
+  text->setRect(Rect(_rec.width - 80, _rec.top - 26, 60, 20));
+
+  add(text);
+
   _bridge = new BridgeThread;
   _bridge->running = true;
   _bridge->latency = -1;
@@ -37,7 +47,6 @@ StatusBar::~StatusBar()
 
 void			*latency(void *arg)
 {
-  const int		NUMBER_CYCLE = 10;
   sf::TcpSocket		pinger;
   sf::Clock		timer;
   long			latency;
@@ -54,7 +63,7 @@ void			*latency(void *arg)
     {
       timer.restart();
 
-      if (pinger.connect("google.com", 80, sf::seconds(2)) == sf::Socket::Done)
+      if (pinger.connect("google.com", 80, sf::milliseconds(MAX_LATENCY)) == sf::Socket::Done)
       {
 	// Get HEAD - fastest command
 	pinger.send("HEAD\n\r", 6);
@@ -62,16 +71,16 @@ void			*latency(void *arg)
 	if (pinger.receive(rsp, 4096, len) == sf::Socket::Done)
 	  latency += timer.getElapsedTime().asMilliseconds();
 	else
-	  latency += 2000;
+	  latency += MAX_LATENCY;
       }
       else
-	latency += 2000;
+	latency += MAX_LATENCY;
 
       pinger.disconnect();
     }
 
     bridge->latency = latency / NUMBER_CYCLE;
-    sf::sleep(sf::seconds(1));
+    sf::sleep(sf::milliseconds(3000 - bridge->latency));
   }
 
   delete bridge;
@@ -100,6 +109,9 @@ bool			StatusBar::update(sf::RenderWindow &)
     ostr << _latency;
     ((String *) _drawables["ping"])->setString(ostr.str());
     _drawables["ping"]->designChanged();
+
+    if (_bridge->latency >= 2000)
+      ((String *) _drawables["ping"])->setString("Offline");
   }
 
   return (true);

@@ -19,6 +19,7 @@ ServerMenu::ServerMenu() :
   _menu->add(text);
   text = new String("LOCAL");
   _menu->add(text);
+  _menu->setPressed(text);
 
   _menu->update();
 
