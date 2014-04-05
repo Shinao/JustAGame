@@ -54,6 +54,7 @@ ServerMenu::ServerMenu() :
 
 ServerMenu::~ServerMenu()
 {
+  _socket.unbind();
 }
 
 void			ServerMenu::refreshServers()
@@ -66,7 +67,7 @@ bool			ServerMenu::update(sf::RenderWindow &)
 {
   // Check if a server is available on local
   if (!_internet)
-    if (_listener.isReady(_socket))
+    if (_listener.wait(sf::milliseconds(1)) &&_listener.isReady(_socket))
     {
       std::cout << "in" << std::endl;
       // Add a row to the server table
