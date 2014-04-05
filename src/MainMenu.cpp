@@ -43,18 +43,28 @@ MainMenu::MainMenu() :
   _menu->add(text);
 
   _menu->update();
+
+  add(_menu);
 }
 
 MainMenu::~MainMenu()
 {
-  delete _menu;
   Screen::remove(_layer_menu);
 }
 
 void			MainMenu::mouseReleased(int x, int y)
 {
-  if (_menu->getRect().contains(x, y))
-    _menu->mouseReleased(x, y);
+  Layer::mouseReleased(x, y);
+
+  Screen::setMoving(false);
+}
+
+void			MainMenu::mousePressed(int x, int y)
+{
+  Layer::mousePressed(x, y);
+
+  if (getDrawableFocused() == NULL)
+    Screen::setMoving(true);
 }
 
 void			MainMenu::draw(sf::RenderWindow &window)

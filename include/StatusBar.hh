@@ -35,6 +35,8 @@ class StatusBar : public Layer
     StatusBar();
     ~StatusBar();
 
+    void			mousePressed(int x, int y);
+    void			mouseReleased(int x, int y);
     bool			update(sf::RenderWindow &win);
 };
 

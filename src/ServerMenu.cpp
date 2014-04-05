@@ -76,7 +76,11 @@ bool			ServerMenu::update(sf::RenderWindow &)
       sf::IpAddress	sender;
       unsigned short	port;
 
-      _socket.receive(buffer, sizeof(buffer), received, sender, port);
+      if (_socket.receive(buffer, sizeof(buffer), received, sender, port) != sf::Socket::Done)
+	return (true);
+
+      buffer[received] = 0;
+      std::cout << sender.toString() << std::endl;
 
       std::vector<Item *> items;
       items.push_back(new String(sender.toString()));
@@ -84,4 +88,19 @@ bool			ServerMenu::update(sf::RenderWindow &)
     }
 
   return (true);
+}
+
+void			ServerMenu::mouseReleased(int x, int y)
+{
+  Layer::mouseReleased(x, y);
+
+  Screen::setMoving(false);
+}
+
+void			ServerMenu::mousePressed(int x, int y)
+{
+  Layer::mousePressed(x, y);
+
+  if (getDrawableFocused() == NULL)
+    Screen::setMoving(true);
 }

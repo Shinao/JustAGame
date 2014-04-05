@@ -27,6 +27,7 @@ class MainMenu : public Layer
   public:
     MainMenu();
     ~MainMenu();
+    void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);

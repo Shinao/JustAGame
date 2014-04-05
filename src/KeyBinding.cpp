@@ -10,8 +10,9 @@ KeyBinding::~KeyBinding()
 {
 }
 
-void			KeyBinding::mouseReleased(int, int)
+void			KeyBinding::mouseReleased(int x, int y)
 {
+  Layer::mouseReleased(x, y);
 }
 
 void			KeyBinding::draw(sf::RenderWindow &)

@@ -119,3 +119,8 @@ void			DrawableManager::mouseReleased(int x, int y)
       break ;
     }
 }
+
+Drawable		*DrawableManager::getDrawableFocused()
+{
+  return (_drawable_focused);
+}

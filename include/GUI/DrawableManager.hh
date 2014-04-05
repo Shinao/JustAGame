@@ -32,10 +32,12 @@ class DrawableManager
     virtual ~DrawableManager();
 
     // Event management
-    virtual bool		draw(sf::RenderWindow &window);
-    virtual bool		mouseCaught(int x, int y);
-    virtual bool		mouseLeft();
-    virtual bool		mouseReleased(int x, int y);
+    virtual void		draw(sf::RenderWindow &window);
+    virtual void		mouseCaught(int x, int y);
+    virtual void		mouseLeft();
+    virtual void		mouseReleased(int x, int y);
+
+    Drawable			*getDrawableFocused();
 };
 
 #endif

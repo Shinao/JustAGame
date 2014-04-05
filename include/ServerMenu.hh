@@ -26,6 +26,8 @@ class ServerMenu : public Layer
 
     void			refreshServers();
 
+    void			mousePressed(int x, int y);
+    void			mouseReleased(int x, int y);
     bool			update(sf::RenderWindow &);
 };
 

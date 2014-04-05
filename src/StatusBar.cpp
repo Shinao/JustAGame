@@ -116,3 +116,15 @@ bool			StatusBar::update(sf::RenderWindow &)
 
   return (true);
 }
+
+void			StatusBar::mousePressed(int x, int y)
+{
+  Layer::mousePressed(x, y);
+  Screen::setMoving(true);
+}
+
+void			StatusBar::mouseReleased(int x, int y)
+{
+  Layer::mouseReleased(x, y);
+  Screen::setMoving(false);
+}
