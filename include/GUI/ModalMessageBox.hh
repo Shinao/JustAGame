@@ -1,5 +1,5 @@
-#ifndef MESSAGEBOX_HH_
-# define MESSAGEBOX_HH_
+#ifndef MODAL_MESSAGEBOX_HH_
+# define MODAL_MESSAGEBOX_HH_
 
 # include "GUI/EventCallback.hh"
 # include "GUI/Layer.hh"
@@ -8,7 +8,7 @@
 
 // MessageBox - Layer since it should surpass all Drawables
 
-class MessageBox : public Layer, public EventCallback
+class ModalMessageBox : public Layer, public EventCallback
 {
   private:
     const static int		WIDTH = 320;
@@ -26,8 +26,8 @@ class MessageBox : public Layer, public EventCallback
     bool			_has_button;
 
   public:
-    MessageBox(const sf::String &title, Item *desc);
-    ~MessageBox();
+    ModalMessageBox(const sf::String &title, Item *desc);
+    ~ModalMessageBox();
 
     void			letTitlebar(bool let);
     void			drawFog(bool draw);

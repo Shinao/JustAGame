@@ -94,7 +94,7 @@ namespace jag
     theme->c_border_pressed = theme->c_border_focused;
 
     theme = new Theme;
-    _themes["MessageBox"] = theme;
+    _themes["ModalMessageBox"] = theme;
     *theme = *_themes["White"];
     theme->c_text = theme->c_text_pressed;
     theme->c_text_focused = theme->c_text_pressed;
@@ -102,8 +102,8 @@ namespace jag
     theme->c_background_focused = theme->c_background_pressed;
 
     theme = new Theme;
-    _themes["MessageBoxTitle"] = theme;
-    *theme = *_themes["MessageBox"];
+    _themes["ModalMessageBoxTitle"] = theme;
+    *theme = *_themes["ModalMessageBox"];
     theme->size_text = theme->size_text + 2;
     theme->size_text_focused = theme->size_text;
     theme->size_text_pressed = theme->size_text;
@@ -116,7 +116,7 @@ namespace jag
 
     // Button theme
     theme = new Theme;
-    _themes["MessageBoxButton"] = theme;
+    _themes["ModalMessageBoxButton"] = theme;
     *theme = *_themes["Button"];
     theme->c_background = gray;
     theme->c_text_focused = theme->c_text_pressed;

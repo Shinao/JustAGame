@@ -23,6 +23,7 @@ class Table : public Drawable, public DrawableManager
     void			draw(sf::RenderWindow &win);
     void			update();
     void			designChanged();
+    Rect			getRect() const;
 
     // Event
     virtual void		mouseCaught(int x, int y);

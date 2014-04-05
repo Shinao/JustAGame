@@ -2,8 +2,8 @@
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
 
-const int MAX_LATENCY = 2000;
-const int NUMBER_CYCLE = 10;
+const int MAX_LATENCY = 1500;
+const int NUMBER_CYCLE = 5;
 
 
 void	*latency(void *);
@@ -110,7 +110,7 @@ bool			StatusBar::update(sf::RenderWindow &)
     ((String *) _drawables["ping"])->setString(ostr.str());
     _drawables["ping"]->designChanged();
 
-    if (_bridge->latency >= 2000)
+    if (_bridge->latency >= MAX_LATENCY)
       ((String *) _drawables["ping"])->setString("Offline");
   }
 

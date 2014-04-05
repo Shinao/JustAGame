@@ -6,7 +6,7 @@
 # include "GUI/String.hh"
 # include "GUI/ListBox.hh"
 # include "GUI/StringArea.hh"
-# include "GUI/MessageBox.hh"
+# include "GUI/ModalMessageBox.hh"
 # include "GUI/Table.hh"
 
 class Test : public Layer

@@ -1,7 +1,9 @@
 #include <SFML/System.hpp>
 #include "GUI/Screen.hh"
+#include "Network/Network.hh"
 #include "jag.hh"
 #include "GUI/Layer.hh"
+#include "GUI/ModalMessageBox.hh"
 #include "Titlebar.hh"
 #include "Background.hh"
 #include "MainMenu.hh"
@@ -25,6 +27,10 @@ int		main()
   new MainMenu();
   new StatusBar();
 
+  // Init network and check
+  if (!Network::init(25052, false))
+    ModalMessageBox *msg = new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
+
   // new Test();
 
   while (Screen::isActive())
@@ -36,6 +42,7 @@ int		main()
   }
 
   // Free ressources
+  Network::clear();
   jag::clear();
   Screen::clear();
 

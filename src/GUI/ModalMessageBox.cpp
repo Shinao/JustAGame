@@ -1,9 +1,9 @@
 #include "GUI/Screen.hh"
-#include "GUI/MessageBox.hh"
+#include "GUI/ModalMessageBox.hh"
 #include "jag.hh"
 #include "Titlebar.hh"
 
-MessageBox::MessageBox(const sf::String &title, Item *desc) :
+ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc) :
   Layer(),
   EventCallback(),
   _draw_fog(true),
@@ -23,18 +23,18 @@ MessageBox::MessageBox(const sf::String &title, Item *desc) :
 
   letTitlebar(true);
 
-  _theme = jag::getTheme("MessageBox");
+  _theme = jag::getTheme("ModalMessageBox");
 
   Rect rec = Rect(Screen::getSize().x / 2 - WIDTH / 2, Screen::getSize().y / 2 - HEIGHT / 2, WIDTH, HEIGHT);
 
-  String *g_title = new String(title, jag::getTheme("MessageBoxTitle"));
+  String *g_title = new String(title, jag::getTheme("ModalMessageBoxTitle"));
   rec.height = TITLE_HEIGHT;
   g_title->setBorder(Border::Bottom);
   g_title->setMargin(sf::Vector2i(8, 0));
   g_title->setRect(rec);
   add(g_title);
 
-  rec.top += TITLE_HEIGHT + jag::getTheme("MessageBoxTitle")->size_border;
+  rec.top += TITLE_HEIGHT + jag::getTheme("ModalMessageBoxTitle")->size_border;
   rec.height = 300;
   desc->setMargin(sf::Vector2i(8, 20));
   desc->setTheme(_theme);
@@ -47,18 +47,18 @@ MessageBox::MessageBox(const sf::String &title, Item *desc) :
   rec.top = desc_rec.top + desc_rec.height;
   _button_bar.setPosition(g_title->getRect().left, rec.top);
   _button_bar.setSize(sf::Vector2f(rec.width, BUTTON_BAR_HEIGHT));
-  _button_bar.setFillColor(jag::getTheme("MessageBoxTitle")->c_background);
+  _button_bar.setFillColor(jag::getTheme("ModalMessageBoxTitle")->c_background);
 
   _fog.setPosition(0, 0);
   _fog.setSize(sf::Vector2f(_rec.width, _rec.height));
   _fog.setFillColor(sf::Color(100, 100, 100, 50));
 }
 
-MessageBox::~MessageBox()
+ModalMessageBox::~ModalMessageBox()
 {
 }
 
-void			MessageBox::draw(sf::RenderWindow &window)
+void			ModalMessageBox::draw(sf::RenderWindow &window)
 {
   if (_draw_fog)
     window.draw(_fog);
@@ -69,11 +69,11 @@ void			MessageBox::draw(sf::RenderWindow &window)
   Layer::draw(window);
 }
 
-void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
+void			ModalMessageBox::addButton(const sf::String &str, Item::Callback cb)
 {
   _has_button = true;
 
-  String	*button = new String(str, jag::getTheme("MessageBoxButton"));
+  String	*button = new String(str, jag::getTheme("ModalMessageBoxButton"));
   button->setAlignment(Item::Alignment::Center);
   button->addCallback([&, cb](){ Screen::remove(this); if (cb) { cb(); } });
   button->setBorder(Border::Right);
@@ -85,12 +85,12 @@ void			MessageBox::addButton(const sf::String &str, Item::Callback cb)
   _y_button_start += BUTTON_WIDTH + 8;
 }
 
-void			MessageBox::drawFog(bool draw)
+void			ModalMessageBox::drawFog(bool draw)
 {
   _draw_fog = draw;
 }
 
-void			MessageBox::letTitlebar(bool let)
+void			ModalMessageBox::letTitlebar(bool let)
 {
   if (let)
     _rec.top = Titlebar::HEIGHT;

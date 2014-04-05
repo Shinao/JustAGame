@@ -2,7 +2,7 @@
 #include "GUI/Screen.hh"
 #include "GUI/String.hh"
 #include "GUI/Table.hh"
-#include "GUI/MessageBox.hh"
+#include "GUI/ModalMessageBox.hh"
 #include "Titlebar.hh"
 
 ServerMenu::ServerMenu() :
@@ -47,7 +47,7 @@ ServerMenu::ServerMenu() :
 
   // Network
   if (_socket.bind(5225) != sf::Socket::Done)
-    new MessageBox("Network", new String("Couldn't visualize the network"));
+    new ModalMessageBox("Network", new String("Couldn't visualize the network"));
 
   _listener.add(_socket);
 }
@@ -60,7 +60,7 @@ ServerMenu::~ServerMenu()
 void			ServerMenu::refreshServers()
 {
   if (_socket.send("ping", 5, "127.0.0.1", 25052) != sf::Socket::Done)
-    new MessageBox("Network", new String("Couldn't visualize the network"));
+    new ModalMessageBox("Network", new String("Couldn't visualize the network"));
 }
 
 bool			ServerMenu::update(sf::RenderWindow &)

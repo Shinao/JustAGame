@@ -43,6 +43,7 @@ void			Table::init(int nb_column)
   for (int i = 0; i < nb_column; ++i)
   {
     menu = new Menu(Menu::Vertical);
+    menu->shrinkToFit(true);
     menu->setRect(Rect(x, _rec.top, width, _rec.height));
     menu->setMargin(sf::Vector2i(0, 12));
     _menus.push_back(menu);
@@ -92,4 +93,12 @@ void		Table::mouseReleased(int x, int y)
 {
   Drawable::mouseReleased(x, y);
   DrawableManager::mouseReleased(x, y);
+}
+
+Rect		Table::getRect() const
+{
+  Rect rec = _rec;
+
+  rec.height = _menus[0]->getRect().height;
+  return (rec);
 }
