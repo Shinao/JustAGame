@@ -21,7 +21,9 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
     // Only used if server
-    sf::TcpSocket			_server;
+    sf::TcpListener			_server;
+
+    void				addPendingConnection();
   };
 
   // Private functions
@@ -31,9 +33,25 @@ namespace		Network
     {
       while (_running)
       {
+	_listener.wait();
+	std::cout << "Listener unblocked" << std::endl;
+
+	// Check server
+	if (_is_server && _listener.isReady(_server))
+	  addPendingConnection();
+	// Check client
+	for (auto client : _clients)
+	  if (_listener.isReady(client->getSocket()))
+	  {
+	  }
       }
 
       return (NULL);
+    }
+
+    void		addPendingConnection()
+    {
+      std::cout << "New client" << std::endl;
     }
   };
 
@@ -49,9 +67,9 @@ namespace		Network
 
     if (_is_server)
     {
-      // if (_server.bind(port) != sf::Socket::Done)
-	// return (false);
-      // _listener.add(_server);
+      if (_server.listen(port) != sf::Socket::Done)
+	return (false);
+      _listener.add(_server);
     }
 
     // Launch listening thread

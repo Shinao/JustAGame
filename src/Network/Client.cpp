@@ -7,3 +7,8 @@ Client::Client()
 Client::~Client()
 {
 }
+
+sf::TcpSocket			&Client::getSocket()
+{
+  return (_socket);
+}
