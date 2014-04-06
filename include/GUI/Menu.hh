@@ -29,10 +29,10 @@ class Menu : public Drawable
     Item			*_item_pressed;
     sf::Vector2i		_margin;
     bool			_shrink;
-    Callback			_cb_item_focused;
-    Callback			_cb_item_unfocused;
-    Callback			_cb_item_pressed;
-    Callback			_cb_item_released;
+    CallbackGui			_cb_item_focused;
+    CallbackGui			_cb_item_unfocused;
+    CallbackGui			_cb_item_pressed;
+    CallbackGui			_cb_item_released;
 
   public:
     Menu(Type type, Theme *theme = jag::getCurrentTheme());
@@ -48,7 +48,7 @@ class Menu : public Drawable
     void			shrinkToFit(bool shrink);
     Item			*getFocused();
     Item			*getPressed();
-    void			addItemsCallback(Callback cb, State state);
+    void			addItemsCallback(CallbackGui cb, State state);
     void			setIndexState(int index, State state);
     int				getIndex(Item *item);
 

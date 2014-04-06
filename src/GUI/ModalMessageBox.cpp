@@ -69,7 +69,7 @@ void			ModalMessageBox::draw(sf::RenderWindow &window)
   Layer::draw(window);
 }
 
-void			ModalMessageBox::addButton(const sf::String &str, Item::Callback cb)
+void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
 {
   _has_button = true;
 

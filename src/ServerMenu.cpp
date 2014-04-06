@@ -46,7 +46,7 @@ ServerMenu::ServerMenu() :
   add(_menu, "menu");
 
   // Network
-  if (_socket.bind(5225) != sf::Socket::Done)
+  if (_socket.bind(52025) != sf::Socket::Done)
     new ModalMessageBox("Network", new String("Couldn't visualize the network"));
 
   _listener.add(_socket);

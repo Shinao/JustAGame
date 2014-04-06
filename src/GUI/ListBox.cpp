@@ -88,7 +88,7 @@ void			ListBox::released()
   _button->released();
 }
 
-void			ListBox::callbackItemChanged(Callback cb)
+void			ListBox::callbackItemChanged(CallbackGui cb)
 {
   _callback_item_changed = cb;
 }

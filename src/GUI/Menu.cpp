@@ -222,7 +222,7 @@ Item			*Menu::getPressed()
   return (_item_pressed);
 }
 
-void			Menu::addItemsCallback(Callback cb, State state)
+void			Menu::addItemsCallback(CallbackGui cb, State state)
 {
   if (state == Focused)
     _cb_item_focused = cb;

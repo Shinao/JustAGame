@@ -14,7 +14,7 @@ namespace		Network
     bool				_running;
 
     std::vector<Client *>		_clients;
-    std::map<RequestID, Callback>	_requests;
+    std::map<RequestID, CallbackNet>	_requests;
 
     // Socket
     bool				_is_server;
@@ -39,6 +39,10 @@ namespace		Network
 	// Check server
 	if (_is_server && _listener.isReady(_server))
 	  addPendingConnection();
+	// Check UDP
+	if (_listener.isReady(_udp_socket))
+	{
+	}
 	// Check client
 	for (auto client : _clients)
 	  if (_listener.isReady(client->getSocket()))
@@ -92,6 +96,19 @@ namespace		Network
 
   // Call callbacks for all requests received
   void			update()
+  {
+  }
+
+  // Used to identify servers over the network
+  void			send(sf::Packet &packet, sf::IpAddress)
+  {
+  }
+
+  void			send(sf::Packet &packet, Client *client)
+  {
+  }
+
+  void			addRequest(RequestID id, const CallbackNet &cb)
   {
   }
 };

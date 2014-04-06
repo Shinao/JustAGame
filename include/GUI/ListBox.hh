@@ -19,7 +19,7 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     bool			_is_open;
     Item			*_selected_item;
     bool			_patch_has_moved;
-    Callback			_callback_item_changed;
+    CallbackGui			_callback_item_changed;
 
   public:
     ListBox(String *item, Theme *theme = jag::getTheme("Button"), Alignment align = Left, float scale = 1.0f);
@@ -29,7 +29,7 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     bool			isOpen();
     void			toggle();
     void			add(String *item);
-    void			callbackItemChanged(Callback cb);
+    void			callbackItemChanged(CallbackGui cb);
     Item			*getSelectedItem();
     void			released();
 

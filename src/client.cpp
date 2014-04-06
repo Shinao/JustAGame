@@ -28,7 +28,7 @@ int		main()
   new StatusBar();
 
   // Init network and check
-  if (!Network::init(25052, false))
+  if (!Network::init(52025, false))
     ModalMessageBox *msg = new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
 
   // new Test();

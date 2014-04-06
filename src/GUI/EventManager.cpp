@@ -42,7 +42,7 @@ void				EventManager::invokeCallbacks()
   _events.clear();
 }
 
-EventID				EventManager::add(const Action &action, const Callback &callback)
+EventID				EventManager::add(const Action &action, const CallbackGui &callback)
 {
   EventID	id = _action_id++;
 

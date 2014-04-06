@@ -13,7 +13,7 @@ class EventCallback
     EventCallback();
     ~EventCallback();
 
-    void				catchEvent(const Action &action, const Callback &callback);
+    void				catchEvent(const Action &action, const CallbackGui &callback);
     void				clearCallbacks();
 };
 

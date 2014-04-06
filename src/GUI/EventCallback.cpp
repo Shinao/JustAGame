@@ -9,7 +9,7 @@ EventCallback::~EventCallback()
   clearCallbacks();
 }
 
-void		EventCallback::catchEvent(const Action &action, const Callback &callback)
+void		EventCallback::catchEvent(const Action &action, const CallbackGui &callback)
 {
   _events.push_back(Screen::getEventManager().add(action, callback));
 }

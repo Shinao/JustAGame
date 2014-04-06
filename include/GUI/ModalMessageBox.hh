@@ -31,7 +31,7 @@ class ModalMessageBox : public Layer, public EventCallback
 
     void			letTitlebar(bool let);
     void			drawFog(bool draw);
-    void			addButton(const sf::String &str, Item::Callback cb = NULL);
+    void			addButton(const sf::String &str, Item::CallbackGui cb = NULL);
 
     void			draw(sf::RenderWindow &window);
 };

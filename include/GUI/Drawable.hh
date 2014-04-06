@@ -12,7 +12,7 @@ class Tooltip;
 class Drawable
 {
   public:
-    typedef std::function<void ()> Callback;
+    typedef std::function<void ()> CallbackGui;
 
     enum State
     {
@@ -32,10 +32,10 @@ class Drawable
     bool			_focused;
     bool			_pressed;
     bool			_release;
-    Callback			_callback_pressed;
-    Callback			_callback_released;
-    Callback			_callback_focused;
-    Callback			_callback_unfocused;
+    CallbackGui			_callback_pressed;
+    CallbackGui			_callback_released;
+    CallbackGui			_callback_focused;
+    CallbackGui			_callback_unfocused;
 
     // Tooltip
     Tooltip			*_tooltip;
@@ -59,7 +59,7 @@ class Drawable
     void			setTooltip(const sf::String &text);
 
     // Event
-    void			addCallback(Callback callback, State state = Pressed);
+    void			addCallback(CallbackGui callback, State state = Pressed);
     bool			isFocused() const;
     bool			isPressed() const;
     void			autoRelease(bool unpress);

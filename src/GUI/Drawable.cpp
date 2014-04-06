@@ -129,7 +129,7 @@ bool			Drawable::isPressed() const
   return (_pressed);
 }
 
-void			Drawable::addCallback(Callback callback, State state)
+void			Drawable::addCallback(CallbackGui callback, State state)
 {
   if (state == Pressed)
     _callback_pressed = callback;
