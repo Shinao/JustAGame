@@ -30,14 +30,14 @@ void	client();
 
 int	main(int ac, char **av)
 {
-  Test test;
-  sf::sleep(sf::seconds(1));
-  std::cout << test.get() << std::endl;
+  // Test test;
+  // sf::sleep(sf::seconds(1));
+  // std::cout << test.get() << std::endl;
 
-  // if (ac > 1)
-  //   server();
-  // else
-  //   client();
+  if (ac > 1)
+    server();
+  else
+    client();
 }
 
 void	server()
@@ -59,13 +59,16 @@ void	server()
   sf::IpAddress sender;
   unsigned short port;
 
+  sf::Packet packet;
+  packet << (uint16_t) 0 << (uint16_t) 1;
+
   while (1)
   {
     _listener.wait();
     if (_listener.isReady(_socket))
     {
       _socket.receive(buffer, sizeof(buffer), received, sender, port);
-      _socket.send(buffer, sizeof(buffer), sender, port);
+      _socket.send(packet, sender, port);
     }
   }
 }

@@ -39,55 +39,37 @@ ServerMenu::ServerMenu() :
 
   table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
   table->init(1);
-  add(table, "table");
+  add(table, "table_local");
 
   _menu->update();
 
   add(_menu, "menu");
-
-  // Network
-  if (_socket.bind(52025) != sf::Socket::Done)
-    new ModalMessageBox("Network", new String("Couldn't visualize the network"));
-
-  _listener.add(_socket);
+  using namespace std::placeholders;
+  Network::addRequest(Request::Allo, std::bind(&ServerMenu::serverDiscovered, this, _1, _2));
 }
 
 ServerMenu::~ServerMenu()
 {
-  _socket.unbind();
 }
 
 void			ServerMenu::refreshServers()
 {
-  if (_socket.send("ping", 5, "127.0.0.1", 25052) != sf::Socket::Done)
+  sf::Packet packet;
+  packet << "ping";
+  if (Network::send(packet, "127.0.0.1", 25052) != sf::Socket::Done)
     new ModalMessageBox("Network", new String("Couldn't visualize the network"));
 }
 
-bool			ServerMenu::update(sf::RenderWindow &)
+void			ServerMenu::serverDiscovered(Client *client, sf::Packet &packet)
 {
-  // Check if a server is available on local
-  if (!_internet)
-    if (_listener.wait(sf::milliseconds(1)) &&_listener.isReady(_socket))
-    {
-      std::cout << "in" << std::endl;
-      // Add a row to the server table
-      char		buffer[1024];
-      std::size_t	received = 0;
-      sf::IpAddress	sender;
-      unsigned short	port;
+  std::cout << "server discovered" << std::endl;
 
-      if (_socket.receive(buffer, sizeof(buffer), received, sender, port) != sf::Socket::Done)
-	return (true);
+  std::vector<Item *> items;
+  items.push_back(new String(client->getIp().toString()));
+  ((Table *) _drawables["table_local"])->addRow(items);
 
-      buffer[received] = 0;
-      std::cout << sender.toString() << std::endl;
-
-      std::vector<Item *> items;
-      items.push_back(new String(sender.toString()));
-      ((Table *) _drawables["table"])->addRow(items);
-    }
-
-  return (true);
+  // Delete client since ephemere
+  delete client;
 }
 
 void			ServerMenu::mouseReleased(int x, int y)

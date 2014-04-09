@@ -35,6 +35,7 @@ int		main()
 
   while (Screen::isActive())
   {
+    Network::update();
     Screen::update();
 
     // Sleep FPS minus MARGIN_FPS ms - keep FPS stable if lots of updates
