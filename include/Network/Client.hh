@@ -8,7 +8,7 @@ typedef		sf::Uint16	ClientID;
 class Client
 {
   private:
-    sf::TcpSocket			_socket;
+    sf::TcpSocket			*_socket;
     ClientID				_id;
 
     // In case of UDP with no ID
@@ -19,6 +19,7 @@ class Client
     ~Client();
 
     sf::TcpSocket			&getSocket();
+    void				setSocket(sf::TcpSocket *socket);
     ClientID				getId() const;
     void				setId(ClientID id);
     const sf::IpAddress			getIp() const;

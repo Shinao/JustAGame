@@ -1,16 +1,19 @@
 # include "Network/Client.hh"
 
-Client::Client()
+Client::Client() :
+  _socket(NULL)
 {
 }
 
 Client::~Client()
 {
+  if (_socket != NULL)
+    delete _socket;
 }
 
 sf::TcpSocket			&Client::getSocket()
 {
-  return (_socket);
+  return (*_socket);
 }
 
 ClientID			Client::getId() const
@@ -31,4 +34,9 @@ const sf::IpAddress		Client::getIp() const
 void				Client::setIp(const sf::IpAddress &ip)
 {
   _ip = ip;
+}
+
+void				Client::setSocket(sf::TcpSocket *socket)
+{
+  _socket = socket;
 }

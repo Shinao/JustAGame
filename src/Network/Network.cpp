@@ -21,10 +21,11 @@ namespace		Network
     bool				_running;
 
     std::vector<Client *>		_clients;
-    std::map<RequestID, CallbackNet>	_requests_callback;
+    std::map<RequestID, CallbackRequest>	_requests_callback;
 
     // Socket
     std::vector<RequestInfo *>		_requests_pending;
+    std::vector<Client *>		_clients_disconnected;
     bool				_is_server;
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
@@ -32,11 +33,10 @@ namespace		Network
     // Server sided
     sf::TcpListener			_server;
 
-    // Client sided
-
+    void				clientDisconnected(Client *client);
     void				addPendingConnection();
     void				checkUdp();
-    void				checkClient(Client *client);
+    void				checkTcp(Client *client);
   };
 
   // Private functions
@@ -49,6 +49,8 @@ namespace		Network
 	_listener.wait();
 	std::cout << "Listener unblocked" << std::endl;
 
+	pthread_mutex_lock(&_mutex);
+
 	// Check server
 	if (_is_server && _listener.isReady(_server))
 	  addPendingConnection();
@@ -58,7 +60,9 @@ namespace		Network
 	// Check client
 	for (auto client : _clients)
 	  if (_listener.isReady(client->getSocket()))
-	    checkClient(client);
+	    checkTcp(client);
+
+	pthread_mutex_unlock(&_mutex);
       }
 
       return (NULL);
@@ -66,9 +70,9 @@ namespace		Network
 
     void		checkUdp()
     {
-      RequestInfo	*info = new RequestInfo();
       sf::IpAddress	sender;
       unsigned short	port;
+      RequestInfo	*info = new RequestInfo();
 
       // Dropping request
       if (_udp_socket.receive(info->packet, sender, port) != sf::Socket::Done)
@@ -87,28 +91,57 @@ namespace		Network
 	client->setIp(sender);
       }
       else
-	for (auto cli : _clients)
-	  if (cli->getId() == client_id)
-	    client = cli;
+	for (auto search : _clients)
+	  if (search->getId() == client_id)
+	    client = search;
 
       info->client = client;
       info->packet >> info->id;
       std::cout << "UDP Request - ID [" << info->id << "]" << std::endl;
 
       // Add request
-      pthread_mutex_lock(&_mutex);
       _requests_pending.push_back(info);
-      pthread_mutex_unlock(&_mutex);
     }
 
-    void		checkClient(Client *client)
+    void		checkTcp(Client *client)
     {
-      std::cout << "Tcp request" << std::endl;
+      RequestInfo	*info = new RequestInfo();
+
+      // Check if client disconnected
+      sf::Socket::Status status = client->getSocket().receive(info->packet);
+      
+      info->client = client;
+      if (status != sf::Socket::Done)
+      {
+	info->id = Request::Disconnexion;
+	_clients_disconnected.push_back(client);
+      }
+      else
+      {
+	info->packet >> info->id;
+	std::cout << "TCP Request - ID [" << info->id << "]" << std::endl;
+      }
+
+      // Add request
+      _requests_pending.push_back(info);
     }
 
     void		addPendingConnection()
     {
       std::cout << "New client" << std::endl;
+
+      sf::TcpSocket	*socket = new sf::TcpSocket();
+      if (_server.accept(*socket) == sf::Socket::Done)
+      {
+	Client	*client = new Client();
+	client->setSocket(socket);
+
+	// New client request
+	RequestInfo	*info = new RequestInfo();
+	info->id = Request::Connexion;
+	info->client = client;
+	_requests_pending.push_back(info);
+      }
     }
   };
 
@@ -161,7 +194,7 @@ namespace		Network
     // It's safe baby
     pthread_mutex_lock(&_mutex);
 
-      std::cout << "get callback" << std::endl;
+    // Check all requests
     for (auto req_info : _requests_pending)
     {
       // Get callback and call it
@@ -174,11 +207,23 @@ namespace		Network
 
       delete req_info;
     }
-
     _requests_pending.clear();
 
+    // Check disconnected clients
+    for (auto client : _clients_disconnected)
+    {
+      for(std::vector<Client *>::iterator search = _clients.begin(); search != _clients.end(); ++search)
+	if (*search == client)
+	{
+	  _clients.erase(search);
+	  break ;
+	}
+
+      delete client;
+    }
+    _clients_disconnected.clear();
+
     pthread_mutex_unlock(&_mutex);
-    // std::cout << "unlock" << std::endl;
   }
 
   // Used to identify servers over the network
@@ -189,10 +234,10 @@ namespace		Network
 
   sf::Socket::Status		send(sf::Packet &packet, Client *client)
   {
-    return (sf::Socket::Done);
+    return (client->getSocket().send(packet));
   }
 
-  void			addRequest(RequestID id, const CallbackNet &cb)
+  void			addRequest(RequestID id, const CallbackRequest &cb)
   {
     _requests_callback[id] = cb;
   }

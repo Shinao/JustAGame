@@ -3,21 +3,19 @@
 ####Description
 
 Multiplayer multi-mode game written in C++.
-Homemade baked GUI. Framework networking - graphical and more.
+Homemade baked GUI. Framework networking - graphical user interface and more.
 Wow. So powerful.
 
 ####Build
 
 ```
-cmake .
-make
-./justagame
+cmake . && make && ./justagame
 ```
 
 ####Dependencies
- - Library SFML/Box2D
+ - Libraries SFML & Box2D
  - C++11 Compiler
- - Cmake/Make
+ - CMake/Make
 
 ####Libraries
 

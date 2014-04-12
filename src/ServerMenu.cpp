@@ -54,17 +54,15 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  sf::Packet packet;
-  packet << "ping";
-  if (Network::send(packet, "127.0.0.1", 25052) != sf::Socket::Done)
+  sf::Packet	packet;
+
+  if (Network::send(packet, "127.0.0.1", Network::SERVER_PORT) != sf::Socket::Done)
     new ModalMessageBox("Network", new String("Couldn't visualize the network"));
 }
 
 void			ServerMenu::serverDiscovered(Client *client, sf::Packet &packet)
 {
-  std::cout << "server discovered" << std::endl;
-
-  std::vector<Item *> items;
+  std::vector<Item *>	items;
   items.push_back(new String(client->getIp().toString()));
   ((Table *) _drawables["table_local"])->addRow(items);
 

@@ -10,7 +10,7 @@
 // this client must be deleted when the callback is called
 
 typedef		sf::Uint16	RequestID;
-typedef		std::function<void (Client *, sf::Packet &)>	CallbackNet;
+typedef		std::function<void (Client *, sf::Packet &)>	CallbackRequest;
 
 // RequestID Network Packet
 namespace Request
@@ -23,6 +23,15 @@ namespace Request
 
 namespace Network
 {
+  const int		CLIENT_PORT = 52025;
+  const int		SERVER_PORT = 25052;
+
+  enum Status
+  {
+    Connected,
+    Disconnected,
+    InProgress
+  };
 
   bool			init(int port, int is_server);
   void			clear();
@@ -30,5 +39,5 @@ namespace Network
 
   sf::Socket::Status	send(sf::Packet &packet, const sf::IpAddress &ip, unsigned short port);
   sf::Socket::Status	send(sf::Packet &packet, Client *client);
-  void			addRequest(RequestID id, const CallbackNet &cb);
+  void			addRequest(RequestID id, const CallbackRequest &cb);
 };
