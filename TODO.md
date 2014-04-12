@@ -3,9 +3,16 @@
 ###Urgent
 
 ###GUI
-- Table
-- MessageBox modal
-- Transparent theme
+- Options/Videos/Keybinding/...
+
+###Network
+- Request manager : make sure it arrives
+
+###Games
+- Library loader/Interface Game
+- SpaceShip
+- Volley
+- Sample TicTacToe
 
 ###After all
 - Checking TODO Check
