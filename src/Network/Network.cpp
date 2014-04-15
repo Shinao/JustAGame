@@ -30,6 +30,9 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
+    // Reliability
+    Sequence				_sequence;
+
     // Server sided
     sf::TcpListener			_server;
 
@@ -227,14 +230,14 @@ namespace		Network
   }
 
   // Used to identify servers over the network
-  sf::Socket::Status		send(sf::Packet &packet, const sf::IpAddress &ip, unsigned short port)
+  void				send(ProtocoledPacket &packet, const sf::IpAddress &ip, unsigned short port)
   {
-    return (_udp_socket.send(packet, ip, port));
+    _udp_socket.send(packet, ip, port);
   }
 
-  sf::Socket::Status		send(sf::Packet &packet, Client *client)
+  void				send(ProtocoledPacket &packet)
   {
-    return (client->getSocket().send(packet));
+    packet.getClient()->getSocket().send(packet);
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)

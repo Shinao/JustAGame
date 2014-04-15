@@ -1,4 +1,9 @@
+#ifndef NETWORK_HH_
+# define NETWORK_HH_
+
 # include <SFML/Network.hpp>
+# include "Network/Protocol.hh"
+# include "Network/ProtocoledPacket.hh"
 # include "Network/Client.hh"
 
 // Network for server and client
@@ -9,23 +14,10 @@
 // If the clientID is 0, then it will create a new client and set is IP
 // this client must be deleted when the callback is called
 
-typedef		sf::Uint16	RequestID;
 typedef		std::function<void (Client *, sf::Packet &)>	CallbackRequest;
-
-// RequestID Network Packet
-namespace Request
-{
-  const RequestID		Ping = 0;
-  const RequestID		Allo = 1;
-  const RequestID		Connexion = 2;
-  const RequestID		Disconnexion = 3;
-};
 
 namespace Network
 {
-  const int		CLIENT_PORT = 52025;
-  const int		SERVER_PORT = 25052;
-
   enum Status
   {
     Connected,
@@ -37,7 +29,9 @@ namespace Network
   void			clear();
   void			update();
 
-  sf::Socket::Status	send(sf::Packet &packet, const sf::IpAddress &ip, unsigned short port);
-  sf::Socket::Status	send(sf::Packet &packet, Client *client);
+  void			send(ProtocoledPacket &packet, const sf::IpAddress &ip, unsigned short port);
+  void			send(ProtocoledPacket &packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
 };
+
+#endif

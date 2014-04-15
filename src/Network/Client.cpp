@@ -40,3 +40,13 @@ void				Client::setSocket(sf::TcpSocket *socket)
 {
   _socket = socket;
 }
+
+Sequence			Client::getSequence() const
+{
+  return (_sequence);
+}
+
+void				Client::setSequence(Sequence seq)
+{
+  _sequence = seq;
+}

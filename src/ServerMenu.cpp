@@ -54,7 +54,7 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  sf::Packet	packet;
+  ProtocoledPacket	packet(NULL, ProtocoledPacket::Unconnected);
 
   if (Network::send(packet, "127.0.0.1", Network::SERVER_PORT) != sf::Socket::Done)
     new ModalMessageBox("Network", new String("Couldn't visualize the network"));
