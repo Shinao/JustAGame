@@ -1,7 +1,6 @@
 #ifndef CLIENT_HH_
 # define CLIENT_HH_
 
-# include <SFML/Network.hpp>
 # include "Network/Network.hh"
 
 typedef		sf::Uint16	ClientID;
@@ -18,7 +17,7 @@ class Client
     // Remote sequence of the host
     Sequence				_sequence;
     // Reliable packets waiting for acknowledgement
-    std::vector<ProtocoledPacket *>	_reliable_packets;
+    // std::vector<ProtocoledPacket *>	_reliable_packets;
 
     // In case of UDP with no ID
     sf::IpAddress			_ip;

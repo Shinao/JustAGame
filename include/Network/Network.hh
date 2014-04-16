@@ -1,10 +1,14 @@
 #ifndef NETWORK_HH_
 # define NETWORK_HH_
 
+// Fucking Headers
+class Client;
+class ProtocoledPacket;
+
 # include <SFML/Network.hpp>
 # include "Network/Protocol.hh"
-# include "Network/ProtocoledPacket.hh"
 # include "Network/Client.hh"
+# include "Network/ProtocoledPacket.hh"
 
 // Network for server and client
 // Using thread

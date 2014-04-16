@@ -1,7 +1,6 @@
 #ifndef PACKET_HH_
 # define PACKET_HH_
 
-# include <SFML/Network.hpp>
 # include "Network/Network.hh"
 
 // ProtocoledPacket inherited from SFML Packet
