@@ -9,26 +9,19 @@ class ProtocoledPacket;
 # include "Network/Protocol.hh"
 # include "Network/Client.hh"
 # include "Network/ProtocoledPacket.hh"
+# include <iostream>
 
 // Network for server and client
-// Using thread
+// Using posix thread
 // Call update which will use the callback for each pending request received
-// A Packet must start with the RequestID
-// If UDP is used, the packet must start with the client ID
-// If the clientID is 0, then it will create a new client and set is IP
-// this client must be deleted when the callback is called
+// A Packet must start with a Header - See ProtocoledPacket
+// If UDP is used in unconnected mode, then it will create a new client and set is IP
+// This client must be deleted when the callback is called
 
 typedef		std::function<void (Client *, sf::Packet &)>	CallbackRequest;
 
 namespace Network
 {
-  enum Status
-  {
-    Connected,
-    Disconnected,
-    InProgress
-  };
-
   bool			init(int port, int is_server);
   void			clear();
   void			update();
@@ -36,6 +29,9 @@ namespace Network
   void			send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port);
   void			send(ProtocoledPacket *packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
+
+  AcknowledgeField	getSequenceDifference(Sequence seq1, Sequence seq2);
+  bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);
 };
 
 #endif

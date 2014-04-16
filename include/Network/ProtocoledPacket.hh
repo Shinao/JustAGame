@@ -9,33 +9,24 @@
 
 class ProtocoledPacket : public sf::Packet
 {
-  public:
-    enum Reliability
-    {
-      // Tcp
-      TCPReliable,
-      // Packet will be acknowledge - Resend if necessary
-      UDPReliable,
-      // Dropped ? Don't care.
-      Unreliable,
-      // Not a client (Broadcast...)
-      Unconnected
-    };
-
   private:
     Client			*_client;
-    Reliability			_reliability;
-    ProtocoledPacket(Client *client, Reliability rel = UDPReliable);
+    Network::Reliability	_reliability;
+    ProtocoledPacket(Client *client, Network::Reliability rel);
     Sequence			_sequence;
+
+    static Sequence		_sequence_counter;
 
   public:
     ~ProtocoledPacket();
 
-    static ProtocoledPacket	*generate(Client *client, RequestID req, Reliability rel = UDPReliable);
+    static ProtocoledPacket	*generate(Client *client, RequestID req, Network::Reliability rel = Network::UDPReliable);
 
     Client			*getClient();
-    Sequence			getSequence();
+    Sequence			getSequence() const;
     void			setSequence(Sequence seq);
+    Network::Reliability	getReliability() const;
+    bool			isReliable() const;
 };
 
 #endif

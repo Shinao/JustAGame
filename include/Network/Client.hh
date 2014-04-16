@@ -10,6 +10,7 @@ class Client
   private:
     sf::TcpSocket			*_socket;
     ClientID				_id;
+    static ClientID			_id_counter;
 
     //
     // Reliability
@@ -21,9 +22,6 @@ class Client
 
     // In case of UDP with no ID
     sf::IpAddress			_ip;
-
-    inline bool				isSequenceMoreRecent(Sequence check_sequence);
-    inline AcknowledgeField		getDiff(Sequence seq);
 
   public:
     Client();

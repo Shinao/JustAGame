@@ -1,7 +1,10 @@
 # include "Network/Client.hh"
 
+ClientID	Client::_id_counter = 0;
+
 Client::Client() :
   _socket(NULL),
+  _id(_id_counter++),
   _ack_field(0)
 {
 }
@@ -40,6 +43,7 @@ void				Client::setIp(const sf::IpAddress &ip)
 void				Client::setSocket(sf::TcpSocket *socket)
 {
   _socket = socket;
+  _ip = socket->getRemoteAddress();
 }
 
 Sequence			Client::getSequence() const
@@ -49,45 +53,33 @@ Sequence			Client::getSequence() const
 
 void				Client::updateSequence(Sequence seq)
 {
-  if (!isSequenceMoreRecent(seq))
+  if (!Network::isSequenceMoreRecent(_sequence, seq))
+  {
+    acknowledge(seq);
     return ;
+  }
 
   // Update AckField and sequence
-  Sequence diff = (_sequence - seq) * -1;
+  Sequence diff = Network::getSequenceDifference(_sequence, seq);
   _sequence = seq;
   _ack_field >>= diff;
+
+  // Add old sequence
+  _ack_field |= (0x1 << (Network::ACKFIELD_SIZE - diff));
 }
 
 // Acknowledge a reception of a packet by putting it into the ack field
 void				Client::acknowledge(Sequence seq)
 {
-  Sequence diff = getDiff(seq);
+  Sequence diff = Network::getSequenceDifference(_sequence, seq);
 
   // Sequence is out of bound of AckField
-  if (diff > ACFIELD_SIZE)
+  if (diff > Network::ACKFIELD_SIZE)
     return ;
 
-  _ack_field |= (0x1 << (ACFIELD_SIZE - diff));
-}
+  _ack_field |= (0x1 << (Network::ACKFIELD_SIZE - diff));
 
-inline AcknowledgeField		Client::getDiff(Sequence seq)
-{
-  Sequence our_sequence = _sequence;
-
-  // Looped
-  if (seq - our_sequence > MAX_SEQUENCE / 2)
-  {
-    seq = 0;
-    our_sequence += MAX_SEQUENCE - seq;
-  }
-
-  return ((our_sequence - seq) * -1);
-}
-
-inline bool			Client::isSequenceMoreRecent(Sequence check_sequence)
-{
-  return ((check_sequence > _sequence) && (check_sequence - _sequence <= Network::MAX_SEQUENCE / 2)) ||
-    ((_sequence > check_sequence) && (_sequence - check_sequence > Network::MAX_SEQUENCE / 2));
+  std::cout << "Acknowledging their packeet [" << seq << "]" << std::endl;
 }
 
 AcknowledgeField		Client::getAckField() const

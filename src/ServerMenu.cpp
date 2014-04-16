@@ -54,7 +54,7 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  ProtocoledPacket	*packet = ProtocoledPacket::generate(NULL, Request::Allo, ProtocoledPacket::Unconnected);
+  ProtocoledPacket	*packet = ProtocoledPacket::generate(NULL, Request::Allo, Network::Unconnected);
 
   Network::send(packet, "127.0.0.1", Network::SERVER_PORT);
 }

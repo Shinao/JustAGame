@@ -12,6 +12,7 @@ namespace		Network
     {
       RequestID		id;
       Client		*client;
+      bool		reliable;
       sf::Packet	packet;
     };
 
@@ -40,8 +41,11 @@ namespace		Network
 
     void				clientDisconnected(Client *client);
     void				addPendingConnection();
+    bool				checkHeader(RequestInfo &info);
+    void				checkAcknowledgement(RequestInfo &info);
     void				checkUdp();
     void				checkTcp(Client *client);
+    void				addPacket(RequestInfo *info);
   };
 
   // Private functions
@@ -73,6 +77,18 @@ namespace		Network
       return (NULL);
     }
 
+    bool		checkHeader(RequestInfo &info)
+    {
+      ProtocolInfo	protocol = 0;
+      info.packet >> protocol;
+
+      if ((protocol & Network::PROTOCOL_MAGIC) != Network::PROTOCOL_MAGIC)
+	return (false);
+
+      info.reliable = (protocol & 0x1);
+      return (true);
+    }
+
     void		checkUdp()
     {
       sf::IpAddress	sender;
@@ -80,29 +96,72 @@ namespace		Network
       RequestInfo	*info = new RequestInfo();
 
       // Dropping request
-      if (_udp_socket.receive(info->packet, sender, port) != sf::Socket::Done)
+      if (_udp_socket.receive(info->packet, sender, port) != sf::Socket::Done ||
+	  !checkHeader(*info))
       {
 	delete info;
 	return ;
       }
 
       // Get client
-      Client		*client;
-      ClientID client_id;
-      info->packet >> client_id;
-      if (client_id == 0)
+      Client		*client = NULL;
+      for (auto search : _clients)
+	if (search->getIp() == sender)
+	  client = search;
+
+      // UDP Unconnected
+      if (client != NULL)
       {
 	client = new Client();
 	client->setIp(sender);
       }
-      else
-	for (auto search : _clients)
-	  if (search->getId() == client_id)
-	    client = search;
 
       info->client = client;
+
+      // Manage acknowledgement
+      if (client != NULL)
+	checkAcknowledgement(*info);
+
+      addPacket(info);
+    }
+
+    void		checkAcknowledgement(RequestInfo &info)
+    {
+      Sequence		remote_sequence;
+      Sequence		ack;
+      AcknowledgeField	field;
+      AcknowledgeField	diff;
+
+      info.packet >> remote_sequence >> ack >> field;
+      info.client->updateSequence(remote_sequence);
+
+      // Remove waiting packet if in ackfield or out of bounds
+      for (auto it = _waiting_packets.begin(); it != _waiting_packets.end(); ++it)
+      {
+	// If ack is inferior to our sequence - just wait next turn baby
+	if (isSequenceMoreRecent(ack, it->second->getSequence()))
+	  continue ;
+
+	diff = getSequenceDifference(ack, it->second->getSequence());
+
+	// Found it - Drop it
+	if (field & (0x1 << (ACKFIELD_SIZE - diff)))
+	{
+	  std::cout << "OUR Packet [" << it->second->getSequence() << "]" << " acked" << std::endl;
+	  _waiting_packets.erase((it--)->second->getSequence());
+	}
+      }
+
+      // Still have packet ? Resend them !
+      for (auto it : _waiting_packets)
+	send(it.second);
+    }
+
+    void		addPacket(RequestInfo *info)
+    {
+      // Retrieve RequestID
       info->packet >> info->id;
-      std::cout << "UDP Request - ID [" << info->id << "]" << std::endl;
+      std::cout << "Request - ID [" << info->id << "]" << std::endl;
 
       // Add request
       _requests_pending.push_back(info);
@@ -114,21 +173,19 @@ namespace		Network
 
       // Check if client disconnected
       sf::Socket::Status status = client->getSocket().receive(info->packet);
-      
+
       info->client = client;
-      if (status != sf::Socket::Done)
+      if (status != sf::Socket::Done || !checkHeader(*info))
       {
 	info->id = Request::Disconnexion;
+	_requests_pending.push_back(info);
 	_clients_disconnected.push_back(client);
       }
       else
       {
-	info->packet >> info->id;
-	std::cout << "TCP Request - ID [" << info->id << "]" << std::endl;
+	checkAcknowledgement(*info);
+	addPacket(info);
       }
-
-      // Add request
-      _requests_pending.push_back(info);
     }
 
     void		addPendingConnection()
@@ -243,10 +300,43 @@ namespace		Network
   void				send(ProtocoledPacket *packet)
   {
     packet->getClient()->getSocket().send(*packet);
+
+    // Not reliable - Discard it
+    if (!packet->isReliable())
+    {
+      delete packet;
+      return ;
+    }
+
+    pthread_mutex_lock(&_mutex);
+    _waiting_packets[packet->getSequence()] = packet;
+    pthread_mutex_unlock(&_mutex);
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)
   {
     _requests_callback[id] = cb;
+  }
+
+  AcknowledgeField	getSequenceDifference(Sequence seq1, Sequence seq2)
+  {
+    // Looped
+    if (seq1 - seq2 > Network::MAX_SEQUENCE / 2)
+    {
+      AcknowledgeField max = std::max(seq1, seq2);
+      AcknowledgeField min = std::min(seq1, seq2);
+
+      min += Network::MAX_SEQUENCE - max;
+      max = 0;
+    }
+
+    return ((seq1 - seq2) * -1);
+  }
+
+
+  bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence)
+  {
+    return ((check_sequence > sequence) && (check_sequence - sequence <= Network::MAX_SEQUENCE / 2)) ||
+      ((sequence > check_sequence) && (sequence - check_sequence > Network::MAX_SEQUENCE / 2));
   }
 };

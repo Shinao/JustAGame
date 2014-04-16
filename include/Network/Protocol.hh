@@ -27,6 +27,25 @@ namespace Request
 
 namespace Network
 {
+  enum Status
+  {
+    Connected,
+    Disconnected,
+    InProgress
+  };
+
+  enum Reliability
+  {
+    // Tcp
+    TCPReliable,
+    // Packet will be acknowledge - Resend if necessary
+    UDPReliable,
+    // Dropped ? Don't care.
+    Unreliable,
+    // Not a client (Broadcast...)
+    Unconnected
+  };
+
   const ProtocolInfo	PROTOCOL_MAGIC = 0xCC1A;
   const ProtocolInfo	REQUEST_UNRELIABLE = PROTOCOL_MAGIC;
   const ProtocolInfo	REQUEST_RELIABLE = PROTOCOL_MAGIC | 0x1;
