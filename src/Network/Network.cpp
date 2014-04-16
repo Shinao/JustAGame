@@ -30,8 +30,10 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
-    // Reliability
+    //// Reliability
     Sequence				_sequence;
+    // Reliable packets waiting for acknowledgement
+    std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
 
     // Server sided
     sf::TcpListener			_server;

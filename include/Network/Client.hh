@@ -16,11 +16,14 @@ class Client
     //
     // Remote sequence of the host
     Sequence				_sequence;
-    // Reliable packets waiting for acknowledgement
-    // std::vector<ProtocoledPacket *>	_reliable_packets;
+    // Ackfield - Client will manage it when the sequence uptade
+    AcknowledgeField			_ack_field;
 
     // In case of UDP with no ID
     sf::IpAddress			_ip;
+
+    inline bool				isSequenceMoreRecent(Sequence check_sequence);
+    inline AcknowledgeField		getDiff(Sequence seq);
 
   public:
     Client();
@@ -33,7 +36,9 @@ class Client
     const sf::IpAddress			getIp() const;
     void				setIp(const sf::IpAddress &ip);
     Sequence				getSequence() const;
-    void				setSequence(Sequence seq);
+    void				updateSequence(Sequence seq);
+    AcknowledgeField			getAckField() const;
+    void				acknowledge(Sequence seq);
 };
 
 #endif

@@ -26,5 +26,20 @@ ProtocoledPacket	*ProtocoledPacket::generate(Client *client, RequestID req, Reli
   if (rel == Unconnected)
     return (packet);
 
+  // Remote sequence for reference and ack field
+  *packet << client->getSequence() << client->getAckField();
+
+
+
   return (packet);
+}
+
+Sequence		ProtocoledPacket::getSequence()
+{
+  return (_sequence);
+}
+
+void			ProtocoledPacket::setSequence(Sequence seq)
+{
+  _sequence = seq;
 }

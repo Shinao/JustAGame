@@ -26,12 +26,16 @@ class ProtocoledPacket : public sf::Packet
     Client			*_client;
     Reliability			_reliability;
     ProtocoledPacket(Client *client, Reliability rel = UDPReliable);
+    Sequence			_sequence;
 
   public:
     ~ProtocoledPacket();
+
     static ProtocoledPacket	*generate(Client *client, RequestID req, Reliability rel = UDPReliable);
 
     Client			*getClient();
+    Sequence			getSequence();
+    void			setSequence(Sequence seq);
 };
 
 #endif
