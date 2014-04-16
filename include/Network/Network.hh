@@ -33,8 +33,8 @@ namespace Network
   void			clear();
   void			update();
 
-  void			send(ProtocoledPacket &packet, const sf::IpAddress &ip, unsigned short port);
-  void			send(ProtocoledPacket &packet);
+  void			send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port);
+  void			send(ProtocoledPacket *packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
 };
 

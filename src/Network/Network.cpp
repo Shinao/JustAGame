@@ -230,14 +230,17 @@ namespace		Network
   }
 
   // Used to identify servers over the network
-  void				send(ProtocoledPacket &packet, const sf::IpAddress &ip, unsigned short port)
+  void				send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port)
   {
-    _udp_socket.send(packet, ip, port);
+    _udp_socket.send(*packet, ip, port);
+
+    // Unconnected - delete it
+    delete packet;
   }
 
-  void				send(ProtocoledPacket &packet)
+  void				send(ProtocoledPacket *packet)
   {
-    packet.getClient()->getSocket().send(packet);
+    packet->getClient()->getSocket().send(*packet);
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)

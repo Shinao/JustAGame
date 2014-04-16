@@ -5,6 +5,7 @@
 
 // ProtocoledPacket inherited from SFML Packet
 // Build a Header specific to the protocol (reliability)
+// Use generate to create a packet - deleted in the network send
 
 class ProtocoledPacket : public sf::Packet
 {
@@ -24,10 +25,11 @@ class ProtocoledPacket : public sf::Packet
   private:
     Client			*_client;
     Reliability			_reliability;
+    ProtocoledPacket(Client *client, Reliability rel = UDPReliable);
 
   public:
-    ProtocoledPacket(Client *client, Reliability rel = UDPReliable);
     ~ProtocoledPacket();
+    static ProtocoledPacket	*generate(Client *client, RequestID req, Reliability rel = UDPReliable);
 
     Client			*getClient();
 };

@@ -4,12 +4,6 @@ ProtocoledPacket::ProtocoledPacket(Client *client, Reliability rel) :
   _client(client),
   _reliability(rel)
 {
-  // Generate header
-  *this << (rel == UDPReliable ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
-
-  // Don't need Acknowledgement if Unconnected
-  if (rel == Unconnected)
-    return ;
 }
 
 ProtocoledPacket::~ProtocoledPacket()
@@ -19,4 +13,18 @@ ProtocoledPacket::~ProtocoledPacket()
 Client			*ProtocoledPacket::getClient()
 {
   return (_client);
+}
+
+ProtocoledPacket	*ProtocoledPacket::generate(Client *client, RequestID req, Reliability rel)
+{
+  ProtocoledPacket *packet = new ProtocoledPacket(client, rel);
+
+  // Generate header
+  *packet << (rel == UDPReliable ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE) << req;
+
+  // Don't need Acknowledgement if Unconnected
+  if (rel == Unconnected)
+    return (packet);
+
+  return (packet);
 }
