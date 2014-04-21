@@ -2,6 +2,7 @@
 #include "Screen.hh"
 #include "String.hh"
 #include "Input.hh"
+#include "ListItem.hh"
 
 Test::Test() :
   Layer::Layer()
@@ -57,6 +58,11 @@ Test::Test() :
   items.push_back(new String("!!!!"));
   table->addRow(items);
   add(table);
+
+  ListItem *list = new ListItem(new String("Seewww"));
+  list->setRect(Rect(460, _rec.top + 250, 100, 50));
+  list->add(new String("test"));
+  add(list);
 }
 
 Test::~Test()

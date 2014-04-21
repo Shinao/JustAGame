@@ -4,7 +4,6 @@ cmake_minimum_required (VERSION 2.6)
 # FULL WARNINGS BECAUSE I LIKE PAIN !
 list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra -pthread -g")
 
-
 # Include directories
 set (INC_DIR
   Client/include
@@ -13,7 +12,6 @@ set (INC_DIR
   )
 
 include_directories (${INC_DIR})
-
 
 # Library network
 project (network)
@@ -52,11 +50,3 @@ add_executable (justagame ${CLIENT_SRC})
 # Link libraries
 target_link_libraries (justagame gui)
 target_link_libraries (justagame network)
-
-# test
-project (test)
-add_executable (test "test.cpp")
-
-# Link libraries
-target_link_libraries (test gui)
-target_link_libraries (test network)

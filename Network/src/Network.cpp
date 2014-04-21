@@ -17,8 +17,8 @@ namespace		Network
     };
 
     // Threading the network
-    pthread_t				_thread;
-    pthread_mutex_t			_mutex;
+    sf::Thread				*_thread;
+    sf::Mutex				_mutex;
     bool				_running;
 
     std::vector<Client *>		_clients;
@@ -51,14 +51,14 @@ namespace		Network
   // Private functions
   namespace
   {
-    void		*listening_thread(void *)
+    void		listening_thread()
     {
       while (_running)
       {
 	_listener.wait();
 	std::cout << "Listener unblocked" << std::endl;
 
-	pthread_mutex_lock(&_mutex);
+	_mutex.lock();
 
 	// Check server
 	if (_is_server && _listener.isReady(_server))
@@ -71,10 +71,8 @@ namespace		Network
 	  if (_listener.isReady(client->getSocket()))
 	    checkTcp(client);
 
-	pthread_mutex_unlock(&_mutex);
+	_mutex.unlock();
       }
-
-      return (NULL);
     }
 
     bool		checkHeader(RequestInfo &info)
@@ -225,8 +223,7 @@ namespace		Network
     }
 
     // Launch listening thread
-    pthread_mutex_init(&_mutex, NULL);
-    pthread_create(&_thread, NULL, listening_thread, NULL);
+    _thread = new sf::Thread(&listening_thread);
 
     return (true);
   }
@@ -237,9 +234,10 @@ namespace		Network
     _running = false;
     // Force listener to unwait
     _udp_socket.unbind();
-    // Useless return ptr
-    void	*ptr;
-    pthread_join(_thread, &ptr);
+    // Terminate thread because fuck it
+    _thread->terminate();
+    _thread->wait();
+    delete _thread;
 
     // Free ressources
     for (auto client : _clients)
@@ -254,7 +252,7 @@ namespace		Network
       return ;
 
     // It's safe baby
-    pthread_mutex_lock(&_mutex);
+    _mutex.lock();
 
     // Check all requests
     for (auto req_info : _requests_pending)
@@ -285,7 +283,7 @@ namespace		Network
     }
     _clients_disconnected.clear();
 
-    pthread_mutex_unlock(&_mutex);
+    _mutex.unlock();
   }
 
   // Used to identify servers over the network
@@ -308,9 +306,9 @@ namespace		Network
       return ;
     }
 
-    pthread_mutex_lock(&_mutex);
+    _mutex.lock();
     _waiting_packets[packet->getSequence()] = packet;
-    pthread_mutex_unlock(&_mutex);
+    _mutex.unlock();
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)
