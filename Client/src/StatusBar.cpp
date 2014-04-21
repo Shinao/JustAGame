@@ -49,7 +49,7 @@ StatusBar::~StatusBar()
   _thread->terminate();
   _thread->wait();
 
-  delete bridge;
+  delete _bridge;
 }
 
 void			StatusBar::latency()
