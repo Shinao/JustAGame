@@ -45,8 +45,11 @@ StatusBar::~StatusBar()
 {
   _bridge->running = false;
 
+  // Terminate thread because fuck it (But mainly because he has timeout)
   _thread->terminate();
   _thread->wait();
+
+  delete bridge;
 }
 
 void			StatusBar::latency()
@@ -86,8 +89,6 @@ void			StatusBar::latency()
     bridge->latency = latency / NUMBER_CYCLE;
     sf::sleep(sf::milliseconds(3000 - bridge->latency));
   }
-
-  delete bridge;
 }
 
 bool			StatusBar::update(sf::RenderWindow &)

@@ -235,8 +235,7 @@ namespace		Network
     _running = false;
     // Force listener to unwait
     _udp_socket.unbind();
-    // Terminate thread because fuck it
-    _thread->terminate();
+    // Waiting because we are gentle
     _thread->wait();
     delete _thread;
 
