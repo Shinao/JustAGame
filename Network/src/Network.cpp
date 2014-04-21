@@ -224,6 +224,7 @@ namespace		Network
 
     // Launch listening thread
     _thread = new sf::Thread(&listening_thread);
+    _thread->launch();
 
     return (true);
   }

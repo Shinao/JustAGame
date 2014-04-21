@@ -5,8 +5,7 @@
 const int MAX_LATENCY = 1500;
 const int NUMBER_CYCLE = 5;
 
-
-void	*latency(void *);
+// void		latency(BridgeThread *bridge);
 
 StatusBar::StatusBar() :
   Layer::Layer(),
@@ -37,22 +36,27 @@ StatusBar::StatusBar() :
   _bridge = new BridgeThread;
   _bridge->running = true;
   _bridge->latency = -1;
-  pthread_create(&_thread, NULL, &latency, _bridge);
+      using namespace std::placeholders;
+  _thread = new sf::Thread(std::bind(&StatusBar::latency, this));
+  _thread->launch();
 }
 
 StatusBar::~StatusBar()
 {
   _bridge->running = false;
+
+  _thread->terminate();
+  _thread->wait();
 }
 
-void			*latency(void *arg)
+void			StatusBar::latency()
 {
   sf::TcpSocket		pinger;
   sf::Clock		timer;
   long			latency;
-  BridgeThread		*bridge = (BridgeThread *) arg;
   char			rsp[4096];
   size_t		len;
+  BridgeThread		*bridge = _bridge;
 
   pinger.setBlocking(true);
   while (bridge->running)
@@ -84,7 +88,6 @@ void			*latency(void *arg)
   }
 
   delete bridge;
-  return (NULL);
 }
 
 bool			StatusBar::update(sf::RenderWindow &)

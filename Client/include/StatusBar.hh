@@ -27,9 +27,10 @@ class StatusBar : public Layer
     sf::Color			_bad;
     long			_latency;
     BridgeThread		*_bridge;
-    pthread_t			_thread;
+    sf::Thread			*_thread;
 
   private:
+    void			latency();
 
   public:
     StatusBar();
