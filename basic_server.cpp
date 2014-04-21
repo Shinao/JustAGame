@@ -30,6 +30,7 @@ void	client();
 
 int	main(int ac, char **av)
 {
+  std::cout << "basic server" << std::endl;
   // Test test;
   // sf::sleep(sf::seconds(1));
   // std::cout << test.get() << std::endl;

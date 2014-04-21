@@ -127,19 +127,6 @@ network/fast:
 	$(MAKE) -f CMakeFiles/network.dir/build.make CMakeFiles/network.dir/build
 .PHONY : network/fast
 
-#=============================================================================
-# Target rules for targets named plugin
-
-# Build rule for target.
-plugin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 plugin
-.PHONY : plugin
-
-# fast build rule for target.
-plugin/fast:
-	$(MAKE) -f CMakeFiles/plugin.dir/build.make CMakeFiles/plugin.dir/build
-.PHONY : plugin/fast
-
 network/Network.obj: network/Network.cpp.obj
 .PHONY : network/Network.obj
 
@@ -163,30 +150,6 @@ network/Network.s: network/Network.cpp.s
 network/Network.cpp.s:
 	$(MAKE) -f CMakeFiles/network.dir/build.make CMakeFiles/network.dir/network/Network.cpp.s
 .PHONY : network/Network.cpp.s
-
-plugin/plugin.obj: plugin/plugin.cpp.obj
-.PHONY : plugin/plugin.obj
-
-# target to build an object file
-plugin/plugin.cpp.obj:
-	$(MAKE) -f CMakeFiles/plugin.dir/build.make CMakeFiles/plugin.dir/plugin/plugin.cpp.obj
-.PHONY : plugin/plugin.cpp.obj
-
-plugin/plugin.i: plugin/plugin.cpp.i
-.PHONY : plugin/plugin.i
-
-# target to preprocess a source file
-plugin/plugin.cpp.i:
-	$(MAKE) -f CMakeFiles/plugin.dir/build.make CMakeFiles/plugin.dir/plugin/plugin.cpp.i
-.PHONY : plugin/plugin.cpp.i
-
-plugin/plugin.s: plugin/plugin.cpp.s
-.PHONY : plugin/plugin.s
-
-# target to generate assembly for a file
-plugin/plugin.cpp.s:
-	$(MAKE) -f CMakeFiles/plugin.dir/build.make CMakeFiles/plugin.dir/plugin/plugin.cpp.s
-.PHONY : plugin/plugin.cpp.s
 
 src/client.obj: src/client.cpp.obj
 .PHONY : src/client.obj
@@ -221,14 +184,10 @@ help:
 	@echo "... client"
 	@echo "... edit_cache"
 	@echo "... network"
-	@echo "... plugin"
 	@echo "... rebuild_cache"
 	@echo "... network/Network.obj"
 	@echo "... network/Network.i"
 	@echo "... network/Network.s"
-	@echo "... plugin/plugin.obj"
-	@echo "... plugin/plugin.i"
-	@echo "... plugin/plugin.s"
 	@echo "... src/client.obj"
 	@echo "... src/client.i"
 	@echo "... src/client.s"

@@ -4,21 +4,6 @@ cmake_minimum_required (VERSION 2.6)
 # FULL WARNINGS BECAUSE I LIKE PAIN !
 list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra -pthread")
 
-project (network)
-add_library(network SHARED "network/Network.cpp")
-
-project (plugin)
-add_library(plugin SHARED "plugin/plugin.cpp")
-target_link_libraries (plugin network)
-
-project (client)
-
-set (INC_DIR
-  include/
-  )
-
-
-file (GLOB_RECURSE CLIENT_SRC src/*.cpp) 
 
 set (INC_DIR
   include/
@@ -26,8 +11,19 @@ set (INC_DIR
 
 include_directories (${INC_DIR})
 
+project (network)
+add_library(network SHARED "network/Network.cpp")
+target_link_libraries (network sfml-graphics)
+target_link_libraries (network sfml-window)
+target_link_libraries (network sfml-network)
+target_link_libraries (network sfml-system)
 
-add_executable (client ${CLIENT_SRC})
+# project (plugin)
+# add_library(plugin SHARED "plugin/plugin.cpp")
+# target_link_libraries (plugin network)
+
+project (client)
+add_executable (client "src/client.cpp")
 
 # Link libraries
 target_link_libraries (client network)
