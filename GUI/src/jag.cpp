@@ -127,16 +127,30 @@ namespace jag
 
     // Transparent theme
     theme = new Theme;
-    _themes["Ping"] = theme;
+    _themes["Transparent"] = theme;
     *theme = *_themes["White"];
+    theme->c_background = sf::Color::Transparent;
     theme->c_background_focused = sf::Color::Transparent;
     theme->c_background_pressed = sf::Color::Transparent;
     theme->c_text_focused = theme->c_text;
     theme->c_text_pressed = theme->c_text;
+
+    // Ping theme
+    theme = new Theme;
+    _themes["Ping"] = theme;
+    *theme = *_themes["Transparent"];
     theme->c_border = blue_focus;
     theme->c_border_focused = blue_focus;
     theme->c_border_pressed = blue_focus;
 
+    // ListItem
+    theme = new Theme;
+    _themes["ListItem"] = theme;
+    *theme = *_themes["White"];
+
+    theme = new Theme;
+    _themes["ItemListItem"] = theme;
+    *theme = *_themes["White"];
 
     // Init ressources
     getRessource("close_window.png");
