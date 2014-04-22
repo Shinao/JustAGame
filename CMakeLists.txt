@@ -9,6 +9,7 @@ set (INC_DIR
   Client/include
   Network/include
   GUI/include
+  SimpleIni/
   )
 
 include_directories (${INC_DIR})
