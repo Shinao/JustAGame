@@ -6,7 +6,7 @@
 - Options/Videos/Keybinding/...
 
 ###Network
-- Request manager : make sure it arrives
+- Request manager : make sure it arrives # To check
 
 ###Games
 - Library loader/Interface Game

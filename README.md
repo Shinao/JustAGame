@@ -13,6 +13,7 @@ cmake . && make && ./justagame
 ```
 
 ####Dependencies
+
  - Libraries SFML & Box2D
  - C++11 Compiler
  - CMake/Make
@@ -21,4 +22,8 @@ cmake . && make && ./justagame
 
 - SFML - Multimedia library - http://www.sfml-dev.org/
 - Box2D - Physic library - http://box2d.org/
-- RudeConfig - INI Library - http://rudeserver.com/config/
+- SimpleIni - INI Library - https://github.com/brofield/simpleini
+
+###Licence
+
+WTFPL - http://www.wtfpl.net 
