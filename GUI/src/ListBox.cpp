@@ -6,7 +6,8 @@ ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   EventCallback(),
   _button(button),
   _is_open(false),
-  _selected_item(NULL)
+  _selected_item(NULL),
+  _item_theme(jag::getTheme("ItemListBox"))
 {
   DrawableManager::add(button);
   button->addCallback([&]() { toggle(); });
@@ -93,10 +94,15 @@ void			ListBox::callbackItemChanged(CallbackGui cb)
   _callback_item_changed = cb;
 }
 
+void			ListBox::setItemTheme(Theme *theme)
+{
+  _item_theme = theme;
+}
+
 void			ListBox::add(String *item)
 {
   _menu->add(item);
-  item->setTheme(jag::getTheme("ItemListBox"));
+  item->setTheme(_item_theme);
   _menu->update();
 
   // Add callback Item to redirect to the listbox item changed

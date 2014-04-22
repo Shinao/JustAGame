@@ -55,9 +55,9 @@ Titlebar::Titlebar() :
   add(menu, "menu");
 
   // Display logo and icon
-  _icon_tex.loadFromImage(jag::getRessource("icon.png"));
+  _icon_tex.loadFromImage(jag::getRessource("embleme.png"));
   _icon_spr.setTexture(_icon_tex);
-  _icon_spr.setPosition(8, 4);
+  _icon_spr.setPosition(8, jag::WindowBorderSize);
   _logo_tex.loadFromImage(jag::getRessource("logo.png"));
   _logo_spr.setTexture(_logo_tex);
   _logo_spr.setPosition(Screen::getSize().x / 2 - _logo_spr.getGlobalBounds().width / 2, 0);

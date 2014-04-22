@@ -3,6 +3,7 @@
 
 # include "Layer.hh"
 # include "EventManager.hh"
+# include "Ressource.hh"
 
 #include <iostream>
 

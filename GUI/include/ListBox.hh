@@ -20,6 +20,7 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     Item			*_selected_item;
     bool			_patch_has_moved;
     CallbackGui			_callback_item_changed;
+    Theme			*_item_theme;
 
   public:
     ListBox(String *item, Theme *theme = jag::getTheme("Button"), Alignment align = Left, float scale = 1.0f);
@@ -32,6 +33,7 @@ class ListBox : public Item, public DrawableManager, public EventCallback
     void			callbackItemChanged(CallbackGui cb);
     Item			*getSelectedItem();
     void			released();
+    void			setItemTheme(Theme *theme);
 
     void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);

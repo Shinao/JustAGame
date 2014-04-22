@@ -73,6 +73,9 @@ namespace Screen
       restore();
     }
 
+    // Icon
+    _window->setIcon(jag_icon.width,  jag_icon.height,  jag_icon.pixel_data);
+
     catchLayersEvents();
   }
 
