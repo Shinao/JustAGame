@@ -10,7 +10,7 @@
 // ListItem : Multiple item scrolling with arrows
 // The arrow used the theme of the text : focus if ListItem focus/pressed if arrow focused
 
-class ListItem : public Item, public DrawableManager, public EventCallback
+class ListItem : public Item
 {
   private:
     std::vector<Item *>		_items;

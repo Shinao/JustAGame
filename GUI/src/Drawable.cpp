@@ -83,18 +83,15 @@ void			Drawable::draw(sf::RenderWindow &)
 
 void			Drawable::mouseReleased(int, int)
 {
-  if (!_pressed)
-  {
-    _pressed = true;
+  _pressed = true;
 
-    if (_release)
-      _pressed = false;
-    else
-      designChanged();
+  if (_release)
+    _pressed = false;
+  else
+    designChanged();
 
-    if (_callback_pressed)
-      _callback_pressed();
-  }
+  if (_callback_pressed)
+    _callback_pressed();
 }
 
 void			Drawable::setTooltip(const sf::String &text)

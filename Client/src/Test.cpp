@@ -3,6 +3,7 @@
 #include "String.hh"
 #include "Input.hh"
 #include "ListItem.hh"
+#include "CheckBox.hh"
 
 Test::Test() :
   Layer::Layer()
@@ -65,6 +66,10 @@ Test::Test() :
   list->add(new String("DASDASDASDASdasdasd"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   add(list);
+
+  CheckBox *cb = new CheckBox(new String("Check me"));
+  cb->setRect(Rect(460, _rec.top + 150, 100, 50));
+  add(cb);
 }
 
 Test::~Test()

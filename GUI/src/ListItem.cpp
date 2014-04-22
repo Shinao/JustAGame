@@ -3,7 +3,6 @@
 
 ListItem::ListItem(Item *item, Theme *theme, Alignment align, float scale) :
   Item(theme, align, scale),
-  EventCallback(),
   _selected_item(0),
   _arrow_left_focused(false),
   _arrow_right_focused(false),
@@ -52,7 +51,6 @@ void			ListItem::add(Item *item)
 void			ListItem::draw(sf::RenderWindow &win)
 {
   Item::draw(win);
-  DrawableManager::draw(win);
 
   win.draw(_arrow_left);
   win.draw(_arrow_right);
@@ -115,8 +113,8 @@ void			ListItem::setRect(const Rect &rec)
 {
   Item::setRect(rec);
 
-  _arrow_left.setPosition(_rec.left + ARROW_PADDING, _rec.top + _rec.height / 2 - ARROW_SIZE / 2);
-  _arrow_right.setPosition(_rec.left + _rec.width - ARROW_PADDING - ARROW_SIZE, _arrow_left.getPosition().y);
+  _arrow_left.setPosition(_rec.left + ARROW_PADDING, _rec.top + _rec.height / 2 - ARROW_SIZE / 2 + 1);
+  _arrow_right.setPosition(_rec.left + _rec.width - ARROW_PADDING - ARROW_SIZE, _arrow_left.getPosition().y + 1);
   updateRectItem();
 }
 
@@ -136,14 +134,8 @@ void			ListItem::setItemTheme(Theme *theme)
     item->setTheme(theme);
 }
 
-
-
-//
-// Same event inherited : Share it !
-//
 void		ListItem::mouseCaught(int x, int y)
 {
-  DrawableManager::mouseCaught(x, y);
   Item::mouseCaught(x, y);
 
   // Check arrows
@@ -174,7 +166,6 @@ void		ListItem::mouseLeft()
   _arrow_right_focused = false;
   _arrow_left_focused = false;
 
-  DrawableManager::mouseLeft();
   Item::mouseLeft();
 
   _items[_selected_item]->mouseLeft();
@@ -182,7 +173,6 @@ void		ListItem::mouseLeft()
 
 void		ListItem::mouseReleased(int x, int y)
 {
-  DrawableManager::mouseReleased(x, y);
   Item::mouseReleased(x, y);
 
   // Check arrows
