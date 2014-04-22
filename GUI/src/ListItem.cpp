@@ -57,6 +57,17 @@ void			ListItem::draw(sf::RenderWindow &win)
   win.draw(_arrow_left);
   win.draw(_arrow_right);
   _items[_selected_item]->draw(win);
+
+  sf::VertexArray lines(sf::Points, 6);
+  lines[0].position = sf::Vector2f(0, 10);
+  lines[1].position = sf::Vector2f(20, 0);
+  lines[2].position = sf::Vector2f(20, 4);
+  lines[3].position = sf::Vector2f(4, 10);
+  lines[4].position = sf::Vector2f(20, 16);
+  lines[5].position = sf::Vector2f(20, 20);
+  for (int i = 0; i < 5; ++i)
+    lines[i].color = sf::Color::Red;
+  win.draw(lines);
 }
 
 void			ListItem::designChanged()

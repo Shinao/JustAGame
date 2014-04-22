@@ -28,11 +28,13 @@ Titlebar::Titlebar() :
   menu->setMargin(sf::Vector2i(MENU_MARGIN, (MENU_HEIGHT - img_close.getSize().x) / 2));
   menu->shrinkToFit(true);
   Sprite	*sprite = new Sprite(&_min_spr);
+  sprite->setTheme(jag::getTheme("Titlebar"));
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::minimize, this));
   sprite->setTooltip("Minimize Window");
   menu->add(sprite);
   sprite = new Sprite(&_res_spr);
+  sprite->setTheme(jag::getTheme("Titlebar"));
   sprite->autoRelease(true);
   sprite->addCallback(std::bind(&Titlebar::restore, this));
   sprite->setTooltip("Center Window");

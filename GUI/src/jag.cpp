@@ -23,20 +23,22 @@ namespace jag
     sf::Color black_light = sf::Color(120, 120, 120);
     sf::Color black = sf::Color(100, 100, 100);
 
+    // Setting the titlebar theme
     Theme		*theme = new Theme;
     _themes["Titlebar"] = theme;
-
-    // Setting the titlebar theme
     theme->c_background = sf::Color::Transparent;
     theme->c_background_focused = gray;
     theme->c_background_pressed = sf::Color::Transparent;
-    theme->size_border = 0;
+    theme->c_text = black_light;
+    theme->c_text_focused = black_light;
+    theme->c_text_pressed = black_light;
 
+    // Setting the titlebar cross icon theme
     theme = new Theme;
     _themes["TitlebarCross"] = theme;
     *theme = *(_themes["Titlebar"]);
-    // Setting the titlebar cross icon theme
     theme->c_background_focused = sf::Color(236, 176, 176);
+    theme->c_text_focused = sf::Color::White;
 
     theme = new Theme;
     _themes["White"] = theme;

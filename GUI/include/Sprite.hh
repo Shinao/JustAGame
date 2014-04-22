@@ -3,6 +3,9 @@
 
 # include "Item.hh"
 
+// Sprite
+// Sprite will change color depending on the color text of the theme
+
 class Sprite : public Item
 {
   private:
@@ -16,6 +19,7 @@ class Sprite : public Item
     sf::Sprite			*getSprite();
     void			setRect(const Rect &rec);
 
+    void			designChanged();
     void			draw(sf::RenderWindow &win);
     void			update();
     Rect			getRectRessource() const;

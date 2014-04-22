@@ -16,6 +16,18 @@ void			Sprite::draw(sf::RenderWindow &win)
   win.draw(*_sprite);
 }
 
+void			Sprite::designChanged()
+{
+  Item::designChanged();
+
+  if (_pressed)
+    _sprite->setColor(_theme->c_text_pressed);
+  else if (_focused)
+    _sprite->setColor(_theme->c_text_focused);
+  else
+    _sprite->setColor(_theme->c_text);
+}
+
 void			Sprite::update()
 {
   _sprite->setScale(sf::Vector2f(_scale, _scale));
