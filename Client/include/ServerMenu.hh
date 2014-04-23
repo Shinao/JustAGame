@@ -22,7 +22,7 @@ class ServerMenu : public Layer
     ~ServerMenu();
 
     void			refreshServers();
-    void			serverDiscovered(Client *client, sf::Packet &packet);
+    void			serverDiscovered(ProtocoledPacket &packet);
 
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);

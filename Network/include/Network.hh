@@ -19,7 +19,7 @@ class ProtocoledPacket;
 // If UDP is used in unconnected mode, then it will create a new client and set is IP
 // This client must be deleted when the callback is called
 
-typedef		std::function<void (Client *, sf::Packet &)>	CallbackRequest;
+typedef		std::function<void (ProtocoledPacket &)>	CallbackRequest;
 
 namespace Network
 {

@@ -12,18 +12,22 @@ class ProtocoledPacket : public sf::Packet
   private:
     Client			*_client;
     Network::Reliability	_reliability;
-    ProtocoledPacket(Client *client, Network::Reliability rel);
     Sequence			_sequence;
+    RequestID			_request_id;
+
     // Ping capacity
-    sf::Clock			_clock;
+    sf::Clock			*_clock;
 
     static Sequence		_sequence_counter;
 
   public:
+    // Received packet
+    ProtocoledPacket();
+    // Only use this to send packet
+    ProtocoledPacket(Client *client, RequestID req, Network::Reliability rel = Network::UDPReliable);
     ~ProtocoledPacket();
 
-    static ProtocoledPacket	*generate(Client *client, RequestID req, Network::Reliability rel = Network::UDPReliable);
-
+    void			setClient(Client *client);
     Client			*getClient();
     Sequence			getSequence() const;
     void			setSequence(Sequence seq);
@@ -31,6 +35,8 @@ class ProtocoledPacket : public sf::Packet
     bool			isReliable() const;
     bool			hasAcknowledgment() const;
     int				getElapsedTime() const;
+    RequestID			getRequestID() const;
+    void			setRequestID(RequestID id);
 };
 
 #endif

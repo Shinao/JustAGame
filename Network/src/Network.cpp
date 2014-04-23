@@ -28,7 +28,7 @@ namespace		Network
     std::map<RequestID, CallbackRequest>	_requests_callback;
 
     // Socket
-    std::vector<RequestInfo *>		_requests_pending;
+    std::vector<ProtocoledPacket *>	_requests_pending;
     std::vector<Client *>		_clients_disconnected;
     bool				_is_server;
     sf::SocketSelector			_listener;
@@ -44,11 +44,11 @@ namespace		Network
 
     void				clientDisconnected(Client *client);
     void				addPendingConnection();
-    bool				checkHeader(RequestInfo &info);
-    void				checkAcknowledgement(RequestInfo &info);
+    bool				checkHeader(ProtocoledPacket &info);
+    void				checkAcknowledgement(ProtocoledPacket &info);
     void				checkUdp();
     void				checkTcp(Client *client);
-    void				addPacket(RequestInfo *info);
+    void				addPacket(ProtocoledPacket *info);
     void				keepAlive();
   };
 
@@ -82,6 +82,7 @@ namespace		Network
       }
     }
 
+    // TODO - Send ping to client if server or other stuff
     void		keepAlive()
     {
       // Wait for your turn !
@@ -93,15 +94,14 @@ namespace		Network
       _keep_alive_clock.restart();
     }
 
-    bool		checkHeader(RequestInfo &info)
+    bool		checkHeader(ProtocoledPacket &info)
     {
       ProtocolInfo	protocol = 0;
-      info.packet >> protocol;
+      info >> protocol;
 
       if ((protocol & Network::PROTOCOL_MAGIC) != Network::PROTOCOL_MAGIC)
 	return (false);
 
-      info.reliable = (protocol & 0x1);
       return (true);
     }
 
@@ -109,10 +109,10 @@ namespace		Network
     {
       sf::IpAddress	sender;
       unsigned short	port;
-      RequestInfo	*info = new RequestInfo();
+      ProtocoledPacket	*info = new ProtocoledPacket();
 
       // Dropping request
-      if (_udp_socket.receive(info->packet, sender, port) != sf::Socket::Done ||
+      if (_udp_socket.receive(*info, sender, port) != sf::Socket::Done ||
 	  !checkHeader(*info))
       {
 	delete info;
@@ -132,7 +132,7 @@ namespace		Network
 	client->setIp(sender);
       }
 
-      info->client = client;
+      info->setClient(client);
 
       // Manage acknowledgement
       if (client != NULL)
@@ -141,15 +141,15 @@ namespace		Network
       addPacket(info);
     }
 
-    void		checkAcknowledgement(RequestInfo &info)
+    void		checkAcknowledgement(ProtocoledPacket &info)
     {
       Sequence		remote_sequence;
       Sequence		ack;
       AcknowledgeField	field;
       AcknowledgeField	diff;
 
-      info.packet >> remote_sequence >> ack >> field;
-      info.client->updateSequence(remote_sequence);
+      info >> remote_sequence >> ack >> field;
+      info.getClient()->updateSequence(remote_sequence);
 
       // Remove waiting packet if in ackfield or out of bounds
       for (auto it = _waiting_packets.begin(); it != _waiting_packets.end(); ++it)
@@ -166,7 +166,7 @@ namespace		Network
 	  std::cout << "OUR Packet [" << it->second->getSequence() << "]" << " acked" << std::endl;
 
 	  // It's an acknowledgment packet - Update ping
-	  info.client->addPing(it->second->getElapsedTime());
+	  info.getClient()->addPing(it->second->getElapsedTime());
 
 	  _waiting_packets.erase((it--)->second->getSequence());
 	}
@@ -175,13 +175,16 @@ namespace		Network
       // Still have packet ? Resend them !
       for (auto it : _waiting_packets)
 	send(it.second);
+      _waiting_packets.clear();
     }
 
-    void		addPacket(RequestInfo *info)
+    void		addPacket(ProtocoledPacket *info)
     {
       // Retrieve RequestID
-      info->packet >> info->id;
-      std::cout << "Request - ID [" << info->id << "]" << std::endl;
+      RequestID id;
+      *info >> id;
+      info->setRequestID(id);
+      std::cout << "Request - ID [" << info->getRequestID() << "]" << std::endl;
 
       // Add request
       _requests_pending.push_back(info);
@@ -189,15 +192,15 @@ namespace		Network
 
     void		checkTcp(Client *client)
     {
-      RequestInfo	*info = new RequestInfo();
+      ProtocoledPacket	*info = new ProtocoledPacket();
 
       // Check if client disconnected
-      sf::Socket::Status status = client->getSocket().receive(info->packet);
+      sf::Socket::Status status = client->getSocket().receive(*info);
 
-      info->client = client;
+      info->setClient(client);
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
-	info->id = Request::Disconnexion;
+	info->setRequestID(Request::Disconnexion);
 	_requests_pending.push_back(info);
 	_clients_disconnected.push_back(client);
       }
@@ -219,9 +222,9 @@ namespace		Network
 	client->setSocket(socket);
 
 	// New client request
-	RequestInfo	*info = new RequestInfo();
-	info->id = Request::Connexion;
-	info->client = client;
+	ProtocoledPacket	*info = new ProtocoledPacket();
+	info->setRequestID(Request::Connexion);
+	info->setClient(client);
 	_requests_pending.push_back(info);
       }
     }
@@ -280,11 +283,11 @@ namespace		Network
     for (auto req_info : _requests_pending)
     {
       // Get callback and call it
-      auto it = _requests_callback.find(req_info->id);
+      auto it = _requests_callback.find(req_info->getRequestID());
       if (it != _requests_callback.end())
       {
 	std::cout << "Request found with callback" << std::endl;
-	it->second(req_info->client, req_info->packet);
+	it->second(*req_info);
       }
 
       delete req_info;
@@ -319,7 +322,10 @@ namespace		Network
 
   void				send(ProtocoledPacket *packet)
   {
-    packet->getClient()->getSocket().send(*packet);
+    if (packet->getReliability() == Network::TCPReliable)
+      packet->getClient()->getSocket().send(*packet);
+    else
+      _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getSocket().getRemotePort());
 
     // Not reliable - Discard it
     if (!packet->isReliable())

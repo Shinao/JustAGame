@@ -45,7 +45,7 @@ ServerMenu::ServerMenu() :
 
   add(_menu, "menu");
   using namespace std::placeholders;
-  Network::addRequest(Request::Allo, std::bind(&ServerMenu::serverDiscovered, this, _1, _2));
+  Network::addRequest(Request::Allo, std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
 ServerMenu::~ServerMenu()
@@ -54,19 +54,20 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  ProtocoledPacket	*packet = ProtocoledPacket::generate(NULL, Request::Allo, Network::Unconnected);
+  ProtocoledPacket	*packet = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
 
   Network::send(packet, "127.0.0.1", Network::SERVER_PORT);
 }
 
-void			ServerMenu::serverDiscovered(Client *client, sf::Packet &packet)
+void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
 {
   std::vector<Item *>	items;
-  items.push_back(new String(client->getIp().toString()));
+  items.push_back(new String(packet.getClient()->getIp().toString()));
   ((Table *) _drawables["table_local"])->addRow(items);
 
   // Delete client since ephemere
-  delete client;
+  // TODO - Delete inside network ?
+  delete packet.getClient();
 }
 
 void			ServerMenu::mouseReleased(int x, int y)
