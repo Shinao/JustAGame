@@ -8,9 +8,13 @@ typedef		sf::Uint16	ClientID;
 class Client
 {
   private:
+    static const int			PING_CALCUL_NUMBER = 5;
     sf::TcpSocket			*_socket;
     ClientID				_id;
     static ClientID			_id_counter;
+    int					_ping;
+    int					_ping_inc;
+    int					_ping_counter;
 
     //
     // Reliability
@@ -37,6 +41,8 @@ class Client
     void				updateSequence(Sequence seq);
     AcknowledgeField			getAckField() const;
     void				acknowledge(Sequence seq);
+    void				addPing(int ms);
+    int					getPing() const;
 };
 
 #endif

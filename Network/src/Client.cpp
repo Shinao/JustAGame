@@ -5,6 +5,9 @@ ClientID	Client::_id_counter = 0;
 Client::Client() :
   _socket(NULL),
   _id(_id_counter++),
+  _ping(0),
+  _ping_inc(0),
+  _ping_counter(0),
   _ack_field(0)
 {
 }
@@ -85,4 +88,23 @@ void				Client::acknowledge(Sequence seq)
 AcknowledgeField		Client::getAckField() const
 {
   return (_ack_field);
+}
+
+void				Client::addPing(int ms)
+{
+  ++_ping_counter;
+  _ping_inc += ms;
+
+  // Update the ping if necessary
+  if (_ping_counter == PING_CALCUL_NUMBER)
+  {
+    _ping = _ping_inc / PING_CALCUL_NUMBER;
+    _ping_inc = 0;
+    _ping_counter = 0;
+  }
+}
+
+int				Client::getPing() const
+{
+  return (_ping);
 }

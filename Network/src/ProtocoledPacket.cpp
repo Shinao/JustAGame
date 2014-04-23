@@ -56,5 +56,15 @@ Network::Reliability	ProtocoledPacket::getReliability() const
 
 bool			ProtocoledPacket::isReliable() const
 {
-  return (_reliability == Network::TCPReliable || _reliability == Network::UDPReliable);
+  return (_reliability == Network::TCPReliable || hasAcknowledgment());
+}
+
+bool			ProtocoledPacket::hasAcknowledgment() const
+{
+  return (_reliability == Network::UDPReliable || _reliability == Network::UDPVariable);
+}
+
+int			ProtocoledPacket::getElapsedTime() const
+{
+  return (_clock.getElapsedTime().asMilliseconds());
 }

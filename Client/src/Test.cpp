@@ -67,7 +67,7 @@ Test::Test() :
   list->setItemTheme(jag::getTheme("ItemListItem"));
   add(list);
 
-  CheckBox *cb = new CheckBox(new String("Check me"));
+  CheckBox *cb = new CheckBox(new String("Check me CHECKME"));
   cb->setRect(Rect(460, _rec.top + 150, 100, 50));
   add(cb);
 }

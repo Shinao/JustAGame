@@ -12,9 +12,10 @@ class ProtocoledPacket;
 # include <iostream>
 
 // Network for server and client
-// Using posix thread
+// Using thread
 // Call update which will use the callback for each pending request received
 // A Packet must start with a Header - See ProtocoledPacket
+
 // If UDP is used in unconnected mode, then it will create a new client and set is IP
 // This client must be deleted when the callback is called
 
@@ -22,6 +23,9 @@ typedef		std::function<void (Client *, sf::Packet &)>	CallbackRequest;
 
 namespace Network
 {
+  // Properties
+  const int		KEEPALIVE_INTERVAL = 500;
+
   bool			init(int port, int is_server);
   void			clear();
   void			update();

@@ -16,6 +16,9 @@ namespace		Network
       sf::Packet	packet;
     };
 
+    // Utility
+    sf::Clock				_keep_alive_clock;
+
     // Threading the network
     sf::Thread				*_thread;
     sf::Mutex				_mutex;
@@ -46,6 +49,7 @@ namespace		Network
     void				checkUdp();
     void				checkTcp(Client *client);
     void				addPacket(RequestInfo *info);
+    void				keepAlive();
   };
 
   // Private functions
@@ -55,8 +59,11 @@ namespace		Network
     {
       while (_running)
       {
-	_listener.wait();
-	std::cout << "Listener unblocked" << std::endl;
+	// Keep-Alive request
+	keepAlive();
+
+	if (!_listener.wait(sf::milliseconds(KEEPALIVE_INTERVAL)))
+	  continue ;
 
 	_mutex.lock();
 
@@ -73,6 +80,17 @@ namespace		Network
 
 	_mutex.unlock();
       }
+    }
+
+    void		keepAlive()
+    {
+      // Wait for your turn !
+      if (_keep_alive_clock.getElapsedTime().asMilliseconds() < KEEPALIVE_INTERVAL)
+	return ;
+
+      // Send to all client Keep Alive request
+
+      _keep_alive_clock.restart();
     }
 
     bool		checkHeader(RequestInfo &info)
@@ -146,6 +164,10 @@ namespace		Network
 	if (field & (0x1 << (ACKFIELD_SIZE - diff)))
 	{
 	  std::cout << "OUR Packet [" << it->second->getSequence() << "]" << " acked" << std::endl;
+
+	  // It's an acknowledgment packet - Update ping
+	  info.client->addPing(it->second->getElapsedTime());
+
 	  _waiting_packets.erase((it--)->second->getSequence());
 	}
       }

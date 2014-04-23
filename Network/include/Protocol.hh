@@ -40,6 +40,8 @@ namespace Network
     TCPReliable,
     // Packet will be acknowledge - Resend if necessary
     UDPReliable,
+    // Reliable but drop if another request with the same ID is sended
+    UDPVariable,
     // Dropped ? Don't care.
     Unreliable,
     // Not a client (Broadcast...)

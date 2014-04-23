@@ -14,6 +14,8 @@ class ProtocoledPacket : public sf::Packet
     Network::Reliability	_reliability;
     ProtocoledPacket(Client *client, Network::Reliability rel);
     Sequence			_sequence;
+    // Ping capacity
+    sf::Clock			_clock;
 
     static Sequence		_sequence_counter;
 
@@ -27,6 +29,8 @@ class ProtocoledPacket : public sf::Packet
     void			setSequence(Sequence seq);
     Network::Reliability	getReliability() const;
     bool			isReliable() const;
+    bool			hasAcknowledgment() const;
+    int				getElapsedTime() const;
 };
 
 #endif
