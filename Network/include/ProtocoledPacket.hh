@@ -32,6 +32,7 @@ class ProtocoledPacket : public sf::Packet
     Sequence			getSequence() const;
     void			setSequence(Sequence seq);
     Network::Reliability	getReliability() const;
+    void			setReliability(Network::Reliability rel);
     bool			isReliable() const;
     bool			hasAcknowledgment() const;
     int				getElapsedTime() const;

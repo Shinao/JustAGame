@@ -34,8 +34,6 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
-    //// Reliability
-    Sequence				_sequence;
     // Reliable packets waiting for acknowledgement
     std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
 
@@ -102,6 +100,11 @@ namespace		Network
       if ((protocol & Network::PROTOCOL_MAGIC) != Network::PROTOCOL_MAGIC)
 	return (false);
 
+      // Reliable - Useful to update remote sequence in UDP
+      // Set UDPReliable even if TCP or Variable
+      if (protocol & 0x1)
+	info.setReliability(Network::UDPReliable);
+
       return (true);
     }
 
@@ -136,20 +139,28 @@ namespace		Network
 
       // Manage acknowledgement
       if (client != NULL)
+      {
+	// Update sequence if necessary
+	if (info->hasAcknowledgment())
+	{
+	  Sequence		remote_sequence;
+	  *info >> remote_sequence;
+	  info->getClient()->updateSequence(remote_sequence);
+	}
+
 	checkAcknowledgement(*info);
+      }
 
       addPacket(info);
     }
 
     void		checkAcknowledgement(ProtocoledPacket &info)
     {
-      Sequence		remote_sequence;
       Sequence		ack;
       AcknowledgeField	field;
       AcknowledgeField	diff;
 
-      info >> remote_sequence >> ack >> field;
-      info.getClient()->updateSequence(remote_sequence);
+      info >> ack >> field;
 
       // Remove waiting packet if in ackfield or out of bounds
       for (auto it = _waiting_packets.begin(); it != _waiting_packets.end(); ++it)
@@ -172,6 +183,7 @@ namespace		Network
 	}
       }
 
+      // TODO - out of ackfield - Generate new sequence
       // Still have packet ? Resend them !
       for (auto it : _waiting_packets)
 	send(it.second);
@@ -327,8 +339,8 @@ namespace		Network
     else
       _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getSocket().getRemotePort());
 
-    // Not reliable - Discard it
-    if (!packet->isReliable())
+    // No acknowledgment wanted - Discard it
+    if (!packet->hasAcknowledgment())
     {
       delete packet;
       return ;

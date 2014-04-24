@@ -15,18 +15,26 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
   std::cout << "Creating packet [" << _sequence << "]" << std::endl;
 
   // Generate header
-  *this << (rel == Network::UDPReliable ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
+  *this << ((rel == Network::UDPReliable || rel == Network::UDPVariable)
+      ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
 
   // Don't need Acknowledgement if Unconnected
   if (rel == Network::Unconnected)
+  {
+    *this << req;
     return ;
+  }
+
+  // Only add for ack packet
+  if (hasAcknowledgment())
+    *this << _sequence;
 
   // TODO 
   // If TCP don't put our sequence - so don't check it on checkAcknowledgment
   // If unreliable same fucking thing
 
   // Packet sequence + Remote sequence for reference and ack field
-  *this << _sequence << client->getSequence() << client->getAckField();
+  *this << client->getSequence() << client->getAckField();
 
   // Request ID
   *this << req;
@@ -58,6 +66,11 @@ Sequence		ProtocoledPacket::getSequence() const
 void			ProtocoledPacket::setSequence(Sequence seq)
 {
   _sequence = seq;
+}
+
+void			ProtocoledPacket::setReliability(Network::Reliability rel)
+{
+  _reliability = rel;
 }
 
 Network::Reliability	ProtocoledPacket::getReliability() const
