@@ -24,7 +24,7 @@ typedef		std::function<void (ProtocoledPacket &)>	CallbackRequest;
 namespace Network
 {
   // Properties
-  const int		KEEPALIVE_INTERVAL = 500;
+  const int		UPDATE_INTERVAL = 500;
 
   bool			init(int port, int is_server);
   void			clear();

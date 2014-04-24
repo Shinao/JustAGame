@@ -4,7 +4,7 @@ ClientID	Client::_id_counter = 0;
 
 Client::Client() :
   _socket(NULL),
-  _id(_id_counter++),
+  _id(++_id_counter),
   _ping(0),
   _ping_inc(0),
   _ping_counter(0),

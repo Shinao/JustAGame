@@ -5,7 +5,7 @@
 
 // ProtocoledPacket inherited from SFML Packet
 // Build a Header specific to the protocol (reliability)
-// Use generate to create a packet - deleted in the network send
+// When a packet is sent, it will be automatically deleted
 
 class ProtocoledPacket : public sf::Packet
 {

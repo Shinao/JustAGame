@@ -9,6 +9,7 @@ class Client
 {
   private:
     static const int			PING_CALCUL_NUMBER = 5;
+
     sf::TcpSocket			*_socket;
     ClientID				_id;
     static ClientID			_id_counter;
@@ -28,6 +29,8 @@ class Client
     sf::IpAddress			_ip;
 
   public:
+    static const ClientID		NULL_ID = 0;
+
     Client();
     ~Client();
 

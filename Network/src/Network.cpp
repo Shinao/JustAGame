@@ -17,7 +17,7 @@ namespace		Network
     };
 
     // Utility
-    sf::Clock				_keep_alive_clock;
+    sf::Clock				_update_clock;
 
     // Threading the network
     sf::Thread				*_thread;
@@ -47,7 +47,7 @@ namespace		Network
     void				checkUdp();
     void				checkTcp(Client *client);
     void				addPacket(ProtocoledPacket *info);
-    void				keepAlive();
+    void				sendUpdate();
     void				sendUdpClient(ProtocoledPacket *packet);
   };
 
@@ -58,10 +58,11 @@ namespace		Network
     {
       while (_running)
       {
-	// Keep-Alive request
-	keepAlive();
+	// Server update to client - Ping and other stuff
+	if (_is_server)
+	  sendUpdate();
 
-	if (!_listener.wait(sf::milliseconds(KEEPALIVE_INTERVAL)))
+	if (!_listener.wait(sf::milliseconds(UPDATE_INTERVAL)))
 	  continue ;
 
 	_mutex.lock();
@@ -81,16 +82,30 @@ namespace		Network
       }
     }
 
-    // TODO - Send ping to client if server or other stuff
-    void		keepAlive()
+    // Send ping to client if server and other stuff
+    void		sendUpdate()
     {
       // Wait for your turn !
-      if (_keep_alive_clock.getElapsedTime().asMilliseconds() < KEEPALIVE_INTERVAL)
+      if (_update_clock.getElapsedTime().asMilliseconds() < UPDATE_INTERVAL)
 	return ;
 
-      // Send to all client Keep Alive request
+      // Create Update Packet
+      sf::Packet info_packet;
+      for (auto client : _clients)
+	info_packet << client->getId() << client->getPing();
 
-      _keep_alive_clock.restart();
+      // End of packet
+      info_packet << Client::NULL_ID; 
+
+      // For all client send unreliable packet
+      for (auto client : _clients)
+      {
+	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::Update, Network::Unreliable);
+	packet->append(info_packet.getData(), info_packet.getDataSize());
+	send(packet);
+      }
+
+      _update_clock.restart();
     }
 
     bool		checkHeader(ProtocoledPacket &info)

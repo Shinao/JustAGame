@@ -12,9 +12,10 @@ typedef		sf::Uint16	Sequence;
 
 
 // RequestID Network Packet
+// If reserved : don't take the callback
 namespace Request
 {
-  // Keep-Alive
+  // [RESERVED] Keep-Alive
   const RequestID		Ping = 0;
   // Is there a server - Local
   const RequestID		Allo = 1;
@@ -22,6 +23,8 @@ namespace Request
   const RequestID		Connexion = 2;
   // Client Disconnected
   const RequestID		Disconnexion = 3;
+  // [RESERVED] Update (get info on all players)
+  const RequestID		Update = 4;
 };
 
 
