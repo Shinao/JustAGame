@@ -48,6 +48,7 @@ namespace		Network
     void				checkTcp(Client *client);
     void				addPacket(ProtocoledPacket *info);
     void				keepAlive();
+    void				sendUdpClient(ProtocoledPacket *packet);
   };
 
   // Private functions
@@ -171,6 +172,13 @@ namespace		Network
 
 	diff = getSequenceDifference(ack, it->second->getSequence());
 
+	// If our packet is out of ackfield - Generate a new Sequence to be on top
+	if (diff > ACKFIELD_SIZE)
+	{
+	  it->second->generateSequence();
+	  continue ;
+	}
+
 	// Found it - Drop it
 	if (field & (0x1 << (ACKFIELD_SIZE - diff)))
 	{
@@ -183,11 +191,9 @@ namespace		Network
 	}
       }
 
-      // TODO - out of ackfield - Generate new sequence
-      // Still have packet ? Resend them !
+      // Still have packet ? Resend them ! (Avoiding doublon by calling directly sendUdpClient
       for (auto it : _waiting_packets)
-	send(it.second);
-      _waiting_packets.clear();
+	sendUdpClient(it.second);
     }
 
     void		addPacket(ProtocoledPacket *info)
@@ -239,6 +245,12 @@ namespace		Network
 	info->setClient(client);
 	_requests_pending.push_back(info);
       }
+    }
+
+    void				sendUdpClient(ProtocoledPacket *packet)
+    {
+      _udp_socket.send(*packet, packet->getClient()->getIp(),
+	  packet->getClient()->getSocket().getRemotePort());
     }
   };
 
@@ -337,7 +349,7 @@ namespace		Network
     if (packet->getReliability() == Network::TCPReliable)
       packet->getClient()->getSocket().send(*packet);
     else
-      _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getSocket().getRemotePort());
+      sendUdpClient(packet);
 
     // No acknowledgment wanted - Discard it
     if (!packet->hasAcknowledgment())

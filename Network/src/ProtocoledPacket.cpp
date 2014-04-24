@@ -9,9 +9,9 @@ ProtocoledPacket::ProtocoledPacket() :
 
 ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Reliability rel) :
   _client(client),
-  _reliability(rel),
-  _sequence(++_sequence_counter)
+  _reliability(rel)
 {
+  generateSequence();
   std::cout << "Creating packet [" << _sequence << "]" << std::endl;
 
   // Generate header
@@ -101,4 +101,9 @@ RequestID		ProtocoledPacket::getRequestID() const
 void			ProtocoledPacket::setRequestID(RequestID id)
 {
   _request_id = id;
+}
+
+void			ProtocoledPacket::generateSequence()
+{
+  _sequence = ++_sequence_counter;
 }

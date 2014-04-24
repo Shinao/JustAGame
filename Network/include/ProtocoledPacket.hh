@@ -38,6 +38,7 @@ class ProtocoledPacket : public sf::Packet
     int				getElapsedTime() const;
     RequestID			getRequestID() const;
     void			setRequestID(RequestID id);
+    void			generateSequence();
 };
 
 #endif
