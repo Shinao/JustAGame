@@ -346,6 +346,21 @@ namespace		Network
       return ;
     }
 
+    // Drop other packet with same reliability and RequestID
+    if (packet->getReliability() == Network::UDPVariable)
+    {
+      for (std::map<Sequence, ProtocoledPacket *>::iterator it = _waiting_packets.begin();
+	  it != _waiting_packets.end(); ++it)
+	{
+	  if (it->second->getRequestID() == packet->getRequestID() &&
+	      it->second->getReliability() == Network::UDPVariable)
+	  {
+	    delete it->second;
+	    _waiting_packets.erase(it);
+	  }
+	}
+    }
+
     _mutex.lock();
     _waiting_packets[packet->getSequence()] = packet;
     _mutex.unlock();
