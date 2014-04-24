@@ -17,6 +17,9 @@ class Client
     int					_ping_inc;
     int					_ping_counter;
 
+    // Udp port
+    int					_port;
+
     //
     // Reliability
     //
@@ -38,6 +41,8 @@ class Client
     void				setSocket(sf::TcpSocket *socket);
     ClientID				getId() const;
     void				setId(ClientID id);
+    int					getPort() const;
+    void				setPort(int port);
     const sf::IpAddress			getIp() const;
     void				setIp(const sf::IpAddress &ip);
     Sequence				getSequence() const;

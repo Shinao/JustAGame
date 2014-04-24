@@ -27,7 +27,12 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
 
   // Only add for ack packet
   if (hasAcknowledgment())
+  {
     *this << _sequence;
+
+    // Ping capacity only on acknowlegmed packet
+    _clock = new sf::Clock();
+  }
 
   // TODO 
   // If TCP don't put our sequence - so don't check it on checkAcknowledgment
@@ -38,10 +43,6 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
 
   // Request ID
   *this << req;
-
-  // Ping capacity only on acknowlegmed packet
-  if (hasAcknowledgment())
-    _clock = new sf::Clock();
 }
 
 ProtocoledPacket::~ProtocoledPacket()
@@ -80,7 +81,7 @@ Network::Reliability	ProtocoledPacket::getReliability() const
 
 bool			ProtocoledPacket::isReliable() const
 {
-  return (_reliability == Network::TCPReliable || hasAcknowledgment());
+  return (_reliability == Network::TCP || hasAcknowledgment());
 }
 
 bool			ProtocoledPacket::hasAcknowledgment() const

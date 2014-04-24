@@ -64,10 +64,6 @@ void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
   std::vector<Item *>	items;
   items.push_back(new String(packet.getClient()->getIp().toString()));
   ((Table *) _drawables["table_local"])->addRow(items);
-
-  // Delete client since ephemere
-  // TODO - Delete inside network ?
-  delete packet.getClient();
 }
 
 void			ServerMenu::mouseReleased(int x, int y)

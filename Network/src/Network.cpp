@@ -1,21 +1,21 @@
 #include <map>
-#include <pthread.h>
+#include <list>
 #include <iostream>
 #include "Network.hh"
 
 namespace		Network
 {
+  //
   // Private members
+  //
   namespace
   {
-    // Utility
-    sf::Clock				_update_clock;
-
     // Threading the network
     sf::Thread				*_thread;
     sf::Mutex				_mutex;
     bool				_running;
 
+    // Client
     std::vector<Client *>		_clients;
     std::map<RequestID, CallbackRequest>	_requests_callback;
 
@@ -29,8 +29,15 @@ namespace		Network
     // Reliable packets waiting for acknowledgement
     std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
 
+    //
     // Server sided
+    //
     sf::TcpListener			_server;
+    // Client waiting for UDP Establishment
+    std::list<Client *>			_waiting_clients;
+    // Utility
+    sf::Clock				_update_clock;
+
 
     void				clientDisconnected(Client *client);
     void				addPendingConnection();
@@ -41,16 +48,23 @@ namespace		Network
     void				addPacket(ProtocoledPacket *info);
     void				sendUpdate();
     void				sendUdpClient(ProtocoledPacket *packet);
+
+    // Request Callback
+    void				UDPEstablished(ProtocoledPacket &packet);
+    void				UDPEstablishment(ProtocoledPacket &packet);
   };
 
+
+  //
   // Private functions
+  //
   namespace
   {
     void		listening_thread()
     {
       while (_running)
       {
-	// Server update to client - Ping and other stuff
+	// Server update to client - Waiting Clients / Ping and other stuff
 	if (_is_server)
 	  sendUpdate();
 
@@ -78,6 +92,8 @@ namespace		Network
 	return ;
 
       _mutex.lock();
+
+      // Still in the waiting list ? Resend !
 
       // Create Update Packet
       sf::Packet info_packet;
@@ -135,7 +151,7 @@ namespace		Network
       // Get client
       Client		*client = NULL;
       for (auto search : _clients)
-	if (search->getIp() == sender)
+	if (search->getIp() == sender && search->getPort() == port)
 	  client = search;
 
       // UDP Unconnected
@@ -143,6 +159,8 @@ namespace		Network
       {
 	client = new Client();
 	client->setIp(sender);
+	client->setPort(port);
+	info->setReliability(Network::Unconnected);
       }
 
       info->setClient(client);
@@ -253,26 +271,71 @@ namespace		Network
       sf::TcpSocket	*socket = new sf::TcpSocket();
       if (_server.accept(*socket) == sf::Socket::Done)
       {
+	// Add to waiting list for UDP
 	Client	*client = new Client();
 	client->setSocket(socket);
+	_waiting_clients.push_back(client);
 
-	// New client request
-	ProtocoledPacket	*info = new ProtocoledPacket();
-	info->setRequestID(Request::Connexion);
-	info->setClient(client);
-	_requests_pending.push_back(info);
+	// Before new client request - get a UDP Request to set the port
+	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::UDPEstablishment, Network::TCP);
+	*packet << client->getId();
+	send(packet);
       }
 
       _mutex.unlock();
     }
 
+    // Main Thread - Request Callback - TCP
+    // Server wants to get a UDP Request for port UDP
+    void				UDPEstablishment(ProtocoledPacket &packet)
+    {
+      ProtocoledPacket	*rsp = new ProtocoledPacket(NULL, Request::UDPEstablishment, Network::Unconnected);
+      ClientID	id;
+      packet >> id;
+      *rsp << id;
+      send(rsp, packet.getClient()->getIp(), packet.getClient()->getPort());
+    }
+
+    // Main Thread - Request Callback - UDP
+    // Complete the client with the port for the UDP
+    void				UDPEstablished(ProtocoledPacket &packet)
+    {
+      Client	*client = NULL;
+      ClientID	id;
+      packet >> id;
+
+      // Get the client from the id and ip in the waiting list
+      for (auto search : _waiting_clients)
+	if (search->getId() == id && search->getIp() == packet.getClient()->getIp())
+	  client = search;
+
+      // Not found - Abort
+      if (client == NULL)
+	return ;
+
+      client->setPort(packet.getClient()->getPort());
+      // Add client
+      _waiting_clients.remove(client);
+      _clients.push_back(client);
+
+      // New client request
+      ProtocoledPacket	*info = new ProtocoledPacket();
+      info->setRequestID(Request::Connexion);
+      info->setClient(client);
+      _requests_pending.push_back(info);
+    }
+
     void				sendUdpClient(ProtocoledPacket *packet)
     {
-      _udp_socket.send(*packet, packet->getClient()->getIp(),
-	  packet->getClient()->getSocket().getRemotePort());
+      _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getPort());
     }
   };
 
+
+
+  //
+  // Public
+  //
   bool			init(int port, int is_server)
   {
     _is_server = is_server;
@@ -289,6 +352,11 @@ namespace		Network
 	return (false);
       _listener.add(_server);
     }
+
+    // Listeners
+    using namespace std::placeholders;
+    addRequest(Request::UDPEstablishment, std::bind(&UDPEstablishment, _1));
+    addRequest(Request::UDPEstablished, std::bind(&UDPEstablished, _1));
 
     // Launch listening thread
     _thread = new sf::Thread(&listening_thread);
@@ -333,6 +401,10 @@ namespace		Network
 	it->second(*req_info);
       }
 
+      // Delete client if unconnected Request
+      if (req_info->getReliability() == Network::Unconnected)
+	delete req_info->getClient();
+
       delete req_info;
     }
     _requests_pending.clear();
@@ -365,7 +437,7 @@ namespace		Network
 
   void				send(ProtocoledPacket *packet)
   {
-    if (packet->getReliability() == Network::TCPReliable)
+    if (packet->getReliability() == Network::TCP)
       packet->getClient()->getSocket().send(*packet);
     else
       sendUdpClient(packet);

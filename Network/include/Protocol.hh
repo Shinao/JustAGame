@@ -25,6 +25,10 @@ namespace Request
   const RequestID		Disconnexion = 3;
   // [RESERVED] Update (get info on all players)
   const RequestID		Update = 4;
+  // [RESERVED] Used when a new TCP Connection is established - Need a UDP Request to get the port
+  const RequestID		UDPEstablishment = 5;
+  // [RESERVED] Used when the client respond to the server with UDP Request
+  const RequestID		UDPEstablished = 6;
 };
 
 
@@ -40,7 +44,7 @@ namespace Network
   enum Reliability
   {
     // Tcp
-    TCPReliable,
+    TCP,
     // Packet will be acknowledge - Resend if necessary
     UDPReliable,
     // Reliable but drop if another request with the same ID is sended

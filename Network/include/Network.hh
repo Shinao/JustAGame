@@ -16,8 +16,8 @@ class ProtocoledPacket;
 // Call update which will use the callback for each pending request received
 // A Packet must start with a Header - See ProtocoledPacket
 
-// If UDP is used in unconnected mode, then it will create a new client and set is IP
-// This client must be deleted when the callback is called
+// If UDP is used in unconnected mode, then it will create a new client and set his Ip and Port
+// This client will be automatically deleted after the callback
 
 typedef		std::function<void (ProtocoledPacket &)>	CallbackRequest;
 

@@ -28,6 +28,16 @@ ClientID			Client::getId() const
   return (_id);
 }
 
+int				Client::getPort() const
+{
+  return (_port);
+}
+
+void				Client::setPort(int port)
+{
+  _port = port;
+}
+
 void				Client::setId(ClientID id)
 {
   _id = id;
