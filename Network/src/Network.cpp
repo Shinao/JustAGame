@@ -8,14 +8,6 @@ namespace		Network
   // Private members
   namespace
   {
-    struct 		RequestInfo
-    {
-      RequestID		id;
-      Client		*client;
-      bool		reliable;
-      sf::Packet	packet;
-    };
-
     // Utility
     sf::Clock				_update_clock;
 
@@ -65,8 +57,6 @@ namespace		Network
 	if (!_listener.wait(sf::milliseconds(UPDATE_INTERVAL)))
 	  continue ;
 
-	_mutex.lock();
-
 	// Check server
 	if (_is_server && _listener.isReady(_server))
 	  addPendingConnection();
@@ -77,8 +67,6 @@ namespace		Network
 	for (auto client : _clients)
 	  if (_listener.isReady(client->getSocket()))
 	    checkTcp(client);
-
-	_mutex.unlock();
       }
     }
 
@@ -88,6 +76,8 @@ namespace		Network
       // Wait for your turn !
       if (_update_clock.getElapsedTime().asMilliseconds() < UPDATE_INTERVAL)
 	return ;
+
+      _mutex.lock();
 
       // Create Update Packet
       sf::Packet info_packet;
@@ -104,6 +94,8 @@ namespace		Network
 	packet->append(info_packet.getData(), info_packet.getDataSize());
 	send(packet);
       }
+
+      _mutex.unlock();
 
       _update_clock.restart();
     }
@@ -138,6 +130,8 @@ namespace		Network
 	return ;
       }
 
+      _mutex.lock();
+
       // Get client
       Client		*client = NULL;
       for (auto search : _clients)
@@ -168,6 +162,8 @@ namespace		Network
       }
 
       addPacket(info);
+
+      _mutex.unlock();
     }
 
     void		checkAcknowledgement(ProtocoledPacket &info)
@@ -225,6 +221,8 @@ namespace		Network
 
     void		checkTcp(Client *client)
     {
+      _mutex.lock();
+
       ProtocoledPacket	*info = new ProtocoledPacket();
 
       // Check if client disconnected
@@ -242,11 +240,15 @@ namespace		Network
 	checkAcknowledgement(*info);
 	addPacket(info);
       }
+
+      _mutex.unlock();
     }
 
     void		addPendingConnection()
     {
       std::cout << "New client" << std::endl;
+
+      _mutex.lock();
 
       sf::TcpSocket	*socket = new sf::TcpSocket();
       if (_server.accept(*socket) == sf::Socket::Done)
@@ -260,6 +262,8 @@ namespace		Network
 	info->setClient(client);
 	_requests_pending.push_back(info);
       }
+
+      _mutex.unlock();
     }
 
     void				sendUdpClient(ProtocoledPacket *packet)
