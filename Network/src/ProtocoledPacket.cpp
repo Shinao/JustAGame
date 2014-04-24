@@ -11,9 +11,6 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
   _client(client),
   _reliability(rel)
 {
-  generateSequence();
-  std::cout << "Creating packet [" << _sequence << "]" << std::endl;
-
   // Generate header
   *this << ((rel == Network::UDPReliable || rel == Network::UDPVariable)
       ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
@@ -28,6 +25,7 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
   // Only add for ack packet
   if (hasAcknowledgment())
   {
+    generateSequence();
     *this << _sequence;
 
     // Ping capacity only on acknowlegmed packet

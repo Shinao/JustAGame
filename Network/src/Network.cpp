@@ -154,6 +154,8 @@ namespace		Network
 
       _mutex.lock();
 
+      std::cout << "UDP Request" << std::endl;
+
       // Get client
       Client		*client = NULL;
       for (auto search : _clients)
@@ -161,7 +163,7 @@ namespace		Network
 	  client = search;
 
       // UDP Unconnected
-      if (client != NULL)
+      if (client == NULL)
       {
 	client = new Client();
 	client->setIp(sender);
@@ -248,11 +250,11 @@ namespace		Network
       _mutex.lock();
 
       ProtocoledPacket	*info = new ProtocoledPacket();
+      info->setClient(client);
 
-      // Check if client disconnected
       sf::Socket::Status status = client->getSocket().receive(*info);
 
-      info->setClient(client);
+      // Check if client disconnected
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
 	_listener.remove(client->getSocket());
@@ -260,6 +262,7 @@ namespace		Network
 	_requests_pending.push_back(info);
 	_clients_disconnected.push_back(client);
       }
+      // Good Request
       else
       {
 	checkAcknowledgement(*info);
@@ -296,7 +299,7 @@ namespace		Network
     // Server wants to get a UDP Request for port UDP
     void				UDPEstablishment(ProtocoledPacket &packet)
     {
-      ProtocoledPacket	*rsp = new ProtocoledPacket(NULL, Request::UDPEstablishment, Network::Unconnected);
+      ProtocoledPacket	*rsp = new ProtocoledPacket(NULL, Request::UDPEstablished, Network::Unconnected);
       ClientID	id;
       packet >> id;
       *rsp << id;
