@@ -6,7 +6,6 @@
 - Options/Videos/Keybinding/...
 
 ###Network
-- Check if tcp and udp share the same port
 - Just check all types of packet if system is good
 
 ###Games

@@ -94,6 +94,12 @@ namespace		Network
       _mutex.lock();
 
       // Still in the waiting list ? Resend !
+      for (auto client : _waiting_clients)
+      {
+	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::UDPEstablishment, Network::TCP);
+	*packet << client->getId();
+	send(packet);
+      }
 
       // Create Update Packet
       sf::Packet info_packet;
@@ -249,6 +255,7 @@ namespace		Network
       info->setClient(client);
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
+	_listener.remove(client->getSocket());
 	info->setRequestID(Request::Disconnexion);
 	_requests_pending.push_back(info);
 	_clients_disconnected.push_back(client);
@@ -316,7 +323,7 @@ namespace		Network
       client->setPort(packet.getClient()->getPort());
       // Add client
       _waiting_clients.remove(client);
-      _clients.push_back(client);
+      addClient(client);
 
       // New client request
       ProtocoledPacket	*info = new ProtocoledPacket();
@@ -494,5 +501,11 @@ namespace		Network
   {
     return ((check_sequence > sequence) && (check_sequence - sequence <= Network::MAX_SEQUENCE / 2)) ||
       ((sequence > check_sequence) && (sequence - check_sequence > Network::MAX_SEQUENCE / 2));
+  }
+
+  void			addClient(Client *client)
+  {
+    _clients.push_back(client);
+    _listener.add(client->getSocket());
   }
 };

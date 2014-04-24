@@ -33,6 +33,7 @@ namespace Network
   void			send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port);
   void			send(ProtocoledPacket *packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
+  void			addClient(Client *client);
 
   AcknowledgeField	getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);
