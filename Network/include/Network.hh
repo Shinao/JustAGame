@@ -30,13 +30,14 @@ namespace Network
 {
   // Properties
   const int		UPDATE_INTERVAL = 500;
+  const int		TIMEOUT = 5000;
 
   bool			init(int port, int is_server);
   void			clear();
   void			update();
 
   void			send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port);
-  void			send(ProtocoledPacket *packet);
+  sf::Socket::Status	send(ProtocoledPacket *packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
   void			connect(Client *client);
 

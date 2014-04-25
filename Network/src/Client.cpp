@@ -8,6 +8,7 @@ Client::Client() :
   _ping(0),
   _ping_inc(0),
   _ping_counter(0),
+  _is_ready(false),
   _sequence(0),
   _ack_field(0)
 {
@@ -142,4 +143,19 @@ int				Client::getPing() const
 std::map<Sequence, ProtocoledPacket *>	&Client::getWaitingPackets()
 {
   return (_waiting_packets);
+}
+
+void				Client::ready()
+{
+  _is_ready = true;
+}
+
+bool				Client::isReady() const
+{
+  return (_is_ready);
+}
+
+sf::Clock			&Client::getClock()
+{
+  return (_clock);
 }

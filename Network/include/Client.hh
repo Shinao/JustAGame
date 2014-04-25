@@ -16,6 +16,9 @@ class Client
     int					_ping;
     int					_ping_inc;
     int					_ping_counter;
+    bool				_is_ready;
+    // Used for innactivity timer
+    sf::Clock				_clock;
 
     // Udp port
     int					_port;
@@ -54,6 +57,9 @@ class Client
     Network::Acknowledgment		getAcknowledgment(Sequence seq) const;
     void				addPing(int ms);
     int					getPing() const;
+    void				ready();
+    bool				isReady() const;
+    sf::Clock				&getClock();
     std::map<Sequence, ProtocoledPacket *>	&getWaitingPackets();
 };
 

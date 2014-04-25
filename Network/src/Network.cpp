@@ -50,6 +50,7 @@ namespace		Network
     void				sendUpdate();
     void				sendUdpClient(ProtocoledPacket *packet);
     void				connecting_thread(Client *client);
+    void				disconnect(Client *client);
 
     // Request Callback
     void				UDPEstablished(ProtocoledPacket &packet);
@@ -124,6 +125,13 @@ namespace		Network
       // Still in the waiting list ? Resend !
       for (auto client : _waiting_clients)
       {
+	// After innactivity time : deconnexion
+	if (client->getClock().getElapsedTime().asMilliseconds() > TIMEOUT)
+	{
+	  disconnect(client);
+	  continue ;
+	}
+
 	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::UDPEstablishment, Network::TCP);
 	*packet << client->getId();
 	send(packet);
@@ -139,9 +147,12 @@ namespace		Network
       // For all client send unreliable packet
       for (auto client : _clients)
       {
-	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::Update, Network::Unreliable);
+	ProtocoledPacket *packet = new ProtocoledPacket(client, Request::Update, Network::TCP);
 	packet->append(info_packet.getData(), info_packet.getDataSize());
-	send(packet);
+
+	// Client disconnected
+	if (send(packet) != sf::Socket::Done)
+	  disconnect(client);
       }
 
       _mutex.unlock();
@@ -226,6 +237,7 @@ namespace		Network
     }
 
     // TODO - UDP establishment fail when reload client and not disconnected
+    // TODO - Deco if not udp
     // Verify our packet has been acknowledged
     void		checkAcknowledgement(ProtocoledPacket &info)
     {
@@ -310,11 +322,8 @@ namespace		Network
       // Check if client disconnected
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
-	std::cout << "[CheckTcp] Disconnexion" << std::endl;
-	_listener.remove(client->getSocket());
-	info->setRequestID(Request::Disconnexion);
-	_requests_pending.push_back(info);
-	_clients_disconnected.push_back(client);
+	disconnect(client);
+	delete info;
       }
       // Good Request
       else
@@ -325,6 +334,18 @@ namespace		Network
       }
 
       _mutex.unlock();
+    }
+
+    void		disconnect(Client *client)
+    {
+      std::cout << "[CheckTcp] Disconnexion" << std::endl;
+
+      ProtocoledPacket	*info = new ProtocoledPacket();
+      info->setClient(client);
+      _listener.remove(client->getSocket());
+      info->setRequestID(Request::Disconnexion);
+      _requests_pending.push_back(info);
+      _clients_disconnected.push_back(client);
     }
 
     void		addPendingConnection()
@@ -542,10 +563,12 @@ namespace		Network
     delete packet;
   }
 
-  void				send(ProtocoledPacket *packet)
+  sf::Socket::Status			send(ProtocoledPacket *packet)
   {
+    sf::Socket::Status	status = sf::Socket::Done;
+
     if (packet->getReliability() == Network::TCP)
-      packet->getClient()->getSocket().send(*packet);
+      status = packet->getClient()->getSocket().send(*packet);
     else
       sendUdpClient(packet);
 
@@ -553,7 +576,7 @@ namespace		Network
     if (!packet->hasAcknowledgment())
     {
       delete packet;
-      return ;
+      return (status);
     }
 
     auto waiting_packets = packet->getClient()->getWaitingPackets();
@@ -575,6 +598,8 @@ namespace		Network
     _mutex.lock();
     waiting_packets[packet->getSequence()] = packet;
     _mutex.unlock();
+
+    return (status);
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)
