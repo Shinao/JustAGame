@@ -103,11 +103,10 @@ namespace		Network
 
       // Create Update Packet
       sf::Packet info_packet;
+      // Number of client
+      info_packet << _clients.size();
       for (auto client : _clients)
 	info_packet << client->getId() << client->getPing();
-
-      // End of packet
-      info_packet << Client::NULL_ID; 
 
       // For all client send unreliable packet
       for (auto client : _clients)
@@ -169,12 +168,10 @@ namespace		Network
 	client->setIp(sender);
 	client->setPort(port);
 	info->setReliability(Network::Unconnected);
+	info->setClient(client);
       }
-
-      info->setClient(client);
-
       // Manage acknowledgement
-      if (client != NULL)
+      else
       {
 	// Update sequence if necessary
 	if (info->hasAcknowledgment())
@@ -302,6 +299,9 @@ namespace		Network
       ProtocoledPacket	*rsp = new ProtocoledPacket(NULL, Request::UDPEstablished, Network::Unconnected);
       ClientID	id;
       packet >> id;
+
+      std::cout << "Establishment -> Send UDP [" << id << "]"  << std::endl;
+
       *rsp << id;
       send(rsp, packet.getClient()->getIp(), packet.getClient()->getPort());
     }
@@ -313,6 +313,8 @@ namespace		Network
       Client	*client = NULL;
       ClientID	id;
       packet >> id;
+
+      std::cout << "Established -> New client [" << id << "]" << std::endl;
 
       // Get the client from the id and ip in the waiting list
       for (auto search : _waiting_clients)
@@ -407,7 +409,6 @@ namespace		Network
       auto it = _requests_callback.find(req_info->getRequestID());
       if (it != _requests_callback.end())
       {
-	std::cout << "Request found with callback" << std::endl;
 	it->second(*req_info);
       }
 
