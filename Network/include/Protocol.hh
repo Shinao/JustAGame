@@ -52,15 +52,15 @@ namespace Network
 
   enum Reliability
   {
-    // Tcp
+    // Tcp - slow, ordered and reliable (Message, files...)
     TCP,
-    // Packet will be acknowledge - Resend if necessary
-    UDPReliable,
-    // Reliable but drop if another request with the same ID is sended
-    UDPVariable,
-    // Dropped ? Don't care.
+    // UDP - Fast but unordered Packet will be acknowledge - Resend if necessary
+    Reliable,
+    // Reliable but drop if another request variable with the same RequestID is sended
+    Variable,
+    // UDP - Dropped ? Don't care.
     Unreliable,
-    // Not a client (Broadcast...)
+    // UDP - Not a client (Broadcast...)
     Unconnected
   };
 

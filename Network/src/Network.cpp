@@ -170,7 +170,7 @@ namespace		Network
 
       // Reliable - Useful to update remote sequence in UDP
       // Set Reliability
-      info.setReliability((protocol & 0x1) ? Network::UDPReliable : Network::Unreliable);
+      info.setReliability((protocol & 0x1) ? Network::Reliable : Network::Unreliable);
 
       return (true);
     }
@@ -236,8 +236,6 @@ namespace		Network
       _mutex.unlock();
     }
 
-    // TODO - UDP establishment fail when reload client and not disconnected
-    // TODO - Deco if not udp
     // Verify our packet has been acknowledged
     void		checkAcknowledgement(ProtocoledPacket &info)
     {
@@ -581,13 +579,13 @@ namespace		Network
 
     auto waiting_packets = packet->getClient()->getWaitingPackets();
     // Drop other packet with same reliability and RequestID
-    if (packet->getReliability() == Network::UDPVariable)
+    if (packet->getReliability() == Network::Variable)
     {
       for (std::map<Sequence, ProtocoledPacket *>::iterator it = waiting_packets.begin();
 	  it != waiting_packets.end(); ++it)
 	{
 	  if (it->second->getRequestID() == packet->getRequestID() &&
-	      it->second->getReliability() == Network::UDPVariable)
+	      it->second->getReliability() == Network::Variable)
 	  {
 	    delete it->second;
 	    waiting_packets.erase(it);

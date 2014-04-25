@@ -24,7 +24,7 @@ class ProtocoledPacket : public sf::Packet
     // Received packet
     ProtocoledPacket();
     // Only use this to send packet
-    ProtocoledPacket(Client *client, RequestID req, Network::Reliability rel = Network::UDPReliable);
+    ProtocoledPacket(Client *client, RequestID req, Network::Reliability rel = Network::Reliable);
     ~ProtocoledPacket();
 
     void			setClient(Client *client);

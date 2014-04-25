@@ -12,8 +12,7 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
   _reliability(rel)
 {
   // Generate header
-  *this << ((rel == Network::UDPReliable || rel == Network::UDPVariable)
-      ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
+  *this << (isReliable() ? Network::REQUEST_RELIABLE : Network::REQUEST_UNRELIABLE);
 
   // Don't need Acknowledgement if Unconnected
   if (rel == Network::Unconnected)
@@ -84,7 +83,7 @@ bool			ProtocoledPacket::isReliable() const
 
 bool			ProtocoledPacket::hasAcknowledgment() const
 {
-  return (_reliability == Network::UDPReliable || _reliability == Network::UDPVariable);
+  return (_reliability == Network::Reliable || _reliability == Network::Variable);
 }
 
 int			ProtocoledPacket::getElapsedTime() const

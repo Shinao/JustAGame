@@ -9,7 +9,7 @@ void	newClient(ProtocoledPacket &packet)
 {
   std::cout << "new client" << std::endl;
 
-  ProtocoledPacket *test = new ProtocoledPacket(packet.getClient(), Request::Test, Network::UDPReliable);
+  ProtocoledPacket *test = new ProtocoledPacket(packet.getClient(), Request::Test, Network::Variable);
   *test << "Bonjour";
   Network::send(test);
 }
