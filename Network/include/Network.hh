@@ -10,6 +10,7 @@ class ProtocoledPacket;
 # include "Client.hh"
 # include "ProtocoledPacket.hh"
 # include <iostream>
+# include <bitset>
 
 // Network for server and client
 // Using thread
@@ -39,7 +40,7 @@ namespace Network
   void			addRequest(RequestID id, const CallbackRequest &cb);
   void			connect(Client *client);
 
-  AcknowledgeField	getSequenceDifference(Sequence seq1, Sequence seq2);
+  Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);
 };
 

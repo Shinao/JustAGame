@@ -183,8 +183,6 @@ namespace		Network
 
       _mutex.lock();
 
-      std::cout << "[CheckUdp] UDP Request" << std::endl;
-
       // Get client
       Client		*client = NULL;
       for (auto search : _clients)
@@ -199,62 +197,93 @@ namespace		Network
 	client->setPort(port);
 	info->setReliability(Network::Unconnected);
 	info->setClient(client);
+	addRequest(info);
+	_mutex.unlock();
+	return ;
       }
+
       // Manage acknowledgement
-      else
+      bool	acknowledged = true;
+      info->setClient(client);
+      // Update sequence if necessary
+      if (info->hasAcknowledgment())
       {
-	// Update sequence if necessary
-	if (info->hasAcknowledgment())
-	{
-	  Sequence		remote_sequence;
-	  *info >> remote_sequence;
-	  info->getClient()->updateSequence(remote_sequence);
-	}
+	Sequence		remote_sequence;
+	*info >> remote_sequence;
 
-	checkAcknowledgement(*info);
+	if (client->getAcknowledgment(remote_sequence) == Network::NonAcknowledged)
+	{
+	  std::cout << "[checkUDP] Acknowledge [" << remote_sequence << "]" << std::endl;
+	  client->acknowledge(remote_sequence);
+	  acknowledged = false;
+	}
+	else
+	  std::cout << "[CheckUdp] Already Acknowledged Request [" << remote_sequence << "]" << std::endl;
       }
 
-      addRequest(info);
+      checkAcknowledgement(*info);
+      if (!acknowledged)
+	addRequest(info);
 
       _mutex.unlock();
     }
 
+    // TODO - UDP establishment fail when reload client and not disconnected
+    // TODO - Waiting packet in Client
+    // Verify our packet has been acknowledged
     void		checkAcknowledgement(ProtocoledPacket &info)
     {
       Sequence		ack;
       AcknowledgeField	field;
-      AcknowledgeField	diff;
+      Sequence		diff;
+      bool		found;
 
       info >> ack >> field;
 
       // Remove waiting packet if in ackfield or out of bounds
-      for (auto it = _waiting_packets.begin(); it != _waiting_packets.end(); ++it)
+      for (auto it = _waiting_packets.begin(); it != _waiting_packets.end();)
       {
+	std::cout << "[checkAcknowledgment] Checking [" << it->second->getSequence() << "]" << std::endl;
+	Sequence	seq = it->second->getSequence();
+
 	// If ack is inferior to our sequence - just wait next turn baby
-	if (isSequenceMoreRecent(ack, it->second->getSequence()))
+	if (isSequenceMoreRecent(ack, seq))
 	  continue ;
 
-	diff = getSequenceDifference(ack, it->second->getSequence());
+	if ((diff = getSequenceDifference(ack, seq)) == 0)
+	  found = true;
+	else
+	  --diff;
+
+	std::cout << "Diff :: " << diff << " - Ackfield :: " << (std::bitset<Network::ACKFIELD_SIZE>) field << std::endl;
 
 	// If our packet is out of ackfield - Generate a new Sequence to be on top
 	if (diff > ACKFIELD_SIZE)
 	{
 	  it->second->generateSequence();
+	  ++it;
 	  continue ;
 	}
 
 	// Found it - Drop it
-	if (field & (0x1 << (ACKFIELD_SIZE - diff)))
+	if (found || (field & (0x1 << diff)))
 	{
-	  std::cout << "[CheckAcknowledgment] Our Packet [" << it->second->getSequence() << "]" << " acked" << std::endl;
+	  std::cout << "[CheckAcknowledgment] Our Packet [" << seq << "]" << " acked" << std::endl;
 
 	  // It's an acknowledgment packet - Update ping
 	  info.getClient()->addPing(it->second->getElapsedTime());
 
-	  _waiting_packets.erase((it--)->second->getSequence());
-	}
-      }
+	  // Make sure we continue safely
+	  auto current = it++;
 
+	  // Drop packet
+	  delete current->second;
+	  _waiting_packets.erase(current);
+	}
+	else
+	  ++it;
+      }
+      
       // Still have packet ? Resend them ! (Avoiding doublon by calling directly sendUdpClient
       for (auto it : _waiting_packets)
 	sendUdpClient(it.second);
@@ -555,19 +584,20 @@ namespace		Network
     _requests_callback[id] = cb;
   }
 
-  AcknowledgeField	getSequenceDifference(Sequence seq1, Sequence seq2)
+  Sequence		getSequenceDifference(Sequence seq1, Sequence seq2)
   {
-    // Looped
-    if (seq1 - seq2 > Network::MAX_SEQUENCE / 2)
+    if (std::abs(seq1 - seq2) > Network::MAX_SEQUENCE / 2)
     {
       AcknowledgeField max = std::max(seq1, seq2);
       AcknowledgeField min = std::min(seq1, seq2);
 
       min += Network::MAX_SEQUENCE - max;
       max = 0;
+      seq1 = min;
+      seq2 = max;
     }
 
-    return ((seq1 - seq2) * -1);
+    return (std::abs(seq1 - seq2));
   }
 
 
@@ -579,7 +609,6 @@ namespace		Network
 
   void			connect(Client *client)
   {
-    // using namespace std::placeholders;
     sf::Thread	thread(std::bind(connecting_thread, client));
     thread.launch();
   }

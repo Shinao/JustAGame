@@ -1,6 +1,6 @@
 #include "ProtocoledPacket.hh"
 
-Sequence ProtocoledPacket::_sequence_counter = 0;
+Sequence ProtocoledPacket::_sequence_counter = 1;
 
 ProtocoledPacket::ProtocoledPacket() :
   _client(NULL)

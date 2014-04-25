@@ -9,7 +9,7 @@ void	newClient(ProtocoledPacket &packet)
 {
   std::cout << "new client" << std::endl;
 
-  ProtocoledPacket *test = new ProtocoledPacket(packet.getClient(), Request::Test, Network::Unreliable);
+  ProtocoledPacket *test = new ProtocoledPacket(packet.getClient(), Request::Test, Network::UDPReliable);
   *test << "Bonjour";
   Network::send(test);
 }
@@ -38,7 +38,7 @@ int	main(int ac, char **av)
   Network::connect(client);
   sf::Clock clock;
 
-  while (clock.getElapsedTime().asSeconds() < 2)
+  while (clock.getElapsedTime().asSeconds() < 3)
   {
     Network::update();
   }

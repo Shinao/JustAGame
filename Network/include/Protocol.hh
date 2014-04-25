@@ -6,7 +6,7 @@
 //
 
 typedef		sf::Uint16	ProtocolInfo;
-typedef		sf::Uint16	AcknowledgeField;
+typedef		sf::Uint32	AcknowledgeField;
 typedef		sf::Uint16	RequestID;
 typedef		sf::Uint16	Sequence;
 
@@ -41,6 +41,13 @@ namespace Network
     Connected,
     Disconnected,
     InProgress
+  };
+
+  enum Acknowledgment
+  {
+    Acknowledged,
+    NonAcknowledged,
+    OutOfAckfield
   };
 
   enum Reliability

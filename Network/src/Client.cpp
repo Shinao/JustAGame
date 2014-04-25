@@ -1,6 +1,6 @@
 # include "Client.hh"
 
-ClientID	Client::_id_counter = 0;
+ClientID	Client::_id_counter = 1;
 
 Client::Client() :
   _socket(NULL),
@@ -8,6 +8,7 @@ Client::Client() :
   _ping(0),
   _ping_inc(0),
   _ping_counter(0),
+  _sequence(0),
   _ack_field(0)
 {
 }
@@ -64,35 +65,54 @@ Sequence			Client::getSequence() const
   return (_sequence);
 }
 
-void				Client::updateSequence(Sequence seq)
+// Acknowledge a reception of a packet by putting it into the ack field or new remote sequence
+void				Client::acknowledge(Sequence seq)
 {
+  if (_sequence == seq)
+    return ;
+
   if (!Network::isSequenceMoreRecent(_sequence, seq))
   {
-    acknowledge(seq);
+    Sequence diff = Network::getSequenceDifference(_sequence, seq) - 1;
+
+    // Sequence is out of bound of AckField
+    if (diff > Network::ACKFIELD_SIZE)
+      return ;
+
+    std::cout << "Acknowledging their packet [" << seq << "]" << std::endl;
+
+    _ack_field |= (0x1 << diff);
+
     return ;
   }
 
-  // Update AckField and sequence
-  Sequence diff = Network::getSequenceDifference(_sequence, seq);
-  _sequence = seq;
-  _ack_field >>= diff;
+  std::cout << "New Remote Sequence [" << seq << "]" << std::endl;
+    std::cout << (std::bitset<Network::ACKFIELD_SIZE>) _ack_field << " >> ";
 
-  // Add old sequence
-  _ack_field |= (0x1 << (Network::ACKFIELD_SIZE - diff));
+  // Update AckField and sequence
+  Sequence diff = Network::getSequenceDifference(_sequence, seq) - 1;
+  _sequence = seq;
+  _ack_field <<= diff;
+
+  std::cout << (std::bitset<Network::ACKFIELD_SIZE>) _ack_field << std::endl;
 }
 
-// Acknowledge a reception of a packet by putting it into the ack field
-void				Client::acknowledge(Sequence seq)
+Network::Acknowledgment		Client::getAcknowledgment(Sequence seq) const
 {
-  Sequence diff = Network::getSequenceDifference(_sequence, seq);
+  if (Network::isSequenceMoreRecent(_sequence, seq))
+    return (Network::NonAcknowledged);
 
-  // Sequence is out of bound of AckField
+  Sequence	diff = Network::getSequenceDifference(_sequence, seq) - 1;
+
+  // Search in ackfield
+  if (_sequence == seq || _ack_field & (0x1 << diff))
+    return (Network::Acknowledged);
+
+  // If our packet is out of ackfield - Not acknowledged
   if (diff > Network::ACKFIELD_SIZE)
-    return ;
+    return (Network::OutOfAckfield);
 
-  _ack_field |= (0x1 << (Network::ACKFIELD_SIZE - diff));
-
-  std::cout << "Acknowledging their packeet [" << seq << "]" << std::endl;
+  return (Network::NonAcknowledged);
 }
 
 AcknowledgeField		Client::getAckField() const

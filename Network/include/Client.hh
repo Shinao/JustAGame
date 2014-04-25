@@ -46,9 +46,9 @@ class Client
     const sf::IpAddress			getIp() const;
     void				setIp(const sf::IpAddress &ip);
     Sequence				getSequence() const;
-    void				updateSequence(Sequence seq);
     AcknowledgeField			getAckField() const;
     void				acknowledge(Sequence seq);
+    Network::Acknowledgment		getAcknowledgment(Sequence seq) const;
     void				addPing(int ms);
     int					getPing() const;
 };
