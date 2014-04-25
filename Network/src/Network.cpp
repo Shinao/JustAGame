@@ -80,6 +80,7 @@ namespace		Network
 
 	delete packet;
 	delete socket;
+	return ;
       }
 
       // TCP Connected - Waiting for UDP Established to letting know the user
@@ -283,6 +284,7 @@ namespace		Network
       // Check if client disconnected
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
+	std::cout << "[CheckTcp] Disconnexion" << std::endl;
 	_listener.remove(client->getSocket());
 	info->setRequestID(Request::Disconnexion);
 	_requests_pending.push_back(info);
@@ -291,6 +293,7 @@ namespace		Network
       // Good Request
       else
       {
+	std::cout << "[CheckTcp] New Request" << std::endl;
 	checkAcknowledgement(*info);
 	addRequest(info);
       }
