@@ -17,11 +17,11 @@ namespace Request
 {
   // [RESERVED] Keep-Alive
   const RequestID		Ping = 0;
-  // Is there a server - Local
+  // [RESERVED] Is there a server - Local
   const RequestID		Allo = 1;
-  // Client connected
+  // Client connected - Player joined
   const RequestID		Connexion = 2;
-  // Client Disconnected
+  // Client Disconnected - Player left
   const RequestID		Disconnexion = 3;
   // [RESERVED] Update (get info on all players)
   const RequestID		Update = 4;
@@ -29,6 +29,8 @@ namespace Request
   const RequestID		UDPEstablishment = 5;
   // [RESERVED] Used when the client respond to the server with UDP Request
   const RequestID		UDPEstablished = 6;
+  // [RESERVED] Test case
+  const RequestID		Test = 7;
 };
 
 
