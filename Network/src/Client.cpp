@@ -138,3 +138,8 @@ int				Client::getPing() const
 {
   return (_ping);
 }
+
+std::map<Sequence, ProtocoledPacket *>	&Client::getWaitingPackets()
+{
+  return (_waiting_packets);
+}

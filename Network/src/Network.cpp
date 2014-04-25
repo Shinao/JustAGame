@@ -32,9 +32,6 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
-    // Reliable packets waiting for acknowledgement
-    std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
-
     //
     // Server sided
     //
@@ -229,7 +226,6 @@ namespace		Network
     }
 
     // TODO - UDP establishment fail when reload client and not disconnected
-    // TODO - Waiting packet in Client
     // Verify our packet has been acknowledged
     void		checkAcknowledgement(ProtocoledPacket &info)
     {
@@ -240,8 +236,9 @@ namespace		Network
 
       info >> ack >> field;
 
+      auto waiting_packets = info.getClient()->getWaitingPackets();
       // Remove waiting packet if in ackfield or out of bounds
-      for (auto it = _waiting_packets.begin(); it != _waiting_packets.end();)
+      for (auto it = waiting_packets.begin(); it != waiting_packets.end();)
       {
 	std::cout << "[checkAcknowledgment] Checking [" << it->second->getSequence() << "]" << std::endl;
 	Sequence	seq = it->second->getSequence();
@@ -278,14 +275,14 @@ namespace		Network
 
 	  // Drop packet
 	  delete current->second;
-	  _waiting_packets.erase(current);
+	  waiting_packets.erase(current);
 	}
 	else
 	  ++it;
       }
       
       // Still have packet ? Resend them ! (Avoiding doublon by calling directly sendUdpClient
-      for (auto it : _waiting_packets)
+      for (auto it : waiting_packets)
 	sendUdpClient(it.second);
     }
 
@@ -559,23 +556,24 @@ namespace		Network
       return ;
     }
 
+    auto waiting_packets = packet->getClient()->getWaitingPackets();
     // Drop other packet with same reliability and RequestID
     if (packet->getReliability() == Network::UDPVariable)
     {
-      for (std::map<Sequence, ProtocoledPacket *>::iterator it = _waiting_packets.begin();
-	  it != _waiting_packets.end(); ++it)
+      for (std::map<Sequence, ProtocoledPacket *>::iterator it = waiting_packets.begin();
+	  it != waiting_packets.end(); ++it)
 	{
 	  if (it->second->getRequestID() == packet->getRequestID() &&
 	      it->second->getReliability() == Network::UDPVariable)
 	  {
 	    delete it->second;
-	    _waiting_packets.erase(it);
+	    waiting_packets.erase(it);
 	  }
 	}
     }
 
     _mutex.lock();
-    _waiting_packets[packet->getSequence()] = packet;
+    waiting_packets[packet->getSequence()] = packet;
     _mutex.unlock();
   }
 

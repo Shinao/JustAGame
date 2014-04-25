@@ -31,6 +31,9 @@ class Client
     // In case of UDP with no ID
     sf::IpAddress			_ip;
 
+    // Reliable packets waiting for acknowledgement
+    std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
+
   public:
     static const ClientID		NULL_ID = 0;
 
@@ -51,6 +54,7 @@ class Client
     Network::Acknowledgment		getAcknowledgment(Sequence seq) const;
     void				addPing(int ms);
     int					getPing() const;
+    std::map<Sequence, ProtocoledPacket *>	&getWaitingPackets();
 };
 
 #endif
