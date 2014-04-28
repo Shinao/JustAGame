@@ -31,7 +31,7 @@ namespace Request
   const RequestID		UDPEstablished = 6;
   // [RESERVED] Test case
   const RequestID		Test = 7;
-};
+}
 
 
 namespace Network
@@ -73,6 +73,6 @@ namespace Network
 
   const int		CLIENT_PORT = 52025;
   const int		SERVER_PORT = 25052;
-};
+}
 
 #endif

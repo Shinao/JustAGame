@@ -51,6 +51,6 @@ namespace Screen
   void				remove(Layer *layer);
   EventManager			&getEventManager();
   void				setModal(bool modal);
-};
+}
 
 #endif

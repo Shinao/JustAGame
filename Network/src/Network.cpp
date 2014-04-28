@@ -55,7 +55,7 @@ namespace		Network
     // Request Callback
     void				UDPEstablished(ProtocoledPacket &packet);
     void				UDPEstablishment(ProtocoledPacket &packet);
-  };
+  }
 
 
   //
@@ -444,7 +444,7 @@ namespace		Network
     {
       _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getPort());
     }
-  };
+  }
 
 
 
@@ -633,4 +633,4 @@ namespace		Network
     sf::Thread	thread(std::bind(connecting_thread, client));
     thread.launch();
   }
-};
+}
