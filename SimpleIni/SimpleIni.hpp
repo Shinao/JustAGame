@@ -214,6 +214,7 @@
 
 #include <cstring>
 #include <string>
+#include <strings.h>
 #include <map>
 #include <list>
 #include <algorithm>
@@ -245,7 +246,7 @@ enum SI_Error {
 
 #define SI_UTF8_SIGNATURE     "\xEF\xBB\xBF"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 # define SI_NEWLINE_A   "\r\n"
 # define SI_NEWLINE_W   L"\r\n"
 #else // !_WIN32
@@ -257,7 +258,7 @@ enum SI_Error {
 # include <unicode/ustring.h>
 #endif
 
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 # define SI_HAS_WIDE_FILE
 # define SI_WCHAR_T     wchar_t
 #elif defined(SI_CONVERT_ICU)
@@ -1320,7 +1321,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::LoadFile(
     const SI_WCHAR_T * a_pwszFile
     )
 {
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE * fp = NULL;
 #if __STDC_WANT_SECURE_LIB__ && !_WIN32_WCE
     _wfopen_s(&fp, a_pwszFile, L"rb");
@@ -2335,7 +2336,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::SaveFile(
     bool                a_bAddSignature
     ) const
 {
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE * fp = NULL;
 #if __STDC_WANT_SECURE_LIB__ && !_WIN32_WCE
     _wfopen_s(&fp, a_pwszFile, L"wb");
@@ -2617,7 +2618,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::DeleteString(
 //  SI_CONVERT_WIN32        Use the Win32 API functions for conversion.
 
 #if !defined(SI_CONVERT_GENERIC) && !defined(SI_CONVERT_WIN32) && !defined(SI_CONVERT_ICU)
-# ifdef _WIN32
+# ifdef _MSC_VER
 #  define SI_CONVERT_WIN32
 # else
 #  define SI_CONVERT_GENERIC

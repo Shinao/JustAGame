@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 
 # C++11 because Vive la Revolution!
 # FULL WARNINGS BECAUSE I LIKE PAIN !
-list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -W -Wall -Wextra -pthread -g")
+list (APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra -pthread")
 
 
 ### Include directories
@@ -76,3 +76,15 @@ add_executable (justagame ${CLIENT_SRC})
 # Link libraries
 target_link_libraries (justagame gui)
 target_link_libraries (justagame network)
+target_link_libraries (justagame libraryloader)
+
+
+
+### Server - JustAGame
+project (server)
+file (GLOB_RECURSE SERVER_SRC Server/src/*.cpp) 
+add_executable (server ${SERVER_SRC})
+
+# Link libraries
+target_link_libraries (server network)
+target_link_libraries (server libraryloader)
