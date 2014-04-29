@@ -1,9 +1,9 @@
 #include "LibraryLoader.hh"
 
-LibraryLoader::LibraryLoader(const std::string &name) :
+LibraryLoader::LibraryLoader(const std::string &name, const std::string &path) :
   m_libFunction(NULL)
 {
-  _lib_name = "lib" + name + ".dll";
+  _lib_name = path + "lib" + name + ".dll";
 }
 
 LibraryLoader::~LibraryLoader()
@@ -32,4 +32,9 @@ void		*LibraryLoader::getFunction(const std::string &name)
     return (NULL);
 
   return (m_libFunction);
+}
+
+const std::string	&LibraryLoader::getFullPath() const
+{
+  return (_lib_name);
 }

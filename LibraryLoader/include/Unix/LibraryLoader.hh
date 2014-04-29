@@ -14,11 +14,12 @@ class LibraryLoader
     std::string		_lib_name;
 
   public:
-    LibraryLoader(const std::string &name);
+    LibraryLoader(const std::string &name, const std::string &path = "./");
     ~LibraryLoader();
 
     bool 		open();
     void		*getFunction(const std::string &name);
+    const std::string	&getFullPath() const;
 };
 
 #endif
