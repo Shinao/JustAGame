@@ -45,6 +45,7 @@ int		main()
     return (error("Init of GameServer failed : check " INI_FILE));
   game->run();
 
+  // Everything's okay - Go go go !
   while (running)
   {
     Network::update();

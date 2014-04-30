@@ -5,7 +5,7 @@
 # include "SimpleIni.hpp"
 
 // AGameServer - Interface to implement for creating a server
-// When calling a member function non pure, make sure to call the parent
+// When implementing a virtual member function non pure, make sure to call the parent
 
 # define INI_GROUP	"server"
 # define INI_FILE	"server.ini"
@@ -25,6 +25,7 @@ class AGameServer
     virtual ~AGameServer();
 
     virtual bool		init(CSimpleIniA &ini);
+    virtual void		exit();
     bool			hasPassword() const;
     bool			isRunning() const;
     virtual void		run();

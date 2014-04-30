@@ -493,7 +493,7 @@ namespace		Network
     // Free ressources - Maybe not worth it since exiting application
     for (auto client : _clients)
       delete client;
-    for (auto packet : _waiting_packets)
+    for (auto packet : _waiting_clients)
       delete packet;
     for (auto packet : _requests_pending)
       delete packet;

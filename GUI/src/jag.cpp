@@ -10,10 +10,14 @@ namespace jag
     std::map<std::string, Theme	*>	_themes;
     std::map<std::string, sf::Image *>	_rsrcs;
     Theme				*_theme;
+    CSimpleIniA				_ini;
   }
 
   void			init()
   {
+    // Settings
+    _ini.LoadFile(INI_FILE);
+
     // Predef color
     // sf::Color blue = sf::Color(78, 166, 234);
     sf::Color blue_focus = sf::Color(63, 146, 210);
@@ -212,4 +216,10 @@ namespace jag
     _rsrcs[RessourcePath + name] = img;
     return (*img);
   }
+
+  CSimpleIniA		&getSettings()
+  {
+    return (_ini);
+  }
 }
+

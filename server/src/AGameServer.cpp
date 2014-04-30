@@ -33,3 +33,8 @@ void			AGameServer::run()
 {
   _running = true;
 }
+
+void			AGameServer::exit()
+{
+  _running = false;
+}

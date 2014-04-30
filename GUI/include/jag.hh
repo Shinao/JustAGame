@@ -2,12 +2,15 @@
 # define JAG_HH_
 
 # include "Theme.hh"
+# include "SimpleIni.hpp"
 
 // Everything needed for the client application
 // Window properties - themes - fonts - etc
 
 // Because fuck static class
 // Init at first - clear at the end
+
+# define INI_FILE	"client.ini"
 
 typedef sf::Rect<int> Rect;
 
@@ -24,6 +27,7 @@ namespace jag
 
   void				init();
   void				clear();
+  CSimpleIniA			&getSettings();
   Theme				*getCurrentTheme();
   Theme				*getTheme(const std::string &theme);
   void				setTheme(Theme *theme);
