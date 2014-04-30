@@ -18,7 +18,7 @@ int		main()
   bool		running = true;
 
   // Init network and check
-  if (!Network::init(Network::CLIENT_PORT, false))
+  if (!Network::init(Network::SERVER_PORT, true))
     return (error("Game can not start. Port already used (25052/52025)."));
 
   // Check setting file

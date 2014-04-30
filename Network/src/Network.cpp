@@ -490,9 +490,13 @@ namespace		Network
     _thread->wait();
     delete _thread;
 
-    // Free ressources
+    // Free ressources - Maybe not worth it since exiting application
     for (auto client : _clients)
       delete client;
+    for (auto packet : _waiting_packets)
+      delete packet;
+    for (auto packet : _requests_pending)
+      delete packet;
   }
 
   // Call callbacks for all requests received
