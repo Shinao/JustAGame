@@ -498,6 +498,10 @@ namespace		Network
     {
       std::string	name;
       packet >> name;
+
+      if (name.empty())
+	name = packet.getClient()->getIp().toString();
+
       packet.getClient()->getPlayer()->setName(name);
     }
   }
