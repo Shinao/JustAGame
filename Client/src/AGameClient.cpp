@@ -14,12 +14,14 @@ bool			AGameClient::init()
 {
   CSimpleIniA	&ini = jag::getSettings();
 
-  // Send Player Name to Server
   _player_name = ini.GetValue(INI_GROUP, "player_name", "");
-  // ProtocoledPacket	*packet = new ProtocoledPacket();
-  // Network::send(packet);
 
-  return (!_player_name.empty());
+  // Send Player Name to Server
+  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::Name, Network::TCP);
+  *packet >> _player_name;
+  Network::send(packet);
+
+  return (true);
 }
 
 bool			AGameClient::isRunning() const
