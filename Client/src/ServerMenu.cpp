@@ -44,8 +44,6 @@ ServerMenu::ServerMenu() :
   _menu->update();
 
   add(_menu, "menu");
-  using namespace std::placeholders;
-  Network::addRequest(Request::Allo, std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
 ServerMenu::~ServerMenu()
@@ -54,9 +52,8 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  ProtocoledPacket	*packet = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
-
-  Network::send(packet, "127.0.0.1", Network::SERVER_PORT);
+  using namespace std::placeholders;
+  Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
 void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)

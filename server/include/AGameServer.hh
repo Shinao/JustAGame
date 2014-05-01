@@ -12,14 +12,17 @@
 
 class AGameServer
 {
+  private:
+    void			clientAsked(ProtocoledPacket &packet);
+
   protected:
     AGameServer();
 
-    bool		_running;
-    std::string		_name;
-    std::string		_game_mode;
-    std::string		_password;
-    int			_maximum_players;
+    bool			_running;
+    std::string			_name;
+    std::string			_game_mode;
+    std::string			_password;
+    int				_maximum_players;
 
   public:
     virtual ~AGameServer();

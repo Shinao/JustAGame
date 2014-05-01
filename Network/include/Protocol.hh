@@ -31,6 +31,8 @@ namespace Request
   const RequestID		UDPEstablished = 6;
   // [RESERVED] Test case
   const RequestID		Test = 7;
+  // [RESERVED] Client sent his name
+  const RequestID		Name = 8;
 }
 
 
@@ -60,7 +62,7 @@ namespace Network
     Variable,
     // UDP - Dropped ? Don't care.
     Unreliable,
-    // UDP - Not a client (Broadcast...)
+    // [RESERVED] UDP - Not a client - Initialization and broadcast
     Unconnected
   };
 

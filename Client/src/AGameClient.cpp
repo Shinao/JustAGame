@@ -16,6 +16,8 @@ bool			AGameClient::init()
 
   // Send Player Name to Server
   _player_name = ini.GetValue(INI_GROUP, "player_name", "");
+  // ProtocoledPacket	*packet = new ProtocoledPacket();
+  // Network::send(packet);
 
   return (!_player_name.empty());
 }

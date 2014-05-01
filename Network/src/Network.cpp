@@ -32,19 +32,13 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
-    //
-    // Server sided
-    //
-    sf::TcpListener			_server;
-    // Utility
-    sf::Clock				_update_clock;
-
-
+    // Private methods
     void				clientDisconnected(Client *client);
     void				addPendingConnection();
     bool				checkHeader(ProtocoledPacket &info);
     void				checkAcknowledgement(ProtocoledPacket &info);
     void				checkUdp();
+    void				checkUdpUnconnected(ProtocoledPacket *info);
     void				checkTcp(Client *client);
     void				addRequest(ProtocoledPacket *info);
     void				sendUpdate();
@@ -52,9 +46,27 @@ namespace		Network
     void				connecting_thread(Client *client);
     void				disconnect(Client *client);
 
+
+    //
+    // Server sided
+    //
+    sf::TcpListener			_server;
+    // Utility
+    sf::Clock				_update_clock;
+    // Request Callback
+    void				clientSentName(ProtocoledPacket &packet);
+    void				ClientUDPEstablished(ProtocoledPacket &packet);
+    void				clientSentName(ProtocoledPacket &packet);
+    CallbackRequest			_cb_client_asking;
+
+
+    //
+    // Client sided
+    //
     // Request Callback
     void				UDPEstablished(ProtocoledPacket &packet);
     void				UDPEstablishment(ProtocoledPacket &packet);
+    CallbackRequest			_cb_server_available;
   }
 
 
@@ -205,7 +217,12 @@ namespace		Network
 	client->setPort(port);
 	info->setReliability(Network::Unconnected);
 	info->setClient(client);
-	addRequest(info);
+
+	// Unconnected is specific - Shouldn't be in our request to avoid useless checks
+	checkUdpUnconnected(info);
+	delete info;
+	delete client;
+
 	_mutex.unlock();
 	return ;
       }
@@ -234,6 +251,35 @@ namespace		Network
 	addRequest(info);
 
       _mutex.unlock();
+    }
+
+    void		checkUdpUnconnected(ProtocoledPacket *info)
+    {
+      RequestID	id;
+      *info >> id;
+
+      // Client - Check for broadcast response
+      if (!_is_server)
+      {
+	if (id == Request::Allo)
+	{
+	  if (_cb_server_available)
+	    _cb_server_available(*info);
+	}
+
+	return ;
+      }
+
+      // Server Unconnected
+      // Client try to establish the udp connection
+      if (id == Request::UDPEstablished)
+	ClientUDPEstablished(*info);
+      // Client asked for server - We are here ! (if server)
+      else if (_is_server && id == Request::Allo)
+      {
+	if (_cb_client_asking)
+	  _cb_client_asking(*info);
+      }
     }
 
     // Verify our packet has been acknowledged
@@ -387,26 +433,9 @@ namespace		Network
       send(rsp, packet.getClient()->getIp(), packet.getClient()->getPort());
     }
 
-    // Main Thread - Request Callback - UDP Server / TCP Client
-    // Server: Complete the client with the port for the UDP for the server
-    // Client: Callback client
-    void				UDPEstablished(ProtocoledPacket &packet)
+    // UDP - NetworkThread Server: Complete the client with the port for the UDP for the server
+    void				ClientUDPEstablished(ProtocoledPacket &packet)
     {
-      std::cout << "[UDPEstablished]" << std::endl;
-
-      // Server completed - Our turn
-      if (!_is_server)
-      {
-	std::cout << "[UDPEstablished] Client" << std::endl;
-	// New client request
-	ProtocoledPacket	*info = new ProtocoledPacket();
-	info->setRequestID(Request::Connexion);
-	info->setClient(packet.getClient());
-	_requests_pending_later.push_back(info);
-
-	return ;
-      }
-
       // Server : UDP Configuration - Client complete
       Client	*client = NULL;
       ClientID	id;
@@ -430,7 +459,7 @@ namespace		Network
 
       // Letting now the client we are ready
       std::cout << "[UDPEstablished] Sending UDP Established to client TCP" << std::endl;
-      ProtocoledPacket *ready = new ProtocoledPacket(client, Request::UDPEstablished, Network::TCP);
+      ProtocoledPacket	*ready = new ProtocoledPacket(client, Request::UDPEstablished, Network::TCP);
       send(ready);
 
       // New client request
@@ -440,9 +469,36 @@ namespace		Network
       _requests_pending_later.push_back(info);
     }
 
+    // MainThread Client: Callback client - TCP
+    void				UDPEstablished(ProtocoledPacket &packet)
+    {
+      std::cout << "[UDPEstablished]" << std::endl;
+
+      // Server completed - Our turn
+      if (!_is_server)
+      {
+	std::cout << "[UDPEstablished] Client" << std::endl;
+	// New client request
+	ProtocoledPacket	*info = new ProtocoledPacket();
+	info->setRequestID(Request::Connexion);
+	info->setClient(packet.getClient());
+	_requests_pending_later.push_back(info);
+
+	return ;
+      }
+
+    }
+
     void				sendUdpClient(ProtocoledPacket *packet)
     {
       _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getPort());
+    }
+
+    void				clientSentName(ProtocoledPacket &packet)
+    {
+      std::string	name;
+      packet >> name;
+      packet.getClient()->getPlayer()->setName(name);
     }
   }
 
@@ -470,8 +526,18 @@ namespace		Network
 
     // Listeners
     using namespace std::placeholders;
-    addRequest(Request::UDPEstablishment, std::bind(&UDPEstablishment, _1));
-    addRequest(Request::UDPEstablished, std::bind(&UDPEstablished, _1));
+    // Server listener
+    if (_is_server)
+    {
+      addRequest(Request::Name, std::bind(&clientSentName, _1));
+    }
+    // Client listener
+    else
+    {
+      addRequest(Request::UDPEstablishment, std::bind(&UDPEstablishment, _1));
+      addRequest(Request::UDPEstablished, std::bind(&UDPEstablished, _1));
+    }
+
 
     // Launch listening thread
     _thread = new sf::Thread(&listening_thread);
@@ -522,10 +588,6 @@ namespace		Network
       }
       else
 	std::cout << "Not found" << std::endl;
-
-      // Delete client if unconnected Request
-      if (req_info->getReliability() == Network::Unconnected)
-	delete req_info->getClient();
 
       delete req_info;
     }
@@ -636,5 +698,20 @@ namespace		Network
   {
     sf::Thread	thread(std::bind(connecting_thread, client));
     thread.launch();
+  }
+
+  // Broadcast - Ask for servers available
+  void			askForServer(const CallbackRequest &cb)
+  {
+    ProtocoledPacket	*packet = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
+    // TODO Broadcast
+    send(packet, "127.0.0.1", SERVER_PORT);
+
+    _cb_server_available = cb;
+  }
+
+  void			getClientAsking(const CallbackRequest &cb)
+  {
+    _cb_client_asking = cb;
   }
 }

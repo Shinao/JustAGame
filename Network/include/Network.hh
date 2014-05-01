@@ -43,6 +43,11 @@ namespace Network
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);
+
+  // Client sided
+  void			askForServer(const CallbackRequest &cb);
+  // Server sided
+  void			getClientAsking(const CallbackRequest &cb);
 }
 
 #endif

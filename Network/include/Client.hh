@@ -2,6 +2,7 @@
 # define CLIENT_HH_
 
 # include "Network.hh"
+# include "Player.hh"
 
 typedef		sf::Uint16	ClientID;
 
@@ -37,6 +38,9 @@ class Client
     // Reliable packets waiting for acknowledgement
     std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
 
+    // Server specific - We want our player to be directly linked to our client
+    Player					*_player;
+
   public:
     static const ClientID		NULL_ID = 0;
 
@@ -61,6 +65,8 @@ class Client
     bool				isReady() const;
     sf::Clock				&getClock();
     std::map<Sequence, ProtocoledPacket *>	&getWaitingPackets();
+
+    Player				*getPlayer();
 };
 
 #endif

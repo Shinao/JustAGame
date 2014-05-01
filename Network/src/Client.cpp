@@ -159,3 +159,8 @@ sf::Clock			&Client::getClock()
 {
   return (_clock);
 }
+
+Player				*Client::getPlayer()
+{
+  return (_player);
+}
