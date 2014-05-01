@@ -4,8 +4,6 @@
 # include "Network.hh"
 # include "Player.hh"
 
-typedef		sf::Uint16	ClientID;
-
 class Client
 {
   private:

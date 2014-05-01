@@ -11,9 +11,12 @@ AGameServer::~AGameServer()
 
 bool			AGameServer::init(CSimpleIniA &ini)
 {
-  // Listen for client broadcast
+  // Listen for client broadcast and client connexion/disconnexion
   using namespace std::placeholders;
   Network::getClientAsking(std::bind(&AGameServer::clientAsked, this, _1));
+  Network::addRequest(Request::PlayerJoined, std::bind(&AGameServer::playerJoined, this, _1));
+  Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
+  Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::playerLeft, this, _1));
 
   _name = ini.GetValue(INI_GROUP, "server_name", "");
   _game_mode = ini.GetValue(INI_GROUP, "game_mode", "");
@@ -43,9 +46,47 @@ void			AGameServer::exit()
   _running = false;
 }
 
-// Send info to client
 void			AGameServer::clientAsked(ProtocoledPacket &packet)
 {
+  // Send info to client 
   ProtocoledPacket	*response = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
   Network::send(response, packet.getClient()->getIp(), Network::CLIENT_PORT);
+}
+
+// Create a new player and link it to the client before calling this method
+void			AGameServer::playerJoined(ProtocoledPacket &packet)
+{
+  packet.getClient()->getPlayer()->setId(packet.getClient()->getId());
+}
+
+// Call at the beginning
+void			AGameServer::playerInitialized(ProtocoledPacket &packet)
+{
+  std::string	name;
+  sf::Color	color;
+  packet >> name >> color.r >> color.g >> color.b;
+
+  if (name.empty())
+    name = packet.getClient()->getIp().toString();
+
+  Player	&player = *packet.getClient()->getPlayer();
+  player.setName(name);
+  player.setColor(color);
+
+  // Send to all client a new player joined (Yeahh!)
+  sf::Packet	new_packet;
+  new_packet << packet.getClient()->getId() << name << color.r << color.g << color.b;
+  Network::sendToClients(Request::PlayerJoined, Network::Reliable, new_packet);
+}
+
+// Send to all clients the player who left (Boooh!)
+void			AGameServer::playerLeft(ProtocoledPacket &packet)
+{
+  // Client may be not a player
+  if (packet.getClient()->getPlayer() != NULL)
+  {
+    sf::Packet	new_packet;
+    new_packet << packet.getClient()->getId();
+    Network::sendToClients(Request::PlayerLeft, Network::Reliable, new_packet);
+  }
 }

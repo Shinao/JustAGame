@@ -54,9 +54,7 @@ namespace		Network
     // Utility
     sf::Clock				_update_clock;
     // Request Callback
-    void				clientSentName(ProtocoledPacket &packet);
     void				ClientUDPEstablished(ProtocoledPacket &packet);
-    void				clientSentName(ProtocoledPacket &packet);
     CallbackRequest			_cb_client_asking;
 
 
@@ -493,17 +491,6 @@ namespace		Network
     {
       _udp_socket.send(*packet, packet->getClient()->getIp(), packet->getClient()->getPort());
     }
-
-    void				clientSentName(ProtocoledPacket &packet)
-    {
-      std::string	name;
-      packet >> name;
-
-      if (name.empty())
-	name = packet.getClient()->getIp().toString();
-
-      packet.getClient()->getPlayer()->setName(name);
-    }
   }
 
 
@@ -533,7 +520,6 @@ namespace		Network
     // Server listener
     if (_is_server)
     {
-      addRequest(Request::Name, std::bind(&clientSentName, _1));
     }
     // Client listener
     else
@@ -668,6 +654,18 @@ namespace		Network
     _mutex.unlock();
 
     return (status);
+  }
+
+  void			sendToClients(RequestID request, Network::Reliability rel, const sf::Packet &packet)
+  {
+    ProtocoledPacket	*ppacket;
+
+    for (auto client : _clients)
+    {
+      ppacket = new ProtocoledPacket(client, request, rel);
+      ppacket->append(packet.getData(), packet.getDataSize());
+      send(ppacket);
+    }
   }
 
   void			addRequest(RequestID id, const CallbackRequest &cb)

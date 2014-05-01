@@ -38,6 +38,7 @@ namespace Network
 
   void			send(ProtocoledPacket *packet, const sf::IpAddress &ip, unsigned short port);
   sf::Socket::Status	send(ProtocoledPacket *packet);
+  void			sendToClients(RequestID request, Network::Reliability rel, const sf::Packet &packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
   void			connect(Client *client);
 

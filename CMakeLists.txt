@@ -32,6 +32,7 @@ add_library (network SHARED ${NETWORK_SRC})
 # Link SFML & Posix Thread
 target_link_libraries (network sfml-network)
 target_link_libraries (network sfml-system)
+target_link_libraries (network sfml-graphics)
 target_link_libraries (network pthread)
 
 

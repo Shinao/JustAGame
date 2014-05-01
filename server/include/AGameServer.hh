@@ -32,6 +32,9 @@ class AGameServer
     bool			hasPassword() const;
     bool			isRunning() const;
     virtual void		run();
+    virtual void		playerJoined(ProtocoledPacket &packet);
+    virtual void		playerInitialized(ProtocoledPacket &packet);
+    virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update() = 0;
 };

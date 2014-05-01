@@ -5,6 +5,7 @@
 // Protocol information - Request/Port/Id
 //
 
+typedef		sf::Uint16	ClientID;
 typedef		sf::Uint16	ProtocolInfo;
 typedef		sf::Uint32	AcknowledgeField;
 typedef		sf::Uint16	RequestID;
@@ -12,27 +13,31 @@ typedef		sf::Uint16	Sequence;
 
 
 // RequestID Network Packet
-// If reserved : don't take the callback
+// [RESERVED] : Don't take the callback
 namespace Request
 {
-  // [RESERVED] Keep-Alive
+  // [RESERVED] Keep-Alive : server <-> client
   const RequestID		Ping = 0;
-  // [RESERVED] Is there a server - Local
+  // [RESERVED] Is there a server - Local : server <-> client
   const RequestID		Allo = 1;
-  // Client connected - Player joined
+  // [RESERVED] Client connected : server <-> client
   const RequestID		Connexion = 2;
-  // Client Disconnected - Player left
+  // [RESERVED] Client Disconnected : server <-> client
   const RequestID		Disconnexion = 3;
-  // [RESERVED] Update (get info on all players)
+  // [RESERVED] Update (get info on all players) server -> client
   const RequestID		Update = 4;
-  // [RESERVED] Used when a new TCP Connection is established - Need a UDP Request to get the port
+  // [RESERVED] Used when a new TCP Connection is established - Need a UDP Request to get the port : server -> client
   const RequestID		UDPEstablishment = 5;
-  // [RESERVED] Used when the client respond to the server with UDP Request
+  // [RESERVED] IDPEstablished : client -> server
   const RequestID		UDPEstablished = 6;
   // [RESERVED] Test case
   const RequestID		Test = 7;
-  // [RESERVED] Client sent his name
-  const RequestID		Name = 8;
+  // [RESERVED] Player sent his information (Name, color...) : client -> server
+  const RequestID		PlayerInfo = 8;
+  // [RESERVED] Player joined the game : server -> client
+  const RequestID		PlayerJoined = 9;
+  // [RESERVED] Player left the game : server -> client
+  const RequestID		PlayerLeft = 10;
 }
 
 

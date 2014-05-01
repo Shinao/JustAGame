@@ -1,4 +1,5 @@
 #include "Utility/Graphic.hh"
+#include <sstream>
 
 namespace Utility
 {
@@ -46,5 +47,21 @@ namespace Utility
 	  border.setPosition(rec.left + rec.width, rec.top);
 	  border.setSize(sf::Vector2f(size_border, rec.height));
       }
+  }
+
+  sf::Color		stringToColor(const std::string &str)
+  {
+    sf::Color		color;
+    std::stringstream	ss(str);
+    int			nb;
+
+    ss >> nb;
+    
+    color.r = nb / 10000;
+    color.g = nb / 100 % 100;
+    color.b = nb % 100;
+    color.a = 255;
+
+    return (color);
   }
 }

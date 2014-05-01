@@ -14,9 +14,12 @@ class AGameClient
   protected:
     AGameClient();
 
-    Client		*_server;
-    bool		_running;
-    std::string		_player_name;
+    Client			*_server;
+    bool			_running;
+    std::string			_player_name;
+    sf::Color			_player_color;
+
+    std::map<ClientID, Player *>	_players;
 
   public:
     virtual ~AGameClient();
@@ -26,6 +29,9 @@ class AGameClient
     virtual void		exit();
     bool			isRunning() const;
     virtual void		run();
+    void			updatePlayers(ProtocoledPacket &packet);
+    virtual void		playerJoined(ProtocoledPacket &packet);
+    virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update() = 0;
 };
