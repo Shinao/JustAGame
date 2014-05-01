@@ -56,6 +56,23 @@ void			AGameClient::setServer(Client *server)
 void			AGameClient::updatePlayers(ProtocoledPacket &packet)
 {
   // Update players
+  ClientID	nb;
+  ClientID	id;
+  Ping		ping;
+
+  // Split packet for each player
+  packet >> nb;
+  for (ClientID i = 0; i < nb; ++i)
+  {
+    packet >> id >> ping;
+    auto it = _players.find(id);
+
+    // Player not found
+    if (it == _players.end())
+      return ;
+
+    it->second->setPing(ping);
+  }
 }
 
 // Implement and create a new player first before calling

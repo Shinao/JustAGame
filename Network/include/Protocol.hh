@@ -5,6 +5,7 @@
 // Protocol information - Request/Port/Id
 //
 
+typedef		sf::Uint16	Ping;
 typedef		sf::Uint16	ClientID;
 typedef		sf::Uint16	ProtocolInfo;
 typedef		sf::Uint32	AcknowledgeField;

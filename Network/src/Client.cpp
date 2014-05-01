@@ -121,7 +121,7 @@ AcknowledgeField		Client::getAckField() const
   return (_ack_field);
 }
 
-void				Client::addPing(int ms)
+void				Client::addPing(Ping ms)
 {
   ++_ping_counter;
   _ping_inc += ms;
@@ -135,7 +135,7 @@ void				Client::addPing(int ms)
   }
 }
 
-int				Client::getPing() const
+Ping				Client::getPing() const
 {
   return (_ping);
 }

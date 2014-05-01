@@ -150,7 +150,7 @@ namespace		Network
       // Create Update Packet
       sf::Packet info_packet;
       // Number of client
-      info_packet << _clients.size();
+      info_packet << (ClientID) _clients.size();
       for (auto client : _clients)
 	info_packet << client->getId() << client->getPing();
 

@@ -12,9 +12,9 @@ class Client
     sf::TcpSocket			*_socket;
     ClientID				_id;
     static ClientID			_id_counter;
-    int					_ping;
-    int					_ping_inc;
-    int					_ping_counter;
+    Ping				_ping;
+    Ping				_ping_inc;
+    Ping				_ping_counter;
     bool				_is_ready;
     // Used for innactivity timer
     sf::Clock				_clock;
@@ -57,8 +57,8 @@ class Client
     AcknowledgeField			getAckField() const;
     void				acknowledge(Sequence seq);
     Network::Acknowledgment		getAcknowledgment(Sequence seq) const;
-    void				addPing(int ms);
-    int					getPing() const;
+    void				addPing(Ping ms);
+    Ping				getPing() const;
     void				ready();
     bool				isReady() const;
     sf::Clock				&getClock();
