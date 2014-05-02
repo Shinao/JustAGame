@@ -68,8 +68,18 @@ namespace jag
     theme->size_border = 3;
     theme->size_border_focused = 3;
     theme->size_border_pressed = 3;
-
     _theme = theme;
+
+    // Menu theme
+    theme = new Theme;
+    _themes["VerticalMenu"] = theme;
+    *theme = *_themes["White"];
+    theme->border = Border::Left;
+    theme = new Theme;
+    _themes["HorizontalMenu"] = theme;
+    *theme = *_themes["White"];
+    theme->border = Border::Bottom;
+
 
     // Button theme
     theme = new Theme;
@@ -80,6 +90,8 @@ namespace jag
     theme->c_text_focused = theme->c_text_pressed;
     theme->c_border = theme->c_border_focused;
     theme->c_border_focused = theme->c_border_pressed;
+    theme->border = Border::Bottom;
+    // theme->alignment = Item::Alignment::Center;
 
     theme = new Theme;
     _themes["ItemListBox"] = theme;
@@ -120,6 +132,7 @@ namespace jag
     theme->c_background_focused = black;
     theme->c_border = theme->c_border_pressed;
     theme->c_border_focused = theme->c_border_pressed;
+    theme->border = Border::Bottom;
 
     // Button theme
     theme = new Theme;
@@ -148,6 +161,7 @@ namespace jag
     theme->c_border = blue_focus;
     theme->c_border_focused = blue_focus;
     theme->c_border_pressed = blue_focus;
+    theme->border = Border::Top;
 
     // ListItem
     theme = new Theme;

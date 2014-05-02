@@ -14,9 +14,8 @@ ServerMenu::ServerMenu() :
   Rect	rec = Rect(PADDING, top, WIDTH, Screen::getSize().y - top - 100);
   _rec = rec;
   rec.height = HEIGHT;
-  _menu = new Menu(Menu::Horizontal);
+  _menu = new Menu(Menu::Horizontal, jag::getTheme("HorizontalMenu"));
   _menu->setRect(rec);
-  _menu->setBorder(Border::Bottom);
   _menu->setMargin(sf::Vector2i(MARGIN, 0));
 
   String	*text = new String("INTERNET");
@@ -28,7 +27,6 @@ ServerMenu::ServerMenu() :
   _menu->setPressed(text);
 
   text = new String("Refresh", jag::getTheme("Button"));
-  text->setBorder(Border::Left);
   text->setAlignment(Item::Alignment::Center);
   text->autoRelease(true);
   text->addCallback(std::bind(&ServerMenu::refreshServers, this));

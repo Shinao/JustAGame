@@ -29,7 +29,6 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc) :
 
   String *g_title = new String(title, jag::getTheme("ModalMessageBoxTitle"));
   rec.height = TITLE_HEIGHT;
-  g_title->setBorder(Border::Bottom);
   g_title->setMargin(sf::Vector2i(8, 0));
   g_title->setRect(rec);
   add(g_title);
@@ -76,7 +75,6 @@ void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
   String	*button = new String(str, jag::getTheme("ModalMessageBoxButton"));
   button->setAlignment(Item::Alignment::Center);
   button->addCallback([&, cb](){ Screen::remove(this); if (cb) { cb(); } });
-  button->setBorder(Border::Right);
   button->setRect(Rect(_button_bar.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _button_bar.getPosition().y + BUTTON_HEIGHT / 2,
       BUTTON_WIDTH, BUTTON_HEIGHT));

@@ -25,7 +25,6 @@ class Item : public Drawable
     sf::Vector2i		_margin;
     sf::RectangleShape		_box;
     sf::RectangleShape		_border;
-    Border::Type		_border_type;
 
   public:
     Item(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);

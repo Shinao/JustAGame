@@ -43,6 +43,8 @@ struct Theme
   unsigned			size_border_focused;
   unsigned			size_border_pressed;
   sf::Color			c_mask_focused;
+  Border::Type			border = Border::Type::None;
+  // Item::Alignment		alignment;
 };
 
 #endif

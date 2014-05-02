@@ -5,7 +5,6 @@
 Menu::Menu(Type type, Theme *theme) :
   Drawable(theme),
   _type(type),
-  _border_type(Border::None),
   _item_focused(NULL),
   _item_pressed(NULL),
   _shrink(false)
@@ -80,7 +79,7 @@ void			Menu::update()
   }
 
   // Init box and border
-  Utility::initBorderByType(_border, _rec, _theme->size_border, _border_type);
+  Utility::initBorderByType(_border, _rec, _theme->size_border, _theme->border);
 
   _box.setSize(sf::Vector2f(_rec.width, _rec.height));
   _box.setPosition(sf::Vector2f(_rec.left, _rec.top));
@@ -112,9 +111,8 @@ void			Menu::mouseReleased(int x, int y)
 
 void			Menu::add(Item *item)
 {
+  item->setTheme(_theme);
   _items.push_back(item);
-
-  item->setBorder(_border_type);
 }
 
 // Checking on all items and send a signal
@@ -190,15 +188,6 @@ void			Menu::setPressed(Item *item)
 {
   _item_pressed = item;
   item->mouseReleased(0, 0);
-}
-
-void			Menu::setBorder(Border::Type border)
-{
-  _border_type = border;
-
-  // Tell each item to add this type of border
-  for (auto item : _items)
-    item->setBorder(border);
 }
 
 void			Menu::designChanged()

@@ -3,8 +3,7 @@
 
 Item::Item(Theme *theme, Alignment align, float scale) :
   _align(align),
-  _scale(scale),
-  _border_type(Border::None)
+  _scale(scale)
 {
   _theme = theme;
 }
@@ -50,7 +49,7 @@ void			Item::designChanged()
   }
 
   // Size of the border changed - set position according to the type of the border
-  Utility::initBorderByType(_border, _rec, size_border, _border_type);
+  Utility::initBorderByType(_border, _rec, size_border, _theme->border);
 }
 
 void			Item::draw(sf::RenderWindow &win)
@@ -129,9 +128,4 @@ const sf::Vector2i	&Item::getMargin() const
 void			Item::setMargin(const sf::Vector2i &margin)
 {
   _margin = margin;
-}
-
-void			Item::setBorder(Border::Type border)
-{
-  _border_type = border;
 }

@@ -19,14 +19,13 @@ StatusBar::StatusBar() :
   _bad = sf::Color(200, 100, 100);
 
   String	*text = new String("Loading", jag::getTheme("Ping"));
-  text->setBorder(Border::Top);
   text->setAlignment(Item::Alignment::Center);
   text->setTooltip("Latency from google");
   text->setRect(Rect(_rec.width - 80, _rec.top, 60, 20));
 
   add(text, "ping");
 
-  text = new String("LATENCY", jag::getTheme("Ping"));
+  text = new String("LATENCY", jag::getTheme("Transparent"));
   text->setAlignment(Item::Alignment::Center);
   text->setTooltip("Latency from google");
   text->setRect(Rect(_rec.width - 80, _rec.top - 26, 60, 20));

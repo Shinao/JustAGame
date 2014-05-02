@@ -23,7 +23,6 @@ class Menu : public Drawable
     Type			_type;
     sf::RectangleShape		_box;
     sf::RectangleShape		_border;
-    Border::Type		_border_type;
     std::vector<Item *>		_items;
     Item			*_item_focused;
     Item			*_item_pressed;
@@ -44,7 +43,6 @@ class Menu : public Drawable
     void			add(Item *item);
     void			remove(Item *item);
     void			setMargin(const sf::Vector2i &margin);
-    void			setBorder(Border::Type border);
     void			shrinkToFit(bool shrink);
     Item			*getFocused();
     Item			*getPressed();

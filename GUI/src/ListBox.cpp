@@ -19,8 +19,6 @@ ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   _menu->setMargin(sf::Vector2i(6, 6));
   _menu->shrinkToFit(true);
 
-  _button->setBorder(Border::Bottom);
-
   _scroller = new Scroller(_menu);
 }
 
