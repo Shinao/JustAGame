@@ -716,4 +716,9 @@ namespace		Network
   {
     _cb_client_asking = cb;
   }
+
+  std::vector<Client *>	&getClients()
+  {
+    return (_clients);
+  }
 }

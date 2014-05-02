@@ -39,6 +39,8 @@ namespace Request
   const RequestID		PlayerJoined = 9;
   // [RESERVED] Player left the game : server -> client
   const RequestID		PlayerLeft = 10;
+  // [RESERVED] When a player join a server, he should receive all the data before beginning : server -> client
+  const RequestID		InitGame = 11;
 }
 
 

@@ -21,6 +21,7 @@ bool			AGameServer::init(CSimpleIniA &ini)
   _name = ini.GetValue(INI_GROUP, "server_name", "");
   _game_mode = ini.GetValue(INI_GROUP, "game_mode", "");
   _password = ini.GetValue(INI_GROUP, "password", "");
+  _admin_password = ini.GetValue(INI_GROUP, "admin_password", "");
   _maximum_players = ini.GetLongValue(INI_GROUP, "maximum_players", -1);
 
   return (!_name.empty() && !_game_mode.empty() && _maximum_players != -1);
@@ -50,6 +51,8 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
 {
   // Send info to client 
   ProtocoledPacket	*response = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
+  *response << _name << _game_mode << hasPassword() << (sf::Uint8) Network::getClients().size()
+    << (sf::Uint8) _maximum_players;
   Network::send(response, packet.getClient()->getIp(), Network::CLIENT_PORT);
 }
 
@@ -69,7 +72,7 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
   if (name.empty())
     name = packet.getClient()->getIp().toString();
 
-  Player	&player = *packet.getClient()->getPlayer();
+  APlayer	&player = *packet.getClient()->getPlayer();
   player.setName(name);
   player.setColor(color);
 

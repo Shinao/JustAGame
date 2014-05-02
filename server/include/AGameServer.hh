@@ -6,6 +6,7 @@
 
 // AGameServer - Interface to implement for creating a server
 // When implementing a virtual member function non pure, make sure to call the parent
+// When implementing playerJoined or playerInitialized - Send a Request::initGame with all the infos
 
 # define INI_GROUP	"server"
 # define INI_FILE	"server.ini"
@@ -22,6 +23,7 @@ class AGameServer
     std::string			_name;
     std::string			_game_mode;
     std::string			_password;
+    std::string			_admin_password;
     int				_maximum_players;
 
   public:

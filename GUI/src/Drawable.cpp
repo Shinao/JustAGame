@@ -83,7 +83,13 @@ void			Drawable::draw(sf::RenderWindow &)
 
 void			Drawable::mouseReleased(int, int)
 {
+  // Check for double click
+  if (_pressed && _callback_double_click &&
+      _timer_double_click.getElapsedTime().asMilliseconds() < DelayDoubleClick)
+    _callback_double_click();
+
   _pressed = true;
+  _timer_double_click.restart();
 
   if (_release)
     _pressed = false;
@@ -134,6 +140,8 @@ void			Drawable::addCallback(CallbackGui callback, State state)
     _callback_released = callback;
   else if (state == Focused)
     _callback_focused = callback;
-  else
+  else if (state == Unfocused)
     _callback_unfocused = callback;
+  else
+    _callback_double_click = callback;
 }

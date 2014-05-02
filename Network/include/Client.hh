@@ -2,7 +2,7 @@
 # define CLIENT_HH_
 
 # include "Network.hh"
-# include "Player.hh"
+# include "APlayer.hh"
 
 class Client
 {
@@ -37,7 +37,7 @@ class Client
     std::map<Sequence, ProtocoledPacket *>	_waiting_packets;
 
     // Server specific - We want our player to be directly linked to our client
-    Player					*_player;
+    APlayer					*_player;
 
   public:
     static const ClientID		NULL_ID = 0;
@@ -64,7 +64,7 @@ class Client
     sf::Clock				&getClock();
     std::map<Sequence, ProtocoledPacket *>	&getWaitingPackets();
 
-    Player				*getPlayer();
+    APlayer				*getPlayer();
 };
 
 #endif

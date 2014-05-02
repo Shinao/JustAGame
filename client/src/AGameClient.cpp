@@ -19,6 +19,9 @@ bool			AGameClient::init()
   Network::addRequest(Request::PlayerLeft, std::bind(&AGameClient::playerLeft, this, _1));
   Network::addRequest(Request::Update, std::bind(&AGameClient::updatePlayers, this, _1));
 
+  // TODO - It's the launcher which init the game
+  Network::addRequest(Request::InitGame, std::bind(&AGameClient::initGame, this, _1));
+
   CSimpleIniA	&ini = jag::getSettings();
 
   _player_name = ini.GetValue(INI_GROUP, "player_name", "");
@@ -83,7 +86,7 @@ void			AGameClient::playerJoined(ProtocoledPacket &packet)
   ClientID	id;
   packet >> id >> name >> color.r >> color.g >> color.b;
 
-  Player	*player = packet.getClient()->getPlayer();
+  APlayer	*player = packet.getClient()->getPlayer();
   player->setId(id);
   player->setName(name);
   player->setColor(color);

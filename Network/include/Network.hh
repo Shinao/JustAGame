@@ -49,6 +49,7 @@ namespace Network
   void			askForServer(const CallbackRequest &cb);
   // Server sided
   void			getClientAsking(const CallbackRequest &cb);
+  std::vector<Client *>	&getClients();
 }
 
 #endif

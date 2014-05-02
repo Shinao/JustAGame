@@ -16,6 +16,7 @@ class Drawable
 
     enum State
     {
+      DoubleClicked,
       Pressed,
       Released,
       Focused,
@@ -24,15 +25,19 @@ class Drawable
 
   protected:
     static const int		DelayTooltip = 1000;
+    static const int		DelayDoubleClick = 300;
 
     Rect			_rec;
     Theme			*_theme;
+
+    sf::Clock			_timer_double_click;
 
     // Event
     bool			_focused;
     bool			_pressed;
     bool			_release;
     CallbackGui			_callback_pressed;
+    CallbackGui			_callback_double_click;
     CallbackGui			_callback_released;
     CallbackGui			_callback_focused;
     CallbackGui			_callback_unfocused;

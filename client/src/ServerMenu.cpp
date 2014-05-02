@@ -4,6 +4,7 @@
 #include "Table.hh"
 #include "ModalMessageBox.hh"
 #include "Titlebar.hh"
+#include <sstream>
 
 ServerMenu::ServerMenu() :
   Layer::Layer(),
@@ -27,6 +28,8 @@ ServerMenu::ServerMenu() :
   _menu->setPressed(text);
 
   text = new String("Refresh", jag::getTheme("Button"));
+  text->setBorder(Border::Left);
+  text->setAlignment(Item::Alignment::Center);
   text->autoRelease(true);
   text->addCallback(std::bind(&ServerMenu::refreshServers, this));
   text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
@@ -38,7 +41,7 @@ ServerMenu::ServerMenu() :
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
   table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
-  table->init(1);
+  table->init(4);
   add(table, "table_local");
 
   _menu->update();
@@ -59,7 +62,21 @@ void			ServerMenu::refreshServers()
 void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
 {
   std::vector<Item *>	items;
-  items.push_back(new String(packet.getClient()->getIp().toString()));
+  std::stringstream	ss;
+
+  std::string	name;
+  std::string	game_mode;
+  bool		has_password;
+  sf::Uint8	nb_players;
+  sf::Uint8	max_players;
+
+  packet >> name >> game_mode >> has_password >> nb_players >> max_players;
+  ss << nb_players << "/" << max_players;
+
+  items.push_back(new String(has_password ? "Private" : "Public"));
+  items.push_back(new String(name));
+  items.push_back(new String(game_mode));
+  items.push_back(new String(ss.str()));
   ((Table *) _drawables["table_local"])->addRow(items);
 }
 

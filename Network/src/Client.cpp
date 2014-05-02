@@ -160,7 +160,7 @@ sf::Clock			&Client::getClock()
   return (_clock);
 }
 
-Player				*Client::getPlayer()
+APlayer				*Client::getPlayer()
 {
   return (_player);
 }
