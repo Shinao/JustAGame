@@ -90,20 +90,22 @@ namespace jag
     theme->c_text_focused = theme->c_text_pressed;
     theme->c_border = theme->c_border_focused;
     theme->c_border_focused = theme->c_border_pressed;
-    theme->border = Border::Bottom;
-    // theme->alignment = Item::Alignment::Center;
+    theme->border = Border::Left;
+    theme->alignment = Alignment::Center;
 
     theme = new Theme;
     _themes["ItemListBox"] = theme;
     *theme = *_themes["Button"];
     theme->c_background_focused = gray_focus;
     theme->c_text_focused = _themes["White"]->c_text_focused;
+    theme->alignment = Alignment::Center;
 
     theme = new Theme;
     _themes["Tooltip"] = theme;
     *theme = *_themes["White"];
     theme->c_background = theme->c_background_focused;
     theme->c_border = theme->c_border_focused;
+    theme->alignment = Alignment::Center;
 
     theme = new Theme;
     _themes["Input"] = theme;
@@ -162,15 +164,18 @@ namespace jag
     theme->c_border_focused = blue_focus;
     theme->c_border_pressed = blue_focus;
     theme->border = Border::Top;
+    theme->alignment = Alignment::Center;
 
     // ListItem
     theme = new Theme;
     _themes["ListItem"] = theme;
     *theme = *_themes["White"];
+    theme->alignment = Alignment::Center;
 
     theme = new Theme;
     _themes["ItemListItem"] = theme;
     *theme = *_themes["White"];
+    theme->alignment = Alignment::Center;
 
     // Init ressources
     getRessource("close_window.png");

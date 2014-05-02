@@ -73,7 +73,6 @@ void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
   _has_button = true;
 
   String	*button = new String(str, jag::getTheme("ModalMessageBoxButton"));
-  button->setAlignment(Item::Alignment::Center);
   button->addCallback([&, cb](){ Screen::remove(this); if (cb) { cb(); } });
   button->setRect(Rect(_button_bar.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _button_bar.getPosition().y + BUTTON_HEIGHT / 2,

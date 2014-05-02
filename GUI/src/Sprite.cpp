@@ -1,7 +1,7 @@
 #include "Sprite.hh"
 
-Sprite::Sprite(sf::Sprite *sprite, Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale),
+Sprite::Sprite(sf::Sprite *sprite, Theme *theme, float scale) :
+  Item(theme, scale),
   _sprite(sprite)
 {
 }

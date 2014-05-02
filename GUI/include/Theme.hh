@@ -19,6 +19,16 @@ namespace Border
   };
 }
 
+namespace Alignment
+{
+  enum Type
+  {
+    Left,
+    Right,
+    Center
+  };
+}
+
 struct Theme
 {
   sf::Color			c_text;
@@ -43,8 +53,8 @@ struct Theme
   unsigned			size_border_focused;
   unsigned			size_border_pressed;
   sf::Color			c_mask_focused;
-  Border::Type			border = Border::Type::None;
-  // Item::Alignment		alignment;
+  Border::Type			border = Border::None;
+  Alignment::Type		alignment = Alignment::Left;
 };
 
 #endif

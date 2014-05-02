@@ -1,8 +1,8 @@
 #include "ListItem.hh"
 #include <iostream>
 
-ListItem::ListItem(Item *item, Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale),
+ListItem::ListItem(Item *item, Theme *theme, float scale) :
+  Item(theme, scale),
   _selected_item(0),
   _arrow_left_focused(false),
   _arrow_right_focused(false),
@@ -42,7 +42,6 @@ void			ListItem::callbackItemChanged(CallbackGui cb)
 void			ListItem::add(Item *item)
 {
   _items.push_back(item);
-  item->setAlignment(Item::Alignment::Center);
 
   if (_item_theme != NULL)
     item->setTheme(_item_theme);

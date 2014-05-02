@@ -28,7 +28,7 @@ class ListItem : public Item
     static const int		ARROW_PADDING = 4;
 
   public:
-    ListItem(Item *item, Theme *theme = jag::getTheme("Button"), Alignment align = Left, float scale = 1.0f);
+    ListItem(Item *item, Theme *theme = jag::getTheme("Button"), float scale = 1.0f);
     ~ListItem();
 
     // ListItem

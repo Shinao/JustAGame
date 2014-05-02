@@ -1,8 +1,7 @@
 #include "Item.hh"
 #include "Utility/Graphic.hh"
 
-Item::Item(Theme *theme, Alignment align, float scale) :
-  _align(align),
+Item::Item(Theme *theme, float scale) :
   _scale(scale)
 {
   _theme = theme;
@@ -97,9 +96,9 @@ sf::Vector2i		Item::getRessourcePosition()
   // Getting x depending on alignment
   pos.x = _rec.left;
   pos.y = _rec.top;
-  if (_align == Left)
+  if (_theme->alignment == Alignment::Left)
     pos.x += _margin.x;
-  else if (_align == Center)
+  else if (_theme->alignment == Alignment::Center)
     pos.x += _rec.width / 2 - rsrc.width / 2;
   else
     pos.x += rsrc.width + _margin.x;
@@ -108,16 +107,6 @@ sf::Vector2i		Item::getRessourcePosition()
   pos.y += (_rec.height - rsrc.height) / 2;
 
   return (pos);
-}
-
-void			Item::setAlignment(Alignment align)
-{
-  _align = align;
-}
-
-Item::Alignment		Item::getAlignment()
-{
-  return (_align);
 }
 
 const sf::Vector2i	&Item::getMargin() const

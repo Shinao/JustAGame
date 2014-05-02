@@ -13,7 +13,7 @@ class String : public Item
     sf::String			_text_original;
 
   public:
-    String(const sf::String &text, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    String(const sf::String &text, Theme *theme = jag::getCurrentTheme(), float scale = 1.0f);
     ~String();
 
     void			setString(const sf::String &text);

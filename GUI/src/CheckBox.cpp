@@ -1,8 +1,8 @@
 #include "CheckBox.hh"
 #include <iostream>
 
-CheckBox::CheckBox(String *string, Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale),
+CheckBox::CheckBox(String *string, Theme *theme, float scale) :
+  Item(theme, scale),
   _string(string)
 {
   // Init check box

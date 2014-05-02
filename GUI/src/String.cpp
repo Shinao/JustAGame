@@ -1,7 +1,7 @@
 #include "String.hh"
 
-String::String(const sf::String &text, Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale)
+String::String(const sf::String &text, Theme *theme, float scale) :
+  Item(theme, scale)
 {
   setString(text);
 

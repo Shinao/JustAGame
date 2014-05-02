@@ -11,31 +11,20 @@
 
 class Item : public Drawable
 {
-  public:
-    enum Alignment
-    {
-      Left,
-      Right,
-      Center
-    };
-
   protected:
-    Alignment			_align;
     float			_scale;
     sf::Vector2i		_margin;
     sf::RectangleShape		_box;
     sf::RectangleShape		_border;
 
   public:
-    Item(Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    Item(Theme *theme = jag::getCurrentTheme(), float scale = 1.0f);
     virtual ~Item();
 
     const sf::Vector2i		&getMargin() const;
     void			setMargin(const sf::Vector2i &margin);
     Rect			getRect() const;
     virtual void		setRect(const Rect &rec);
-    void			setAlignment(Alignment align);
-    Alignment			getAlignment();
     sf::Vector2i		getRessourcePosition();
     void			setBorder(Border::Type border);
 

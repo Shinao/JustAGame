@@ -27,7 +27,6 @@ ServerMenu::ServerMenu() :
   _menu->setPressed(text);
 
   text = new String("Refresh", jag::getTheme("Button"));
-  text->setAlignment(Item::Alignment::Center);
   text->autoRelease(true);
   text->addCallback(std::bind(&ServerMenu::refreshServers, this));
   text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +

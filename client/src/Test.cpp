@@ -4,6 +4,7 @@
 #include "Input.hh"
 #include "ListItem.hh"
 #include "CheckBox.hh"
+#include "ModalMessageBox.hh"
 
 Test::Test() :
   Layer::Layer()
@@ -23,7 +24,7 @@ Test::Test() :
   area->setRect(Rect(300, _rec.top + 120, 100, HEIGHT));
   add(area);
 
-  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("Button"), Item::Alignment::Center);
+  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("Button"));
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));
@@ -33,7 +34,7 @@ Test::Test() :
   add(lb, "lb");
   lb->setTooltip("Hello you!");
 
-  // MessageBox *msg = new MessageBox("Connection", new StringArea("LLoading some Game. Please waLoading some Game. Please waLoading some Game. Please waoading some Game. Please wait."));
+  // ModalMessageBox *msg = new ModalMessageBox("Connection", new StringArea("LLoading some Game. Please waLoading some Game. Please waLoading some Game. Please waoading some Game. Please wait."));
   // msg->addButton("Hello");
   // msg->addButton("BIIdADJHKASD");
 
@@ -61,10 +62,10 @@ Test::Test() :
   add(table);
 
   ListItem *list = new ListItem(new String("Seewww"), jag::getTheme("ListItem"));
+  list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(460, _rec.top + 250, 100, 50));
   list->add(new String("test"));
   list->add(new String("DASDASDASDASdasdasd"));
-  list->setItemTheme(jag::getTheme("ItemListItem"));
   add(list);
 
   CheckBox *cb = new CheckBox(new String("Check me CHECKME"));

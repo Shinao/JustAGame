@@ -21,7 +21,7 @@ class CheckBox : public Item
     static const int		CHECKBOX_PADDING = 8;
 
   public:
-    CheckBox(String *item, Theme *theme = jag::getCurrentTheme(), Alignment align = Left, float scale = 1.0f);
+    CheckBox(String *item, Theme *theme = jag::getCurrentTheme(), float scale = 1.0f);
     ~CheckBox();
 
     // CheckBox

@@ -1,8 +1,8 @@
 #include "ListBox.hh"
 #include <iostream>
 
-ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale),
+ListBox::ListBox(String *button, Theme *theme, float scale) :
+  Item(theme, scale),
   EventCallback(),
   _button(button),
   _is_open(false),
@@ -12,7 +12,6 @@ ListBox::ListBox(String *button, Theme *theme, Alignment align, float scale) :
   DrawableManager::add(button);
   button->addCallback([&]() { toggle(); });
   button->setTheme(theme);
-  button->setAlignment(Item::Alignment::Center);
 
   // Menu that we will toggle
   _menu = new Menu(Menu::Vertical, theme);

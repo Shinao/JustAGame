@@ -5,7 +5,7 @@
 Tooltip::Tooltip(const sf::String &text, const sf::Vector2i &pos) :
   Layer::Layer()
 {
-  _string = new String(text, jag::getTheme("Tooltip"), Item::Alignment::Center);
+  _string = new String(text, jag::getTheme("Tooltip"));
   _string->setMargin(sf::Vector2i(8, 0));
   int string_width = _string->getRect().width;
 

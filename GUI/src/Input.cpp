@@ -1,7 +1,7 @@
 #include "Input.hh"
 
-Input::Input(Theme *theme, Alignment align, float scale) :
-  Item(theme, align, scale),
+Input::Input(Theme *theme, float scale) :
+  Item(theme, scale),
   EventCallback(),
   _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
   _thickness(INPUT_THICKNESS),
