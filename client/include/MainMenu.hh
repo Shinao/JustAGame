@@ -18,10 +18,9 @@ class MainMenu : public Layer
     Menu			*_menu;
     Layer			*_layer_menu;
     void			cbServer();
-    void			cbPlayer();
-    void			cbKeyBindings();
-    void			cbAudio();
-    void			cbVideo();
+    void			cbGame();
+    void			cbInput();
+    void			cbMultimedia();
     void			cbReleased();
 
   public:

@@ -24,7 +24,7 @@ class Drawable
     };
 
   protected:
-    static const int		DelayTooltip = 1000;
+    static const int		DelayTooltip = 750;
     static const int		DelayDoubleClick = 300;
 
     Rect			_rec;

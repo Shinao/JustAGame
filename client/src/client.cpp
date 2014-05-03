@@ -32,7 +32,8 @@ int		main()
   if (!Network::init(Network::CLIENT_PORT, false))
     new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
 
-  new Test();
+  // TODO - Remove
+  // new Test();
 
   while (Screen::isActive())
   {

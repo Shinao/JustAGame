@@ -2,8 +2,10 @@
 #include "Screen.hh"
 #include "String.hh"
 #include "Titlebar.hh"
-#include "KeyBinding.hh"
+#include "Input.hh"
 #include "ServerMenu.hh"
+#include "GameLayer.hh"
+#include "Multimedia.hh"
 
 MainMenu::MainMenu() :
   Layer::Layer(),
@@ -21,20 +23,16 @@ MainMenu::MainMenu() :
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   _menu->setPressed(text);
-  text = new String("PLAYER");
-  text->addCallback(std::bind(&MainMenu::cbPlayer, this));
+  text = new String("GAME");
+  text->addCallback(std::bind(&MainMenu::cbGame, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  text = new String("KEY BINDINGS");
-  text->addCallback(std::bind(&MainMenu::cbKeyBindings, this));
+  text = new String("INPUT");
+  text->addCallback(std::bind(&MainMenu::cbInput, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  text = new String("AUDIO");
-  text->addCallback(std::bind(&MainMenu::cbAudio, this));
-  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
-  _menu->add(text);
-  text = new String("VIDEO");
-  text->addCallback(std::bind(&MainMenu::cbVideo, this));
+  text = new String("MULTIMEDIA");
+  text->addCallback(std::bind(&MainMenu::cbMultimedia, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
   text = new String("GitHub [Source]");
@@ -98,19 +96,17 @@ void			MainMenu::cbServer()
   _layer_menu = new ServerMenu();
 }
 
-void			MainMenu::cbPlayer()
+void			MainMenu::cbGame()
 {
+  _layer_menu = new GameLayer();
 }
 
-void			MainMenu::cbKeyBindings()
+void			MainMenu::cbInput()
 {
-  _layer_menu = new KeyBinding();
+  _layer_menu = new Input();
 }
 
-void			MainMenu::cbAudio()
+void			MainMenu::cbMultimedia()
 {
-}
-
-void			MainMenu::cbVideo()
-{
+  _layer_menu = new Multimedia();
 }

@@ -10,7 +10,7 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc) :
   _y_button_start(16),
   _has_button(false)
 {
-  // Escape say goodbye
+  // Escape : say goodbye
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
       Screen::remove(this);
       });

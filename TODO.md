@@ -4,6 +4,7 @@
 
 ###GUI
 - Options/Videos/Keybinding/...
+- Utility stringToColor : pass color as ref
 
 ###Network
 - Just check all types of packet if system is good

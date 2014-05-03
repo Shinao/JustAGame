@@ -210,7 +210,10 @@ namespace Screen
 
 	  // Moving all the layer from one index down
 	  for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
+	  {
 	    _layers[i] = _layers[i + 1];
+	    _layers[i]->setId(_layers[i]->getId() - 1);
+	  }
 
 	  _layers.pop_back();
 	  delete layer;

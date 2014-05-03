@@ -1,9 +1,10 @@
-#ifndef KEY_BINDING_HH_
-# define KEY_BINDING_HH_
+#ifndef INPUT_HH_
+# define INPUT_HH_
 
 # include "Layer.hh"
+# include "Menu.hh"
 
-class KeyBinding : public Layer
+class Input : public Layer
 {
   public:
     static const int		WIDTH = 600;
@@ -12,10 +13,11 @@ class KeyBinding : public Layer
     static const int		MARGIN = 32;
 
   private:
+    Menu			*_menu;
 
   public:
-    KeyBinding();
-    ~KeyBinding();
+    Input();
+    ~Input();
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);
