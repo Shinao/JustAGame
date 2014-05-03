@@ -2,6 +2,7 @@
 # define SPRITE_HH_
 
 # include "Item.hh"
+# include <iostream>
 
 // Sprite
 // Sprite will change color depending on the color text of the theme
@@ -10,9 +11,10 @@ class Sprite : public Item
 {
   private:
     sf::Sprite			*_sprite;
+    sf::Color			_apply_mask;
 
   public:
-    Sprite(sf::Sprite *sprite, Theme *theme = jag::getCurrentTheme(), float scale = 1.0f);
+    Sprite(sf::Sprite *sprite, Theme *theme = jag::getTheme("TransparentSprite"), float scale = 1.0f);
     ~Sprite();
 
     void			setSprite(sf::Sprite *sprite);

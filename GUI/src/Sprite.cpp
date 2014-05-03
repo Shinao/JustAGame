@@ -2,7 +2,8 @@
 
 Sprite::Sprite(sf::Sprite *sprite, Theme *theme, float scale) :
   Item(theme, scale),
-  _sprite(sprite)
+  _sprite(sprite),
+  _apply_mask(sf::Color::Transparent)
 {
 }
 
@@ -20,6 +21,12 @@ void			Sprite::designChanged()
 {
   Item::designChanged();
 
+  if (_apply_mask != sf::Color::Transparent)
+  {
+    _sprite->setColor(_apply_mask);
+    return ;
+  }
+
   if (_pressed)
     _sprite->setColor(_theme->c_text_pressed);
   else if (_focused)
@@ -30,7 +37,8 @@ void			Sprite::designChanged()
 
 void			Sprite::applyColor(const sf::Color &color)
 {
-  _sprite->setColor(color);
+  _apply_mask = color;
+  designChanged();
 }
 
 void			Sprite::update()

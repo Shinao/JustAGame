@@ -183,6 +183,14 @@ namespace jag
     *theme = *_themes["Transparent"];
     theme->alignment = Alignment::Right;
 
+    // Transparent Sprite
+    theme = new Theme;
+    _themes["TransparentSprite"] = theme;
+    *theme = *_themes["Transparent"];
+    theme->c_text = sf::Color::Transparent;
+    theme->c_text_focused = sf::Color::Transparent;
+    theme->c_text_pressed = sf::Color::Transparent;
+
     // Init ressources
     getRessource("close_window.png");
     getRessource("minimize_window.png");
