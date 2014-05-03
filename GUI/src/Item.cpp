@@ -101,7 +101,7 @@ sf::Vector2i		Item::getRessourcePosition()
   else if (_theme->alignment == Alignment::Center)
     pos.x += _rec.width / 2 - rsrc.width / 2;
   else
-    pos.x += rsrc.width + _margin.x;
+    pos.x += _rec.width - rsrc.width - _margin.x;
 
   // Always align vertically
   pos.y += (_rec.height - rsrc.height) / 2;

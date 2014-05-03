@@ -22,10 +22,10 @@ MainMenu::MainMenu() :
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  _menu->setPressed(text);
   text = new String("GAME");
   text->addCallback(std::bind(&MainMenu::cbGame, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
+  _menu->setPressed(text);
   _menu->add(text);
   text = new String("INPUT");
   text->addCallback(std::bind(&MainMenu::cbInput, this));

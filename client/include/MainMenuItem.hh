@@ -12,8 +12,9 @@ class MainMenuItem : public Layer
     static const int		PADDING = 128;
     static const int		MARGIN = 32;
 
-  private:
+  protected:
     Menu			*_menu;
+    int				_y_content;
 
   public:
     MainMenuItem(const std::string &name);

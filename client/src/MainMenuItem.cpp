@@ -18,6 +18,8 @@ MainMenuItem::MainMenuItem(const std::string &name) :
   _menu->add(text);
   _menu->setPressed(text);
   _menu->update();
+
+  _y_content = HEIGHT + _rec.top + MARGIN;
 }
 
 MainMenuItem::~MainMenuItem()

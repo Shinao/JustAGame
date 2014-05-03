@@ -177,6 +177,12 @@ namespace jag
     *theme = *_themes["White"];
     theme->alignment = Alignment::Center;
 
+    // Item setting (game, input..)
+    theme = new Theme;
+    _themes["ItemSetting"] = theme;
+    *theme = *_themes["Transparent"];
+    theme->alignment = Alignment::Right;
+
     // Init ressources
     getRessource("close_window.png");
     getRessource("minimize_window.png");
