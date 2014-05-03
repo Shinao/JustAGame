@@ -3,14 +3,11 @@
 Input::Input(Theme *theme, float scale) :
   Item(theme, scale),
   EventCallback(),
-  _size(sf::Vector2f(INPUT_WIDTH, INPUT_HEIGHT)),
-  _thickness(INPUT_THICKNESS),
+  _thickness(THICKNESS),
   _cursor_pos(0),
   _cursor_selection(-1)
 {
-  _input.setSize(sf::Vector2f(_size));
-  _input.setOutlineThickness(INPUT_THICKNESS);
-  _cursor.setSize(sf::Vector2f(1, INPUT_HEIGHT - PADDING_CURSOR * 2));
+  _input.setOutlineThickness(THICKNESS);
 }
 
 Input::~Input()
@@ -94,29 +91,25 @@ void			Input::updateRendering()
   int	x_diff = 0;
 
   // Text displayed is out of input
-  if (width_text >= INPUT_WIDTH - PADDING_TEXT)
+  if (width_text >= _rec.width - PADDING_TEXT)
   {
     x_diff = _text.findCharacterPos(_cursor_pos).x - _text.findCharacterPos(0).x;
 
-    if (x_diff >= INPUT_WIDTH - PADDING_TEXT - INPUT_THICKNESS * 2)
-      x_diff = (INPUT_WIDTH - PADDING_TEXT * 2) - x_diff;
+    if (x_diff >= _rec.width - PADDING_TEXT - _thickness * 2)
+      x_diff = (_rec.width - PADDING_TEXT * 2) - x_diff;
     else
       x_diff = 0;
   }
 
   _text.setPosition(_rec.left + PADDING_TEXT + x_diff, _rec.top +
-      ((INPUT_HEIGHT - _text.getCharacterSize() - 2) / 2));
+      ((_rec.height - _text.getCharacterSize() - 2) / 2));
 
   updateCursor();
 }
 
 Rect			Input::getRectRessource() const
 {
-  Rect	rec = _rec;
-  rec.width = INPUT_WIDTH;
-  rec.height = INPUT_HEIGHT;
-
-  return (rec);
+  return (_rec);
 }
 
 void			Input::setInput(const std::string &text)
@@ -131,16 +124,6 @@ const std::string	&Input::getInput()
   return (_string);
 }
 
-const sf::Vector2i	&Input::getSize() const
-{
-  return (_size);
-}
-
-void			Input::setSize(const sf::Vector2i &size)
-{
-  _size = size;
-}
-
 int			Input::getThickness() const
 {
   return (_thickness);
@@ -149,6 +132,7 @@ int			Input::getThickness() const
 void			Input::setThickness(int thickness)
 {
   _thickness = thickness;
+  _input.setOutlineThickness(_thickness);
 }
 
 void			Input::mouseReleased(int x, int y)
@@ -180,7 +164,7 @@ void			Input::mouseReleased(int x, int y)
 void			Input::updateCursor()
 {
   sf::Vector2f cur_pos = _text.findCharacterPos(_cursor_pos);
-  _cursor.setPosition(cur_pos.x, _input.getGlobalBounds().top + PADDING_CURSOR + INPUT_THICKNESS);
+  _cursor.setPosition(cur_pos.x, _input.getGlobalBounds().top + PADDING_CURSOR + _thickness);
 
   // Reset timer - Show visible because we update it
   _draw_cursor = true;
@@ -197,7 +181,7 @@ void			Input::updateCursor()
     // Checking selection out of input
     int width = std::abs(selection_pos.x - cur_pos.x);
 
-    _selection.setSize(sf::Vector2f(width, INPUT_HEIGHT - PADDING_CURSOR * 2));
+    _selection.setSize(sf::Vector2f(width, _rec.height - PADDING_CURSOR * 2));
   }
 }
 
@@ -328,4 +312,12 @@ void			Input::removeBack(Context)
   }
 
   updateRendering();
+}
+
+void			Input::setRect(const Rect &rec)
+{
+  Item::setRect(rec);
+
+  _input.setSize(sf::Vector2f(_rec.width, _rec.height));
+  _cursor.setSize(sf::Vector2f(1, _rec.height - PADDING_CURSOR * 2));
 }

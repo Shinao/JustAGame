@@ -12,7 +12,7 @@ Test::Test() :
   _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 700, 600);;
 
   Input	*text = new Input();
-  text->setRect(Rect(100, _rec.top + 100, Input::INPUT_WIDTH, Input::INPUT_HEIGHT));
+  text->setRect(Rect(100, _rec.top + 100, Input::WIDTH, Input::HEIGHT));
   add(text);
 
   String *btn = new String("Click me");

@@ -14,9 +14,9 @@ class Input : public Item, public EventCallback
   public:
     static const int		PADDING_TEXT = 4;
     static const int		PADDING_CURSOR = 6;
-    static const int 		INPUT_THICKNESS = 1;
-    static const int		INPUT_WIDTH = 124;
-    static const int		INPUT_HEIGHT = 28;
+    static const int 		THICKNESS = 1;
+    static const int		WIDTH = 124;
+    static const int		HEIGHT = 28;
     static const int		CURSOR_BLINK_SPEED = 750;
 
   private:
@@ -55,8 +55,7 @@ class Input : public Item, public EventCallback
     void			released();
     void			textEntered(Context context);
 
-    const sf::Vector2i		&getSize() const;
-    void			setSize(const sf::Vector2i &size);
+    virtual void		setRect(const Rect &rec);
     int				getThickness() const;
     void			setThickness(int thickness);
 
