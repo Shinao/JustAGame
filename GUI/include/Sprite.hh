@@ -18,6 +18,7 @@ class Sprite : public Item
     void			setSprite(sf::Sprite *sprite);
     sf::Sprite			*getSprite();
     void			setRect(const Rect &rec);
+    void			applyColor(const sf::Color &color);
 
     void			designChanged();
     void			draw(sf::RenderWindow &win);

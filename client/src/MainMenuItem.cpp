@@ -19,7 +19,7 @@ MainMenuItem::MainMenuItem(const std::string &name) :
   _menu->setPressed(text);
   _menu->update();
 
-  _y_content = HEIGHT + _rec.top + MARGIN;
+  _y_content = HEIGHT + _rec.top + MARGIN * 2;
 }
 
 MainMenuItem::~MainMenuItem()

@@ -28,6 +28,11 @@ void			Sprite::designChanged()
     _sprite->setColor(_theme->c_text);
 }
 
+void			Sprite::applyColor(const sf::Color &color)
+{
+  _sprite->setColor(color);
+}
+
 void			Sprite::update()
 {
   _sprite->setScale(sf::Vector2f(_scale, _scale));
