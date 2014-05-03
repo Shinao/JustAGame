@@ -2,19 +2,10 @@
 # define MULTIMEDIA_HH_
 
 # include "Layer.hh"
-# include "Menu.hh"
+# include "MainMenuItem.hh"
 
-class Multimedia : public Layer
+class Multimedia : public MainMenuItem
 {
-  public:
-    static const int		WIDTH = 600;
-    static const int		HEIGHT = 32;
-    static const int		PADDING = 128;
-    static const int		MARGIN = 32;
-
-  private:
-    Menu			*_menu;
-
   public:
     Multimedia();
     ~Multimedia();

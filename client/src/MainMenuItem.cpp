@@ -1,11 +1,9 @@
-#include "Input.hh"
-#include "Screen.hh"
-#include "Titlebar.hh"
+#include "MainMenuItem.hh"
 #include "String.hh"
-#include "Table.hh"
-#include "ModalMessageBox.hh"
+#include "Titlebar.hh"
+#include "Screen.hh"
 
-Input::Input() :
+MainMenuItem::MainMenuItem(const std::string &name) :
   Layer::Layer()
 {
   int top = jag::MarginMenu + Titlebar::HEIGHT - HEIGHT;
@@ -16,34 +14,17 @@ Input::Input() :
   _menu->setRect(rec);
   _menu->setMargin(sf::Vector2i(MARGIN, 0));
 
-  String	*text = new String("INPUT");
+  String	*text = new String(name);
   _menu->add(text);
   _menu->setPressed(text);
   _menu->update();
 }
 
-Input::~Input()
+MainMenuItem::~MainMenuItem()
 {
 }
 
-void			Input::mouseReleased(int x, int y)
-{
-  Layer::mouseReleased(x, y);
-}
-
-void			Input::draw(sf::RenderWindow &win)
+void			MainMenuItem::draw(sf::RenderWindow &win)
 {
   _menu->draw(win);
-}
-
-void			Input::mouseCaught(int x, int y)
-{
-  Layer::mouseCaught(x, y);
-
-}
-
-void			Input::mouseLeft()
-{
-  Layer::mouseLeft();
-
 }

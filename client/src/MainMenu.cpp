@@ -2,7 +2,7 @@
 #include "Screen.hh"
 #include "String.hh"
 #include "Titlebar.hh"
-#include "Input.hh"
+#include "InputLayer.hh"
 #include "ServerMenu.hh"
 #include "GameLayer.hh"
 #include "Multimedia.hh"
@@ -103,7 +103,7 @@ void			MainMenu::cbGame()
 
 void			MainMenu::cbInput()
 {
-  _layer_menu = new Input();
+  _layer_menu = new InputLayer();
 }
 
 void			MainMenu::cbMultimedia()

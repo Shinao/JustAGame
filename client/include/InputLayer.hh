@@ -1,14 +1,14 @@
-#ifndef GAMELAYER_HH_
-# define GAMELAYER_HH_
+#ifndef INPUT_LAYER_HH_
+# define INPUT_LAYER_HH_
 
 # include "Layer.hh"
 # include "MainMenuItem.hh"
 
-class GameLayer : public MainMenuItem
+class InputLayer : public MainMenuItem
 {
   public:
-    GameLayer();
-    ~GameLayer();
+    InputLayer();
+    ~InputLayer();
 
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
@@ -17,4 +17,3 @@ class GameLayer : public MainMenuItem
 };
 
 #endif
-

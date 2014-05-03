@@ -4,19 +4,20 @@
 #include "Table.hh"
 #include "ModalMessageBox.hh"
 #include "Titlebar.hh"
+#include "MainMenuItem.hh"
 #include <sstream>
 
 ServerMenu::ServerMenu() :
   Layer::Layer(),
   _internet(false)
 {
-  int top = jag::MarginMenu + Titlebar::HEIGHT - HEIGHT;
-  Rect	rec = Rect(PADDING, top, WIDTH, Screen::getSize().y - top - 100);
+  int top = jag::MarginMenu + Titlebar::HEIGHT - MainMenuItem::HEIGHT;
+  Rect	rec = Rect(MainMenuItem::PADDING, top, MainMenuItem::WIDTH, Screen::getSize().y - top - 100);
   _rec = rec;
-  rec.height = HEIGHT;
+  rec.height = MainMenuItem::HEIGHT;
   _menu = new Menu(Menu::Horizontal, jag::getTheme("HorizontalMenu"));
   _menu->setRect(rec);
-  _menu->setMargin(sf::Vector2i(MARGIN, 0));
+  _menu->setMargin(sf::Vector2i(MainMenuItem::MARGIN, 0));
 
   String	*text = new String("INTERNET");
   text->addCallback([&]() { _internet = true; });
