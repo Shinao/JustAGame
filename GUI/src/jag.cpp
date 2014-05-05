@@ -79,7 +79,10 @@ namespace jag
     _themes["HorizontalMenu"] = theme;
     *theme = *_themes["White"];
     theme->border = Border::Bottom;
-
+    theme = new Theme;
+    _themes["CenteredMenu"] = theme;
+    *theme = *_themes["White"];
+    theme->alignment = Alignment::Center;
 
     // Button theme
     theme = new Theme;

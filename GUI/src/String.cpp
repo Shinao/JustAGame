@@ -1,4 +1,5 @@
 #include "String.hh"
+#include <iostream>
 
 String::String(const sf::String &text, Theme *theme, float scale) :
   Item(theme, scale)

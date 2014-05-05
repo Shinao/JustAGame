@@ -1,5 +1,4 @@
 #include "MainMenuItem.hh"
-#include "String.hh"
 #include "Titlebar.hh"
 #include "Screen.hh"
 
@@ -14,9 +13,9 @@ MainMenuItem::MainMenuItem(const std::string &name) :
   _menu->setRect(rec);
   _menu->setMargin(sf::Vector2i(MARGIN, 0));
 
-  String	*text = new String(name);
-  _menu->add(text);
-  _menu->setPressed(text);
+  _title = new String(name);
+  _menu->add(_title);
+  _menu->setPressed(_title);
   _menu->update();
 
   _y_content = HEIGHT + _rec.top + MARGIN * 2;

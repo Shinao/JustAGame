@@ -1,5 +1,6 @@
 #include "Item.hh"
 #include "Utility/Graphic.hh"
+#include <iostream>
 
 Item::Item(Theme *theme, float scale) :
   _scale(scale)

@@ -6,6 +6,8 @@
 
 // StringArea : multi-line string
 
+// TODO - Add line function and make it bold italic or something
+
 class StringArea : public Item
 {
   private:

@@ -6,6 +6,18 @@
 
 class InputLayer : public MainMenuItem
 {
+  private:
+    static const int		NB_INPUT = 5;
+
+    static struct Keys
+    {
+      std::string		ini_name;
+      std::string		label;
+      sf::Keyboard::Key		sf_key;
+    }				_keys[NB_INPUT];
+
+    void			applyChanges();
+
   public:
     InputLayer();
     ~InputLayer();

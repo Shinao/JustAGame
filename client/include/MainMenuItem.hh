@@ -3,6 +3,7 @@
 
 # include "Layer.hh"
 # include "Menu.hh"
+# include "String.hh"
 
 class MainMenuItem : public Layer
 {
@@ -15,6 +16,7 @@ class MainMenuItem : public Layer
   protected:
     Menu			*_menu;
     int				_y_content;
+    String			*_title;
 
   public:
     MainMenuItem(const std::string &name);

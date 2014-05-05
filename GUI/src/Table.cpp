@@ -42,7 +42,7 @@ void			Table::init(int nb_column)
 
   for (int i = 0; i < nb_column; ++i)
   {
-    menu = new Menu(Menu::Vertical);
+    menu = new Menu(Menu::Vertical, _theme);
     menu->shrinkToFit(true);
     menu->setRect(Rect(x, _rec.top, width, _rec.height));
     menu->setMargin(sf::Vector2i(0, 12));
