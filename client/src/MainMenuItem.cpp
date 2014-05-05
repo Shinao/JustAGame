@@ -20,6 +20,8 @@ MainMenuItem::MainMenuItem(const std::string &name) :
   _menu->update();
 
   _y_content = HEIGHT + _rec.top + MARGIN * 2;
+
+  add(_menu);
 }
 
 MainMenuItem::~MainMenuItem()
@@ -28,5 +30,5 @@ MainMenuItem::~MainMenuItem()
 
 void			MainMenuItem::draw(sf::RenderWindow &win)
 {
-  _menu->draw(win);
+  Layer::draw(win);
 }

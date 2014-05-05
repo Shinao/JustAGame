@@ -22,6 +22,7 @@ class MainMenu : public Layer
     void			cbInput();
     void			cbMultimedia();
     void			cbReleased();
+    void			cbAbout();
 
   public:
     MainMenu();

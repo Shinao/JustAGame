@@ -15,6 +15,7 @@ class GameLayer : public MainMenuItem
 
     void			setColorPickers(int x, int y);
     void			checkColorPickers(int x, int y);
+    void			applyChanges();
 
   public:
     GameLayer();

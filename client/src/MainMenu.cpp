@@ -6,6 +6,7 @@
 #include "ServerMenu.hh"
 #include "GameLayer.hh"
 #include "Multimedia.hh"
+#include "About.hh"
 
 MainMenu::MainMenu() :
   Layer::Layer(),
@@ -25,7 +26,6 @@ MainMenu::MainMenu() :
   text = new String("GAME");
   text->addCallback(std::bind(&MainMenu::cbGame, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
-  _menu->setPressed(text);
   _menu->add(text);
   text = new String("INPUT");
   text->addCallback(std::bind(&MainMenu::cbInput, this));
@@ -35,8 +35,10 @@ MainMenu::MainMenu() :
   text->addCallback(std::bind(&MainMenu::cbMultimedia, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  text = new String("GitHub [Source]");
-  text->addCallback([]() { Screen::openUrl("https://github.com/Shinao/JustAGame"); });
+  text = new String("ABOUT");
+  text->addCallback(std::bind(&MainMenu::cbAbout, this));
+  text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
+  _menu->setPressed(text);
   _menu->add(text);
 
   _menu->update();
@@ -109,4 +111,9 @@ void			MainMenu::cbInput()
 void			MainMenu::cbMultimedia()
 {
   _layer_menu = new Multimedia();
+}
+
+void			MainMenu::cbAbout()
+{
+  _layer_menu = new About();
 }

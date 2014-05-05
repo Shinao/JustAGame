@@ -1,14 +1,14 @@
-#ifndef MULTIMEDIA_HH_
-# define MULTIMEDIA_HH_
+#ifndef ABOUT_HH_
+# define ABOUT_HH_
 
 # include "Layer.hh"
 # include "MainMenuItem.hh"
 
-class Multimedia : public MainMenuItem
+class About : public MainMenuItem
 {
   public:
-    Multimedia();
-    ~Multimedia();
+    About();
+    ~About();
 
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
@@ -17,3 +17,4 @@ class Multimedia : public MainMenuItem
 };
 
 #endif
+

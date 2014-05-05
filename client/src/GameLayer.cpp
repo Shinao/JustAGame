@@ -14,7 +14,7 @@ GameLayer::GameLayer() :
   int	size_item = _rec.width / 2 - MARGIN;
   int	x_half = _rec.left + _rec.width / 2 + MARGIN;
   int	x_start = _rec.left;
-  int	y = _y_content;
+  int	y = _y_content + 24;
 
   // Player Name
   String	*text = new String("Player Name", jag::getTheme("ItemSetting"));
@@ -25,6 +25,14 @@ GameLayer::GameLayer() :
   add(input);
 
   y += Input::HEIGHT + MARGIN;
+
+  // Apply button
+  text = new String("Apply", jag::getTheme("Button"));
+  text->autoRelease(true);
+  text->addCallback(std::bind(&GameLayer::applyChanges, this));
+  text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
+	_menu->getRect().height + 8, 60, 26));
+  add(text);
 
   // Player Color
   int x_end = x_start + size_item - MARGIN;
@@ -103,7 +111,6 @@ void			GameLayer::mouseReleased(int x, int y)
 void			GameLayer::draw(sf::RenderWindow &win)
 {
   MainMenuItem::draw(win);
-  Layer::draw(win);
 
   win.draw(_square_color_picker);
   win.draw(_tri_color_picker);
@@ -145,4 +152,8 @@ void			GameLayer::setColorPickers(int x, int y)
 
   _player_color = image.getPixel(x, y);
   ((Sprite *) _drawables["bird"])->applyColor(_player_color);
+}
+
+void			GameLayer::applyChanges()
+{
 }
