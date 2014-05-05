@@ -13,14 +13,17 @@ class GameLayer : public MainMenuItem
     sf::Texture			*_tex_bird;
     sf::Sprite			*_spr_bird;
 
+    void			setColorPickers(int x, int y);
+    void			checkColorPickers(int x, int y);
+
   public:
     GameLayer();
     ~GameLayer();
 
+    void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);
-    void			mouseLeft();
 };
 
 #endif

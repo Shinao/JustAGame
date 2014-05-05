@@ -41,16 +41,16 @@ namespace Screen
   void				scissor(Rect rec);
   void				undoScissor();
 
-  // Implementation Unix/Windows
-  void				minimize();
-  void				setCursor(CursorType type);
-  void				openUrl(const std::string &url);
-
   void				update();
   void				add(Layer *layer);
   void				remove(Layer *layer);
   EventManager			&getEventManager();
   void				setModal(bool modal);
+
+  // Implementation Unix/Windows
+  void				minimize();
+  void				setCursor(CursorType type);
+  void				openUrl(const std::string &url);
 }
 
 #endif

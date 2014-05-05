@@ -6,7 +6,7 @@
 GameLayer::GameLayer() :
   MainMenuItem("GAME"),
   _square_color_picker(sf::Quads, 16),
-  _tri_color_picker(sf::Triangles, 3)
+  _tri_color_picker(sf::Quads, 4)
 {
   int	size_item = _rec.width / 2 - MARGIN;
   int	x_half = _rec.left + _rec.width / 2 + MARGIN;
@@ -37,12 +37,14 @@ GameLayer::GameLayer() :
 
   int x = x_half;
 
-  _tri_color_picker[0].position = sf::Vector2f(x, y + height_tri);
-  _tri_color_picker[0].color = sf::Color::Black;
-  _tri_color_picker[1].position = sf::Vector2f(x + (width_color * nb_color) / 2, y);
+  _tri_color_picker[0].position = sf::Vector2f(x, y);
+  _tri_color_picker[0].color = sf::Color::Red;
+  _tri_color_picker[1].position = sf::Vector2f(x + (width_color * nb_color), y);
   _tri_color_picker[1].color = sf::Color::Red;
   _tri_color_picker[2].position = sf::Vector2f(x + (width_color * nb_color), y + height_tri);
   _tri_color_picker[2].color = sf::Color::White;
+  _tri_color_picker[3].position = sf::Vector2f(x, y + height_tri);
+  _tri_color_picker[3].color = sf::Color::Black;
 
   sf::Image 	&img = jag::getRessource("bird.png");
   _tex_bird = new sf::Texture();
@@ -50,9 +52,8 @@ GameLayer::GameLayer() :
   _spr_bird = new sf::Sprite();
   _spr_bird->setTexture(*_tex_bird);
   Sprite	*sprite = new Sprite(_spr_bird);
-  sprite->setRect(Rect(x + width_tri, y, 100, 100));
-  add(sprite);
-  sprite->applyColor(sf::Color::Green);
+  sprite->setRect(Rect(x + width_tri, y - 8, 100, 100));
+  add(sprite, "bird");
 
   y += height_tri + 2;
 
@@ -97,12 +98,40 @@ void			GameLayer::draw(sf::RenderWindow &win)
   win.draw(_tri_color_picker);
 }
 
+void			GameLayer::mousePressed(int x, int y)
+{
+  Layer::mousePressed(x, y);
+
+  checkColorPickers(x, y);
+}
+
 void			GameLayer::mouseCaught(int x, int y)
 {
   Layer::mouseCaught(x, y);
+
+  checkColorPickers(x, y);
 }
 
-void			GameLayer::mouseLeft()
+void			GameLayer::checkColorPickers(int x, int y)
 {
-  Layer::mouseLeft();
+  // Check our color pickers
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+  {
+    if (_tri_color_picker.getBounds().contains(x, y))
+      setColorPickers(x, y);
+    else if (_square_color_picker.getBounds().contains(x, y))
+    {
+      setColorPickers(x, y);
+      _tri_color_picker[0].color = _player_color;
+      _tri_color_picker[1].color = _player_color;
+    }
+  }
+}
+
+void			GameLayer::setColorPickers(int x, int y)
+{
+  sf::Image	image = Screen::getWindow().capture();
+
+  _player_color = image.getPixel(x, y);
+  ((Sprite *) _drawables["bird"])->applyColor(_player_color);
 }
