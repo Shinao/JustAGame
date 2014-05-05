@@ -5,7 +5,6 @@
 #include "Utility/Graphic.hh"
 #include "SimpleIni.hpp"
 
-
 GameLayer::GameLayer() :
   MainMenuItem("GAME"),
   _square_color_picker(sf::Quads, 16),
@@ -13,7 +12,6 @@ GameLayer::GameLayer() :
 {
   int	size_item = _rec.width / 2 - MARGIN;
   int	x_half = _rec.left + _rec.width / 2 + MARGIN;
-  int	x_start = _rec.left;
   int	y = _y_content + 24;
 
   // Player Name
@@ -35,7 +33,6 @@ GameLayer::GameLayer() :
   add(text);
 
   // Player Color
-  int x_end = x_start + size_item - MARGIN;
   int nb_color = 4;
   int width_color = 36;
   int height_color = 16;
@@ -68,7 +65,7 @@ GameLayer::GameLayer() :
 
   // Set the color
   CSimpleIniA	&ini = jag::getSettings();
-  std::string color = ini.GetValue("client", "player_color", "FFFFFF");
+  std::string color = ini.GetValue(INI_GROUP, "player_color", "FFFFFF");
   _player_color = Utility::stringToColor(color);
   sprite->applyColor(_player_color);
   _tri_color_picker[0].color = _player_color;

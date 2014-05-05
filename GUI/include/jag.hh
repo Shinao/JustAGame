@@ -11,11 +11,18 @@
 // Init at first - clear at the end
 
 # define INI_FILE	"client.ini"
+# define INI_GROUP	"client"
 
 typedef sf::Rect<int> Rect;
 
 namespace jag
 {
+  struct			Keys
+  {
+    std::string			label;
+    sf::Keyboard::Key		key;
+  };
+
   const std::string		WindowName = "JustAGame";
   const std::string		RessourcePath = "rsrc/";
   const int			WindowHeight = 576;
@@ -25,6 +32,8 @@ namespace jag
   const int			WindowBorderSize = 1;
   const int			MarginMenu = 64;
 
+
+  std::map<std::string, sf::Keyboard::Key>		&getKeys();
   void				init();
   void				clear();
   CSimpleIniA			&getSettings();

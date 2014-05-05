@@ -1,14 +1,17 @@
 #include "InputLayer.hh"
 #include "Table.hh"
 #include "jag.hh"
+#include <iostream>
 
 // Generate keys
 InputLayer::Keys	InputLayer::_keys[NB_INPUT] = {
-  {"key_up", "UP", sf::Keyboard::A},
-  {"key_left", "LEFT", sf::Keyboard::A},
-  {"key_right", "RIGHT", sf::Keyboard::A},
-  {"key_down", "DOWN", sf::Keyboard::A},
-  {"key_escape", "ESCAPE", sf::Keyboard::A}
+  {"key_fire", "FIRE", "Unknown"},
+  {"key_secondary_fire", "SECONDARY FIRE", "Unknown"},
+  {"key_up", "UP", "Unknown"},
+  {"key_left", "LEFT", "Unknown"},
+  {"key_right", "RIGHT", "Unknown"},
+  {"key_down", "DOWN", "Unknown"},
+  {"key_escape", "ESCAPE", "Unknown"}
 };
 
 InputLayer::InputLayer() :
@@ -28,10 +31,24 @@ InputLayer::InputLayer() :
   table->init(2);
   add(table, "table");
 
+
+  // Generate keys
+  CSimpleIniA		&ini = jag::getSettings();
   std::vector<Item *>	items;
-  items.push_back(new String("teeest"));
-  items.push_back(new String("DASDASD"));
-  table->addRow(items);
+
+  for (auto key : _keys)
+  {
+    std::string	val = ini.GetValue(INI_GROUP, key.ini_name.c_str(), "Unknown");
+
+    if (jag::getKeys().find(val) == jag::getKeys().end())
+      val = "Unknown";
+    key.sf_key = val;
+
+    items.push_back(new String(key.label));
+    items.push_back(new String(key.sf_key));
+    table->addRow(items);
+    items.clear();
+  }
 }
 
 InputLayer::~InputLayer()
@@ -60,4 +77,5 @@ void			InputLayer::mouseLeft()
 
 void			InputLayer::applyChanges()
 {
+  jag::getSettings().SaveFile(INI_FILE);
 }

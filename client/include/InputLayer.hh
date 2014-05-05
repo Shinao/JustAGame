@@ -7,13 +7,13 @@
 class InputLayer : public MainMenuItem
 {
   private:
-    static const int		NB_INPUT = 5;
+    static const int		NB_INPUT = 7;
 
     static struct Keys
     {
       std::string		ini_name;
       std::string		label;
-      sf::Keyboard::Key		sf_key;
+      std::string		sf_key;
     }				_keys[NB_INPUT];
 
     void			applyChanges();
