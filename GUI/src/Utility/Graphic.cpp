@@ -1,5 +1,6 @@
 #include "Utility/Graphic.hh"
 #include <sstream>
+#include <iostream>
 
 namespace Utility
 {
@@ -53,13 +54,13 @@ namespace Utility
   {
     sf::Color		color;
     std::stringstream	ss(str);
-    int			nb;
+    unsigned int	nb;
 
-    ss >> nb;
+    ss >> std::hex >> nb;
     
-    color.r = nb / 10000;
-    color.g = nb / 100 % 100;
-    color.b = nb % 100;
+    color.r = nb / 0x10000;
+    color.g = nb / 0x100 % 0x100;
+    color.b = nb % 0x100;
     color.a = 255;
 
     return (color);

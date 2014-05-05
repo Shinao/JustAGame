@@ -2,6 +2,9 @@
 #include "String.hh"
 #include "Input.hh"
 #include "Sprite.hh"
+#include "Utility/Graphic.hh"
+#include "SimpleIni.hpp"
+
 
 GameLayer::GameLayer() :
   MainMenuItem("GAME"),
@@ -54,6 +57,14 @@ GameLayer::GameLayer() :
   Sprite	*sprite = new Sprite(_spr_bird);
   sprite->setRect(Rect(x + width_tri, y - 8, 100, 100));
   add(sprite, "bird");
+
+  // Set the color
+  CSimpleIniA	&ini = jag::getSettings();
+  std::string color = ini.GetValue("client", "player_color", "FFFFFF");
+  _player_color = Utility::stringToColor(color);
+  sprite->applyColor(_player_color);
+  _tri_color_picker[0].color = _player_color;
+  _tri_color_picker[1].color = _player_color;
 
   y += height_tri + 2;
 
