@@ -42,6 +42,8 @@ namespace jag
   void				setTheme(Theme *theme);
   void				addTheme(const std::string &name, Theme *theme);
   sf::Image			&getRessource(const std::string &name);
+  void				createRessourceFromArray(const std::string &name,
+      const unsigned char *data, unsigned int width, unsigned int height);
 }
 
 #endif

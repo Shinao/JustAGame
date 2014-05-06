@@ -2,6 +2,7 @@
 #include "Screen.hh"
 #include "jag.hh"
 #include "OSSpecific.hh"
+#include "Ressource.hh"
 
 
 namespace Screen

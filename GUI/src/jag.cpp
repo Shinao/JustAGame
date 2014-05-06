@@ -1,5 +1,7 @@
 #include "jag.hh"
 #include "Utility/Graphic.hh"
+#include "Ressource.hh"
+
 #include <iostream>
 
 namespace jag
@@ -196,9 +198,12 @@ namespace jag
     theme->c_text_pressed = sf::Color::Transparent;
 
     // Init ressources
-    getRessource("close_window.png");
-    getRessource("minimize_window.png");
-    getRessource("restore_window.png");
+    createRessourceFromArray("bird.png", bird.pixel_data, bird.width, bird.height);
+    createRessourceFromArray("embleme.png", embleme.pixel_data, embleme.width, embleme.height);
+    createRessourceFromArray("logo.png", logo.pixel_data, logo.width, logo.height);
+    createRessourceFromArray("restore_window.png", restore.pixel_data, restore.width, restore.height);
+    createRessourceFromArray("close_window.png", close.pixel_data, close.width, close.height);
+    createRessourceFromArray("minimize_window.png", minimize.pixel_data, minimize.width, minimize.height);
   }
 
   void			clear()
@@ -210,6 +215,15 @@ namespace jag
     // Clear ressources
     for (auto it : _rsrcs)
       delete it.second;
+  }
+
+  void				createRessourceFromArray(const std::string &name,
+      const unsigned char *data, unsigned int width, unsigned int height)
+  {
+    sf::Image		*img = new sf::Image;
+
+    img->create(width, height, data);
+    _rsrcs[RessourcePath + name] = img;
   }
 
   Theme			*getCurrentTheme()
