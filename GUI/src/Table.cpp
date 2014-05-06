@@ -102,3 +102,8 @@ Rect		Table::getRect() const
   rec.height = _menus[0]->getRect().height;
   return (rec);
 }
+
+Item		*Table::getSelectedItem(int row)
+{
+  return (_menus[row]->getPressed());
+}

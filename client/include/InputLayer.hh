@@ -3,6 +3,7 @@
 
 # include "Layer.hh"
 # include "MainMenuItem.hh"
+# include "ModalMessageBox.hh"
 
 class InputLayer : public MainMenuItem
 {
@@ -16,7 +17,10 @@ class InputLayer : public MainMenuItem
       std::string		sf_key;
     }				_keys[NB_INPUT];
 
+    ModalMessageBox		*_msg_box;
+
     void			applyChanges();
+    void			cbItemPressed();
 
   public:
     InputLayer();

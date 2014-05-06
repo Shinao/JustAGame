@@ -49,6 +49,8 @@ InputLayer::InputLayer() :
     table->addRow(items);
     items.clear();
   }
+
+  table->addCallback(std::bind(&InputLayer::cbItemPressed, this), Drawable::Pressed);
 }
 
 InputLayer::~InputLayer()
@@ -78,4 +80,14 @@ void			InputLayer::mouseLeft()
 void			InputLayer::applyChanges()
 {
   jag::getSettings().SaveFile(INI_FILE);
+}
+
+void			InputLayer::cbItemPressed()
+{
+  _msg_box = new ModalMessageBox("Input", new String("Press any key"));
+
+  // Add Callback for all sf keys
+  for (auto key : jag::getKeys())
+  {
+  }
 }
