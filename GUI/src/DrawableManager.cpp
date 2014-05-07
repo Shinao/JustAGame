@@ -41,9 +41,13 @@ void			DrawableManager::remove(std::string name)
   forget(name);
 }
 
-void			DrawableManager::forget(std::string name)
+Drawable		*DrawableManager::forget(std::string name)
 {
+  Drawable	*drawable = get(name);
+
   _drawables.erase(name);
+
+  return (drawable);
 }
 
 Drawable		*DrawableManager::get(std::string name)

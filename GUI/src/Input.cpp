@@ -2,7 +2,6 @@
 
 Input::Input(Theme *theme, float scale) :
   Item(theme, scale),
-  EventCallback(),
   _thickness(THICKNESS),
   _cursor_pos(0),
   _cursor_selection(-1)

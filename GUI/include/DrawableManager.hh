@@ -25,7 +25,7 @@ class DrawableManager
     void				add(Drawable *drawable);
     Drawable				*get(std::string name);
     void				remove(std::string name);
-    void				forget(std::string name);
+    Drawable				*forget(std::string name);
 
   public:
     DrawableManager();

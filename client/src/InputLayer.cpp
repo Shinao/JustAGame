@@ -1,5 +1,4 @@
 #include "InputLayer.hh"
-#include "Table.hh"
 #include "jag.hh"
 #include <iostream>
 
@@ -15,7 +14,8 @@ InputLayer::Keys	InputLayer::_keys[NB_INPUT] = {
 };
 
 InputLayer::InputLayer() :
-  MainMenuItem("INPUT")
+  MainMenuItem("INPUT"),
+  _event_catched(false)
 {
   // Apply button
   String	*text = new String("Apply", jag::getTheme("Button"));
@@ -25,11 +25,11 @@ InputLayer::InputLayer() :
 	_menu->getRect().height + 8, 60, 26));
   add(text);
 
-  Table		*table = new Table(jag::getTheme("CenteredMenu"));
+  _table = new Table(jag::getTheme("CenteredMenu"));
 
-  table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.top));
-  table->init(2);
-  add(table, "table");
+  _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.top));
+  _table->init(2);
+  add(_table);
 
 
   // Generate keys
@@ -46,11 +46,11 @@ InputLayer::InputLayer() :
 
     items.push_back(new String(key.label));
     items.push_back(new String(key.sf_key));
-    table->addRow(items);
+    _table->addRow(items);
     items.clear();
   }
 
-  table->addCallback(std::bind(&InputLayer::cbItemPressed, this), Drawable::Pressed);
+  _table->addCallback(std::bind(&InputLayer::cbItemPressed, this), Drawable::Pressed);
 }
 
 InputLayer::~InputLayer()
@@ -59,7 +59,8 @@ InputLayer::~InputLayer()
 
 void			InputLayer::mouseReleased(int x, int y)
 {
-  Layer::mouseReleased(x, y);
+  if (!_event_catched)
+    Layer::mouseReleased(x, y);
 }
 
 void			InputLayer::draw(sf::RenderWindow &win)
@@ -82,12 +83,39 @@ void			InputLayer::applyChanges()
   jag::getSettings().SaveFile(INI_FILE);
 }
 
+bool			InputLayer::update(sf::RenderWindow &window)
+{
+  _event_catched = false;
+
+  return (Layer::update(window));
+}
+
+void			InputLayer::eventCatched()
+{
+  Screen::remove(_msg_box);
+  clearCallbacks();
+}
+
 void			InputLayer::cbItemPressed()
 {
   _msg_box = new ModalMessageBox("Input", new String("Press any key"));
 
   // Add Callback for all sf keys
+  using namespace std::placeholders;
   for (auto key : jag::getKeys())
   {
+    catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&InputLayer::mousePressed, this, _1));
+    catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Right), std::bind(&InputLayer::mousePressed, this, _1));
+    catchEvent(Action(sf::Event::KeyPressed, key.second), std::bind(&InputLayer::keyPressed, this, _1));
   }
+}
+
+void			InputLayer::keyPressed(Context context)
+{
+  eventCatched();
+}
+
+void			InputLayer::mousePressed(Context context)
+{
+  eventCatched();
 }
