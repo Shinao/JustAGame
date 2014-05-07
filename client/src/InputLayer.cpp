@@ -94,10 +94,18 @@ void			InputLayer::eventCatched()
 {
   Screen::remove(_msg_box);
   clearCallbacks();
+  _event_catched = false;
 }
 
+// TODO - Double event catched problem
 void			InputLayer::cbItemPressed()
 {
+  std::cout << "in" << std::endl;
+  if (_event_catched)
+    return ;
+
+  std::cout << "in" << std::endl;
+
   _msg_box = new ModalMessageBox("Input", new String("Press any key"));
 
   // Add Callback for all sf keys
@@ -108,6 +116,9 @@ void			InputLayer::cbItemPressed()
     catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Right), std::bind(&InputLayer::mousePressed, this, _1));
     catchEvent(Action(sf::Event::KeyPressed, key.second), std::bind(&InputLayer::keyPressed, this, _1));
   }
+
+  _table->enable(false);
+  _event_catched = true;
 }
 
 void			InputLayer::keyPressed(Context context)

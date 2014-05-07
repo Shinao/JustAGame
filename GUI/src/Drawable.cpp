@@ -4,12 +4,23 @@
 
 Drawable::Drawable(Theme *theme) :
   _theme(theme),
+  _enabled(true),
   _focused(false),
   _pressed(false),
   _release(false),
   _tooltip(NULL),
   _text_tooltip("")
 {
+}
+
+bool			Drawable::isEnabled() const
+{
+  return (_enabled);
+}
+
+void			Drawable::enable(bool enable)
+{
+  _enabled = enable;
 }
 
 void			Drawable::setTheme(Theme *theme)
@@ -37,6 +48,9 @@ Rect			Drawable::getRect() const
 
 void			Drawable::mouseCaught(int, int)
 {
+  if (!_enabled)
+    return ;
+
   removeTooltip();
 
   if (!_focused)
@@ -62,6 +76,9 @@ void			Drawable::removeTooltip()
 
 void			Drawable::mouseLeft()
 {
+  if (!_enabled)
+    return ;
+
   if (_focused)
   {
     removeTooltip();
@@ -83,6 +100,9 @@ void			Drawable::draw(sf::RenderWindow &)
 
 void			Drawable::mouseReleased(int, int)
 {
+  if (!_enabled)
+    return ;
+
   // Check for double click
   if (_pressed && _callback_double_click &&
       _timer_double_click.getElapsedTime().asMilliseconds() < DelayDoubleClick)

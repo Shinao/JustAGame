@@ -33,6 +33,7 @@ class Drawable
     sf::Clock			_timer_double_click;
 
     // Event
+    bool			_enabled;
     bool			_focused;
     bool			_pressed;
     bool			_release;
@@ -66,6 +67,8 @@ class Drawable
     // Event
     void			addCallback(CallbackGui callback, State state = Pressed);
     bool			isFocused() const;
+    bool			isEnabled() const;
+    void			enable(bool enable);
     bool			isPressed() const;
     void			autoRelease(bool unpress);
     void			released();
