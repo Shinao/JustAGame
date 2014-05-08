@@ -31,15 +31,9 @@ InputLayer::InputLayer() :
 	_menu->getRect().height + 8, 60, 26));
   add(text);
 
-  _table = new Table(jag::getTheme("CenteredMenu"));
+  _table = new Table(2, jag::getTheme("CenteredMenu"));
 
   _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height));
-  _table->init(2);
-
-  _scroller = new Scroller(_table);
-  _scroller->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - PADDING - HEIGHT));
-  add(_scroller);
-
 
   // Generate keys
   CSimpleIniA		&ini = jag::getSettings();
@@ -60,6 +54,11 @@ InputLayer::InputLayer() :
   }
 
   _table->addCallback(std::bind(&InputLayer::cbItemPressed, this), Drawable::Pressed);
+
+  _scroller = new Scroller(_table);
+  _scroller->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - PADDING - HEIGHT));
+  add(_scroller);
+
 }
 
 InputLayer::~InputLayer()

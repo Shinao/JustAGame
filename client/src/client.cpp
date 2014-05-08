@@ -33,7 +33,7 @@ int		main()
     new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
 
   // TODO - Remove
-  new Test();
+  // new Test();
 
   while (Screen::isActive())
   {

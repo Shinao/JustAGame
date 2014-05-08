@@ -34,12 +34,11 @@ ServerMenu::ServerMenu() :
 	_menu->getRect().height + 8, 60, 26));
   add(text);
 
-  Table		*table = new Table();
+  Table		*table = new Table(4);
   Rect rec_btn = text->getRect();
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
   table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
-  table->init(4);
   add(table, "table_local");
 
   _menu->update();

@@ -38,9 +38,8 @@ Test::Test() :
   // msg->addButton("Hello");
   // msg->addButton("BIIdADJHKASD");
 
-  Table *table = new Table();
+  Table *table = new Table(4);
   table->setRect(Rect(460, _rec.top, 300, 200));
-  table->init(4);
   std::vector<Item *> items;
   items.push_back(new String("1111"));
   items.push_back(new String("222"));

@@ -1,9 +1,10 @@
 #include "Table.hh"
 #include <iostream>
 
-Table::Table(Theme *theme) :
+Table::Table(int nb_row, Theme *theme) :
   Drawable(theme)
 {
+  init(nb_row);
 }
 
 Table::~Table()
@@ -44,8 +45,8 @@ void			Table::init(int nb_column)
   {
     menu = new Menu(Menu::Vertical, _theme);
     menu->shrinkToFit(true);
-    menu->setRect(Rect(x, _rec.top, width, _rec.height));
     menu->setMargin(sf::Vector2i(0, 12));
+    menu->setRect(Rect(x, _rec.top, width, _rec.height));
     _menus.push_back(menu);
     add(menu);
 
@@ -93,6 +94,20 @@ void		Table::mouseReleased(int x, int y)
 {
   Drawable::mouseReleased(x, y);
   DrawableManager::mouseReleased(x, y);
+}
+
+void		Table::setRect(const Rect &rec)
+{
+  Drawable::setRect(rec);
+
+  int	width = _rec.width / _menus.size();
+  int	x = _rec.left;
+
+  for (auto menu : _menus)
+  {
+    menu->setRect(Rect(x, _rec.top, width, _rec.height));
+    x += width;
+  }
 }
 
 Rect		Table::getRect() const
