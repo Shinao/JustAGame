@@ -1,12 +1,13 @@
 #include "MainMenuItem.hh"
 #include "Titlebar.hh"
 #include "Screen.hh"
+#include "StatusBar.hh"
 
 MainMenuItem::MainMenuItem(const std::string &name) :
   Layer::Layer()
 {
   int top = jag::MarginMenu + Titlebar::HEIGHT - HEIGHT;
-  Rect	rec = Rect(PADDING, top, WIDTH, Screen::getSize().y - top - 100);
+  Rect	rec = Rect(PADDING, top, WIDTH, Screen::getSize().y - top - StatusBar::HEIGHT);
   _rec = rec;
   rec.height = HEIGHT;
   _menu = new Menu(Menu::Horizontal, jag::getTheme("HorizontalMenu"));

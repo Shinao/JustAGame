@@ -99,6 +99,14 @@ namespace jag
     theme->alignment = Alignment::Center;
 
     theme = new Theme;
+    _themes["ListBox"] = theme;
+    *theme = *_themes["Button"];
+    theme->border = Border::Bottom;
+    theme->c_background_focused = gray_focus;
+    theme->c_text_focused = _themes["White"]->c_text_focused;
+    theme->alignment = Alignment::Center;
+
+    theme = new Theme;
     _themes["ItemListBox"] = theme;
     *theme = *_themes["Button"];
     theme->c_background_focused = gray_focus;

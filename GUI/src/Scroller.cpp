@@ -9,6 +9,7 @@ Scroller::Scroller(Drawable *drawable, Theme *theme) :
   add(drawable);
 
   catchEvent(Action(sf::Event::MouseWheelMoved), [&](Context context) {
+  std::cout << "in" << std::endl;
       int add_drawable = context.mouseWheel.delta * SCROLLING;
       int add_scroll = context.mouseWheel.delta * ((float) SCROLLING / _drawable->getRect().height * _rec.height);
 

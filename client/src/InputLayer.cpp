@@ -10,7 +10,13 @@ InputLayer::Keys	InputLayer::_keys[NB_INPUT] = {
   {"key_left", "LEFT", "Unknown"},
   {"key_right", "RIGHT", "Unknown"},
   {"key_down", "DOWN", "Unknown"},
-  {"key_escape", "ESCAPE", "Unknown"}
+  {"key_escape", "ESCAPE", "Unknown"},
+  {"key_boost", "BOOST", "Unknown"},
+  {"key_slot1", "SLOT1", "Unknown"},
+  {"key_slot2", "SLOT2", "Unknown"},
+  {"key_slot3", "SLOT3", "Unknown"},
+  {"key_slot4", "SLOT4", "Unknown"},
+  {"key_slot5", "SLOT5", "Unknown"}
 };
 
 InputLayer::InputLayer() :
@@ -27,9 +33,12 @@ InputLayer::InputLayer() :
 
   _table = new Table(jag::getTheme("CenteredMenu"));
 
-  _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.top));
+  _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height));
   _table->init(2);
-  add(_table);
+
+  _scroller = new Scroller(_table);
+  _scroller->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - PADDING - HEIGHT));
+  add(_scroller);
 
 
   // Generate keys

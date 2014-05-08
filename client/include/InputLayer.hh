@@ -5,11 +5,12 @@
 # include "MainMenuItem.hh"
 # include "ModalMessageBox.hh"
 # include "Table.hh"
+# include "Scroller.hh"
 
 class InputLayer : public MainMenuItem, public EventCallback
 {
   private:
-    static const int		NB_INPUT = 7;
+    static const int		NB_INPUT = 13;
 
     static struct Keys
     {
@@ -18,6 +19,7 @@ class InputLayer : public MainMenuItem, public EventCallback
       std::string		sf_key;
     }				_keys[NB_INPUT];
 
+    Scroller			*_scroller;
     ModalMessageBox		*_msg_box;
     bool			_event_catched;
     Table			*_table;

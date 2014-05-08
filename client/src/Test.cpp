@@ -24,7 +24,7 @@ Test::Test() :
   area->setRect(Rect(300, _rec.top + 120, 100, HEIGHT));
   add(area);
 
-  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("Button"));
+  ListBox *lb = new ListBox(new String("abcdef"), jag::getTheme("ListBox"));
   lb->add(new String("heeloo"));
   lb->add(new String("hee1"));
   lb->add(new String("heeloo2"));
