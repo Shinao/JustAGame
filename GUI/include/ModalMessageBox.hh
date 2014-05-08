@@ -26,7 +26,7 @@ class ModalMessageBox : public Layer, public EventCallback
     bool			_has_button;
 
   public:
-    ModalMessageBox(const sf::String &title, Item *desc);
+    ModalMessageBox(const sf::String &title, Item *desc, bool can_escape = true);
     ~ModalMessageBox();
 
     void			letTitlebar(bool let);

@@ -248,11 +248,16 @@ void			Menu::setIndexState(int index, State state)
   }
 }
 
-int			Menu::getIndex(Item *search)
+int			Menu::getIndex(Item *search) const
 {
   for (unsigned i = 0; i < _items.size(); ++i)
     if (_items[i] == search)
       return (i);
 
   return (-1);
+}
+
+int			Menu::getSelectedIndex() const
+{
+  return (getIndex(_item_pressed));
 }

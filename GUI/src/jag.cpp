@@ -387,4 +387,23 @@ namespace jag
   {
     return (_keys);
   }
+
+  const std::string					&getValueFromEvent(sf::Keyboard::Key key)
+  {
+    static std::string	unknown("Unknown");
+
+    for (auto it = _keys.begin(); it != _keys.end(); ++it)
+      if (it->second == key)
+	return (it->first);
+
+    return (unknown);
+  }
+
+  const std::string					&getValueFromEvent(sf::Mouse::Button btn)
+  {
+    static std::string	mouse_left("Mouse Left");
+    static std::string	mouse_right("Mouse Right");
+
+    return (btn == sf::Mouse::Left ? mouse_left : mouse_right);
+  }
 }

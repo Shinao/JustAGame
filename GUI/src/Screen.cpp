@@ -40,13 +40,6 @@ namespace Screen
     void			mousePressed(Context context);
     void			mouseReleased(Context context);
     void			mouseMoved(Context context);
-
-    // Modal
-    // EventManager		*_event_manager_modal_backup;
-    // void			catchLayersEventsModal();
-    // void			mousePressedModal(Context context);
-    // void			mouseReleasedModal(Context context);
-    // void			mouseMovedModal(Context context);
   }
 
 
@@ -383,19 +376,4 @@ namespace Screen
   {
     _window->setView(_window->getDefaultView());
   }
-
-  // void					setModal(bool modal)
-  // {
-  //   if (modal)
-  //   {
-  //     _event_manager_modal_backup = _event_manager;
-  //     _event_manager = new EventManager();
-  //     catchLayersEventsModal();
-  //   }
-  //   else
-  //   {
-  //     delete _event_manager;
-  //     _event_manager = _event_manager_modal_backup;
-  //   }
-  // }
 }

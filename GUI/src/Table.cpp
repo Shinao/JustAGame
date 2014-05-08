@@ -107,3 +107,8 @@ Item		*Table::getSelectedItem(int row)
 {
   return (_menus[row]->getPressed());
 }
+
+int		Table::getSelectedIndex() const
+{
+  return (_menus[0]->getSelectedIndex());
+}

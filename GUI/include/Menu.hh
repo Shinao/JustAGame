@@ -48,7 +48,8 @@ class Menu : public Drawable
     Item			*getPressed();
     void			addItemsCallback(CallbackGui cb, State state);
     void			setIndexState(int index, State state);
-    int				getIndex(Item *item);
+    int				getIndex(Item *item) const;
+    int				getSelectedIndex() const;
 
     void			update();
     void			draw(sf::RenderWindow &win);

@@ -3,7 +3,7 @@
 #include "jag.hh"
 #include "Titlebar.hh"
 
-ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc) :
+ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc, bool can_escape) :
   Layer(),
   EventCallback(),
   _draw_fog(true),
@@ -11,9 +11,10 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc) :
   _has_button(false)
 {
   // Escape : say goodbye
-  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
-      Screen::remove(this);
-      });
+  if (can_escape)
+    catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
+	Screen::remove(this);
+	});
 
   // Layer take all the space (Modal)
   _rec.left = 0;

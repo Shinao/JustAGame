@@ -24,7 +24,8 @@ class InputLayer : public MainMenuItem, public EventCallback
 
     void			applyChanges();
     void			cbItemPressed();
-    void			eventCatched();
+    int				eventCatched();
+    void			setEventByIndex(int index, const std::string &sf_key);
 
   public:
     InputLayer();

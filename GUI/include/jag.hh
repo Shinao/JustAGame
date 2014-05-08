@@ -33,7 +33,6 @@ namespace jag
   const int			MarginMenu = 64;
 
 
-  std::map<std::string, sf::Keyboard::Key>		&getKeys();
   void				init();
   void				clear();
   CSimpleIniA			&getSettings();
@@ -44,6 +43,9 @@ namespace jag
   sf::Image			&getRessource(const std::string &name);
   void				createRessourceFromArray(const std::string &name,
       const unsigned char *data, unsigned int width, unsigned int height);
+  std::map<std::string, sf::Keyboard::Key>		&getKeys();
+  const std::string					&getValueFromEvent(sf::Keyboard::Key key);
+  const std::string					&getValueFromEvent(sf::Mouse::Button btn);
 }
 
 #endif

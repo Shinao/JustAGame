@@ -26,6 +26,7 @@ class Table : public Drawable, public DrawableManager
     Rect			getRect() const;
 
     Item			*getSelectedItem(int row);
+    int				getSelectedIndex() const;
 
     // Event
     virtual void		mouseCaught(int x, int y);

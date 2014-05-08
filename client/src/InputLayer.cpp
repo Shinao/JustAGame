@@ -36,7 +36,7 @@ InputLayer::InputLayer() :
   CSimpleIniA		&ini = jag::getSettings();
   std::vector<Item *>	items;
 
-  for (auto key : _keys)
+  for (auto &key : _keys)
   {
     std::string	val = ini.GetValue(INI_GROUP, key.ini_name.c_str(), "Unknown");
 
@@ -71,6 +71,9 @@ void			InputLayer::draw(sf::RenderWindow &win)
 void			InputLayer::mouseCaught(int x, int y)
 {
   Layer::mouseCaught(x, y);
+
+  // Enable event
+  _event_catched = false;
 }
 
 void			InputLayer::mouseLeft()
@@ -80,33 +83,32 @@ void			InputLayer::mouseLeft()
 
 void			InputLayer::applyChanges()
 {
+  for (auto key : _keys)
+    jag::getSettings().SetValue(INI_GROUP, key.ini_name.c_str(), key.sf_key.c_str());
+
   jag::getSettings().SaveFile(INI_FILE);
 }
 
 bool			InputLayer::update(sf::RenderWindow &window)
 {
-  _event_catched = false;
-
   return (Layer::update(window));
 }
 
-void			InputLayer::eventCatched()
+int			InputLayer::eventCatched()
 {
   Screen::remove(_msg_box);
   clearCallbacks();
-  _event_catched = false;
+
+  return (_table->getSelectedIndex());
 }
 
-// TODO - Double event catched problem
 void			InputLayer::cbItemPressed()
 {
-  std::cout << "in" << std::endl;
+  // Ignore click
   if (_event_catched)
     return ;
 
-  std::cout << "in" << std::endl;
-
-  _msg_box = new ModalMessageBox("Input", new String("Press any key"));
+  _msg_box = new ModalMessageBox("Input", new String("Press any key"), false);
 
   // Add Callback for all sf keys
   using namespace std::placeholders;
@@ -117,16 +119,24 @@ void			InputLayer::cbItemPressed()
     catchEvent(Action(sf::Event::KeyPressed, key.second), std::bind(&InputLayer::keyPressed, this, _1));
   }
 
-  _table->enable(false);
   _event_catched = true;
 }
 
 void			InputLayer::keyPressed(Context context)
 {
-  eventCatched();
+  int	index = eventCatched();
+
+  setEventByIndex(index, jag::getValueFromEvent(context.key.code));
 }
 
 void			InputLayer::mousePressed(Context context)
 {
-  eventCatched();
+  int	index = eventCatched();
+  setEventByIndex(index, jag::getValueFromEvent(context.mouseButton.button));
+}
+
+void			InputLayer::setEventByIndex(int index, const std::string &sf_key)
+{
+  _keys[index].sf_key = sf_key;
+  ((String *)_table->getSelectedItem(1))->setString(sf_key);
 }
