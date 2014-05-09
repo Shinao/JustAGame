@@ -12,7 +12,7 @@ class Multimedia : public MainMenuItem
     DrawableManager		_dmanager_backup;
     Table			*_table_video;
 
-    void			toggleMode();
+    void			toggleMode(bool video_mode);
     Drawable			*getDrawable(const std::string &name);
     void			applyChanges();
 

@@ -21,7 +21,7 @@ MainMenuItem::MainMenuItem(const std::string &name) :
 
   _y_content = HEIGHT + _rec.top + MARGIN * 2;
 
-  add(_menu);
+  add(_menu, "menu");
 }
 
 MainMenuItem::~MainMenuItem()

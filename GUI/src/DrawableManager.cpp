@@ -52,7 +52,12 @@ Drawable		*DrawableManager::forget(std::string name)
 
 Drawable		*DrawableManager::get(std::string name)
 {
-  return (_drawables[name]);
+  auto	drawable = _drawables.find(name);
+
+  if (drawable == _drawables.end())
+    return (NULL);
+
+  return (drawable->second);
 }
 
 void			DrawableManager::mouseCaught(int x, int y)
@@ -129,15 +134,21 @@ Drawable		*DrawableManager::getDrawableFocused()
   return (_drawable_focused);
 }
 
-// TODO - Map copy
 void			DrawableManager::switchDrawables(DrawableManager &manager)
 {
-  std::map<int, Drawable *>	forgot_drawables = _forgot_drawables;
-  std::map<std::string, Drawable *>	drawables = _drawables;
+  std::map<int, Drawable *>	forgot_drawables;
+  std::map<std::string, Drawable *>	drawables;
 
-  _forgot_drawables = manager._forgot_drawables;
-  _drawables = manager._drawables;
+  forgot_drawables.insert(_forgot_drawables.begin(), _forgot_drawables.end());
+  drawables.insert(_drawables.begin(), _drawables.end());
 
-  manager._forgot_drawables = forgot_drawables;
-  manager._drawables = drawables;
+  _forgot_drawables.clear();
+  _drawables.clear();
+  _forgot_drawables.insert(manager._forgot_drawables.begin(), manager._forgot_drawables.end());
+  _drawables.insert(manager._drawables.begin(), manager._drawables.end());
+
+  manager._forgot_drawables.clear();
+  manager._drawables.clear();
+  manager._forgot_drawables.insert(forgot_drawables.begin(), forgot_drawables.end());
+  manager._drawables.insert(drawables.begin(), drawables.end());
 }

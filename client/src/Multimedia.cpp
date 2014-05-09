@@ -14,7 +14,8 @@ Multimedia::Multimedia() :
   text->addCallback(std::bind(&Multimedia::applyChanges, this));
   text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
 	_menu->getRect().height + 8, 60, 26));
-  add(text);
+  add(text, "apply");
+  _dmanager_backup.add(text, "apply");
 
   CSimpleIniA	&ini = jag::getSettings();
 
@@ -22,8 +23,8 @@ Multimedia::Multimedia() :
   _menu->add(text);
   _menu->update();
 
-  text->addCallback([&] () { toggleMode(); });
-  _menu->getPressed()->addCallback([&] () { toggleMode(); });
+  text->addCallback([&] () { toggleMode(false); });
+  _menu->getPressed()->addCallback([&] () { toggleMode(true); });
 
   int	size_item = _rec.width / 2 - MARGIN * 2;
   int	x_half = _rec.left + _rec.width / 2 + MARGIN * 2;
@@ -55,7 +56,7 @@ Multimedia::Multimedia() :
     ss << i;
     list->add(new String(ss.str()));
 
-    // TODO - Clear ss
+    ss.str("");
   }
   list->setSelectedIndex(ini_value / 10);
   _dmanager_backup.add(list, "liMusic");
@@ -76,7 +77,7 @@ Multimedia::Multimedia() :
     ss << i;
     list->add(new String(ss.str()));
 
-    // TODO - Clear ss
+    ss.str("");
   }
   list->setSelectedIndex(ini_value / 10);
   _dmanager_backup.add(list, "liSFX");
@@ -116,6 +117,7 @@ Multimedia::Multimedia() :
 Multimedia::~Multimedia()
 {
   _dmanager_backup.forget("menu");
+  _dmanager_backup.forget("apply");
 }
 
 void			Multimedia::mouseReleased(int x, int y)
@@ -138,18 +140,22 @@ void			Multimedia::mouseLeft()
   Layer::mouseLeft();
 }
 
-void			Multimedia::toggleMode()
+void			Multimedia::toggleMode(bool video_mode)
 {
-  _video_mode = !_video_mode;
-  switchDrawables(_dmanager_backup);
+  if (_video_mode != video_mode)
+  {
+    _video_mode = video_mode;
+    switchDrawables(_dmanager_backup);
+  }
 }
 
 Drawable		*Multimedia::getDrawable(const std::string &name)
 {
-  Drawable	*drawable;
+  Drawable	*drawable = get(name);
 
-  if ((drawable = get(name)) == NULL)
+  if (drawable == NULL)
     drawable = _dmanager_backup.get(name);
+
   return (drawable);
 }
 
@@ -158,12 +164,10 @@ void			Multimedia::applyChanges()
   CSimpleIniA	&ini = jag::getSettings();
 
   ini.SetBoolValue(INI_GROUP, "video_fullscreen", ((CheckBox *) getDrawable("cbFullScreen"))->isChecked());
-  // ini.SetValue(INI_GROUP, "video_antialiasing",
-  //     ((String *)((ListItem *) getDrawable("liAA"))->getSelectedItem())->getString().toStdString());
-  // ini.SetValue(INI_GROUP, "video_resolution",
-  //     ((String *)((ListItem *) getDrawable("liResolution"))->getSelectedItem())->getString().toStdString());
-  // ini.SetValue(INI_GROUP, "audio_music",
-  //     ((String *)((ListItem *) getDrawable("liMusic"))->getSelectedItem())->getString().toStdString());
-  // ini.SetValue(INI_GROUP, "audio_sfx",
-  //     ((String *)((ListItem *) getDrawable("liSFX"))->getSelectedItem())->getString().toStdString());
+  ini.SetValue(INI_GROUP, "video_antialiasing", ((String *)((ListItem *) getDrawable("liAA"))->getSelectedItem())->getString().toAnsiString().c_str());
+  ini.SetValue(INI_GROUP, "video_resolution", ((String *)((ListItem *) getDrawable("liResolution"))->getSelectedItem())->getString().toAnsiString().c_str());
+  ini.SetValue(INI_GROUP, "audio_music", ((String *)((ListItem *) getDrawable("liMusic"))->getSelectedItem())->getString().toAnsiString().c_str());
+  ini.SetValue(INI_GROUP, "audio_sfx", ((String *)((ListItem *) getDrawable("liSFX"))->getSelectedItem())->getString().toAnsiString().c_str());
+
+  ini.SaveFile(INI_FILE);
 }
