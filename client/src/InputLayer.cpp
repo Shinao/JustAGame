@@ -11,6 +11,7 @@ InputLayer::Keys	InputLayer::_keys[NB_INPUT] = {
   {"key_right", "RIGHT", "Unknown"},
   {"key_down", "DOWN", "Unknown"},
   {"key_escape", "ESCAPE", "Unknown"},
+  {"key_escape", "SCORE", "Unknown"},
   {"key_boost", "BOOST", "Unknown"},
   {"key_slot1", "SLOT1", "Unknown"},
   {"key_slot2", "SLOT2", "Unknown"},

@@ -20,13 +20,6 @@ class DrawableManager
     std::map<int, Drawable *>	_forgot_drawables;
     std::map<std::string, Drawable *>	_drawables;
 
-    void				add(Drawable *drawable, std::string name);
-    // Stay indefinitively - Can't get it back
-    void				add(Drawable *drawable);
-    Drawable				*get(std::string name);
-    void				remove(std::string name);
-    Drawable				*forget(std::string name);
-
   public:
     DrawableManager();
     virtual ~DrawableManager();
@@ -37,7 +30,15 @@ class DrawableManager
     virtual void		mouseLeft();
     virtual void		mouseReleased(int x, int y);
 
+    void				add(Drawable *drawable, std::string name);
+    // Stay indefinitively - Can't get it back
+    void				add(Drawable *drawable);
+    Drawable				*get(std::string name);
+    void				remove(std::string name);
+    Drawable				*forget(std::string name);
+
     Drawable			*getDrawableFocused();
+    void			switchDrawables(DrawableManager &manager);
 };
 
 #endif

@@ -72,6 +72,25 @@ namespace jag
     theme->size_border_pressed = 3;
     _theme = theme;
 
+    // Transparent theme
+    theme = new Theme;
+    _themes["Transparent"] = theme;
+    *theme = *_themes["White"];
+    theme->c_background = sf::Color::Transparent;
+    theme->c_background_focused = sf::Color::Transparent;
+    theme->c_background_pressed = sf::Color::Transparent;
+    theme->c_text_focused = theme->c_text;
+    theme->c_text_pressed = theme->c_text;
+
+    // Checkbox theme
+    theme = new Theme;
+    _themes["CheckBoxTransparent"] = theme;
+    *theme = *_themes["Transparent"];
+    theme->c_border = blue_focus;
+    theme->c_border_focused = theme->c_border;
+    theme->c_border_pressed = theme->c_border;
+    theme->alignment = Alignment::Center;
+
     // Menu theme
     theme = new Theme;
     _themes["VerticalMenu"] = theme;
@@ -84,6 +103,10 @@ namespace jag
     theme = new Theme;
     _themes["CenteredMenu"] = theme;
     *theme = *_themes["White"];
+    theme->alignment = Alignment::Center;
+    theme = new Theme;
+    _themes["TransparentCenteredMenu"] = theme;
+    *theme = *_themes["Transparent"];
     theme->alignment = Alignment::Center;
 
     // Button theme
@@ -160,16 +183,6 @@ namespace jag
     theme->c_background_focused = theme->c_border;
     theme->c_border_focused = theme->c_background;
 
-    // Transparent theme
-    theme = new Theme;
-    _themes["Transparent"] = theme;
-    *theme = *_themes["White"];
-    theme->c_background = sf::Color::Transparent;
-    theme->c_background_focused = sf::Color::Transparent;
-    theme->c_background_pressed = sf::Color::Transparent;
-    theme->c_text_focused = theme->c_text;
-    theme->c_text_pressed = theme->c_text;
-
     // Ping theme
     theme = new Theme;
     _themes["Ping"] = theme;
@@ -183,12 +196,12 @@ namespace jag
     // ListItem
     theme = new Theme;
     _themes["ListItem"] = theme;
-    *theme = *_themes["White"];
-    theme->alignment = Alignment::Center;
+    *theme = *_themes["CheckBoxTransparent"];
+    theme->c_border_focused = blue_light;
 
     theme = new Theme;
     _themes["ItemListItem"] = theme;
-    *theme = *_themes["White"];
+    *theme = *_themes["Transparent"];
     theme->alignment = Alignment::Center;
 
     // Item setting (game, input..)

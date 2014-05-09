@@ -20,8 +20,8 @@ int		main()
 
 
   // Init ressources
-  Screen::init(Screen::Setting);
   jag::init();
+  Screen::init(Screen::Setting);
 
   new Background();
   new Titlebar();

@@ -66,7 +66,7 @@ GameLayer::GameLayer() :
   // Set the color
   CSimpleIniA	&ini = jag::getSettings();
   std::string color = ini.GetValue(INI_GROUP, "player_color", "FFFFFF");
-  _player_color = Utility::stringToColor(color);
+  Utility::stringToColor(_player_color, color);
   sprite->applyColor(_player_color);
   _tri_color_picker[0].color = _player_color;
   _tri_color_picker[1].color = _player_color;

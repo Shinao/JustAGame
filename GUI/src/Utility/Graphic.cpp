@@ -50,9 +50,8 @@ namespace Utility
       }
   }
 
-  sf::Color		stringToColor(const std::string &str)
+  void			stringToColor(sf::Color &color, const std::string &str)
   {
-    sf::Color		color;
     std::stringstream	ss(str);
     unsigned int	nb;
 
@@ -62,7 +61,5 @@ namespace Utility
     color.g = nb / 0x100 % 0x100;
     color.b = nb % 0x100;
     color.a = 255;
-
-    return (color);
   }
 }

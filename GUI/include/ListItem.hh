@@ -8,7 +8,7 @@
 # include "EventCallback.hh"
 
 // ListItem : Multiple item scrolling with arrows
-// The arrow used the theme of the text : focus if ListItem focus/pressed if arrow focused
+// The arrow used the theme of the border : arrow focus -> border pressed else border focused
 
 class ListItem : public Item
 {
@@ -37,6 +37,8 @@ class ListItem : public Item
     Item			*getSelectedItem();
     void			updateRectItem();
     void			setItemTheme(Theme *theme);
+    void			setSelectedItem(Item *item);
+    void			setSelectedIndex(int index);
 
     void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);

@@ -16,16 +16,17 @@ class CheckBox : public Item
     sf::RectangleShape		_border;
     sf::RectangleShape		_check;
 
-    static const int		CHECKBOX_SIZE = 10;
-    static const int		CHECKBOX_SPACE = 2;
-    static const int		CHECKBOX_PADDING = 8;
+    static const int		SIZE = 10;
+    static const int		SPACE = 2;
+    static const int		PADDING = 8;
 
   public:
-    CheckBox(String *item, Theme *theme = jag::getCurrentTheme(), float scale = 1.0f);
+    CheckBox(String *item, Theme *theme = jag::getTheme("CheckBoxTransparent"), float scale = 1.0f);
     ~CheckBox();
 
     // CheckBox
     bool			isChecked() const;
+    void			setChecked(bool checked);
 
     void			setRect(const Rect &rec);
     void			draw(sf::RenderWindow &win);

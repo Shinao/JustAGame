@@ -72,26 +72,13 @@ void			ListItem::designChanged()
   Item::designChanged();
 
   if (_arrow_left_focused)
-    _arrow_left.setFillColor(_theme->c_text_pressed);
+    _arrow_left.setFillColor(_theme->c_border_pressed);
   else if (_arrow_right_focused)
-    _arrow_right.setFillColor(_theme->c_text_pressed);
+    _arrow_right.setFillColor(_theme->c_border_pressed);
   else
   {
-    if (!_release && _pressed)
-    {
-      _arrow_left.setFillColor(_theme->c_text_focused);
-      _arrow_right.setFillColor(_theme->c_text_focused);
-    }
-    else if (_focused)
-    {
-      _arrow_left.setFillColor(_theme->c_text_focused);
-      _arrow_right.setFillColor(_theme->c_text_focused);
-    }
-    else
-    {
-      _arrow_left.setFillColor(_theme->c_text);
-      _arrow_right.setFillColor(_theme->c_text);
-    }
+    _arrow_left.setFillColor(_theme->c_border_focused);
+    _arrow_right.setFillColor(_theme->c_border_focused);
   }
 }
 
@@ -133,7 +120,7 @@ void			ListItem::setItemTheme(Theme *theme)
     item->setTheme(theme);
 }
 
-void		ListItem::mouseCaught(int x, int y)
+void			ListItem::mouseCaught(int x, int y)
 {
   Item::mouseCaught(x, y);
 
@@ -160,7 +147,7 @@ void		ListItem::mouseCaught(int x, int y)
   }
 }
 
-void		ListItem::mouseLeft()
+void			ListItem::mouseLeft()
 {
   _arrow_right_focused = false;
   _arrow_left_focused = false;
@@ -170,7 +157,7 @@ void		ListItem::mouseLeft()
   _items[_selected_item]->mouseLeft();
 }
 
-void		ListItem::mouseReleased(int x, int y)
+void			ListItem::mouseReleased(int x, int y)
 {
   Item::mouseReleased(x, y);
 
@@ -191,4 +178,20 @@ void		ListItem::mouseReleased(int x, int y)
   }
 
   _items[_selected_item]->mouseReleased(x, y);
+}
+
+void			ListItem::setSelectedItem(Item *item)
+{
+  for (unsigned i = 0; i < _items.size(); ++i)
+    if (item == _items[i])
+    {
+      setSelectedIndex(i);
+      return ;
+    }
+}
+
+void			ListItem::setSelectedIndex(int index)
+{
+  _selected_item = index;
+  updateRectItem();
 }

@@ -3,18 +3,20 @@
 
 CheckBox::CheckBox(String *string, Theme *theme, float scale) :
   Item(theme, scale),
-  _string(string)
+  _string(string),
+  _is_checked(false)
 {
   // Init check box
-  _border.setSize(sf::Vector2f(CHECKBOX_SIZE, CHECKBOX_SIZE));
+  _border.setSize(sf::Vector2f(SIZE, SIZE));
   _border.setFillColor(sf::Color::Transparent);
   _border.setOutlineThickness(1);
 
-  _check.setSize(sf::Vector2f(CHECKBOX_SIZE - CHECKBOX_SPACE * 2, CHECKBOX_SIZE - CHECKBOX_SPACE * 2));
+  _check.setSize(sf::Vector2f(SIZE - SPACE * 2, SIZE - SPACE * 2));
 }
 
 CheckBox::~CheckBox()
 {
+  delete _string;
 }
 
 bool			CheckBox::isChecked() const
@@ -58,47 +60,52 @@ Rect			CheckBox::getRectRessource() const
 {
   Rect rec = _rec;
 
-  rec.width = _string->getRect().width + CHECKBOX_SIZE + CHECKBOX_PADDING * 2;
+  rec.width = _string->getRect().width + SIZE + PADDING * 2;
   return (rec);
 }
 
 void			CheckBox::setRect(const Rect &rec)
 {
   Item::setRect(rec);
-
-  Rect srec = rec;
-  srec.left += CHECKBOX_SIZE + CHECKBOX_PADDING * 2;
-  srec.width -= CHECKBOX_SIZE - CHECKBOX_PADDING * 3;
-  _string->setRect(srec);
-  _border.setPosition(rec.left + CHECKBOX_PADDING, rec.top + rec.height / 2 - CHECKBOX_SIZE / 2 + 1);
-  _check.setPosition(rec.left + CHECKBOX_PADDING + CHECKBOX_SPACE, rec.top + rec.height / 2 - CHECKBOX_SIZE / 2 + CHECKBOX_SPACE + 1);
 }
 
-void		CheckBox::update()
+void			CheckBox::update()
 {
   designChanged();
+
+  Rect srec = _rec;
+  srec.left += SIZE + PADDING * 2;
+  srec.width -= SIZE - PADDING * 3;
+
+  _string->setRect(srec);
+  _border.setPosition(_rec.left + PADDING, _rec.top + _rec.height / 2 - SIZE / 2);
+  _check.setPosition(_rec.left + PADDING + SPACE, _rec.top + _rec.height / 2 - SIZE / 2 + SPACE);
 }
 
-void		CheckBox::mouseCaught(int x, int y)
+void			CheckBox::mouseCaught(int x, int y)
 {
   Item::mouseCaught(x, y);
 
   _string->mouseCaught(x, y);
 }
 
-void		CheckBox::mouseLeft()
+void			CheckBox::mouseLeft()
 {
   Item::mouseLeft();
 
   _string->mouseLeft();
 }
 
-void		CheckBox::mouseReleased(int x, int y)
+void			CheckBox::mouseReleased(int x, int y)
 {
-
-  _string->mouseReleased(x, y);
   Item::mouseReleased(x, y);
+  _string->mouseReleased(x, y);
+
   // Toggle checking
   _is_checked = !_is_checked;
 }
 
+void			CheckBox::setChecked(bool checked)
+{
+  _is_checked = checked;
+}

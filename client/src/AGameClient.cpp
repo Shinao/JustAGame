@@ -26,7 +26,7 @@ bool			AGameClient::init()
 
   _player_name = ini.GetValue(INI_GROUP, "player_name", "");
   std::string	color = ini.GetValue(INI_GROUP, "player_color", "FFFFFF");
-  _player_color = Utility::stringToColor(color);
+  Utility::stringToColor(_player_color, color);
 
   // Send Player Info to Server
   ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayerInfo, Network::Reliable);

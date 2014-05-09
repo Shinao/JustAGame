@@ -30,7 +30,7 @@ namespace jag
   const int			FPSTime = 1000 / 60;
   const int			MarginFPS = 4;
   const int			WindowBorderSize = 1;
-  const int			MarginMenu = 64;
+  const int			MarginMenu = 84;
 
 
   void				init();

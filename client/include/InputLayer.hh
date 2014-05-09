@@ -10,7 +10,7 @@
 class InputLayer : public MainMenuItem, public EventCallback
 {
   private:
-    static const int		NB_INPUT = 13;
+    static const int		NB_INPUT = 14;
 
     static struct Keys
     {

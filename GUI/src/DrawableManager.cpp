@@ -128,3 +128,16 @@ Drawable		*DrawableManager::getDrawableFocused()
 {
   return (_drawable_focused);
 }
+
+// TODO - Map copy
+void			DrawableManager::switchDrawables(DrawableManager &manager)
+{
+  std::map<int, Drawable *>	forgot_drawables = _forgot_drawables;
+  std::map<std::string, Drawable *>	drawables = _drawables;
+
+  _forgot_drawables = manager._forgot_drawables;
+  _drawables = manager._drawables;
+
+  manager._forgot_drawables = forgot_drawables;
+  manager._drawables = drawables;
+}

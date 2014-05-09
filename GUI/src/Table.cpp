@@ -11,22 +11,22 @@ Table::~Table()
 {
 }
 
-void			Table::draw(sf::RenderWindow &win)
+void				Table::draw(sf::RenderWindow &win)
 {
   Drawable::draw(win);
   DrawableManager::draw(win);
 }
 
-void			Table::designChanged()
+void				Table::designChanged()
 {
 }
 
-void			Table::update()
+void				Table::update()
 {
   designChanged();
 }
 
-void			Table::addRow(const std::vector<Item *> &items)
+void				Table::addRow(const std::vector<Item *> &items)
 {
   for (unsigned i = 0; i < items.size(); ++i)
   {
@@ -35,7 +35,7 @@ void			Table::addRow(const std::vector<Item *> &items)
   }
 }
 
-void			Table::init(int nb_column)
+void				Table::init(int nb_column)
 {
   Menu	*menu;
   int	width = _rec.width / nb_column;
@@ -58,45 +58,61 @@ void			Table::init(int nb_column)
   {
     menu->addItemsCallback([&, menu](){
 	for (auto menu_other : _menus)
+	{
+	   if (menu_other == menu)
+	     continue ;
 	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Focused);
+	}
     }, Drawable::Focused);
 
     menu->addItemsCallback([&, menu](){
 	for (auto menu_other : _menus)
+	{
+	   if (menu_other == menu)
+	     continue ;
 	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Unfocused);
+	}
     }, Drawable::Unfocused);
 
     menu->addItemsCallback([&, menu](){
 	for (auto menu_other : _menus)
+	{
+	   if (menu_other == menu)
+	     continue ;
 	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Pressed);
+	}
     }, Drawable::Pressed);
 
     menu->addItemsCallback([&, menu](){
 	for (auto menu_other : _menus)
+	{
+	   if (menu_other == menu)
+	     continue ;
 	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Released);
+	}
     }, Drawable::Released);
   }
 }
 
-void		Table::mouseCaught(int x, int y)
+void				Table::mouseCaught(int x, int y)
 {
   Drawable::mouseCaught(x, y);
   DrawableManager::mouseCaught(x, y);
 }
 
-void		Table::mouseLeft()
+void				Table::mouseLeft()
 {
   Drawable::mouseLeft();
   DrawableManager::mouseLeft();
 }
 
-void		Table::mouseReleased(int x, int y)
+void				Table::mouseReleased(int x, int y)
 {
   Drawable::mouseReleased(x, y);
   DrawableManager::mouseReleased(x, y);
 }
 
-void		Table::setRect(const Rect &rec)
+void				Table::setRect(const Rect &rec)
 {
   Drawable::setRect(rec);
 
@@ -110,7 +126,7 @@ void		Table::setRect(const Rect &rec)
   }
 }
 
-Rect		Table::getRect() const
+Rect				Table::getRect() const
 {
   Rect rec = _rec;
 
@@ -118,12 +134,23 @@ Rect		Table::getRect() const
   return (rec);
 }
 
-Item		*Table::getSelectedItem(int row)
+Item				*Table::getSelectedItem(int row)
 {
   return (_menus[row]->getPressed());
 }
 
-int		Table::getSelectedIndex() const
+int				Table::getSelectedIndex() const
 {
   return (_menus[0]->getSelectedIndex());
+}
+
+void				Table::unselect()
+{
+  int	index = _menus[0]->getSelectedIndex();
+
+  if (index != -1)
+  {
+    for (auto menu : _menus)
+      menu->setIndexState(index, Drawable::Released);
+  }
 }
