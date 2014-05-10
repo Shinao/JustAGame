@@ -60,9 +60,10 @@ Test::Test() :
   table->addRow(items);
   add(table);
 
-  ListItem *list = new ListItem(new String("Seewww"), jag::getTheme("ListItem"));
+  ListItem *list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(460, _rec.top + 250, 100, 50));
+  list->add(new String("Sewwwww"));
   list->add(new String("test"));
   list->add(new String("DASDASDASDASdasdasd"));
   add(list);

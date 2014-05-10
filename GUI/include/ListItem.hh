@@ -9,6 +9,7 @@
 
 // ListItem : Multiple item scrolling with arrows
 // The arrow used the theme of the border : arrow focus -> border pressed else border focused
+// Add at least one element before drawing a ListItem : It shouldn't be empty
 
 class ListItem : public Item
 {
@@ -28,7 +29,7 @@ class ListItem : public Item
     static const int		ARROW_PADDING = 4;
 
   public:
-    ListItem(Item *item, Theme *theme = jag::getTheme("Button"), float scale = 1.0f);
+    ListItem(Theme *theme = jag::getTheme("Button"), float scale = 1.0f);
     ~ListItem();
 
     // ListItem

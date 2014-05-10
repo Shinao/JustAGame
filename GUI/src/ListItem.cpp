@@ -1,7 +1,7 @@
 #include "ListItem.hh"
 #include <iostream>
 
-ListItem::ListItem(Item *item, Theme *theme, float scale) :
+ListItem::ListItem(Theme *theme, float scale) :
   Item(theme, scale),
   _selected_item(0),
   _arrow_left_focused(false),
@@ -20,9 +20,6 @@ ListItem::ListItem(Item *item, Theme *theme, float scale) :
   _arrow_right.setPoint(1, sf::Vector2f(0, ARROW_SIZE));
   _arrow_right.setPoint(2, sf::Vector2f(ARROW_SIZE, ARROW_SIZE / 2));
   _arrow_right.setFillColor(sf::Color::Black);
-
-  add(item);
-  update();
 }
 
 ListItem::~ListItem()
@@ -45,6 +42,10 @@ void			ListItem::add(Item *item)
 
   if (_item_theme != NULL)
     item->setTheme(_item_theme);
+
+  // First element : update
+  if (_items.size() == 1)
+    updateRectItem();
 }
 
 void			ListItem::draw(sf::RenderWindow &win)
@@ -91,7 +92,11 @@ Rect			ListItem::getRectRessource() const
 {
   Rect rec = _rec;
 
-  rec.width = _items[_selected_item]->getRect().width + ARROW_SIZE * 2 + ARROW_PADDING * 2;
+  rec.width = ARROW_SIZE * 2 + ARROW_PADDING * 2;
+
+  if (_items.size())
+    rec.width += _items[_selected_item]->getRect().width;
+
   return (rec);
 }
 
@@ -109,7 +114,9 @@ void			ListItem::updateRectItem()
   Rect rrec = getRectRessource();
   rrec.left = _rec.left + ARROW_SIZE;
   rrec.width = _rec.width - (ARROW_SIZE) * 2;
-  _items[_selected_item]->setRect(rrec);
+
+  if (_items.size())
+    _items[_selected_item]->setRect(rrec);
 }
 
 void			ListItem::setItemTheme(Theme *theme)

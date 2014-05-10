@@ -46,12 +46,12 @@ Multimedia::Multimedia() :
   text->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
   _dmanager_backup.add(text);
 
-  ListItem	*list = new ListItem(new String("0"), jag::getTheme("ListItem"));
+  ListItem	*list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   std::stringstream	ss;
   int			ini_value = ini.GetLongValue(INI_GROUP, "audio_music", 100);
-  for (int i = 10; i <= 100; i = i + 10)
+  for (int i = 0; i <= 100; i = i + 10)
   {
     ss << i;
     list->add(new String(ss.str()));
@@ -68,15 +68,14 @@ Multimedia::Multimedia() :
   text->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
   _dmanager_backup.add(text);
 
-  list = new ListItem(new String("0"), jag::getTheme("ListItem"));
+  list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   ini_value = ini.GetLongValue(INI_GROUP, "audio_sfx", 100);
-  for (int i = 10; i <= 100; i = i + 10)
+  for (int i = 0; i <= 100; i = i + 10)
   {
     ss << i;
     list->add(new String(ss.str()));
-
     ss.str("");
   }
   list->setSelectedIndex(ini_value / 10);
@@ -87,11 +86,24 @@ Multimedia::Multimedia() :
   text->setRect(Rect(_rec.left, y, size_item, 32));
   add(text);
 
-  list = new ListItem(new String("Seewww"), jag::getTheme("ListItem"));
+  list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
-  list->add(new String("test"));
-  list->add(new String("DASDASDASDASdasdasd"));
+  auto &modes = sf::VideoMode::getFullscreenModes();
+  std::string	res = ini.GetValue(INI_GROUP, "video_resolution", "");
+  for (std::size_t i = 0; i < modes.size(); ++i)
+  {
+    if (i != 0 && modes[i - 1].bitsPerPixel != modes[i].bitsPerPixel)
+      break ;
+
+    ss << modes[i].width << "x" << modes[i].height;
+    list->add(new String(ss.str()));
+
+    if (ss.str() == res)
+      list->setSelectedIndex(i);
+
+    ss.str("");
+  }
   add(list, "liResolution");
 
   y += Input::HEIGHT + MARGIN / 2;
@@ -100,18 +112,20 @@ Multimedia::Multimedia() :
   text->setRect(Rect(_rec.left, y, size_item, 32));
   add(text);
 
-  list = new ListItem(new String("0"), jag::getTheme("ListItem"));
+  list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
   list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
-  list->add(new String("2"));
-  list->add(new String("4"));
-  list->add(new String("8"));
+  ini_value = ini.GetLongValue(INI_GROUP, "video_antialiasing", 0);
+  for (int i = 0; i <= 8; i = i + 2)
+  {
+    ss << i;
+    list->add(new String(ss.str()));
+    ss.str("");
+  }
+  list->setSelectedIndex(ini_value / 2);
   add(list, "liAA");
 
   _dmanager_backup.add(_menu, "menu");
-
-  y += Input::HEIGHT + MARGIN / 2;
-  // Audio Mode
 }
 
 Multimedia::~Multimedia()
