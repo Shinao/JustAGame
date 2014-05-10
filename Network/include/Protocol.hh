@@ -81,8 +81,9 @@ namespace Network
   const int		MAX_SEQUENCE = 2 ^ (sizeof(Sequence) * 8);
   const int		ACKFIELD_SIZE = sizeof(AcknowledgeField) * 8;
 
-  const int		CLIENT_PORT = 52025;
   const int		SERVER_PORT = 25052;
+  // Can be different to have multiple client on same computer
+  const int		CLIENT_PORT = 52025;
 }
 
 #endif

@@ -501,7 +501,6 @@ namespace		Network
   bool			init(int port, int is_server)
   {
     _is_server = is_server;
-    _running = true;
 
     // Listen
     if (_udp_socket.bind(port) != sf::Socket::Done)
@@ -528,6 +527,7 @@ namespace		Network
       addRequest(Request::UDPEstablished, std::bind(&UDPEstablished, _1));
     }
 
+    _running = true;
 
     // Launch listening thread
     _thread = new sf::Thread(&listening_thread);
@@ -538,6 +538,10 @@ namespace		Network
 
   void			clear()
   {
+    // Network not started
+    if (!_running)
+      return ;
+
     // Waiting for thread
     _running = false;
     // Force listener to unwait

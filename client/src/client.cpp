@@ -13,7 +13,8 @@
 #include "Test.hh"
 
 // Once upon a main
-int		main()
+// Arg : can take a port number for multiple client on same machine
+int		main(int ac, char **av)
 {
   sf::Clock	timer;
   sf::Time	sleeping_time = sf::milliseconds(jag::FPSTime - jag::MarginFPS);
@@ -28,8 +29,9 @@ int		main()
   new MainMenu();
   new StatusBar();
 
+  int	port = (ac > 1 ? std::atoi(av[1]) : Network::CLIENT_PORT);
   // Init network and check
-  if (!Network::init(Network::CLIENT_PORT, false))
+  if (!Network::init(port, false))
     new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
 
   // TODO - Remove
