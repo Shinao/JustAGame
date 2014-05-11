@@ -256,27 +256,27 @@ namespace		Network
       RequestID	id;
       *info >> id;
 
-      // Client - Check for broadcast response
-      if (!_is_server)
+      if (_is_server)
       {
-	if (id == Request::Allo)
+	// Server Unconnected
+	// Client try to establish the udp connection
+	if (id == Request::UDPEstablished)
+	  ClientUDPEstablished(*info);
+	// Client asked for server - We are here ! (if server)
+	else if (_is_server && id == Request::Allo)
 	{
-	  if (_cb_server_available)
-	    _cb_server_available(*info);
+	  if (_cb_client_asking)
+	  _cb_client_asking(*info);
 	}
 
 	return ;
       }
 
-      // Server Unconnected
-      // Client try to establish the udp connection
-      if (id == Request::UDPEstablished)
-	ClientUDPEstablished(*info);
-      // Client asked for server - We are here ! (if server)
-      else if (_is_server && id == Request::Allo)
+      // Client - Check for broadcast response
+      if (id == Request::Allo)
       {
-	if (_cb_client_asking)
-	  _cb_client_asking(*info);
+	if (_cb_server_available)
+	  _cb_server_available(*info);
       }
     }
 

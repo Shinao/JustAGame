@@ -5,7 +5,7 @@
 
 // AGameClient - Interface to implement for creating a game client
 // When implementing a virtual member function non pure, make sure to call the parent
-// Use SetServer first before init
+// Use setServer first before init
 // Function order : AGameClient() -> init() -> initGame() -> run()
 
 # define INI_GROUP	"client"
@@ -26,6 +26,7 @@ class AGameClient
     virtual ~AGameClient();
 
     void			setServer(Client *server);
+    // Ini settings principally
     virtual bool		init();
     virtual void		exit();
     bool			isRunning() const;
@@ -36,7 +37,7 @@ class AGameClient
 
     // Called every frame
     virtual void		update() = 0;
-    // Get Infos from server (Players data, map, ...) - If waiting for another packet : return false
+    // Waiting Infos from server (Players data, map, ...) - if waiting : return false
     virtual bool		initGame(ProtocoledPacket &packet) = 0;
 };
 

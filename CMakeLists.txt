@@ -14,6 +14,7 @@ set (INC_DIR
   SimpleIni/
   )
 
+
 # Specific include Windows/Linux
 if (WIN32)
   list (APPEND INC_DIR LibraryLoader/include/Win32)
@@ -90,3 +91,13 @@ add_executable (server ${SERVER_SRC})
 # Link libraries
 target_link_libraries (server network)
 target_link_libraries (server libraryloader)
+
+
+
+### Games
+# Search for all CMakeLists.txt in Games and add them to our calling process
+FILE (GLOB_RECURSE CMAKEFILES Games/CMakeLists.txt)
+FOREACH (file_path ${CMAKEFILES})
+  GET_FILENAME_COMPONENT (dir_path ${file_path} PATH)
+  add_subdirectory (${dir_path})
+ENDFOREACH ()

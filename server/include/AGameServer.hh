@@ -26,6 +26,7 @@ class AGameServer
     std::string			_admin_password;
     int				_maximum_players;
 
+    
   public:
     virtual ~AGameServer();
 
