@@ -23,6 +23,7 @@ MainMenu::MainMenu() :
   text->addCallback(std::bind(&MainMenu::cbServer, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
+  _menu->setPressed(text);
   text = new String("GAME");
   text->addCallback(std::bind(&MainMenu::cbGame, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
@@ -35,7 +36,6 @@ MainMenu::MainMenu() :
   text->addCallback(std::bind(&MainMenu::cbMultimedia, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);
   _menu->add(text);
-  _menu->setPressed(text);
   text = new String("ABOUT");
   text->addCallback(std::bind(&MainMenu::cbAbout, this));
   text->addCallback(std::bind(&MainMenu::cbReleased, this), Item::Released);

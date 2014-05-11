@@ -96,8 +96,8 @@ void			Menu::mouseReleased(int x, int y)
     if (_item_pressed != NULL && _item_pressed != _item_focused)
     {
       _item_pressed->released();
-    if (_cb_item_released)
-      _cb_item_released();
+      if (_cb_item_released)
+	_cb_item_released();
     }
 
     _item_focused->mouseReleased(x, y);

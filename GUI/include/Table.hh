@@ -7,13 +7,19 @@
 # include <vector>
 
 // Table : multi menu
+// Use addItemCallback to check for an items event not addCallback since its for his own drawable
 
 class Table : public Drawable, public DrawableManager
 {
   private:
     std::vector<Menu *>		_menus;
+    CallbackGui			_cb_item_focused;
+    CallbackGui			_cb_item_unfocused;
+    CallbackGui			_cb_item_pressed;
+    CallbackGui			_cb_item_released;
 
     void			init(int nb_column);
+    void			reflectMenu(Menu *menu, Drawable::State state);
 
   public:
     Table(int nb_row, Theme *theme = jag::getCurrentTheme());
@@ -30,6 +36,7 @@ class Table : public Drawable, public DrawableManager
     Item			*getSelectedItem(int row);
     int				getSelectedIndex() const;
     void			unselect();
+    void			addItemsCallback(CallbackGui cb, State state);
 
     // Event
     virtual void		mouseCaught(int x, int y);

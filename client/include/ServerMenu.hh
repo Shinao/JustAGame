@@ -5,12 +5,16 @@
 # include "Layer.hh"
 # include "Menu.hh"
 # include "MainMenuItem.hh"
+# include "Table.hh"
 
 class ServerMenu : public Layer
 {
   private:
     Menu			*_menu;
     bool			_internet;
+    Table			*_table;
+
+    void			serverSelected();
 
   public:
     ServerMenu();

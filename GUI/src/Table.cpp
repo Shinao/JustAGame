@@ -56,42 +56,36 @@ void				Table::init(int nb_column)
   // Add event for each menu - One event to rull them ALL
   for (auto menu : _menus)
   {
-    menu->addItemsCallback([&, menu](){
-	for (auto menu_other : _menus)
-	{
-	   if (menu_other == menu)
-	     continue ;
-	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Focused);
-	}
-    }, Drawable::Focused);
-
-    menu->addItemsCallback([&, menu](){
-	for (auto menu_other : _menus)
-	{
-	   if (menu_other == menu)
-	     continue ;
-	    menu_other->setIndexState(menu->getIndex(menu->getFocused()), Drawable::Unfocused);
-	}
-    }, Drawable::Unfocused);
-
-    menu->addItemsCallback([&, menu](){
-	for (auto menu_other : _menus)
-	{
-	   if (menu_other == menu)
-	     continue ;
-	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Pressed);
-	}
-    }, Drawable::Pressed);
-
-    menu->addItemsCallback([&, menu](){
-	for (auto menu_other : _menus)
-	{
-	   if (menu_other == menu)
-	     continue ;
-	    menu_other->setIndexState(menu->getIndex(menu->getPressed()), Drawable::Released);
-	}
-    }, Drawable::Released);
+    reflectMenu(menu, Focused);
+    reflectMenu(menu, Unfocused);
+    reflectMenu(menu, Pressed);
+    reflectMenu(menu, Released);
   }
+}
+
+// TODO - Problem focus unfocus same item
+void				Table::reflectMenu(Menu *menu, State state)
+{
+  menu->addItemsCallback([&, menu, state](){
+    for (auto menu_other : _menus)
+    {
+    	// Don't call our callback caller (mindfuck)
+    	if (menu_other == menu)
+     	  continue ;
+
+	Item *item = ((state == Focused || state == Unfocused) ? menu->getFocused() : menu->getPressed());
+     	menu_other->setIndexState(menu->getIndex(item), state);
+    }
+
+    if (state == Focused && _cb_item_focused)
+    _cb_item_focused();
+    else if (state == Unfocused && _cb_item_unfocused)
+    _cb_item_unfocused();
+    else if (state == Pressed && _cb_item_pressed)
+    _cb_item_pressed();
+    else if (_cb_item_released)
+    _cb_item_released();
+  }, state);
 }
 
 void				Table::mouseCaught(int x, int y)
@@ -151,6 +145,18 @@ void				Table::unselect()
   if (index != -1)
   {
     for (auto menu : _menus)
-      menu->setIndexState(index, Drawable::Released);
+      menu->setIndexState(index, Released);
   }
+}
+
+void				Table::addItemsCallback(CallbackGui cb, State state)
+{
+  if (state == Focused)
+    _cb_item_focused = cb;
+  else if (state == Unfocused)
+    _cb_item_unfocused = cb;
+  else if (state == Pressed)
+    _cb_item_pressed = cb;
+  else
+    _cb_item_released = cb;
 }

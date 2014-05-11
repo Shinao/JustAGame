@@ -1,10 +1,10 @@
 #include "ServerMenu.hh"
 #include "Screen.hh"
 #include "String.hh"
-#include "Table.hh"
 #include "ModalMessageBox.hh"
 #include "Titlebar.hh"
 #include "MainMenuItem.hh"
+#include "LibraryLoader.hh"
 #include <sstream>
 
 ServerMenu::ServerMenu() :
@@ -34,16 +34,32 @@ ServerMenu::ServerMenu() :
 	_menu->getRect().height + 8, 60, 26));
   add(text);
 
-  Table		*table = new Table(4);
+  _table = new Table(4);
   Rect rec_btn = text->getRect();
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
-  table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
-  add(table, "table_local");
+  _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
+  using namespace std::placeholders;
+  _table->addItemsCallback(std::bind(&ServerMenu::serverSelected, this), Drawable::Pressed);
+  add(_table, "table");
 
   _menu->update();
 
   add(_menu, "menu");
+
+  // TODO - Remove
+  std::vector<Item *>	items;
+  items.push_back(new String("Private"));
+  items.push_back(new String("TestServer"));
+  items.push_back(new String("TicTacToe"));
+  items.push_back(new String("0/2"));
+  _table->addRow(items);
+  items.clear();
+  items.push_back(new String("Public"));
+  items.push_back(new String("OBlaalall aalla"));
+  items.push_back(new String("Nope"));
+  items.push_back(new String("10/20"));
+  _table->addRow(items);
 }
 
 ServerMenu::~ServerMenu()
@@ -74,7 +90,7 @@ void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
   items.push_back(new String(name));
   items.push_back(new String(game_mode));
   items.push_back(new String(ss.str()));
-  ((Table *) _drawables["table_local"])->addRow(items);
+  _table->addRow(items);
 }
 
 void			ServerMenu::mouseReleased(int x, int y)
@@ -90,4 +106,14 @@ void			ServerMenu::mousePressed(int x, int y)
 
   if (getDrawableFocused() == NULL)
     Screen::setMoving(true);
+}
+
+void			ServerMenu::serverSelected()
+{
+  Item	*item = _table->getSelectedItem(0);
+
+  // Get Library from game name and load it
+  // LibraryLoader	lib(game_mode, "Games/");
+  // if (!lib.open())
+  //   return (error("Could not open library : " + lib.getFullPath()));
 }
