@@ -11,6 +11,7 @@ Wow. So powerful.
 ```
 cmake . && make && ./justagame
 ```
+Tried on Windows 7 MinGW / Linux Debian
 
 ####Dependencies
 
