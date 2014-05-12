@@ -40,6 +40,8 @@ bool			AGameServer::isRunning() const
 void			AGameServer::run()
 {
   _running = true;
+
+  std::cout << "Server is running" << std::endl;
 }
 
 void			AGameServer::exit()
@@ -54,12 +56,16 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
   *response << _name << _game_mode << hasPassword() << (sf::Uint8) Network::getClients().size()
     << (sf::Uint8) _maximum_players;
   Network::send(response, packet.getClient()->getIp(), Network::CLIENT_PORT);
+
+  std::cout << "Computer asked for servers" << std::endl;
 }
 
 // Create a new player and link it to the client before calling this method
 void			AGameServer::playerJoined(ProtocoledPacket &packet)
 {
   packet.getClient()->getPlayer()->setId(packet.getClient()->getId());
+
+  std::cout << "Client connected to server" << std::endl;
 }
 
 // Call at the beginning
@@ -80,6 +86,8 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
   sf::Packet	new_packet;
   new_packet << packet.getClient()->getId() << name << color.r << color.g << color.b;
   Network::sendToClients(Request::PlayerJoined, Network::Reliable, new_packet);
+
+  std::cout << "Player joined the game" << std::endl;
 }
 
 // Send to all clients the player who left (Boooh!)
@@ -91,5 +99,7 @@ void			AGameServer::playerLeft(ProtocoledPacket &packet)
     sf::Packet	new_packet;
     new_packet << packet.getClient()->getId();
     Network::sendToClients(Request::PlayerLeft, Network::Reliable, new_packet);
+
+    std::cout << "Player left the game" << std::endl;
   }
 }

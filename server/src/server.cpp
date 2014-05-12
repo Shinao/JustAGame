@@ -31,15 +31,19 @@ int		main()
   if (game_mode.empty())
     return (error("Game name does not exist"));
 
+  std::string	lib_name = game_mode + "_server";
+
   // Get Library from game name and load it
-  LibraryLoader	lib(game_mode, "Games/");
+  LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
   if (!lib.open())
     return (error("Could not open library : " + lib.getFullPath()));
 
   // Get the game
-  AGameServer	*game = (AGameServer *) lib.getFunction("getGame");
-  if (game == NULL)
-    return (error("Library is corrupted, missing function getGame - see extern \"C\""));
+  typedef AGameServer *(*f_getGame)();
+  f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
+  if (func_ptr == NULL)
+    return (error("Library is corrupted, missing function getGame() - see extern \"C\""));
+  AGameServer	*game = func_ptr();
 
   if (!game->init(ini))
     return (error("Init of GameServer failed : check " INI_FILE));

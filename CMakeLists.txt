@@ -12,6 +12,8 @@ set (INC_DIR
   Network/include
   GUI/include
   SimpleIni/
+  Games/client/include
+  Games/server/include
   )
 
 

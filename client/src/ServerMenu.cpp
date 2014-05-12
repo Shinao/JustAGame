@@ -113,7 +113,11 @@ void			ServerMenu::serverSelected()
   Item	*item = _table->getSelectedItem(0);
 
   // Get Library from game name and load it
-  // LibraryLoader	lib(game_mode, "Games/");
-  // if (!lib.open())
-  //   return (error("Could not open library : " + lib.getFullPath()));
+  LibraryLoader	lib("TicTacToe", "Games/TicTacToe/");
+  if (!lib.open())
+  {
+    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not open library : " + lib.getFullPath()));
+    msg->addButton("Back");
+    return ;
+  }
 }
