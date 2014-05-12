@@ -14,3 +14,7 @@
 
 *.exe
 *.dll
+Makefile
+CMakeFiles
+CMakeCache.txt
+cmake_install*

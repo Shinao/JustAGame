@@ -10,7 +10,7 @@
 // Because fuck static class
 // Init at first - clear at the end
 
-# define INI_FILE	"client.ini"
+# define INI_FILE	"rsrc/client.ini"
 # define INI_GROUP	"client"
 
 typedef sf::Rect<int> Rect;

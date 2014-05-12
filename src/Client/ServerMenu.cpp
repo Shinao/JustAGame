@@ -144,5 +144,4 @@ void			ServerMenu::serverSelected()
   }
 
   game->run();
-
 }

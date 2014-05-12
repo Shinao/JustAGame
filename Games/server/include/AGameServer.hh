@@ -9,7 +9,7 @@
 // When implementing playerInitialized - Send a Request::initGame with all the infos
 
 # define INI_GROUP	"server"
-# define INI_FILE	"server.ini"
+# define INI_FILE	"rsrc/server.ini"
 
 class AGameServer
 {
