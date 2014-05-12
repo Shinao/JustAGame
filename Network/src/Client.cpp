@@ -164,3 +164,8 @@ APlayer				*Client::getPlayer()
 {
   return (_player);
 }
+
+void				Client::setPlayer(APlayer *player)
+{
+  _player = player;
+}

@@ -5,6 +5,7 @@
 #include "Titlebar.hh"
 #include "MainMenuItem.hh"
 #include "LibraryLoader.hh"
+#include "AGameClient.hh"
 #include <sstream>
 
 ServerMenu::ServerMenu() :
@@ -112,12 +113,36 @@ void			ServerMenu::serverSelected()
 {
   Item	*item = _table->getSelectedItem(0);
 
+  std::string	game_mode = "TicTacToe";
+  std::string	lib_name = game_mode + "_client";
+
   // Get Library from game name and load it
-  LibraryLoader	lib("TicTacToe", "Games/TicTacToe/");
+  LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
   if (!lib.open())
   {
     ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not open library : " + lib.getFullPath()));
     msg->addButton("Back");
     return ;
   }
+
+  // Get the game
+  typedef AGameClient *(*f_getGame)();
+  f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
+  if (func_ptr == NULL)
+  {
+    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Library corrupted : " + lib.getFullPath()));
+    msg->addButton("Back");
+    return ;
+  }
+
+  AGameClient	*game = func_ptr();
+  if (!game->init())
+  {
+    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not init the game - Check client.ini"));
+    msg->addButton("Back");
+    return ;
+  }
+
+  game->run();
+
 }

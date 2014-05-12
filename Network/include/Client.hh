@@ -65,6 +65,7 @@ class Client
     std::map<Sequence, ProtocoledPacket *>	&getWaitingPackets();
 
     APlayer				*getPlayer();
+    void				setPlayer(APlayer *player);
 };
 
 #endif
