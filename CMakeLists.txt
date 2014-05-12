@@ -7,11 +7,11 @@ list (APPEND CMAKE_CXX_FLAGS "-std=gnu++0x -Wall -Wextra -pthread")
 
 ### Include directories
 set (INC_DIR
-  Client/include
-  Server/include
-  Network/include
-  GUI/include
-  SimpleIni/
+  include/Client
+  include/Server
+  include/Network
+  include/GUI
+  include/SimpleIni
   Games/client/include
   Games/server/include
   )
@@ -19,9 +19,9 @@ set (INC_DIR
 
 # Specific include Windows/Linux
 if (WIN32)
-  list (APPEND INC_DIR LibraryLoader/include/Win32)
+  list (APPEND INC_DIR include/LibraryLoader/Win32)
 else (WIN32)
-  list (APPEND INC_DIR LibraryLoader/include/Unix)
+  list (APPEND INC_DIR include/LibraryLoader/Unix)
 endif (WIN32)
 
 include_directories (${INC_DIR})
@@ -30,7 +30,7 @@ include_directories (${INC_DIR})
 
 ### Library network
 project (network)
-file (GLOB_RECURSE NETWORK_SRC Network/src/*.cpp) 
+file (GLOB_RECURSE NETWORK_SRC src/Network/*.cpp) 
 add_library (network SHARED ${NETWORK_SRC})
 # Link SFML & Posix Thread
 target_link_libraries (network sfml-network)
@@ -42,14 +42,14 @@ target_link_libraries (network pthread)
 
 ### Library GUI
 project (gui)
-file (GLOB_RECURSE GUI_SRC GUI/src/*.cpp) 
+file (GLOB_RECURSE GUI_SRC src/GUI/*.cpp) 
 
 # Specific implementation Windows/Linux
 if (WIN32)
-  file (GLOB_RECURSE SRC_UNIX GUI/src/Unix/*.cpp) 
+  file (GLOB_RECURSE SRC_UNIX src/GUI/Unix/*.cpp) 
   list (REMOVE_ITEM GUI_SRC ${SRC_UNIX})
 else (WIN32)
-  file (GLOB_RECURSE SRC_WIN GUI/src/Win32/*.cpp) 
+  file (GLOB_RECURSE SRC_WIN src/GUI/Win32/*.cpp) 
   list (REMOVE_ITEM GUI_SRC ${SRC_WIN})
 endif (WIN32)
 
@@ -65,9 +65,9 @@ target_link_libraries (gui sfml-window)
 project (libraryloader)
 # Specific implementation Windows/Linux
 if (WIN32)
-  file (GLOB_RECURSE SRC_LIBRARYLOADER LibraryLoader/src/Win32/*.cpp) 
+  file (GLOB_RECURSE SRC_LIBRARYLOADER src/LibraryLoader/Win32/*.cpp) 
 else (WIN32)
-  file (GLOB_RECURSE SRC_LIBRARYLOADER LibraryLoader/src/Unix/*.cpp) 
+  file (GLOB_RECURSE SRC_LIBRARYLOADER src/LibraryLoader/Unix/*.cpp) 
 endif (WIN32)
 add_library (libraryloader SHARED ${SRC_LIBRARYLOADER})
 
@@ -75,7 +75,7 @@ add_library (libraryloader SHARED ${SRC_LIBRARYLOADER})
 
 ### Client - JustAGame
 project (justagame)
-file (GLOB_RECURSE CLIENT_SRC Client/src/*.cpp) 
+file (GLOB_RECURSE CLIENT_SRC src/Client/*.cpp) 
 add_executable (justagame ${CLIENT_SRC})
 
 # Link libraries
@@ -87,7 +87,7 @@ target_link_libraries (justagame libraryloader)
 
 ### Server - JustAGame
 project (server)
-file (GLOB_RECURSE SERVER_SRC Server/src/*.cpp) 
+file (GLOB_RECURSE SERVER_SRC src/Server/*.cpp) 
 add_executable (server ${SERVER_SRC})
 
 # Link libraries
