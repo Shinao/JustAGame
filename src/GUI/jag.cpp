@@ -13,6 +13,8 @@ namespace jag
     std::map<std::string, sf::Image *>	_rsrcs;
     Theme				*_theme;
     CSimpleIniA				_ini;
+
+
   }
 
   void			init()

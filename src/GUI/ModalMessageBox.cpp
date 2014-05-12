@@ -10,11 +10,7 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc, bool can_e
   _y_button_start(16),
   _has_button(false)
 {
-  // Escape : say goodbye
-  if (can_escape)
-    catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
-	Screen::remove(this);
-	});
+  canEscape(can_escape);
 
   // Layer take all the space (Modal)
   _rec.left = 0;
@@ -32,22 +28,9 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc, bool can_e
   rec.height = TITLE_HEIGHT;
   g_title->setMargin(sf::Vector2i(8, 0));
   g_title->setRect(rec);
-  add(g_title);
+  add(g_title, "title");
 
-  rec.top += TITLE_HEIGHT + jag::getTheme("ModalMessageBoxTitle")->size_border;
-  rec.height = 300;
-  desc->setMargin(sf::Vector2i(8, 20));
-  desc->setTheme(_theme);
-  desc->setRect(rec);
-  rec.height = desc->getRectRessource().height + 40;
-  desc->setRect(rec);
-  add(desc);
-
-  Rect desc_rec = desc->getRect();
-  rec.top = desc_rec.top + desc_rec.height;
-  _button_bar.setPosition(g_title->getRect().left, rec.top);
-  _button_bar.setSize(sf::Vector2f(rec.width, BUTTON_BAR_HEIGHT));
-  _button_bar.setFillColor(jag::getTheme("ModalMessageBoxTitle")->c_background);
+  setDescription(desc);
 
   _fog.setPosition(0, 0);
   _fog.setSize(sf::Vector2f(_rec.width, _rec.height));
@@ -81,6 +64,8 @@ void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
   add(button);
 
   _y_button_start += BUTTON_WIDTH + 8;
+
+  _buttons.push_back(button);
 }
 
 void			ModalMessageBox::drawFog(bool draw)
@@ -94,4 +79,52 @@ void			ModalMessageBox::letTitlebar(bool let)
     _rec.top = Titlebar::HEIGHT;
   else
     _rec.top = 0;
+}
+
+void			ModalMessageBox::canEscape(bool can_escape)
+{
+  // Escape : say goodbye
+  if (can_escape)
+    catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
+	Screen::remove(this);
+    });
+  else
+    clearCallbacks();
+}
+
+void			ModalMessageBox::setDescription(Item *desc)
+{
+  remove(desc);
+
+  Rect	rec = _drawables["title"]->getRect();
+  rec.width = WIDTH;
+  rec.top += TITLE_HEIGHT + jag::getTheme("ModalMessageBoxTitle")->size_border;
+  rec.height = 300;
+  desc->setMargin(sf::Vector2i(8, 20));
+  desc->setTheme(_theme);
+  desc->setRect(rec);
+  rec.height = desc->getRectRessource().height + 40;
+  desc->setRect(rec);
+  add(desc, "desc");
+
+  Rect desc_rec = desc->getRect();
+  rec.top = desc_rec.top + desc_rec.height;
+  _button_bar.setPosition(rec.left, rec.top);
+  _button_bar.setSize(sf::Vector2f(rec.width, BUTTON_BAR_HEIGHT));
+  _button_bar.setFillColor(jag::getTheme("ModalMessageBoxTitle")->c_background);
+}
+
+void			ModalMessageBox::clearButtons()
+{
+  for (auto btn : _buttons)
+    remove(btn);
+
+  _buttons.clear();
+
+  _y_button_start = 16;
+}
+
+String			*ModalMessageBox::getButton(int index)
+{
+  return (_buttons[index]);
 }

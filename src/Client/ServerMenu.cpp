@@ -1,7 +1,6 @@
 #include "ServerMenu.hh"
 #include "Screen.hh"
 #include "String.hh"
-#include "ModalMessageBox.hh"
 #include "Titlebar.hh"
 #include "MainMenuItem.hh"
 #include "LibraryLoader.hh"
@@ -10,7 +9,8 @@
 
 ServerMenu::ServerMenu() :
   Layer::Layer(),
-  _internet(false)
+  _internet(false),
+  _connecting(false)
 {
   int top = jag::MarginMenu + Titlebar::HEIGHT - MainMenuItem::HEIGHT;
   Rect	rec = Rect(MainMenuItem::PADDING, top, MainMenuItem::WIDTH, Screen::getSize().y - top - 100);
@@ -111,37 +111,72 @@ void			ServerMenu::mousePressed(int x, int y)
 
 void			ServerMenu::serverSelected()
 {
+  // User notification
+  _desc = new String("Trying to connect to server...");
+  _msg = new ModalMessageBox("Connexion", _desc);
+  _msg->addButton("Cancel");
+
+  // Manage server connexion and disconnexion
+  using namespace std::placeholders;
+  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
+  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
+
+  // Connect to server
   Item	*item = _table->getSelectedItem(0);
 
-  std::string	game_mode = "TicTacToe";
-  std::string	lib_name = game_mode + "_client";
+  // TODO - Not brute - get info via table
+  Client *client = new Client();
+  client->setIp("127.0.0.1");
+  client->setPort(Network::SERVER_PORT);
+  Network::connect(client);
 
-  // Get Library from game name and load it
-  LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
-  if (!lib.open())
-  {
-    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not open library : " + lib.getFullPath()));
-    msg->addButton("Back");
-    return ;
-  }
+  _connecting = true;
+}
 
-  // Get the game
-  typedef AGameClient *(*f_getGame)();
-  f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
-  if (func_ptr == NULL)
-  {
-    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Library corrupted : " + lib.getFullPath()));
-    msg->addButton("Back");
-    return ;
-  }
+void			ServerMenu::couldNotConnect(ProtocoledPacket &packet)
+{
+  delete _thread;
+  _desc = new String("Could not connect to server (Timeout)");
+  _msg->setDescription(_desc);
+  _connecting = false;
+  _msg->clearButtons();
+  _msg->addButton("Back");
+}
 
-  AGameClient	*game = func_ptr();
-  if (!game->init())
-  {
-    ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not init the game - Check client.ini"));
-    msg->addButton("Back");
-    return ;
-  }
+void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
+{
+  delete _thread;
+  _msg->setDescription(new String("Getting information from the server"));
 
-  game->run();
+  // std::string	game_mode = "TicTacToe";
+  // std::string	lib_name = game_mode + "_client";
+
+  // // Get Library from game name and load it
+  // LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
+  // if (!lib.open())
+  // {
+  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not open library : " + lib.getFullPath()));
+  //   msg->addButton("Back");
+  //   return ;
+  // }
+
+  // // Get the game
+  // typedef AGameClient *(*f_getGame)();
+  // f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
+  // if (func_ptr == NULL)
+  // {
+  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Library corrupted : " + lib.getFullPath()));
+  //   msg->addButton("Back");
+  //   return ;
+  // }
+
+  // AGameClient	*game = func_ptr();
+  // if (!game->init())
+  // {
+  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not init the game - Check client.ini"));
+  //   msg->addButton("Back");
+  //   return ;
+  // }
+
+  // game->run();
 }

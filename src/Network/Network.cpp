@@ -76,25 +76,28 @@ namespace		Network
     void		connecting_thread(Client *client)
     {
       sf::TcpSocket	*socket = new sf::TcpSocket();
+      ProtocoledPacket	*packet = new ProtocoledPacket();
+
+      packet->setClient(client);
 
       // Could not connect
       if (socket->connect(client->getIp(), client->getPort(), sf::seconds(2)) != sf::Socket::Done)
       {
-	ProtocoledPacket	*packet = new ProtocoledPacket();
+	sf::Lock	lock(_mutex);
 
-	packet->setClient(client);
 	if (_requests_callback[Request::Disconnexion])
 	  _requests_callback[Request::Disconnexion](*packet);
 
 	delete packet;
 	delete socket;
+	delete client;
 	return ;
       }
 
+      sf::Lock	lock(_mutex);
+
       // TCP Connected - Waiting for UDP Established to letting know the user
       client->setSocket(socket);
-      // Safety
-      sf::Lock lock(_mutex);
       _listener.add(*socket);
       _clients.push_back(client);
     }
@@ -700,10 +703,13 @@ namespace		Network
       ((sequence > check_sequence) && (sequence - check_sequence > Network::MAX_SEQUENCE / 2));
   }
 
-  void			connect(Client *client)
+  sf::Thread		*connect(Client *client)
   {
-    sf::Thread	thread(std::bind(connecting_thread, client));
-    thread.launch();
+    sf::Thread	*thread = new sf::Thread(std::bind(&connecting_thread, client));
+
+    thread->launch();
+
+    return (thread);
   }
 
   // Broadcast - Ask for servers available

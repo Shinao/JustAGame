@@ -40,7 +40,7 @@ namespace Network
   sf::Socket::Status	send(ProtocoledPacket *packet);
   void			sendToClients(RequestID request, Network::Reliability rel, const sf::Packet &packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
-  void			connect(Client *client);
+  sf::Thread		*connect(Client *client);
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);

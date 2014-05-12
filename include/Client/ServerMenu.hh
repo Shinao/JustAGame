@@ -6,6 +6,7 @@
 # include "Menu.hh"
 # include "MainMenuItem.hh"
 # include "Table.hh"
+# include "ModalMessageBox.hh"
 
 class ServerMenu : public Layer
 {
@@ -14,11 +15,20 @@ class ServerMenu : public Layer
     bool			_internet;
     Table			*_table;
 
+    // Connecting progress
+    bool			_connecting;
+    ModalMessageBox		*_msg;
+    sf::Thread			*_thread;
+    String			*_desc;
+
     void			serverSelected();
 
   public:
     ServerMenu();
     ~ServerMenu();
+
+    void			couldNotConnect(ProtocoledPacket &packet);
+    void			connectedToServer(ProtocoledPacket &packet);
 
     void			refreshServers();
     void			serverDiscovered(ProtocoledPacket &packet);

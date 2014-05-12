@@ -35,6 +35,22 @@ void			DrawableManager::draw(sf::RenderWindow &window)
     drawable.second->draw(window);
 }
 
+void			DrawableManager::remove(Drawable *drawable)
+{
+  for (auto search : _drawables)
+    if (search.second == drawable)
+    {
+      delete search.second;
+      _drawables.erase(search.first);
+    }
+  for (auto search : _forgot_drawables)
+    if (search.second == drawable)
+    {
+      delete search.second;
+      _forgot_drawables.erase(search.first);
+    }
+}
+
 void			DrawableManager::remove(std::string name)
 {
   delete _drawables[name];

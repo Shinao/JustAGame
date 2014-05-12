@@ -1,6 +1,7 @@
 #ifndef JAG_HH_
 # define JAG_HH_
 
+# include "Network.hh"
 # include "Theme.hh"
 # include "SimpleIni.hpp"
 

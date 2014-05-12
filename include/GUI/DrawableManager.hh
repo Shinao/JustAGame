@@ -35,6 +35,7 @@ class DrawableManager
     void				add(Drawable *drawable);
     Drawable				*get(std::string name);
     void				remove(std::string name);
+    void				remove(Drawable *drawable);
     Drawable				*forget(std::string name);
 
     Drawable			*getDrawableFocused();
