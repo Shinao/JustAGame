@@ -7,6 +7,7 @@
 # include "MainMenuItem.hh"
 # include "Table.hh"
 # include "ModalMessageBox.hh"
+# include "LibraryLoader.hh"
 
 class ServerMenu : public Layer
 {
@@ -15,13 +16,27 @@ class ServerMenu : public Layer
     bool			_internet;
     Table			*_table;
 
+    //
     // Connecting progress
-    bool			_connecting;
+    //
+    enum
+    {
+      Connected,
+      Connecting,
+      Unconnected
+    }				_state;
     ModalMessageBox		*_msg;
     sf::Thread			*_thread;
-    String			*_desc;
+    Client			*_server;
+    LibraryLoader		*_lib;
+    std::string			_game_mode;
 
+    void			abortConnection();
     void			serverSelected();
+    void			launchGame();
+    void			getLibrary(ProtocoledPacket &packet);
+    void			connectionError(const std::string &desc);
+    //
 
   public:
     ServerMenu();

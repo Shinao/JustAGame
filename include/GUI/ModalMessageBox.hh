@@ -25,6 +25,7 @@ class ModalMessageBox : public Layer, public EventCallback
     int				_y_button_start;
     bool			_has_button;
     std::vector<String *>	_buttons;
+    Drawable::CallbackGui		_cb_exit;
 
   public:
     ModalMessageBox(const sf::String &title, Item *desc, bool can_escape = true);
@@ -37,6 +38,7 @@ class ModalMessageBox : public Layer, public EventCallback
     String			*getButton(int index);
     void			canEscape(bool can_escape);
     void			setDescription(Item *desc);
+    void			addExitCallback(Drawable::CallbackGui cb);
 
     void			draw(sf::RenderWindow &window);
 };

@@ -3,14 +3,17 @@
 #include "String.hh"
 #include "Titlebar.hh"
 #include "MainMenuItem.hh"
-#include "LibraryLoader.hh"
 #include "AGameClient.hh"
 #include <sstream>
+#include <fstream>
+
+using namespace std::placeholders;
 
 ServerMenu::ServerMenu() :
   Layer::Layer(),
   _internet(false),
-  _connecting(false)
+  _state(Unconnected),
+  _server(NULL)
 {
   int top = jag::MarginMenu + Titlebar::HEIGHT - MainMenuItem::HEIGHT;
   Rect	rec = Rect(MainMenuItem::PADDING, top, MainMenuItem::WIDTH, Screen::getSize().y - top - 100);
@@ -40,7 +43,6 @@ ServerMenu::ServerMenu() :
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
   _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
-  using namespace std::placeholders;
   _table->addItemsCallback(std::bind(&ServerMenu::serverSelected, this), Drawable::Pressed);
   add(_table, "table");
 
@@ -69,7 +71,6 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  using namespace std::placeholders;
   Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
@@ -112,12 +113,11 @@ void			ServerMenu::mousePressed(int x, int y)
 void			ServerMenu::serverSelected()
 {
   // User notification
-  _desc = new String("Trying to connect to server...");
-  _msg = new ModalMessageBox("Connexion", _desc);
+  _msg = new ModalMessageBox("Connexion", new String("Trying to connect to server..."));
+  _msg->addExitCallback(std::bind(&ServerMenu::abortConnection, this));
   _msg->addButton("Cancel");
 
   // Manage server connexion and disconnexion
-  using namespace std::placeholders;
   Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
 
@@ -130,36 +130,103 @@ void			ServerMenu::serverSelected()
   client->setPort(Network::SERVER_PORT);
   Network::connect(client);
 
-  _connecting = true;
+  _state = Connecting;
 }
 
 void			ServerMenu::couldNotConnect(ProtocoledPacket &packet)
 {
   delete _thread;
-  _desc = new String("Could not connect to server (Timeout)");
-  _msg->setDescription(_desc);
-  _connecting = false;
-  _msg->clearButtons();
-  _msg->addButton("Back");
+
+  // User aborted operation
+  if (_state == Connecting)
+    connectionError("Could not connect to server (Timeout)");
 }
 
 void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
 {
   delete _thread;
-  _msg->setDescription(new String("Getting information from the server"));
 
-  // std::string	game_mode = "TicTacToe";
-  // std::string	lib_name = game_mode + "_client";
+  // User aborted operation
+  if (_state != Connecting)
+  {
+    // Close connection
+    packet.getClient()->getSocket().disconnect();
+    return ;
+  }
 
-  // // Get Library from game name and load it
-  // LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
-  // if (!lib.open())
-  // {
-  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not open library : " + lib.getFullPath()));
-  //   msg->addButton("Back");
-  //   return ;
-  // }
+  _state = Connected;
+  // Setting server
+  _server = packet.getClient();
 
+  // Checking our library
+  _game_mode = "TicTacToe";
+  std::string	lib_name = _game_mode + Network::SUFFIX_CLIENT;
+
+  // Get Library from game name and download it if fail
+  _lib = new LibraryLoader(lib_name, Network::GAMES_PATH + _game_mode + "/");
+  if (!_lib->open())
+  {
+    _msg->setDescription(new String("Game not found - Asking server"));
+    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetLibrary, Network::TCP);
+    *get_game << (LibraryLoader::getPlateform() == LibraryLoader::Win32) ? true : false;
+    Network::send(get_game);
+    Network::addRequest(Request::GetLibrary, std::bind(&ServerMenu::getLibrary, this, _1));
+    return ;
+  }
+
+  launchGame();
+}
+
+void			ServerMenu::getLibrary(ProtocoledPacket &packet)
+{
+  // Safety
+  if (_state != Connected)
+    return ;
+
+  // Check number of bytes to read
+  sf::Int32	nb_bytes;
+  packet >> nb_bytes;
+
+  // Check if can't get the library
+  if (nb_bytes < 0)
+  {
+    connectionError("Could not download the game");
+    return ;
+  }
+  // We have our library !
+  if (nb_bytes == 0)
+  {
+    launchGame();
+    return ;
+  }
+
+  // Append to our file
+  // We open it and append then close it - We should probably keep the handle but... lazy
+  std::ofstream	lib_file;
+  lib_file.open(_lib->getFullPath(), std::ios_base::app);
+  if (!lib_file.is_open())
+  {
+    connectionError("Could not create the game library");
+    return ;
+  }
+
+  lib_file.write(&((char *) packet.getData())[packet.getDataSize() - nb_bytes], nb_bytes);
+  lib_file.close();
+}
+
+void			ServerMenu::connectionError(const std::string &desc)
+{
+  _msg->setDescription(new String(desc));
+  _msg->clearButtons();
+  _msg->addButton("Back");
+
+  _server = NULL;
+  _state = Unconnected;
+}
+
+void			ServerMenu::launchGame()
+{
+  _msg->setDescription(new String("Loading the game..."));
   // // Get the game
   // typedef AGameClient *(*f_getGame)();
   // f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
@@ -179,4 +246,14 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
   // }
 
   // game->run();
+
+  Screen::remove(_msg);
+  _state = Unconnected;
+  _server = NULL;
+}
+
+void			ServerMenu::abortConnection()
+{
+  _state = Unconnected;
+  _server = NULL;
 }

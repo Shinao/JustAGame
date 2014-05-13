@@ -41,6 +41,8 @@ namespace Request
   const RequestID		PlayerLeft = 10;
   // [RESERVED] When a player join a server, he should receive all the data before beginning : server -> client
   const RequestID		InitGame = 11;
+  // [RESERVED] When a client does not have the game - ask for download : client <-> server
+  const RequestID		GetLibrary = 12;
 }
 
 
@@ -84,6 +86,11 @@ namespace Network
   const int		SERVER_PORT = 25052;
   // Can be different to have multiple client on same computer
   const int		CLIENT_PORT = 52025;
+
+  // Some utility client/server
+  const std::string	GAMES_PATH = "Games/";
+  const std::string	SUFFIX_SERVER = "_server";
+  const std::string	SUFFIX_CLIENT = "_client";
 }
 
 #endif

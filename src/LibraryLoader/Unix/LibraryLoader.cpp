@@ -38,3 +38,8 @@ const std::string	&LibraryLoader::getFullPath() const
 {
   return (_lib_name);
 }
+
+LibraryLoader::Plateform	LibraryLoader::getPlateform()
+{
+  return (Win32);
+}

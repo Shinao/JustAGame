@@ -57,7 +57,13 @@ void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
   _has_button = true;
 
   String	*button = new String(str, jag::getTheme("ModalMessageBoxButton"));
-  button->addCallback([&, cb](){ Screen::remove(this); if (cb) { cb(); } });
+  button->addCallback([&, cb](){
+      Screen::remove(this);
+      if (cb)
+        cb();
+      if (_cb_exit)
+        _cb_exit();
+    });
   button->setRect(Rect(_button_bar.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _button_bar.getPosition().y + BUTTON_HEIGHT / 2,
       BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -87,6 +93,8 @@ void			ModalMessageBox::canEscape(bool can_escape)
   if (can_escape)
     catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
 	Screen::remove(this);
+	if (_cb_exit)
+	  _cb_exit();
     });
   else
     clearCallbacks();
@@ -127,4 +135,9 @@ void			ModalMessageBox::clearButtons()
 String			*ModalMessageBox::getButton(int index)
 {
   return (_buttons[index]);
+}
+
+void			ModalMessageBox::addExitCallback(Drawable::CallbackGui cb)
+{
+  _cb_exit = cb;
 }

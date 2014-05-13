@@ -12,6 +12,7 @@ set (INC_DIR
   include/Network
   include/GUI
   include/SimpleIni
+  include/LibraryLoader
   Games/client/include
   Games/server/include
   )

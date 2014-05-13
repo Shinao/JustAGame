@@ -31,10 +31,10 @@ int		main()
   if (game_mode.empty())
     return (error("Game name does not exist"));
 
-  std::string	lib_name = game_mode + "_server";
+  std::string	lib_name = game_mode + Network::SUFFIX_SERVER;
 
   // Get Library from game name and load it
-  LibraryLoader	lib(lib_name, "Games/" + game_mode + "/");
+  LibraryLoader	lib(lib_name, Network::GAMES_PATH + game_mode + "/");
   if (!lib.open())
     return (error("Could not open library : " + lib.getFullPath()));
 
