@@ -37,17 +37,18 @@ void			DrawableManager::draw(sf::RenderWindow &window)
 
 void			DrawableManager::remove(Drawable *drawable)
 {
-  for (auto search : _drawables)
-    if (search.second == drawable)
-    {
-      delete search.second;
-      _drawables.erase(search.first);
-    }
   for (auto search : _forgot_drawables)
     if (search.second == drawable)
     {
       delete search.second;
       _forgot_drawables.erase(search.first);
+      return ;
+    }
+  for (auto search : _drawables)
+    if (search.second == drawable)
+    {
+      delete search.second;
+      _drawables.erase(search.first);
     }
 }
 

@@ -40,6 +40,7 @@ namespace Network
   sf::Socket::Status	send(ProtocoledPacket *packet);
   void			sendToClients(RequestID request, Network::Reliability rel, const sf::Packet &packet);
   void			addRequest(RequestID id, const CallbackRequest &cb);
+  void			removeRequest(RequestID id);
   sf::Thread		*connect(Client *client);
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);

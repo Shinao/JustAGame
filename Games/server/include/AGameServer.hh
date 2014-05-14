@@ -34,6 +34,7 @@ class AGameServer
     virtual void		exit();
     bool			hasPassword() const;
     bool			isRunning() const;
+    void			sendGame(ProtocoledPacket &packet);
     virtual void		run();
     virtual void		playerJoined(ProtocoledPacket &packet);
     virtual void		playerInitialized(ProtocoledPacket &packet);

@@ -7,7 +7,7 @@ ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc, bool can_e
   Layer(),
   EventCallback(),
   _draw_fog(true),
-  _y_button_start(16),
+  _y_button_start(PADDING_BUTTONS),
   _has_button(false)
 {
   canEscape(can_escape);
@@ -129,7 +129,7 @@ void			ModalMessageBox::clearButtons()
 
   _buttons.clear();
 
-  _y_button_start = 16;
+  _y_button_start = PADDING_BUTTONS;
 }
 
 String			*ModalMessageBox::getButton(int index)

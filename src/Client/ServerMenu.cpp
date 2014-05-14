@@ -128,8 +128,9 @@ void			ServerMenu::serverSelected()
   Client *client = new Client();
   client->setIp("127.0.0.1");
   client->setPort(Network::SERVER_PORT);
-  Network::connect(client);
 
+  _thread = Network::connect(client);
+  std::cout << _thread << std::endl;
   _state = Connecting;
 }
 
@@ -138,8 +139,10 @@ void			ServerMenu::couldNotConnect(ProtocoledPacket &packet)
   delete _thread;
 
   // User aborted operation
-  if (_state == Connecting)
-    connectionError("Could not connect to server (Timeout)");
+  if (_state != Connecting)
+    return ;
+
+  connectionError("Could not connect to server (Timeout)");
 }
 
 void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
@@ -148,11 +151,7 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
 
   // User aborted operation
   if (_state != Connecting)
-  {
-    // Close connection
-    packet.getClient()->getSocket().disconnect();
     return ;
-  }
 
   _state = Connected;
   // Setting server
@@ -167,19 +166,19 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
   if (!_lib->open())
   {
     _msg->setDescription(new String("Game not found - Asking server"));
-    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetLibrary, Network::TCP);
+    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
     *get_game << (LibraryLoader::getPlateform() == LibraryLoader::Win32) ? true : false;
     Network::send(get_game);
-    Network::addRequest(Request::GetLibrary, std::bind(&ServerMenu::getLibrary, this, _1));
+    Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
     return ;
   }
 
   launchGame();
 }
 
-void			ServerMenu::getLibrary(ProtocoledPacket &packet)
+void			ServerMenu::getGame(ProtocoledPacket &packet)
 {
-  // Safety
+  // User aborted operation
   if (_state != Connected)
     return ;
 
@@ -252,8 +251,15 @@ void			ServerMenu::launchGame()
   _server = NULL;
 }
 
+// User Canceled or used Escape
 void			ServerMenu::abortConnection()
 {
+  Network::removeRequest(Request::GetGame);
+
+  // Close connection - TODO : Use Network::disconnect
+  if (_state == Connected)
+    _server->getSocket().disconnect();
+
   _state = Unconnected;
   _server = NULL;
 }

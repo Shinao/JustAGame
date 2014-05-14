@@ -17,6 +17,7 @@ class ModalMessageBox : public Layer, public EventCallback
     const static int		BUTTON_BAR_HEIGHT = 50;
     const static int		BUTTON_HEIGHT = 26;
     const static int		BUTTON_WIDTH = 60;
+    const static int		PADDING_BUTTONS = 16;
 
     sf::RectangleShape		_fog;
     bool			_draw_fog;
@@ -25,7 +26,7 @@ class ModalMessageBox : public Layer, public EventCallback
     int				_y_button_start;
     bool			_has_button;
     std::vector<String *>	_buttons;
-    Drawable::CallbackGui		_cb_exit;
+    Drawable::CallbackGui	_cb_exit;
 
   public:
     ModalMessageBox(const sf::String &title, Item *desc, bool can_escape = true);

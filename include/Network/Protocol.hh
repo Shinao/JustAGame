@@ -42,7 +42,7 @@ namespace Request
   // [RESERVED] When a player join a server, he should receive all the data before beginning : server -> client
   const RequestID		InitGame = 11;
   // [RESERVED] When a client does not have the game - ask for download : client <-> server
-  const RequestID		GetLibrary = 12;
+  const RequestID		GetGame = 12;
 }
 
 

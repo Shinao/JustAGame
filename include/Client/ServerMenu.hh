@@ -34,16 +34,15 @@ class ServerMenu : public Layer
     void			abortConnection();
     void			serverSelected();
     void			launchGame();
-    void			getLibrary(ProtocoledPacket &packet);
+    void			getGame(ProtocoledPacket &packet);
+    void			couldNotConnect(ProtocoledPacket &packet);
+    void			connectedToServer(ProtocoledPacket &packet);
     void			connectionError(const std::string &desc);
     //
 
   public:
     ServerMenu();
     ~ServerMenu();
-
-    void			couldNotConnect(ProtocoledPacket &packet);
-    void			connectedToServer(ProtocoledPacket &packet);
 
     void			refreshServers();
     void			serverDiscovered(ProtocoledPacket &packet);

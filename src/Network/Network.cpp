@@ -85,12 +85,10 @@ namespace		Network
       {
 	sf::Lock	lock(_mutex);
 
-	if (_requests_callback[Request::Disconnexion])
-	  _requests_callback[Request::Disconnexion](*packet);
+	packet->setRequestID(Request::Disconnexion);
+	_requests_pending.push_back(packet);
+	_clients_disconnected.push_back(client);
 
-	delete packet;
-	delete socket;
-	delete client;
 	return ;
       }
 
@@ -607,6 +605,7 @@ namespace		Network
 	if (*search == client)
 	{
 	  _clients.erase(search);
+	  delete &client->getSocket();
 	  break ;
 	}
 
@@ -678,6 +677,11 @@ namespace		Network
   void			addRequest(RequestID id, const CallbackRequest &cb)
   {
     _requests_callback[id] = cb;
+  }
+
+  void			removeRequest(RequestID id)
+  {
+    _requests_callback.erase(id);
   }
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2)

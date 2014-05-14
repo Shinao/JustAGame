@@ -17,6 +17,7 @@ bool			AGameServer::init(CSimpleIniA &ini)
   Network::addRequest(Request::PlayerJoined, std::bind(&AGameServer::playerJoined, this, _1));
   Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::playerLeft, this, _1));
+  Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
 
   _name = ini.GetValue(INI_GROUP, "server_name", "");
   _game_mode = ini.GetValue(INI_GROUP, "game_mode", "");
@@ -25,6 +26,12 @@ bool			AGameServer::init(CSimpleIniA &ini)
   _maximum_players = ini.GetLongValue(INI_GROUP, "maximum_players", -1);
 
   return (!_name.empty() && !_game_mode.empty() && _maximum_players != -1);
+}
+
+// User does not have our game - send library and rsrc
+// TODO - Send RSRC folder
+void			AGameServer::sendGame(ProtocoledPacket &packet)
+{
 }
 
 bool			AGameServer::hasPassword() const
