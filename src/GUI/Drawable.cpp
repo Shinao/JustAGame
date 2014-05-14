@@ -165,3 +165,17 @@ void			Drawable::addCallback(CallbackGui callback, State state)
   else
     _callback_double_click = callback;
 }
+
+void			Drawable::setState(State state)
+{
+  if (state == Pressed)
+    _pressed = true;
+  else if (state == Released)
+    _pressed = false;
+  else if (state == Focused)
+    _focused = true;
+  else if (state == Unfocused)
+    _focused = false;
+
+  designChanged();
+}

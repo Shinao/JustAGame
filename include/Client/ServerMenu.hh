@@ -23,6 +23,7 @@ class ServerMenu : public Layer
     {
       Connected,
       Connecting,
+      Aborting,
       Unconnected
     }				_state;
     ModalMessageBox		*_msg;
@@ -31,7 +32,7 @@ class ServerMenu : public Layer
     LibraryLoader		*_lib;
     std::string			_game_mode;
 
-    void			abortConnection();
+    bool			tryingToEscape();
     void			serverSelected();
     void			launchGame();
     void			getGame(ProtocoledPacket &packet);

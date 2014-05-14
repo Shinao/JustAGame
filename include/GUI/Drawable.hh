@@ -65,6 +65,7 @@ class Drawable
     void			setTooltip(const sf::String &text);
 
     // Event
+    void			setState(State state);
     void			addCallback(CallbackGui callback, State state = Pressed);
     bool			isFocused() const;
     bool			isEnabled() const;

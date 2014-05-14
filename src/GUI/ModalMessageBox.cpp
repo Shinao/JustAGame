@@ -58,20 +58,24 @@ void			ModalMessageBox::addButton(const sf::String &str, Item::CallbackGui cb)
 
   String	*button = new String(str, jag::getTheme("ModalMessageBoxButton"));
   button->addCallback([&, cb](){
-      Screen::remove(this);
       if (cb)
         cb();
+
       if (_cb_exit)
-        _cb_exit();
+      {
+        if (_cb_exit())
+          Screen::remove(this);
+      }
+      else
+        Screen::remove(this);
     });
   button->setRect(Rect(_button_bar.getPosition().x + WIDTH - _y_button_start - BUTTON_WIDTH,
       _button_bar.getPosition().y + BUTTON_HEIGHT / 2,
       BUTTON_WIDTH, BUTTON_HEIGHT));
   add(button);
+  _buttons.push_back(button);
 
   _y_button_start += BUTTON_WIDTH + 8;
-
-  _buttons.push_back(button);
 }
 
 void			ModalMessageBox::drawFog(bool draw)
@@ -89,15 +93,19 @@ void			ModalMessageBox::letTitlebar(bool let)
 
 void			ModalMessageBox::canEscape(bool can_escape)
 {
+  clearCallbacks();
+
   // Escape : say goodbye
   if (can_escape)
     catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Escape), [&](Context) {
-	Screen::remove(this);
-	if (_cb_exit)
-	  _cb_exit();
+      if (_cb_exit)
+      {
+        if (_cb_exit())
+          Screen::remove(this);
+      }
+      else
+        Screen::remove(this);
     });
-  else
-    clearCallbacks();
 }
 
 void			ModalMessageBox::setDescription(Item *desc)
@@ -137,7 +145,7 @@ String			*ModalMessageBox::getButton(int index)
   return (_buttons[index]);
 }
 
-void			ModalMessageBox::addExitCallback(Drawable::CallbackGui cb)
+void			ModalMessageBox::addExitCallback(CallbackCheck cb)
 {
   _cb_exit = cb;
 }

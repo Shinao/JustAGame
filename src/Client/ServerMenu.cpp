@@ -63,6 +63,10 @@ ServerMenu::ServerMenu() :
   items.push_back(new String("Nope"));
   items.push_back(new String("10/20"));
   _table->addRow(items);
+
+  // Manage server connexion and disconnexion
+  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
+  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
 }
 
 ServerMenu::~ServerMenu()
@@ -114,15 +118,11 @@ void			ServerMenu::serverSelected()
 {
   // User notification
   _msg = new ModalMessageBox("Connexion", new String("Trying to connect to server..."));
-  _msg->addExitCallback(std::bind(&ServerMenu::abortConnection, this));
+  _msg->addExitCallback(std::bind(&ServerMenu::tryingToEscape, this));
   _msg->addButton("Cancel");
 
-  // Manage server connexion and disconnexion
-  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
-  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
-
   // Connect to server
-  Item	*item = _table->getSelectedItem(0);
+  // Item	*item = _table->getSelectedItem(0);
 
   // TODO - Not brute - get info via table
   Client *client = new Client();
@@ -134,13 +134,16 @@ void			ServerMenu::serverSelected()
   _state = Connecting;
 }
 
-void			ServerMenu::couldNotConnect(ProtocoledPacket &packet)
+void			ServerMenu::couldNotConnect(ProtocoledPacket &)
 {
   delete _thread;
 
   // User aborted operation
   if (_state != Connecting)
+  {
+    Screen::remove(_msg);
     return ;
+  }
 
   connectionError("Could not connect to server (Timeout)");
 }
@@ -151,7 +154,10 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
 
   // User aborted operation
   if (_state != Connecting)
+  {
+    Screen::remove(_msg);
     return ;
+  }
 
   _state = Connected;
   // Setting server
@@ -167,7 +173,7 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
   {
     _msg->setDescription(new String("Game not found - Asking server"));
     ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
-    *get_game << (LibraryLoader::getPlateform() == LibraryLoader::Win32) ? true : false;
+    *get_game << ((LibraryLoader::getPlateform() == LibraryLoader::Win32) ? true : false);
     Network::send(get_game);
     Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
     return ;
@@ -252,14 +258,28 @@ void			ServerMenu::launchGame()
 }
 
 // User Canceled or used Escape
-void			ServerMenu::abortConnection()
+bool			ServerMenu::tryingToEscape()
 {
+  // Already aborting
+  if (_state == Aborting)
+    return (false);
+
   Network::removeRequest(Request::GetGame);
+
+  // There has been an error so we can exit
+  if (_state == Unconnected)
+    return (true);
 
   // Close connection - TODO : Use Network::disconnect
   if (_state == Connected)
     _server->getSocket().disconnect();
 
-  _state = Unconnected;
+  // Aborting
+  _msg->setDescription(new String("Aborting connection..."));
+  _msg->getButton(0)->setState(Drawable::Pressed);
+
+  _state = Aborting;
   _server = NULL;
+
+  return (false);
 }
