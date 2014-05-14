@@ -188,17 +188,19 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   if (_state != Connected)
     return ;
 
-  // Check number of bytes to read
+  // Get info file
+  std::string	filename;
+  sf::Int8	progress;
   sf::Int32	nb_bytes;
-  packet >> nb_bytes;
+  packet >> filename >> progress >> nb_bytes;
 
   // Check if can't get the library
-  if (nb_bytes < 0)
+  if (progress < 0)
   {
-    connectionError("Could not download the game");
+    connectionError("Could not download " + filename);
     return ;
   }
-  // We have our library !
+  // We have our files !
   if (nb_bytes == 0)
   {
     launchGame();
@@ -207,16 +209,16 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
 
   // Append to our file
   // We open it and append then close it - We should probably keep the handle but... lazy
-  std::ofstream	lib_file;
-  lib_file.open(_lib->getFullPath(), std::ios_base::app);
-  if (!lib_file.is_open())
+  std::ofstream	file;
+  file.open(filename, std::ios_base::app);
+  if (!file.is_open())
   {
-    connectionError("Could not create the game library");
+    connectionError("Could not open " + filename);
     return ;
   }
 
-  lib_file.write(&((char *) packet.getData())[packet.getDataSize() - nb_bytes], nb_bytes);
-  lib_file.close();
+  file.write(&((char *) packet.getData())[packet.getDataSize() - nb_bytes], nb_bytes);
+  file.close();
 }
 
 void			ServerMenu::connectionError(const std::string &desc)

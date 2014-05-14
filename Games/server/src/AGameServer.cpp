@@ -1,4 +1,6 @@
 #include "AGameServer.hh"
+#include "LibraryLoader.hh"
+#include <fstream>
 
 AGameServer::AGameServer() :
   _running(false)
@@ -30,8 +32,49 @@ bool			AGameServer::init(CSimpleIniA &ini)
 
 // User does not have our game - send library and rsrc
 // TODO - Send RSRC folder
+// TODO - Thread this time-consuming operation
 void			AGameServer::sendGame(ProtocoledPacket &packet)
 {
+  std::string			lib_path;
+  std::ifstream			lib_file;
+  bool				win32;
+  ProtocoledPacket		*send_game; 
+
+  // Getting library depending on the OS
+  packet >> win32;
+  lib_path = Network::GAMES_PATH + _game_mode + "/lib" + _game_mode;
+  lib_path += (win32 ? ".dll" : ".so");
+
+  // Send it if found or send error
+  lib_file.open(lib_path, std::ios_base::in | std::ios_base::ate);
+  
+  if (!lib_file.is_open())
+  {
+    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+    *send_game << lib_path << (sf::Int8) -1;
+    Network::send(send_game);
+    return ;
+  }
+
+  int	file_size = lib_file.tellg();
+  int	read = 0;
+  lib_file.seekg(0);
+  char	data[4096];
+  while (lib_file.good())
+  {
+    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+
+    lib_file.read(data, sizeof(data));
+    read += sizeof(data);
+    *send_game << lib_path << ((sf::Int8) file_size / read) << sizeof(data);
+    send_game->append(data, 4096);
+
+    Network::send(send_game);
+    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+  }
+
+  send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+  *send_game << lib_path << (sf::Int8) 100 << (sf::Int32) 0;
 }
 
 bool			AGameServer::hasPassword() const
