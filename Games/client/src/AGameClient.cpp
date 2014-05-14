@@ -19,8 +19,6 @@ bool			AGameClient::init()
   Network::addRequest(Request::PlayerLeft, std::bind(&AGameClient::playerLeft, this, _1));
   Network::addRequest(Request::Update, std::bind(&AGameClient::updatePlayers, this, _1));
 
-  Network::addRequest(Request::InitGame, std::bind(&AGameClient::initGame, this, _1));
-
   CSimpleIniA	&ini = jag::getSettings();
 
   _player_name = ini.GetValue(INI_GROUP, "player_name", "");

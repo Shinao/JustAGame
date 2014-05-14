@@ -1,12 +1,13 @@
+# include "AGameClient.hh"
 #include "ServerMenu.hh"
 #include "Screen.hh"
 #include "String.hh"
 #include "Titlebar.hh"
 #include "MainMenuItem.hh"
-#include "AGameClient.hh"
 #include <sstream>
 #include <fstream>
 
+    AGameClient			*_game;
 using namespace std::placeholders;
 
 ServerMenu::ServerMenu() :
@@ -203,7 +204,10 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   // We have our files !
   if (nb_bytes == 0)
   {
-    launchGame();
+    if (!_lib->open())
+      connectionError("Could not load the game, that's strange.");
+    else
+      launchGame();
     return ;
   }
 
@@ -234,29 +238,41 @@ void			ServerMenu::connectionError(const std::string &desc)
 void			ServerMenu::launchGame()
 {
   _msg->setDescription(new String("Loading the game..."));
-  // // Get the game
-  // typedef AGameClient *(*f_getGame)();
-  // f_getGame	func_ptr = (f_getGame) lib.getFunction("getGame");
-  // if (func_ptr == NULL)
-  // {
-  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Library corrupted : " + lib.getFullPath()));
-  //   msg->addButton("Back");
-  //   return ;
-  // }
 
-  // AGameClient	*game = func_ptr();
-  // if (!game->init())
-  // {
-  //   ModalMessageBox *msg = new ModalMessageBox("Error", new String("Could not init the game - Check client.ini"));
-  //   msg->addButton("Back");
-  //   return ;
-  // }
+  // Get the game
+  typedef AGameClient *(*f_getGame)();
+  f_getGame	func_ptr = (f_getGame) _lib->getFunction("getGame");
+  if (func_ptr == NULL)
+  {
+    connectionError("Library corrupted : " + _lib->getFullPath());
+    return ;
+  }
 
-  // game->run();
+  _game = func_ptr();
+  _game->setServer(_server);
+  if (!_game->init())
+  {
+    connectionError("Could not init the game - Check " INI_FILE);
+    return ;
+  }
+
+  _game->isRunning();
+
+  Network::addRequest(Request::InitGame, std::bind(&ServerMenu::initGame, this, _1));
+}
+
+void			ServerMenu::initGame(ProtocoledPacket &packet)
+{
+  _msg->setDescription(new String("Getting information from the server..."));
+
+  if (!_game->initGame(packet))
+    return ;
 
   Screen::remove(_msg);
-  _state = Unconnected;
-  _server = NULL;
+  Network::removeRequest(Request::GetGame);
+  Network::removeRequest(Request::InitGame);
+
+  _game->run();
 }
 
 // User Canceled or used Escape
@@ -267,6 +283,7 @@ bool			ServerMenu::tryingToEscape()
     return (false);
 
   Network::removeRequest(Request::GetGame);
+  Network::removeRequest(Request::InitGame);
 
   // There has been an error so we can exit
   if (_state == Unconnected)

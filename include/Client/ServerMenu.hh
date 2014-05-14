@@ -32,6 +32,7 @@ class ServerMenu : public Layer
     LibraryLoader		*_lib;
     std::string			_game_mode;
 
+    void			initGame(ProtocoledPacket &packet);
     bool			tryingToEscape();
     void			serverSelected();
     void			launchGame();

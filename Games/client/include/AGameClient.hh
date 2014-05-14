@@ -23,15 +23,15 @@ class AGameClient
     std::map<ClientID, APlayer *>	_players;
 
   public:
-    virtual ~AGameClient();
+    virtual			~AGameClient();
 
-    void			setServer(Client *server);
+    virtual void		setServer(Client *server);
     // Ini settings principally
     virtual bool		init();
     virtual void		exit();
-    bool			isRunning() const;
+    virtual bool		isRunning() const;
     virtual void		run();
-    void			updatePlayers(ProtocoledPacket &packet);
+    virtual void		updatePlayers(ProtocoledPacket &packet);
     virtual void		playerJoined(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
 
