@@ -16,6 +16,7 @@ class AGameClient
     AGameClient();
 
     Client			*_server;
+    ClientID			_id;
     bool			_running;
     std::string			_player_name;
     sf::Color			_player_color;

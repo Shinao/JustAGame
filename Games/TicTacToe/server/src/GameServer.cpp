@@ -12,7 +12,9 @@ extern "C"
 }
 
 
-GameServer::GameServer()
+GameServer::GameServer() :
+  _player1(NULL),
+  _player2(NULL)
 {
 }
 
@@ -55,6 +57,17 @@ void			GameServer::playerInitialized(ProtocoledPacket &packet)
   AGameServer::playerInitialized(packet);
   ProtocoledPacket *init = new ProtocoledPacket(packet.getClient(), Request::InitGame, Network::TCP);
   // Add whatever you want to packet here
+
+  // TicTacToe - Just tell him if he is the first player (wait for second) or second one (game start)
+  // Give him his ID
+  *init << packet.getClient()->getId();
+  if (_player1 == NULL)
+    _player1 = (PlayerServer *) packet.getClient()->getPlayer();
+  else
+  {
+    _player2 = (PlayerServer *) packet.getClient()->getPlayer();
+    *init << _player1->getId() << _player1->getName();
+  }
 
   //
   Network::send(init);

@@ -7,8 +7,6 @@
 
 class GameClient : public AGameClient
 {
-  private:
-
   public:
     GameClient();
     ~GameClient();

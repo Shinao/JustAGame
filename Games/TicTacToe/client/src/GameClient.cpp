@@ -36,18 +36,18 @@ void		GameClient::exit()
 void		GameClient::run()
 {
   AGameClient::run();
+
+  // Window is set properly - load ressources
 }
 
 void		GameClient::playerJoined(ProtocoledPacket &packet)
 {
   // Mandatory - before calling the parrent, create the player
   //
-  ClientID	id;
-  packet >> id << id;
-  APlayer	*player = new PlayerClient(); // Change this line by your inherited class
-  _players[id] = player;
+  PlayerClient	*player = new PlayerClient(); // Change this line by your inherited class
+  packet.getClient()->setPlayer(player); // Stock our player temporally
 
-  AGameClient::playerJoined(packet);
+  AGameClient::playerJoined(packet); // Our player now have an name, id, color...
   //
   // Do whatever you want here
 
@@ -65,5 +65,26 @@ void		GameClient::update()
 
 bool		GameClient::initGame(ProtocoledPacket &packet)
 {
+  ClientID	player2_id = Client::NULL_ID;
+  std::string	player2_name;
+
+  // Get IDs
+  packet >> _id >> player2_id >> player2_name;
+
+  // Add us to the list of players
+  PlayerClient	*player = new PlayerClient();
+  player->setId(_id);
+  player->setName(_player_name);
+  _players[_id] = player;
+
+  // We are not the first player
+  if (player2_id != Client::NULL_ID)
+  {
+    player = new PlayerClient();
+    player->setId(player2_id);
+    player->setName(player2_name);
+    _players[player2_id] = player;
+  }
+
   return (true);
 }

@@ -81,7 +81,7 @@ void			AGameClient::playerJoined(ProtocoledPacket &packet)
   std::string	name;
   sf::Color	color;
   ClientID	id;
-  packet >> name >> color.r >> color.g >> color.b >> id;
+  packet >> id >> name >> color.r >> color.g >> color.b;
 
   APlayer	*player = packet.getClient()->getPlayer();
   player->setId(id);
