@@ -16,7 +16,7 @@ bool			AGameServer::init(CSimpleIniA &ini)
   // Listen for client broadcast and client connexion/disconnexion
   using namespace std::placeholders;
   Network::getClientAsking(std::bind(&AGameServer::clientAsked, this, _1));
-  Network::addRequest(Request::PlayerJoined, std::bind(&AGameServer::playerJoined, this, _1));
+  Network::addRequest(Request::Connexion, std::bind(&AGameServer::clientConnected, this, _1));
   Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::playerLeft, this, _1));
   Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
@@ -111,9 +111,10 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
 }
 
 // Create a new player and link it to the client before calling this method
-void			AGameServer::playerJoined(ProtocoledPacket &packet)
+void			AGameServer::clientConnected(ProtocoledPacket &packet)
 {
   packet.getClient()->getPlayer()->setId(packet.getClient()->getId());
+  std::cout << "connected : " << packet.getClient()->getPlayer() << std::endl;
 
   std::cout << "Client connected to server" << std::endl;
 }
@@ -129,6 +130,7 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
     name = packet.getClient()->getIp().toString();
 
   APlayer	&player = *packet.getClient()->getPlayer();
+  std::cout << "init : " << &player << std::endl;
   player.setName(name);
   player.setColor(color);
 

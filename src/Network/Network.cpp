@@ -4,7 +4,8 @@
 #include "Network.hh"
 
 const char * RequestString[] = { "Ping", "Allo", "Connexion", "Disconnexion", "Update",
-"UDPEstablishment", "UDPEstablished", "Test"};
+"UDPEstablishment", "UDPEstablished", "Test", "PlayerInfo", "PlayerJoined", "PlayerLeft", "InitGame",
+"GetGame", "GameStart", "PlayerWon", "PlayerLost"};
 
 namespace		Network
 {
@@ -414,7 +415,7 @@ namespace		Network
       _mutex.unlock();
     }
 
-    // Main Thread - Request Callback - TCP
+    // Main Thread Client - Request Callback - TCP
     // Server wants to get a UDP Request for port UDP
     void				UDPEstablishment(ProtocoledPacket &packet)
     {
@@ -429,7 +430,7 @@ namespace		Network
       std::cout << "[UDPEstablishment] Establishment -> Send UDP [" << id << "]"  << std::endl;
 
       *rsp << id;
-      send(rsp, packet.getClient()->getIp(), packet.getClient()->getPort());
+      send(rsp, packet.getClient()->getIp(), SERVER_PORT);
     }
 
     // UDP - NetworkThread Server: Complete the client with the port for the UDP for the server
@@ -465,27 +466,23 @@ namespace		Network
       ProtocoledPacket	*info = new ProtocoledPacket();
       info->setRequestID(Request::Connexion);
       info->setClient(client);
-      _requests_pending_later.push_back(info);
+      _requests_pending.push_back(info);
     }
 
-    // MainThread Client: Callback client - TCP
+    // MainThread : Callback client - TCP
     void				UDPEstablished(ProtocoledPacket &packet)
     {
-      std::cout << "[UDPEstablished]" << std::endl;
+      if (_is_server)
+	return ;
 
       // Server completed - Our turn
-      if (!_is_server)
-      {
-	std::cout << "[UDPEstablished] Client" << std::endl;
-	// New client request
-	ProtocoledPacket	*info = new ProtocoledPacket();
-	info->setRequestID(Request::Connexion);
-	info->setClient(packet.getClient());
-	_requests_pending_later.push_back(info);
+      std::cout << "[UDPEstablished] Connexion request" << std::endl;
 
-	return ;
-      }
-
+      // New client request
+      ProtocoledPacket	*info = new ProtocoledPacket();
+      info->setRequestID(Request::Connexion);
+      info->setClient(packet.getClient());
+      _requests_pending_later.push_back(info);
     }
 
     void				sendUdpClient(ProtocoledPacket *packet)
@@ -598,8 +595,11 @@ namespace		Network
 
 
     // Check disconnected clients
-    for (auto client : _clients_disconnected)
+    Client	*client;
+    for (int i = 0; i < _clients_disconnected.size(); ++i)
     {
+      client = _clients_disconnected[i];
+
       std::cout << "[Update] Client [" << client->getId() << "] disconnected" << std::endl;
       for(std::vector<Client *>::iterator search = _clients.begin(); search != _clients.end(); ++search)
 	if (*search == client)

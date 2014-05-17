@@ -91,7 +91,7 @@ void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
   sf::Uint8	max_players;
 
   packet >> name >> game_mode >> has_password >> nb_players >> max_players;
-  ss << nb_players << "/" << max_players;
+  ss << (int) nb_players << "/" << (int) max_players;
 
   items.push_back(new String(has_password ? "Private" : "Public"));
   items.push_back(new String(name));
@@ -273,6 +273,8 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   Network::removeRequest(Request::InitGame);
 
   _game->run();
+
+  std::cout << "running the game" << std::endl;
 }
 
 // User Canceled or used Escape

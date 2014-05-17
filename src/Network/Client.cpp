@@ -16,8 +16,6 @@ Client::Client() :
 
 Client::~Client()
 {
-  if (_socket != NULL)
-    delete _socket;
 }
 
 sf::TcpSocket			&Client::getSocket()

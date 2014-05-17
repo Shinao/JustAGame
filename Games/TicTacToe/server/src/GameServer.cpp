@@ -39,15 +39,17 @@ void			GameServer::run()
   AGameServer::run();
 }
 
-void			GameServer::playerJoined(ProtocoledPacket &packet)
+void			GameServer::clientConnected(ProtocoledPacket &packet)
 {
   // Mandatory - before calling the parrent, create the player
   //
   APlayer	*player = new PlayerServer(); // Change this line by your inherited class
   packet.getClient()->setPlayer(player);
-  AGameServer::playerJoined(packet);
+  AGameServer::clientConnected(packet);
   //
   // Do what you want here
+
+  //
 }
 
 void			GameServer::playerInitialized(ProtocoledPacket &packet)
