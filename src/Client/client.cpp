@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 
   // Init ressources
   jag::init();
-  Screen::init(Screen::Setting);
+  Screen::init();
 
   new Background();
   new Titlebar();

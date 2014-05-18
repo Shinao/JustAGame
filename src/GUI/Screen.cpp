@@ -1,4 +1,5 @@
 #include <SFML/System.hpp>
+#include <sstream>
 #include "Screen.hh"
 #include "jag.hh"
 #include "OSSpecific.hh"
@@ -26,7 +27,9 @@ namespace Screen
 
     std::vector<Layer *>	_layers_to_remove;
     std::vector<Layer *>	_layers;
+    std::vector<Layer *>	_layers_setting;
     Layer			*_layer_focused;
+    Layer			*_current_layer;
     sf::Clock			_timer_wait;
     EventManager		*_event_manager;
 
@@ -47,30 +50,68 @@ namespace Screen
   // Implementation methods
   //
 
-  void			init(Mode mode)
+  void			init()
   {
-    if (_window != NULL)
-      delete _window;
-
     _event_manager = new EventManager();
     _moving = false;
     _layer_focused = NULL;
+
     // Get enough space
     _layers.reserve(MAX_LAYERS_EXPECTED);
 
-    // Recreate the window depending on the mode
-    if (mode == Setting)
-    {
-      _window = new sf::RenderWindow(sf::VideoMode(jag::WindowWidth, jag::WindowHeight), jag::WindowName, sf::Style::None);
-      // TODO - Wait until finished if needed to remove it
-      // _window->setKeyRepeatEnabled(false);
-      restore();
-    }
+    // Setting mode
+    setMode(Setting);
 
     // Icon
     _window->setIcon(jag_icon.width,  jag_icon.height,  jag_icon.pixel_data);
 
     catchLayersEvents();
+  }
+
+  void			setMode(Mode mode)
+  {
+    sf::VideoMode	video_mode;
+    sf::Uint32		style = sf::Style::None;
+
+    if (_window != NULL)
+      delete _window;
+
+    // Swap from game layers to setting layer and vice versa
+    _layers.swap(_layers_setting);
+
+    // Create the window depending on the mode
+    if (mode == Setting)
+    {
+      // Empty our previous game
+      _layers_setting.clear();
+
+      video_mode.width = jag::WindowWidth;
+      video_mode.height = jag::WindowHeight;
+    }
+    else
+    {
+      CSimpleIniA	&ini = jag::getSettings();
+
+      if (ini.GetBoolValue(INI_GROUP, "video_fullscreen", true) == true)
+	style |= sf::Style::Fullscreen;
+
+      std::string	resolution = ini.GetValue(INI_GROUP, "video_resolution", "");
+      std::stringstream	ss;
+      char		c;
+      ss << resolution;
+      ss >> video_mode.width >> c >> video_mode.height;
+
+      if (!video_mode.isValid())
+	video_mode = sf::VideoMode::getFullscreenModes()[0];
+    }
+
+    _window = new sf::RenderWindow(video_mode, jag::WindowName, sf::Style::None);
+
+    if (mode == Setting)
+      restore();
+
+    // TODO - Wait until finished if needed to remove it
+    // _window->setKeyRepeatEnabled(false);
   }
 
   void			clear()
@@ -238,9 +279,10 @@ namespace Screen
     // Start from the end
     for (i = _layers.size() - 1; i >= 0; --i)
     {
+      _current_layer = _layers[i];
       // Check if layer wants to be the last updated
       // TODO Remove useless feature non-update ?
-      if (!_layers[i]->update(*_window))
+      if (!_current_layer->update(*_window))
       {
 	--i;
 	break ;
@@ -252,7 +294,10 @@ namespace Screen
 
     // Now we know which one is the main layer - calling the draw on each layer on the top
     for (; (unsigned) i < _layers.size(); ++i)
-      _layers[i]->draw(*_window);
+    {
+      _current_layer = _layers[i];
+      _current_layer->draw(*_window);
+    }
 
     // Waiting FPS frames
     while (_timer_wait.getElapsedTime().asMilliseconds() < jag::FPSTime);

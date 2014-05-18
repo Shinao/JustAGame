@@ -24,8 +24,9 @@ namespace Screen
     Setting
   };
 
-  void	init(Mode mode);
+  void	init();
   void	clear();
+  void	setMode(Mode mode);
 
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();

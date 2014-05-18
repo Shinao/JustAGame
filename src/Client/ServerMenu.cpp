@@ -131,7 +131,6 @@ void			ServerMenu::serverSelected()
   client->setPort(Network::SERVER_PORT);
 
   _thread = Network::connect(client);
-  std::cout << _thread << std::endl;
   _state = Connecting;
 }
 
@@ -272,9 +271,8 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
 
+  Screen::setMode(Screen::Game);
   _game->run();
-
-  std::cout << "running the game" << std::endl;
 }
 
 // User Canceled or used Escape
