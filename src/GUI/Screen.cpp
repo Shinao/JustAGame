@@ -61,8 +61,7 @@ namespace Screen
       // Add special event callback
       using namespace std::placeholders;
 
-      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::Q), [] (Context context) { Screen::displayIGSetting(true);});
-      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::W), [] (Context context) { Screen::displayIGSetting(false);});
+      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::Q), [] (Context ) { Screen::toggleIGSetting();});
       _event_manager->add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
       _event_manager->add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, _1));
       _event_manager->add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, _1));
@@ -128,15 +127,10 @@ namespace Screen
       }
     }
 
-    void				mouseMoved(Context context)
+    void				mouseMoved(Context)
     {
-      int	x = context.mouseMove.x, y = context.mouseMove.y;
-
       // Get the new focus
       updateFocused();
-
-      if (_layer_focused != NULL)
-	_layer_focused->mouseCaught(x, y);
     }
 
     void				updateFocused()
@@ -155,6 +149,7 @@ namespace Screen
 
 	  // Update focused
 	  _layer_focused = _layers[i];
+	  _layer_focused->mouseCaught(cur.x, cur.y);
 	  return ;
 	}
       }
@@ -441,14 +436,15 @@ namespace Screen
     _window->setView(_window->getDefaultView());
   }
 
-  void					displayIGSetting(bool display)
+  void					toggleIGSetting()
   {
-    _display_ig_setting = display;
+    _display_ig_setting = !_display_ig_setting;
 
-    if (display)
+    if (_display_ig_setting)
     {
       _layers.insert(_layers.end(), _layers_setting.begin(), _layers_setting.end());
-
+      _layer_focused = NULL;
+      updateFocused();
       return ;
     }
 
@@ -462,6 +458,8 @@ namespace Screen
 	}
 
     // Update our focused in case our setting layers had the focus
+    if (_layer_focused != NULL)
+      _layer_focused->mouseLeft();
     _layer_focused = NULL;
     updateFocused();
   }

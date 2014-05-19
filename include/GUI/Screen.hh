@@ -41,7 +41,7 @@ namespace Screen
   void				mouseLeft(Context context = sf::Event());
   void				scissor(Rect rec);
   void				undoScissor();
-  void				displayIGSetting(bool display);
+  void				toggleIGSetting();
 
   void				update();
   void				add(Layer *layer);
