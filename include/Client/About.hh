@@ -9,11 +9,6 @@ class About : public MainMenuItem
   public:
     About();
     ~About();
-
-    void			mouseReleased(int x, int y);
-    void			draw(sf::RenderWindow &window);
-    void			mouseCaught(int x, int y);
-    void			mouseLeft();
 };
 
 #endif

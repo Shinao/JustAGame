@@ -4,7 +4,7 @@
 #include "StatusBar.hh"
 
 MainMenuItem::MainMenuItem(const std::string &name) :
-  Layer::Layer()
+  Layer(Layer::Setting)
 {
   int top = jag::MarginMenu + Titlebar::HEIGHT - HEIGHT;
   Rect	rec = Rect(PADDING, top, WIDTH, Screen::getSize().y - top - StatusBar::HEIGHT);
@@ -26,9 +26,4 @@ MainMenuItem::MainMenuItem(const std::string &name) :
 
 MainMenuItem::~MainMenuItem()
 {
-}
-
-void			MainMenuItem::draw(sf::RenderWindow &win)
-{
-  Layer::draw(win);
 }

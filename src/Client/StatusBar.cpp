@@ -8,7 +8,7 @@ const int NUMBER_CYCLE = 5;
 // void		latency(BridgeThread *bridge);
 
 StatusBar::StatusBar() :
-  Layer::Layer(),
+  Layer(Layer::Setting),
   _latency(-1)
 {
   Rect	rec = Rect(0, Screen::getSize().y - HEIGHT, Screen::getSize().x, HEIGHT);

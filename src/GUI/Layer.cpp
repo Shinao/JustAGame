@@ -1,8 +1,9 @@
 #include "Layer.hh"
 #include "Screen.hh"
 
-Layer::Layer() :
-  _focused(false)
+Layer::Layer(Type type) :
+  _focused(false),
+  _type(type)
 {
   Screen::add(this);
 }
@@ -62,4 +63,9 @@ unsigned		Layer::getId() const
 const Rect		&Layer::getRect() const
 {
   return (_rec);
+}
+
+Layer::Type		Layer::getType() const
+{
+  return (_type);
 }

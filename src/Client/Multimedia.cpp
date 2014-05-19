@@ -134,26 +134,6 @@ Multimedia::~Multimedia()
   _dmanager_backup.forget("apply");
 }
 
-void			Multimedia::mouseReleased(int x, int y)
-{
-  Layer::mouseReleased(x, y);
-}
-
-void			Multimedia::draw(sf::RenderWindow &win)
-{
-  Layer::draw(win);
-}
-
-void			Multimedia::mouseCaught(int x, int y)
-{
-  Layer::mouseCaught(x, y);
-}
-
-void			Multimedia::mouseLeft()
-{
-  Layer::mouseLeft();
-}
-
 void			Multimedia::toggleMode(bool video_mode)
 {
   if (_video_mode != video_mode)

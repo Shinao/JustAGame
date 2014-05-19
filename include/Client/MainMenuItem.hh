@@ -21,8 +21,6 @@ class MainMenuItem : public Layer
   public:
     MainMenuItem(const std::string &name);
     ~MainMenuItem();
-
-    void			draw(sf::RenderWindow &);
 };
 
 #endif

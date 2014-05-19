@@ -38,24 +38,3 @@ About::About() :
 About::~About()
 {
 }
-
-void			About::mouseReleased(int x, int y)
-{
-  Layer::mouseReleased(x, y);
-}
-
-void			About::draw(sf::RenderWindow &win)
-{
-  MainMenuItem::draw(win);
-}
-
-void			About::mouseCaught(int x, int y)
-{
-  Layer::mouseCaught(x, y);
-}
-
-void			About::mouseLeft()
-{
-  Layer::mouseLeft();
-}
-

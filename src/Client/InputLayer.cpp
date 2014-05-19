@@ -98,11 +98,6 @@ void			InputLayer::applyChanges()
   jag::getSettings().SaveFile(INI_FILE);
 }
 
-bool			InputLayer::update(sf::RenderWindow &window)
-{
-  return (Layer::update(window));
-}
-
 int			InputLayer::eventCatched()
 {
   Screen::remove(_msg_box);

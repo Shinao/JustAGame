@@ -33,7 +33,6 @@ class InputLayer : public MainMenuItem, public EventCallback
     InputLayer();
     ~InputLayer();
 
-    bool			update(sf::RenderWindow &window);
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);

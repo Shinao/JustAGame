@@ -24,9 +24,10 @@ namespace Screen
     Setting
   };
 
-  void	init();
-  void	clear();
-  void	setMode(Mode mode);
+  void				init();
+  void				clear();
+  void				setMode(Mode mode);
+  Mode				getMode();
 
   sf::WindowHandle		getHandle();
   const sf::RenderWindow	&getWindow();
@@ -40,6 +41,7 @@ namespace Screen
   void				mouseLeft(Context context = sf::Event());
   void				scissor(Rect rec);
   void				undoScissor();
+  void				displayIGSetting(bool display);
 
   void				update();
   void				add(Layer *layer);

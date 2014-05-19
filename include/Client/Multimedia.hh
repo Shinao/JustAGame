@@ -19,11 +19,6 @@ class Multimedia : public MainMenuItem
   public:
     Multimedia();
     ~Multimedia();
-
-    void			mouseReleased(int x, int y);
-    void			draw(sf::RenderWindow &window);
-    void			mouseCaught(int x, int y);
-    void			mouseLeft();
 };
 
 #endif

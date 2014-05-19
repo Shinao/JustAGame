@@ -7,13 +7,12 @@
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc
 // It's an abtract class - inherit from it
-// For all the event - the function will return true if event is catched, meaning it will stop
-// sending the event to the other layer - return false otherwise
+// Return true or false for catchMouse if you want to get the mouse event
+// Update return true : sending the event to the other layer - return false otherwise
 // Manage Drawable element - Use addDrawable - clear automatically
 
 // By default : update return false meaning the layer is not asbolute
-// catchMouse return false meaning mouse function will not be called
-// same thing goes for all the others event
+// catchMouse return true meaning mouse function will be called
 
 class Layer : public DrawableManager
 {
@@ -25,7 +24,14 @@ class Layer : public DrawableManager
     bool				_focused;
 
   public:
-    Layer();
+    enum			Type
+    {
+      Game,
+      Setting,
+      Other
+    }				_type;
+
+    Layer(Type type = Game);
     virtual ~Layer();
 
     // Event management
@@ -41,6 +47,7 @@ class Layer : public DrawableManager
     void			setId(unsigned id);
     unsigned			getId() const;
     const Rect			&getRect() const;
+    Type			getType() const;
 };
 
 #endif

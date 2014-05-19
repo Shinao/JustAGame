@@ -3,7 +3,7 @@
 #include "Sprite.hh"
 
 Titlebar::Titlebar() :
-  Layer::Layer()
+  Layer(Layer::Setting)
 {
   Rect	rec = Rect(jag::WindowBorderSize, jag::WindowBorderSize,
       		Screen::getSize().x - jag::WindowBorderSize * 2, HEIGHT);

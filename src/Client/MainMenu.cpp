@@ -9,7 +9,7 @@
 #include "About.hh"
 
 MainMenu::MainMenu() :
-  Layer::Layer(),
+  Layer(Layer::Setting),
   _layer_menu(NULL)
 {
   Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, jag::MarginMenu + Titlebar::HEIGHT, WIDTH, HEIGHT);

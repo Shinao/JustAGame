@@ -7,7 +7,7 @@
 #include "ModalMessageBox.hh"
 
 Test::Test() :
-  Layer::Layer()
+  Layer(Layer::Setting)
 {
   _rec = Rect(50, Screen::getSize().y - HEIGHT * 5, 700, 600);;
 

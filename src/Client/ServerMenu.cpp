@@ -11,7 +11,7 @@
 using namespace std::placeholders;
 
 ServerMenu::ServerMenu() :
-  Layer::Layer(),
+  Layer(Layer::Setting),
   _internet(false),
   _state(Unconnected),
   _server(NULL)
@@ -76,7 +76,8 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
+  Screen::setMode(Screen::Game);
+  // Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
 void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
