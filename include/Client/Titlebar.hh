@@ -22,15 +22,18 @@ class Titlebar : public Layer
     sf::Texture			_icon_tex;
     sf::Sprite			_logo_spr;
     sf::Texture			_logo_tex;
+    Menu			*_menu;
 
   public:
     Titlebar();
     ~Titlebar();
+
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
     void			minimize();
     void			restore();
     void			draw(sf::RenderWindow &window);
+    void			settingChanged();
 };
 
 #endif

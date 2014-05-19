@@ -62,6 +62,9 @@ namespace Screen
       using namespace std::placeholders;
 
       _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::Q), [] (Context ) { Screen::toggleIGSetting();});
+      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::W), [] (Context ) { Screen::setMode(Setting);});
+      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::E), [] (Context ) { Screen::setMode(Game);});
+
       _event_manager->add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
       _event_manager->add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, _1));
       _event_manager->add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, _1));
@@ -216,11 +219,15 @@ namespace Screen
   {
     sf::VideoMode	video_mode;
     sf::Uint32		style = sf::Style::None;
+    bool		first_init = true;
 
     _mode = mode;
 
     if (_window != NULL)
+    {
       delete _window;
+      first_init = false;
+    }
 
     // Swap from game layers to setting layer and vice versa
     _layers.swap(_layers_setting);
@@ -232,8 +239,8 @@ namespace Screen
       _layers_setting.clear();
       _display_ig_setting = false;
 
-      video_mode.width = jag::WindowWidth;
-      video_mode.height = jag::WindowHeight;
+      video_mode.width = jag::ClientWidth;
+      video_mode.height = jag::ClientHeight;
     }
     else
     {
@@ -256,6 +263,15 @@ namespace Screen
 
     if (mode == Setting)
       restore();
+
+    // Setting changed - update layers
+    if (!first_init)
+    {
+      for (auto layer : _layers)
+	layer->settingChanged();
+      for (auto layer : _layers_setting)
+	layer->settingChanged();
+    }
 
     // TODO - Wait until finished if needed to remove it
     // _window->setKeyRepeatEnabled(false);
@@ -396,8 +412,8 @@ namespace Screen
   {
     sf::VideoMode	screen = sf::VideoMode::getDesktopMode();
 
-    _window->setPosition(sf::Vector2i(screen.width / 2 - jag::WindowWidth / 2,
-	  screen.height / 2 - jag::WindowHeight / 2));
+    _window->setPosition(sf::Vector2i(screen.width / 2 - jag::ClientWidth / 2,
+	  screen.height / 2 - jag::ClientHeight / 2));
   }
 
   void					setMoving(bool moving)

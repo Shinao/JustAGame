@@ -12,9 +12,11 @@ class Background : public Layer
   public:
     Background();
     ~Background();
+
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
+    void			settingChanged();
 };
 
 #endif

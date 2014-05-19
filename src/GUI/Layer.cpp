@@ -69,3 +69,7 @@ Layer::Type		Layer::getType() const
 {
   return (_type);
 }
+
+void			Layer::settingChanged()
+{
+}

@@ -26,8 +26,8 @@ namespace jag
 
   const std::string		WindowName = "JustAGame";
   const std::string		RessourcePath = "rsrc/";
-  const int			WindowHeight = 576;
-  const int			WindowWidth = 1024;
+  const int			ClientWidth = 1024;
+  const int			ClientHeight = 576;
   const int			FPSTime = 1000 / 60;
   const int			MarginFPS = 4;
   const int			WindowBorderSize = 1;

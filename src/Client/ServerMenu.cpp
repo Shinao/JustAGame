@@ -3,47 +3,31 @@
 #include "Screen.hh"
 #include "String.hh"
 #include "Titlebar.hh"
-#include "MainMenuItem.hh"
 #include <sstream>
 #include <fstream>
 
-    AGameClient			*_game;
+AGameClient			*_game;
 using namespace std::placeholders;
 
 ServerMenu::ServerMenu() :
-  Layer(Layer::Setting),
+  MainMenuItem("INTERNET"),
   _internet(false),
   _state(Unconnected),
   _server(NULL)
 {
-  int top = jag::MarginMenu + Titlebar::HEIGHT - MainMenuItem::HEIGHT;
-  Rect	rec = Rect(MainMenuItem::PADDING, top, MainMenuItem::WIDTH, Screen::getSize().y - top - 100);
-  _rec = rec;
-  rec.height = MainMenuItem::HEIGHT;
-  _menu = new Menu(Menu::Horizontal, jag::getTheme("HorizontalMenu"));
-  _menu->setRect(rec);
-  _menu->setMargin(sf::Vector2i(MainMenuItem::MARGIN, 0));
-
-  String	*text = new String("INTERNET");
-  text->addCallback([&]() { _internet = true; });
-  _menu->add(text);
-  text = new String("LOCAL");
+  String	*text = new String("LOCAL");
   text->addCallback([&]() { _internet = false; });
   _menu->add(text);
   _menu->setPressed(text);
+  _title->addCallback([&]() { _internet = true; });
 
   text = new String("Refresh", jag::getTheme("Button"));
   text->autoRelease(true);
   text->addCallback(std::bind(&ServerMenu::refreshServers, this));
-  text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
-	_menu->getRect().height + 8, 60, 26));
-  add(text);
+  add(text, "refresh");
 
   _table = new Table(4);
-  Rect rec_btn = text->getRect();
-  int		top_table = rec_btn.top + rec_btn.height + 8;
 
-  _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
   _table->addItemsCallback(std::bind(&ServerMenu::serverSelected, this), Drawable::Pressed);
   add(_table, "table");
 
@@ -68,6 +52,8 @@ ServerMenu::ServerMenu() :
   // Manage server connexion and disconnexion
   Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
+
+  settingChanged();
 }
 
 ServerMenu::~ServerMenu()
@@ -302,4 +288,16 @@ bool			ServerMenu::tryingToEscape()
   _server = NULL;
 
   return (false);
+}
+
+void			ServerMenu::settingChanged()
+{
+  MainMenuItem::settingChanged();
+
+  _drawables["refresh"]->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top + _menu->getRect().height + 8, 60, 26));
+
+  Rect rec_btn = _drawables["refresh"]->getRect();
+  int		top_table = rec_btn.top + rec_btn.height + 8;
+
+  _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
 }

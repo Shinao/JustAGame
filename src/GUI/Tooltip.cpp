@@ -3,7 +3,7 @@
 #include "jag.hh"
 
 Tooltip::Tooltip(const sf::String &text, const sf::Vector2i &pos) :
-  Layer::Layer()
+  Layer(Layer::Other)
 {
   _string = new String(text, jag::getTheme("Tooltip"));
   _string->setMargin(sf::Vector2i(8, 0));

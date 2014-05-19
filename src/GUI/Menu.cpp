@@ -186,6 +186,9 @@ void			Menu::setTheme(Theme *theme)
 
 void			Menu::setPressed(Item *item)
 {
+  if (_item_pressed != NULL)
+    _item_pressed->released();
+
   _item_pressed = item;
   item->mouseReleased(0, 0);
 }

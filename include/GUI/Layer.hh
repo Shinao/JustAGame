@@ -42,6 +42,7 @@ class Layer : public DrawableManager
     virtual void		mouseLeft();
     virtual void		mousePressed(int x, int y);
     virtual void		mouseReleased(int x, int y);
+    virtual void		settingChanged();
 
     // Layer properties
     void			setId(unsigned id);

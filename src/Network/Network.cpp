@@ -596,7 +596,7 @@ namespace		Network
 
     // Check disconnected clients
     Client	*client;
-    for (int i = 0; i < _clients_disconnected.size(); ++i)
+    for (unsigned i = 0; i < _clients_disconnected.size(); ++i)
     {
       client = _clients_disconnected[i];
 

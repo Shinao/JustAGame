@@ -12,10 +12,7 @@ MainMenu::MainMenu() :
   Layer(Layer::Setting),
   _layer_menu(NULL)
 {
-  Rect	rec = Rect(Screen::getSize().x - PADDING - WIDTH, jag::MarginMenu + Titlebar::HEIGHT, WIDTH, HEIGHT);
-  _rec = rec;
   _menu = new Menu(Menu::Vertical, jag::getTheme("VerticalMenu"));
-  _menu->setRect(_rec);
   _menu->setMargin(sf::Vector2i(MARGIN, MARGIN / 2));
   _menu->shrinkToFit(true);
 
@@ -44,6 +41,8 @@ MainMenu::MainMenu() :
   _menu->update();
 
   add(_menu);
+
+  settingChanged();
 }
 
 MainMenu::~MainMenu()
@@ -116,4 +115,14 @@ void			MainMenu::cbMultimedia()
 void			MainMenu::cbAbout()
 {
   _layer_menu = new About();
+}
+
+void			MainMenu::settingChanged()
+{
+  Rect	rec = Rect(Screen::getSize().x / 2 + jag::ClientWidth / 2 - PADDING - WIDTH,
+      Screen::getSize().y / 2 - jag::ClientHeight / 2 + jag::MarginMenu + Titlebar::HEIGHT,
+      WIDTH, HEIGHT);
+  _rec = rec;
+
+  _menu->setRect(_rec);
 }

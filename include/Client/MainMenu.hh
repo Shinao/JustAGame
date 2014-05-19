@@ -33,6 +33,7 @@ class MainMenu : public Layer
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);
     void			mouseLeft();
+    void			settingChanged();
 };
 
 #endif

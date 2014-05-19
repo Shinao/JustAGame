@@ -11,24 +11,17 @@ StatusBar::StatusBar() :
   Layer(Layer::Setting),
   _latency(-1)
 {
-  Rect	rec = Rect(0, Screen::getSize().y - HEIGHT, Screen::getSize().x, HEIGHT);
-  _rec = rec;
-
   _good = sf::Color(63, 146, 210);
   _okay = sf::Color(255, 154, 2);
   _bad = sf::Color(200, 100, 100);
 
   String	*text = new String("Loading", jag::getTheme("Ping"));
   text->setTooltip("Latency from google");
-  text->setRect(Rect(_rec.width - 80, _rec.top, 60, 20));
-
   add(text, "ping");
 
   text = new String("LATENCY", jag::getTheme("Transparent"));
   text->setTooltip("Latency from google");
-  text->setRect(Rect(_rec.width - 80, _rec.top - 26, 60, 20));
-
-  add(text);
+  add(text, "latency");
 
   _bridge = new BridgeThread;
   _bridge->running = true;
@@ -36,6 +29,8 @@ StatusBar::StatusBar() :
       using namespace std::placeholders;
   _thread = new sf::Thread(std::bind(&StatusBar::latency, this));
   _thread->launch();
+
+  settingChanged();
 }
 
 StatusBar::~StatusBar()
@@ -128,4 +123,14 @@ void			StatusBar::mouseReleased(int x, int y)
 {
   Layer::mouseReleased(x, y);
   Screen::setMoving(false);
+}
+
+void			StatusBar::settingChanged()
+{
+  Rect	rec = Rect(Screen::getSize().x / 2 - jag::ClientWidth / 2,
+      Screen::getSize().y / 2 + jag::ClientHeight / 2 - HEIGHT, jag::ClientWidth, HEIGHT);
+  _rec = rec;
+
+  _drawables["ping"]->setRect(Rect(_rec.left + _rec.width - 80, _rec.top, 60, 20));
+  _drawables["latency"]->setRect(Rect(_rec.left + _rec.width - 80, _rec.top - 26, 60, 20));
 }

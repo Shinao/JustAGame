@@ -9,10 +9,9 @@
 # include "ModalMessageBox.hh"
 # include "LibraryLoader.hh"
 
-class ServerMenu : public Layer
+class ServerMenu : public MainMenuItem
 {
   private:
-    Menu			*_menu;
     bool			_internet;
     Table			*_table;
 
@@ -51,6 +50,7 @@ class ServerMenu : public Layer
 
     void			mousePressed(int x, int y);
     void			mouseReleased(int x, int y);
+    void			settingChanged();
 };
 
 #endif
