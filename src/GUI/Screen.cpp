@@ -412,8 +412,8 @@ namespace Screen
   {
     sf::VideoMode	screen = sf::VideoMode::getDesktopMode();
 
-    _window->setPosition(sf::Vector2i(screen.width / 2 - jag::ClientWidth / 2,
-	  screen.height / 2 - jag::ClientHeight / 2));
+    _window->setPosition(sf::Vector2i(screen.width / 2 - getSize().x / 2,
+	  screen.height / 2 - getSize().y / 2));
   }
 
   void					setMoving(bool moving)
