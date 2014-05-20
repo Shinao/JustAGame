@@ -7,6 +7,9 @@
 class GameLayer : public MainMenuItem
 {
   private:
+    const int			NB_COLOR = 4;
+    const int			WIDTH_COLOR = 36;
+
     sf::VertexArray		_square_color_picker;
     sf::VertexArray		_tri_color_picker;
     sf::Color			_player_color;
@@ -25,7 +28,7 @@ class GameLayer : public MainMenuItem
     void			mouseReleased(int x, int y);
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);
+    void			settingChanged();
 };
 
 #endif
-

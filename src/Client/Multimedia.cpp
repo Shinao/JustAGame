@@ -12,8 +12,6 @@ Multimedia::Multimedia() :
   String	*text = new String("Apply", jag::getTheme("Button"));
   text->autoRelease(true);
   text->addCallback(std::bind(&Multimedia::applyChanges, this));
-  text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
-	_menu->getRect().height + 8, 60, 26));
   add(text, "apply");
   _dmanager_backup.add(text, "apply");
 
@@ -26,29 +24,21 @@ Multimedia::Multimedia() :
   text->addCallback([&] () { toggleMode(false); });
   _menu->getPressed()->addCallback([&] () { toggleMode(true); });
 
-  int	size_item = _rec.width / 2 - MARGIN * 2;
-  int	x_half = _rec.left + _rec.width / 2 + MARGIN * 2;
-  int	y = _y_content;
-
   // Video mode
   text = new String("FullScreen", jag::getTheme("ItemSetting"));
-  text->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
-  add(text);
+  add(text, "fullscreen");
 
   CheckBox	*cb = new CheckBox(new String("", jag::getTheme("Transparent")),
       jag::getTheme("CheckBoxTransparent"));
-  cb->setRect(Rect(x_half + 50, y + Input::HEIGHT / 2 - 4, 10, 8));
   cb->setChecked(ini.GetBoolValue(INI_GROUP, "video_fullscreen", true));
   add(cb, "cbFullScreen");
 
   // Audio Mode
   text = new String("Music Volume", jag::getTheme("ItemSetting"));
-  text->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
-  _dmanager_backup.add(text);
+  _dmanager_backup.add(text, "music");
 
   ListItem	*list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
-  list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   std::stringstream	ss;
   int			ini_value = ini.GetLongValue(INI_GROUP, "audio_music", 100);
   for (int i = 0; i <= 100; i = i + 10)
@@ -61,16 +51,12 @@ Multimedia::Multimedia() :
   list->setSelectedIndex(ini_value / 10);
   _dmanager_backup.add(list, "liMusic");
 
-  y += Input::HEIGHT + MARGIN / 2;
-
   // Audio Mode
   text = new String("SFX Volume", jag::getTheme("ItemSetting"));
-  text->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
-  _dmanager_backup.add(text);
+  _dmanager_backup.add(text, "sfx");
 
   list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
-  list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   ini_value = ini.GetLongValue(INI_GROUP, "audio_sfx", 100);
   for (int i = 0; i <= 100; i = i + 10)
   {
@@ -83,12 +69,10 @@ Multimedia::Multimedia() :
 
   // Video mode
   text = new String("Resolution", jag::getTheme("ItemSetting"));
-  text->setRect(Rect(_rec.left, y, size_item, 32));
-  add(text);
+  add(text, "resolution");
 
   list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
-  list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   auto &modes = sf::VideoMode::getFullscreenModes();
   std::string	res = ini.GetValue(INI_GROUP, "video_resolution", "");
   for (std::size_t i = 0; i < modes.size(); ++i)
@@ -106,15 +90,11 @@ Multimedia::Multimedia() :
   }
   add(list, "liResolution");
 
-  y += Input::HEIGHT + MARGIN / 2;
-
   text = new String("Anti Aliasing", jag::getTheme("ItemSetting"));
-  text->setRect(Rect(_rec.left, y, size_item, 32));
-  add(text);
+  add(text, "aa");
 
   list = new ListItem(jag::getTheme("ListItem"));
   list->setItemTheme(jag::getTheme("ItemListItem"));
-  list->setRect(Rect(x_half, y, 128, Input::HEIGHT));
   ini_value = ini.GetLongValue(INI_GROUP, "video_antialiasing", 0);
   for (int i = 0; i <= 8; i = i + 2)
   {
@@ -126,6 +106,8 @@ Multimedia::Multimedia() :
   add(list, "liAA");
 
   _dmanager_backup.add(_menu, "menu");
+
+  settingChanged();
 }
 
 Multimedia::~Multimedia()
@@ -164,4 +146,28 @@ void			Multimedia::applyChanges()
   ini.SetValue(INI_GROUP, "audio_sfx", ((String *)((ListItem *) getDrawable("liSFX"))->getSelectedItem())->getString().toAnsiString().c_str());
 
   ini.SaveFile(INI_FILE);
+}
+
+void			Multimedia::settingChanged()
+{
+  MainMenuItem::settingChanged();
+
+  int	size_item = _rec.width / 2 - MARGIN * 2;
+  int	x_half = _rec.left + _rec.width / 2 + MARGIN * 2;
+  int	y = _y_content;
+
+  getDrawable("apply")->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60,
+	_menu->getRect().top +_menu->getRect().height + 8, 60, 26));
+  getDrawable("fullscreen")->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
+  getDrawable("cbFullScreen")->setRect(Rect(x_half + 50, y + Input::HEIGHT / 2 - 4, 10, 8));
+  getDrawable("music")->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
+  getDrawable("liMusic")->setRect(Rect(x_half, y, 128, Input::HEIGHT));
+  y += Input::HEIGHT + MARGIN / 2;
+  getDrawable("sfx")->setRect(Rect(_rec.left, y, size_item, Input::HEIGHT));
+  getDrawable("liSFX")->setRect(Rect(x_half, y, 128, Input::HEIGHT));
+  getDrawable("resolution")->setRect(Rect(_rec.left, y, size_item, 32));
+  getDrawable("liResolution")->setRect(Rect(x_half, y, 128, Input::HEIGHT));
+  y += Input::HEIGHT + MARGIN / 2;
+  getDrawable("aa")->setRect(Rect(_rec.left, y, size_item, 32));
+  getDrawable("liAA")->setRect(Rect(x_half, y, 128, Input::HEIGHT));
 }

@@ -28,13 +28,9 @@ InputLayer::InputLayer() :
   String	*text = new String("Apply", jag::getTheme("Button"));
   text->autoRelease(true);
   text->addCallback(std::bind(&InputLayer::applyChanges, this));
-  text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top +
-	_menu->getRect().height + 8, 60, 26));
-  add(text);
+  add(text, "apply");
 
   _table = new Table(2, jag::getTheme("CenteredMenu"));
-
-  _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height));
 
   // Generate keys
   CSimpleIniA		&ini = jag::getSettings();
@@ -57,9 +53,9 @@ InputLayer::InputLayer() :
   _table->addCallback(std::bind(&InputLayer::cbItemPressed, this), Drawable::Pressed);
 
   _scroller = new Scroller(_table);
-  _scroller->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - PADDING - HEIGHT));
   add(_scroller);
 
+  settingChanged();
 }
 
 InputLayer::~InputLayer()
@@ -143,4 +139,14 @@ void			InputLayer::setEventByIndex(int index, const std::string &sf_key)
 {
   _keys[index].sf_key = sf_key;
   ((String *)_table->getSelectedItem(1))->setString(sf_key);
+}
+
+void			InputLayer::settingChanged()
+{
+  MainMenuItem::settingChanged();
+
+  _drawables["apply"]->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60,
+	_menu->getRect().top +_menu->getRect().height + 8, 60, 26));
+  _table->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height));
+  _scroller->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - PADDING - HEIGHT));
 }

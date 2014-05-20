@@ -22,7 +22,7 @@ class MainMenuItem : public Layer
     MainMenuItem(const std::string &name);
     ~MainMenuItem();
 
-    void			settingChanged();
+    virtual void		settingChanged();
 };
 
 #endif

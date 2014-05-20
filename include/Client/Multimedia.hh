@@ -19,6 +19,8 @@ class Multimedia : public MainMenuItem
   public:
     Multimedia();
     ~Multimedia();
+
+    void			settingChanged();
 };
 
 #endif

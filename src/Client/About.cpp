@@ -1,23 +1,19 @@
 #include "About.hh"
-#include "String.hh"
 #include "Screen.hh"
-#include "StringArea.hh"
 
 About::About() :
   MainMenuItem("ABOUT")
 {
   // Apply button
-  String	*text = new String("Visit GitHub", jag::getTheme("Button"));
-  text->autoRelease(true);
-  text->addCallback([] ()
+  _visit = new String("Visit GitHub", jag::getTheme("Button"));
+  _visit->autoRelease(true);
+  _visit->addCallback([] ()
       {
       	Screen::openUrl("https://github.com/Shinao/JustAGame");
       });
-  text->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 100, _menu->getRect().top +
-	_menu->getRect().height + 8, 100, 26));
-  add(text);
+  add(_visit);
 
-  StringArea *area = new StringArea(""
+  _area = new StringArea(""
       "The goal of JustAGame is to make a framework for easy-to-create 2D game modes.\n"
       "Libraries for the network and GUI are available to create easily new contents.\n\n\n"
       "Type : Multiplayer\n"
@@ -31,10 +27,20 @@ About::About() :
       "CONTACT\n\n"
       "rmonnerat.pro@gmail.com"
       "", jag::getTheme("Transparent")); 
-  area->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - 200));
-  add(area);
+  add(_area);
+
+  settingChanged();
 }
 
 About::~About()
 {
+}
+
+void			About::settingChanged()
+{
+  MainMenuItem::settingChanged();
+
+  _visit->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 100,
+	_menu->getRect().top + _menu->getRect().height + 8, 100, 26));
+  _area->setRect(Rect(_rec.left, _y_content, _rec.width, _rec.height - 200));
 }

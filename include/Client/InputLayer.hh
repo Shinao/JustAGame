@@ -37,6 +37,7 @@ class InputLayer : public MainMenuItem, public EventCallback
     void			draw(sf::RenderWindow &window);
     void			mouseCaught(int x, int y);
     void			mouseLeft();
+    void			settingChanged();
 
     void			keyPressed(Context context);
     void			mousePressed(Context context);
