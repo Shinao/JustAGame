@@ -40,6 +40,7 @@ namespace Screen
     void			checkEvent();
     void			updateFocused();
     void			manageLayers();
+    void			resetIDs();
 
     // Event catched
     void			mousePressed(Context context);
@@ -60,14 +61,11 @@ namespace Screen
     {
       // Add special event callback
       using namespace std::placeholders;
-
-      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::Q), [] (Context ) { Screen::toggleIGSetting();});
-      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::W), [] (Context ) { Screen::setMode(Setting);});
-      _event_manager->add(Action(sf::Event::KeyPressed, sf::Keyboard::E), [] (Context ) { Screen::setMode(Game);});
-
       _event_manager->add(Action(sf::Event::Closed), std::bind(&Screen::close, _1));
-      _event_manager->add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Screen::mousePressed, _1));
-      _event_manager->add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left), std::bind(&Screen::mouseReleased, _1));
+      _event_manager->add(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left),
+	  std::bind(&Screen::mousePressed, _1));
+      _event_manager->add(Action(sf::Event::MouseButtonReleased, sf::Mouse::Left),
+	  std::bind(&Screen::mouseReleased, _1));
       _event_manager->add(Action(sf::Event::MouseMoved), std::bind(&Screen::mouseMoved, _1));
       _event_manager->add(Action(sf::Event::MouseLeft), std::bind(&Screen::mouseLeft, _1));
       _event_manager->add(Action(sf::Event::LostFocus), std::bind(&Screen::mouseLeft, _1));
@@ -186,6 +184,12 @@ namespace Screen
       // Update focused in case we deleted it
       updateFocused();
     }
+
+    void				resetIDs()
+    {
+      for (unsigned i = 0; i < _layers.size(); ++i)
+	_layers[i]->setId(i);
+    }
   }
 
 
@@ -258,6 +262,8 @@ namespace Screen
       if (!video_mode.isValid())
 	video_mode = sf::VideoMode::getFullscreenModes()[0];
     }
+
+    resetIDs();
 
     _window = new sf::RenderWindow(video_mode, jag::WindowName, sf::Style::None);
 
@@ -477,6 +483,8 @@ namespace Screen
 	  _layers.erase(it);
 	  break ;
 	}
+
+    resetIDs();
 
     // Update our focused in case our setting layers had the focus
     if (_layer_focused != NULL)
