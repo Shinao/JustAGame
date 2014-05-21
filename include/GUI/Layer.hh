@@ -31,7 +31,7 @@ class Layer : public DrawableManager
       Other
     }				_type;
 
-    Layer(Type type = Game);
+    Layer(Type type = Game, bool add_later = false);
     virtual ~Layer();
 
     // Event management

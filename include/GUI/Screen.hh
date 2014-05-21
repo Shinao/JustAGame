@@ -46,6 +46,7 @@ namespace Screen
   void				update();
   void				add(Layer *layer);
   void				remove(Layer *layer);
+  void				removeFromSetting(Layer *layer);
   EventManager			&getEventManager();
   void				setModal(bool modal);
 

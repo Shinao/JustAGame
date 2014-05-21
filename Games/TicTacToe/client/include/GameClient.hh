@@ -9,10 +9,15 @@
 class GameClient : public AGameClient
 {
   private:
+    const int			LINE_SIZE = 16;
+    const int			CASE_SIZE = 64;
+
     sf::Texture			_bg_tex;
     sf::Sprite			_bg;
+    sf::RectangleShape		_line;
 
     void			drawBackground(sf::RenderWindow &win);
+    void			drawGrid(sf::RenderWindow &win);
 
   public:
     GameClient();

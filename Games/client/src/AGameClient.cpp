@@ -4,6 +4,7 @@
 #include "Screen.hh"
 
 AGameClient::AGameClient() :
+  Layer(Layer::Game, true),
   _running(false)
 {
 }
@@ -44,6 +45,8 @@ void			AGameClient::run()
   _running = true;
 
   Screen::setMode(Screen::Game);
+  Screen::add(this);
+  // TODO - Show screen size
   using namespace std::placeholders;
   catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) { Screen::toggleIGSetting(); });
 }
@@ -52,6 +55,7 @@ void			AGameClient::exit()
 {
   _running = false;
 
+  Screen::remove(this);
   Screen::setMode(Screen::Setting);
   clearCallbacks();
 }
@@ -104,4 +108,12 @@ void			AGameClient::playerLeft(ProtocoledPacket &packet)
   ClientID	id;
   packet >> id;
   _players.erase(id);
+}
+
+void		AGameClient::draw(sf::RenderWindow &win)
+{
+}
+
+bool		AGameClient::update(sf::RenderWindow &win)
+{
 }

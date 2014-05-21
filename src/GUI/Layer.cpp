@@ -1,11 +1,12 @@
 #include "Layer.hh"
 #include "Screen.hh"
 
-Layer::Layer(Type type) :
+Layer::Layer(Type type, bool add_later) :
   _focused(false),
   _type(type)
 {
-  Screen::add(this);
+  if (!add_later)
+    Screen::add(this);
 }
 
 Layer::~Layer()

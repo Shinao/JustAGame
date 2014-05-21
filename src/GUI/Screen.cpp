@@ -162,29 +162,29 @@ namespace Screen
 
     void				manageLayers()
     {
-      if (_layers_to_remove.size() > 0)
+      if (_layers_to_remove.size() == 0)
+	return ;
+
+      for (auto layer : _layers_to_remove)
       {
-	for (auto layer : _layers_to_remove)
+	if (layer == _layer_focused)
+	  _layer_focused = NULL;
+
+	// Moving all the layer from one index down
+	for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
 	{
-	  if (layer == _layer_focused)
-	    _layer_focused = NULL;
-
-	  // Moving all the layer from one index down
-	  for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
-	  {
-	    _layers[i] = _layers[i + 1];
-	    _layers[i]->setId(_layers[i]->getId() - 1);
-	  }
-
-	  _layers.pop_back();
-	  delete layer;
+	  _layers[i] = _layers[i + 1];
+	  _layers[i]->setId(_layers[i]->getId() - 1);
 	}
 
-	_layers_to_remove.clear();
-
-	// Update focused in case we deleted it
-	updateFocused();
+	_layers.pop_back();
+	delete layer;
       }
+
+      _layers_to_remove.clear();
+
+      // Update focused in case we deleted it
+      updateFocused();
     }
   }
 
@@ -310,7 +310,7 @@ namespace Screen
     _window->clear(sf::Color::Blue);
 
     // Now we know which one is the main layer - calling the draw on each layer on the top
-    for (; (unsigned) i < _layers.size(); ++i)
+    for (unsigned i = 0; (unsigned) i < _layers.size(); ++i)
     {
       _current_layer = _layers[i];
       _current_layer->draw(*_window);
@@ -345,12 +345,17 @@ namespace Screen
 
     // If IG Setting enabled : remove it to our setting layers if layer is setting
     if (_display_ig_setting && layer->getType() == Layer::Setting)
-      for (auto it = _layers_setting.begin(); it != _layers_setting.end(); ++it)
-	if (*it == layer)
-	{
-	  _layers_setting.erase(it);
-	  break ;
-	}
+      removeFromSetting(layer);
+  }
+
+  void				removeFromSetting(Layer *layer)
+  {
+    for (auto it = _layers_setting.begin(); it != _layers_setting.end(); ++it)
+      if (*it == layer)
+      {
+	_layers_setting.erase(it);
+	  return ;
+      }
   }
 
   sf::WindowHandle			getHandle()
@@ -358,7 +363,7 @@ namespace Screen
     return (_window->getSystemHandle());
   }
 
-  const sf::RenderWindow			&getWindow()
+  const sf::RenderWindow		&getWindow()
   {
     return (*_window);
   }

@@ -39,8 +39,8 @@ class AGameClient : public Layer, public EventCallback
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     // Called every frame
-    virtual void		draw(sf::RenderWindow &win) = 0;
-    virtual bool		update(sf::RenderWindow &win) = 0;
+    virtual void		draw(sf::RenderWindow &win);
+    virtual bool		update(sf::RenderWindow &win);
     // Waiting Infos from server (Players data, map, ...) - if waiting : return false
     virtual bool		initGame(ProtocoledPacket &packet) = 0;
 };

@@ -1,7 +1,6 @@
 #include "GameClient.hh"
 #include "PlayerClient.hh"
 #include "Screen.hh"
-#include "Ressources.hh"
 
 // Mandatory part - Since we are a library we need to send our inherited class to the client
 // Thanks polymorphism
@@ -80,9 +79,9 @@ void			GameClient::run()
   AGameClient::run();
 
   // Window is set properly - load ressources
-  jag::createRessourceFromArray("blackboard", blackboard.pixel_data, blackboard.width, blackboard.height);
-  _bg_tex.loadFromImage(jag::getRessource("blackboard"));
+  _bg_tex.loadFromImage(jag::getRessource("Games/TicTacToe/blackboard.jpg"));
   _bg.setTexture(_bg_tex);
+  _line.setFillColor(sf::Color::White);
 }
 
 void			GameClient::exit()
@@ -92,12 +91,15 @@ void			GameClient::exit()
 
 void			GameClient::draw(sf::RenderWindow &win)
 {
+  Layer::draw(win);
+
   drawBackground(win);
+  drawGrid(win);
 }
 
-bool			GameClient::update(sf::RenderWindow &)
+bool			GameClient::update(sf::RenderWindow &win)
 {
-  return (true);
+  return (Layer::update(win));
 }
 
 void			GameClient::drawBackground(sf::RenderWindow &win)
@@ -119,5 +121,32 @@ void			GameClient::drawBackground(sf::RenderWindow &win)
     }
 
     x += _bg.getLocalBounds().width;
+  }
+}
+
+void			GameClient::drawGrid(sf::RenderWindow &win)
+{
+  int	x = Screen::getSize().x / 2;
+  int	y = Screen::getSize().y / 4;
+
+  _line.setSize(sf::Vector2f(LINE_SIZE, Screen::getSize().y / 2));
+  for (unsigned i = 0; i < 3; ++i)
+  {
+    x += CASE_SIZE + LINE_SIZE;
+
+    _line.setPosition(x, y);
+    win.draw(_line);
+  }
+
+  x = Screen::getSize().x / 2;
+  y = Screen::getSize().y / 4;
+
+  _line.setSize(sf::Vector2f(Screen::getSize().y / 2, LINE_SIZE));
+  for (unsigned i = 0; i < 3; ++i)
+  {
+    y += CASE_SIZE + LINE_SIZE;
+
+    _line.setPosition(x, y);
+    win.draw(_line);
   }
 }

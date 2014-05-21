@@ -285,7 +285,10 @@ namespace jag
 
     // No image found - fucking users deleting files !
     if (!img->loadFromFile(RessourcePath + name))
+    {
+      std::cerr << "Image " + name + "not found" << std::endl;
       img->create(16, 16);
+    }
 
     _rsrcs[RessourcePath + name] = img;
     return (*img);

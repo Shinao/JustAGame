@@ -62,8 +62,7 @@ ServerMenu::~ServerMenu()
 
 void			ServerMenu::refreshServers()
 {
-  Screen::setMode(Screen::Game);
-  // Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
+  Network::askForServer(std::bind(&ServerMenu::serverDiscovered, this, _1));
 }
 
 void			ServerMenu::serverDiscovered(ProtocoledPacket &packet)
@@ -242,8 +241,6 @@ void			ServerMenu::launchGame()
     return ;
   }
 
-  _game->isRunning();
-
   Network::addRequest(Request::InitGame, std::bind(&ServerMenu::initGame, this, _1));
 }
 
@@ -254,11 +251,11 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   if (!_game->initGame(packet))
     return ;
 
-  Screen::remove(_msg);
+  _game->run();
+
+  Screen::removeFromSetting(_msg);
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
-
-  _game->run();
 }
 
 // User Canceled or used Escape
