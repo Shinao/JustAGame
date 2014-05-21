@@ -140,7 +140,7 @@ namespace		Network
 	// After innactivity time : deconnexion
 	if (client->getClock().getElapsedTime().asMilliseconds() > TIMEOUT)
 	{
-	  disconnect(client);
+	  // disconnect(client);
 	  continue ;
 	}
 
@@ -575,9 +575,7 @@ namespace		Network
       // Get callback and call it
       auto it = _requests_callback.find(req_info->getRequestID());
       if (it != _requests_callback.end())
-      {
 	it->second(*req_info);
-      }
       else
 	std::cout << "Not found" << std::endl;
 

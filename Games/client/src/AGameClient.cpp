@@ -11,6 +11,9 @@ AGameClient::AGameClient() :
 
 AGameClient::~AGameClient()
 {
+  Network::removeRequest(Request::PlayerJoined);
+  Network::removeRequest(Request::PlayerLeft);
+  Network::removeRequest(Request::Update);
 }
 
 bool			AGameClient::init()
@@ -44,11 +47,13 @@ void			AGameClient::run()
 {
   _running = true;
 
-  Screen::setMode(Screen::Game);
+  Screen::toggleMode();
   Screen::add(this);
-  // TODO - Show screen size
+
   using namespace std::placeholders;
-  catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) { Screen::toggleIGSetting(); });
+  catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) {
+      Screen::toggleIGSetting();
+      });
 }
 
 void			AGameClient::exit()
@@ -56,7 +61,7 @@ void			AGameClient::exit()
   _running = false;
 
   Screen::remove(this);
-  Screen::setMode(Screen::Setting);
+  Screen::toggleMode();
   clearCallbacks();
 }
 
@@ -110,10 +115,11 @@ void			AGameClient::playerLeft(ProtocoledPacket &packet)
   _players.erase(id);
 }
 
-void		AGameClient::draw(sf::RenderWindow &win)
+void		AGameClient::draw(sf::RenderWindow &)
 {
 }
 
-bool		AGameClient::update(sf::RenderWindow &win)
+bool		AGameClient::update(sf::RenderWindow &)
 {
+  return (true);
 }

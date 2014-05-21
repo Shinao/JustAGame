@@ -251,11 +251,11 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   if (!_game->initGame(packet))
     return ;
 
-  _game->run();
-
-  Screen::removeFromSetting(_msg);
+  Screen::remove(_msg);
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
+
+  _game->run();
 }
 
 // User Canceled or used Escape

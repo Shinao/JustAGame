@@ -24,10 +24,18 @@ namespace Screen
     sf::Vector2i		_pressed_pos;
     sf::Vector2i		_old_cursor_pos;
     void			manageMoving();
+
+    // Settings
     Mode			_mode;
     bool			_display_ig_setting;
+    bool			_bridge_toggle_setting;
+    bool			_bridge_toggle_mode;
+    void			bridgeToggleIGSetting();
+    void			bridgeToggleMode();
 
+    // Layers
     std::vector<Layer *>	_layers_to_remove;
+    std::vector<Layer *>	_layers_to_add;
     std::vector<Layer *>	_layers;
     std::vector<Layer *>	_layers_setting;
     Layer			*_layer_focused;
@@ -160,35 +168,155 @@ namespace Screen
 
     void				manageLayers()
     {
-      if (_layers_to_remove.size() == 0)
-	return ;
-
-      for (auto layer : _layers_to_remove)
+      if (_layers_to_remove.size() != 0)
       {
-	if (layer == _layer_focused)
-	  _layer_focused = NULL;
-
-	// Moving all the layer from one index down
-	for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
+	for (auto layer : _layers_to_remove)
 	{
-	  _layers[i] = _layers[i + 1];
-	  _layers[i]->setId(_layers[i]->getId() - 1);
+	  if (layer == _layer_focused)
+	    _layer_focused = NULL;
+
+	  // Moving all the layer from one index down
+	  for (unsigned i = layer->getId(); i + 1 < _layers.size(); ++i)
+	  {
+	    _layers[i] = _layers[i + 1];
+	    _layers[i]->setId(_layers[i]->getId() - 1);
+	  }
+
+	  _layers.pop_back();
+	  delete layer;
 	}
 
-	_layers.pop_back();
-	delete layer;
+	_layers_to_remove.clear();
+
+	// Update focused in case we deleted it
+	updateFocused();
       }
 
-      _layers_to_remove.clear();
+      if (_bridge_toggle_mode)
+	bridgeToggleMode();
+      if (_bridge_toggle_setting)
+	bridgeToggleIGSetting();
 
-      // Update focused in case we deleted it
-      updateFocused();
+      if (_layers_to_add.size() != 0)
+      {
+	for (auto layer : _layers_to_add)
+	{
+	  unsigned		id = getNextId();
+
+	  _layers.push_back(layer);
+	  layer->setId(id);
+
+	  // If IG Setting enabled : add it to our setting layers if current layer is setting
+	  if (_display_ig_setting && layer->getType() == Layer::Setting)
+	    _layers_setting.push_back(layer);
+	}
+
+	_layers_to_add.clear();
+
+	updateFocused();
+      }
     }
 
     void				resetIDs()
     {
       for (unsigned i = 0; i < _layers.size(); ++i)
 	_layers[i]->setId(i);
+    }
+
+    void				bridgeToggleIGSetting()
+    {
+      _bridge_toggle_setting = false;
+      _display_ig_setting = !_display_ig_setting;
+
+      if (_display_ig_setting)
+      {
+	_layers.insert(_layers.end(), _layers_setting.begin(), _layers_setting.end());
+	_layer_focused = NULL;
+	updateFocused();
+	return ;
+      }
+
+      // Remove all layers contained in setting layers
+      for (auto setting : _layers_setting)
+	for (auto it = _layers.begin(); it != _layers.end(); ++it)
+	  if (*it == setting)
+	  {
+	    _layers.erase(it);
+	    break ;
+	  }
+
+      resetIDs();
+
+      // Update our focused in case our setting layers had the focus
+      if (_layer_focused != NULL)
+	_layer_focused->mouseLeft();
+      _layer_focused = NULL;
+      updateFocused();
+    }
+
+    void				bridgeToggleMode()
+    {
+      sf::VideoMode	video_mode;
+      sf::Uint32	style = sf::Style::None;
+      bool		first_init = true;
+
+      _bridge_toggle_mode = false;
+      _mode = (_mode == Game ? Setting : Game);
+
+      if (_window != NULL)
+      {
+	delete _window;
+	first_init = false;
+      }
+
+      // Swap from game layers to setting layer and vice versa
+      _layers.swap(_layers_setting);
+
+      // Create the window depending on the mode
+      if (_mode == Setting)
+      {
+	// Empty our previous game
+	_layers_setting.clear();
+	_display_ig_setting = false;
+
+	video_mode.width = jag::ClientWidth;
+	video_mode.height = jag::ClientHeight;
+      }
+      else
+      {
+	CSimpleIniA	&ini = jag::getSettings();
+
+	if (ini.GetBoolValue(INI_GROUP, "video_fullscreen", true) == true)
+	  style |= sf::Style::Fullscreen;
+
+	std::string	resolution = ini.GetValue(INI_GROUP, "video_resolution", "");
+	std::stringstream	ss;
+	char		c;
+	ss << resolution;
+	ss >> video_mode.width >> c >> video_mode.height;
+
+	if (!video_mode.isValid())
+	  video_mode = sf::VideoMode::getFullscreenModes()[0];
+      }
+
+      resetIDs();
+
+      _window = new sf::RenderWindow(video_mode, jag::WindowName, style);
+
+      if (_mode == Setting)
+	restore();
+
+      // Setting changed - update layers
+      if (!first_init)
+      {
+	for (auto layer : _layers)
+	  layer->settingChanged();
+	for (auto layer : _layers_setting)
+	  layer->settingChanged();
+      }
+
+      // TODO - Wait until finished if needed to remove it
+      // _window->setKeyRepeatEnabled(false);
     }
   }
 
@@ -211,76 +339,15 @@ namespace Screen
     _layers.reserve(MAX_LAYERS_EXPECTED);
 
     // Setting mode
-    setMode(Setting);
+    _mode = Game;
+    bridgeToggleMode();
+    _bridge_toggle_setting = false;
+    _bridge_toggle_mode = false;
 
     // Icon
     _window->setIcon(jag_icon.width,  jag_icon.height,  jag_icon.pixel_data);
 
     catchLayersEvents();
-  }
-
-  void			setMode(Mode mode)
-  {
-    sf::VideoMode	video_mode;
-    sf::Uint32		style = sf::Style::None;
-    bool		first_init = true;
-
-    _mode = mode;
-
-    if (_window != NULL)
-    {
-      delete _window;
-      first_init = false;
-    }
-
-    // Swap from game layers to setting layer and vice versa
-    _layers.swap(_layers_setting);
-
-    // Create the window depending on the mode
-    if (mode == Setting)
-    {
-      // Empty our previous game
-      _layers_setting.clear();
-      _display_ig_setting = false;
-
-      video_mode.width = jag::ClientWidth;
-      video_mode.height = jag::ClientHeight;
-    }
-    else
-    {
-      CSimpleIniA	&ini = jag::getSettings();
-
-      if (ini.GetBoolValue(INI_GROUP, "video_fullscreen", true) == true)
-	style |= sf::Style::Fullscreen;
-
-      std::string	resolution = ini.GetValue(INI_GROUP, "video_resolution", "");
-      std::stringstream	ss;
-      char		c;
-      ss << resolution;
-      ss >> video_mode.width >> c >> video_mode.height;
-
-      if (!video_mode.isValid())
-	video_mode = sf::VideoMode::getFullscreenModes()[0];
-    }
-
-    resetIDs();
-
-    _window = new sf::RenderWindow(video_mode, jag::WindowName, sf::Style::None);
-
-    if (mode == Setting)
-      restore();
-
-    // Setting changed - update layers
-    if (!first_init)
-    {
-      for (auto layer : _layers)
-	layer->settingChanged();
-      for (auto layer : _layers_setting)
-	layer->settingChanged();
-    }
-
-    // TODO - Wait until finished if needed to remove it
-    // _window->setKeyRepeatEnabled(false);
   }
 
   void			clear()
@@ -334,15 +401,7 @@ namespace Screen
 
   void				add(Layer *layer)
   {
-    unsigned		id = getNextId();
-
-    _layers.push_back(layer);
-    layer->setId(id);
-    updateFocused();
-
-    // If IG Setting enabled : add it to our setting layers if current layer is setting
-    if (_display_ig_setting && layer->getType() == Layer::Setting)
-      _layers_setting.push_back(layer);
+    _layers_to_add.push_back(layer);
   }
 
   void				remove(Layer *layer)
@@ -463,34 +522,14 @@ namespace Screen
     _window->setView(_window->getDefaultView());
   }
 
+  void					toggleMode()
+  {
+    _bridge_toggle_mode = true;
+  }
+
   void					toggleIGSetting()
   {
-    _display_ig_setting = !_display_ig_setting;
-
-    if (_display_ig_setting)
-    {
-      _layers.insert(_layers.end(), _layers_setting.begin(), _layers_setting.end());
-      _layer_focused = NULL;
-      updateFocused();
-      return ;
-    }
-
-    // Remove all layers contained in setting layers
-    for (auto setting : _layers_setting)
-      for (auto it = _layers.begin(); it != _layers.end(); ++it)
-	if (*it == setting)
-	{
-	  _layers.erase(it);
-	  break ;
-	}
-
-    resetIDs();
-
-    // Update our focused in case our setting layers had the focus
-    if (_layer_focused != NULL)
-      _layer_focused->mouseLeft();
-    _layer_focused = NULL;
-    updateFocused();
+    _bridge_toggle_setting = true;
   }
 
   Mode					getMode()

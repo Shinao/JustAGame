@@ -26,7 +26,7 @@ namespace Screen
 
   void				init();
   void				clear();
-  void				setMode(Mode mode);
+  void				toggleMode();
   Mode				getMode();
 
   sf::WindowHandle		getHandle();
@@ -48,7 +48,6 @@ namespace Screen
   void				remove(Layer *layer);
   void				removeFromSetting(Layer *layer);
   EventManager			&getEventManager();
-  void				setModal(bool modal);
 
   // Implementation Unix/Windows
   void				minimize();
