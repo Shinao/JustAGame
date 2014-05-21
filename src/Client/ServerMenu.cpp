@@ -258,7 +258,6 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
 
-  Screen::setMode(Screen::Game);
   _game->run();
 }
 

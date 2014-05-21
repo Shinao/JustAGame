@@ -2,6 +2,8 @@
 # define AGAME_CLIENT_HH_
 
 # include "Network.hh"
+# include "Layer.hh"
+# include "EventCallback.hh"
 
 // AGameClient - Interface to implement for creating a game client
 // When implementing a virtual member function non pure, make sure to call the parent
@@ -10,7 +12,7 @@
 
 # define INI_GROUP	"client"
 
-class AGameClient
+class AGameClient : public Layer, public EventCallback
 {
   protected:
     AGameClient();
@@ -37,7 +39,8 @@ class AGameClient
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     // Called every frame
-    virtual void		update() = 0;
+    virtual void		draw(sf::RenderWindow &win) = 0;
+    virtual bool		update(sf::RenderWindow &win) = 0;
     // Waiting Infos from server (Players data, map, ...) - if waiting : return false
     virtual bool		initGame(ProtocoledPacket &packet) = 0;
 };

@@ -1,6 +1,7 @@
 #include "AGameClient.hh"
 #include "jag.hh"
 #include "Utility/Graphic.hh"
+#include "Screen.hh"
 
 AGameClient::AGameClient() :
   _running(false)
@@ -41,11 +42,18 @@ bool			AGameClient::isRunning() const
 void			AGameClient::run()
 {
   _running = true;
+
+  Screen::setMode(Screen::Game);
+  using namespace std::placeholders;
+  catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) { Screen::toggleIGSetting(); });
 }
 
 void			AGameClient::exit()
 {
   _running = false;
+
+  Screen::setMode(Screen::Setting);
+  clearCallbacks();
 }
 
 void			AGameClient::setServer(Client *server)

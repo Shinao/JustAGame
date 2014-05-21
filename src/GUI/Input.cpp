@@ -142,7 +142,6 @@ void			Input::mouseReleased(int x, int y)
 
   Item::mouseReleased(x, y);
 
-
   // Add all callback for an input
   using namespace std::placeholders;
   catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
