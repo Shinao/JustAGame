@@ -100,10 +100,13 @@ void			Menu::mouseReleased(int x, int y)
 	_cb_item_released();
     }
 
-    _item_focused->mouseReleased(x, y);
-    _item_pressed = _item_focused;
-    if (_cb_item_pressed)
-      _cb_item_pressed();
+    if (_item_focused != _item_pressed)
+    {
+      _item_focused->mouseReleased(x, y);
+      _item_pressed = _item_focused;
+      if (_cb_item_pressed)
+	_cb_item_pressed();
+    }
   }
 
   Drawable::mouseReleased(x, y);
