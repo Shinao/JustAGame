@@ -27,6 +27,7 @@ namespace Screen
 
     // Settings
     Mode			_mode;
+    bool			_is_fullscreen;
     bool			_display_ig_setting;
     bool			_bridge_toggle_setting;
     bool			_bridge_toggle_mode;
@@ -187,6 +188,8 @@ namespace Screen
 	    removeFromSetting(layer);
 
 	  _layers.pop_back();
+	  std::cout << "POPPING " << _layers[_layers.size()] << std::endl;
+	  std::cout << "DELETE " << layer << std::endl;
 	  delete layer;
 	}
 
@@ -232,26 +235,28 @@ namespace Screen
       _bridge_toggle_setting = false;
       _display_ig_setting = !_display_ig_setting;
 
+      // Append layers setting into our layers
       if (_display_ig_setting)
       {
 	_layers.insert(_layers.end(), _layers_setting.begin(), _layers_setting.end());
 	_layer_focused = NULL;
 	updateFocused();
-	return ;
       }
-
       // Remove all layers contained in setting layers
-      for (auto setting : _layers_setting)
-	for (auto it = _layers.begin(); it != _layers.end(); ++it)
-	  if (*it == setting)
-	  {
-	    _layers.erase(it);
-	    break ;
-	  }
+      else
+      {
+	for (auto setting : _layers_setting)
+	  for (auto it = _layers.begin(); it != _layers.end(); ++it)
+	    if (*it == setting)
+	    {
+	      _layers.erase(it);
+	      break ;
+	    }
+      }
 
       resetIDs();
 
-      // Update our focused in case our setting layers had the focus
+      // Update our focused in case our setting layers had the focus or vice versa
       if (_layer_focused != NULL)
 	_layer_focused->mouseLeft();
       _layer_focused = NULL;
@@ -282,6 +287,7 @@ namespace Screen
 	// Empty our previous game
 	_layers_setting.clear();
 	_display_ig_setting = false;
+	_is_fullscreen = false;
 
 	video_mode.width = jag::ClientWidth;
 	video_mode.height = jag::ClientHeight;
@@ -291,7 +297,10 @@ namespace Screen
 	CSimpleIniA	&ini = jag::getSettings();
 
 	if (ini.GetBoolValue(INI_GROUP, "video_fullscreen", true) == true)
+	{
 	  style |= sf::Style::Fullscreen;
+	  _is_fullscreen = true;
+	}
 
 	std::string	resolution = ini.GetValue(INI_GROUP, "video_resolution", "");
 	std::stringstream	ss;
@@ -489,6 +498,12 @@ namespace Screen
 
   void					setMoving(bool moving)
   {
+    if (_mode == Game && _is_fullscreen)
+    {
+      _moving = false;
+      return ;
+    }
+
     _moving = moving;
 
     if (_moving)
