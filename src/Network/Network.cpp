@@ -348,7 +348,9 @@ namespace		Network
       RequestID id;
       *info >> id;
       info->setRequestID(id);
-      std::cout << "[addRequest] ID [" << RequestString[info->getRequestID()] << "]" << std::endl;
+
+      if (info->getRequestID() != Request::Update)
+	std::cout << "[addRequest] ID [" << RequestString[info->getRequestID()] << "]" << std::endl;
 
       // Add request
       _requests_pending.push_back(info);
@@ -372,7 +374,6 @@ namespace		Network
       // Good Request
       else
       {
-	std::cout << "[CheckTcp] New Request" << std::endl;
 	checkAcknowledgement(*info);
 	addRequest(info);
       }
@@ -570,7 +571,8 @@ namespace		Network
     // Check all requests
     for (auto req_info : _requests_pending)
     {
-      std::cout << "Request callback [" << RequestString[req_info->getRequestID()] << "]" << std::endl;
+      if (req_info->getRequestID() != Request::Update)
+	std::cout << "Request callback [" << RequestString[req_info->getRequestID()] << "]" << std::endl;
 
       // Get callback and call it
       auto it = _requests_callback.find(req_info->getRequestID());

@@ -182,6 +182,10 @@ namespace Screen
 	    _layers[i]->setId(_layers[i]->getId() - 1);
 	  }
 
+	  // If IG Setting enabled : remove it to our setting layers if layer is setting
+	  if (_display_ig_setting && layer->getType() == Layer::Setting)
+	    removeFromSetting(layer);
+
 	  _layers.pop_back();
 	  delete layer;
 	}
@@ -294,6 +298,7 @@ namespace Screen
 	char		c;
 	ss << resolution;
 	ss >> video_mode.width >> c >> video_mode.height;
+	video_mode.bitsPerPixel = 32;
 
 	if (!video_mode.isValid())
 	  video_mode = sf::VideoMode::getFullscreenModes()[0];
@@ -407,10 +412,6 @@ namespace Screen
   void				remove(Layer *layer)
   {
     _layers_to_remove.push_back(layer);
-
-    // If IG Setting enabled : remove it to our setting layers if layer is setting
-    if (_display_ig_setting && layer->getType() == Layer::Setting)
-      removeFromSetting(layer);
   }
 
   void				removeFromSetting(Layer *layer)
