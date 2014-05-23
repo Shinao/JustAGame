@@ -52,8 +52,6 @@ class GameClient : public AGameClient
     void			playerWon(ProtocoledPacket &packet);
     // We won
     void			playerLost(ProtocoledPacket &packet);
-    // Our turn to play
-    void			ourTurn(ProtocoledPacket &packet);
     // Opponent played
     void			opponentPlay(ProtocoledPacket &packet);
 

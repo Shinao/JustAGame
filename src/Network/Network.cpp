@@ -3,10 +3,6 @@
 #include <iostream>
 #include "Network.hh"
 
-const char * RequestString[] = { "Ping", "Allo", "Connexion", "Disconnexion", "Update",
-"UDPEstablishment", "UDPEstablished", "Test", "PlayerInfo", "PlayerJoined", "PlayerLeft", "InitGame",
-"GetGame", "GameStart", "PlayerWon", "PlayerLost"};
-
 namespace		Network
 {
   //
@@ -227,12 +223,17 @@ namespace		Network
 	return ;
       }
 
+      // TODO - UDP Reliable always unacknowledged
+      std::cout << "UDP" << std::endl;
+
       // Manage acknowledgement
-      bool	acknowledged = true;
+      bool	acknowledged = false;
       info->setClient(client);
       // Update sequence if necessary
       if (info->hasAcknowledgment())
       {
+	std::cout << "has acknowledgedment" << std::endl;
+
 	Sequence		remote_sequence;
 	*info >> remote_sequence;
 
@@ -240,13 +241,16 @@ namespace		Network
 	{
 	  std::cout << "[checkUDP] Acknowledge [" << remote_sequence << "]" << std::endl;
 	  client->acknowledge(remote_sequence);
-	  acknowledged = false;
 	}
 	else
+	{
+	  acknowledged = true;
 	  std::cout << "[CheckUdp] Already Acknowledged Request [" << remote_sequence << "]" << std::endl;
+	}
       }
 
       checkAcknowledgement(*info);
+
       if (!acknowledged)
 	addRequest(info);
 
@@ -268,7 +272,7 @@ namespace		Network
 	else if (_is_server && id == Request::Allo)
 	{
 	  if (_cb_client_asking)
-	  _cb_client_asking(*info);
+	    _cb_client_asking(*info);
 	}
 
 	return ;
@@ -336,7 +340,7 @@ namespace		Network
 	else
 	  ++it;
       }
-      
+
       // Still have packet ? Resend them ! (Avoiding doublon by calling directly sendUdpClient
       for (auto it : waiting_packets)
 	sendUdpClient(it.second);
@@ -349,8 +353,10 @@ namespace		Network
       *info >> id;
       info->setRequestID(id);
 
+      std::cout << "wat" << std::endl;
+
       if (info->getRequestID() != Request::Update)
-	std::cout << "[addRequest] ID [" << RequestString[info->getRequestID()] << "]" << std::endl;
+	std::cout << "[addRequest] ID [" << info->getRequestID() << "]" << std::endl;
 
       // Add request
       _requests_pending.push_back(info);
@@ -383,8 +389,6 @@ namespace		Network
 
     void		disconnect(Client *client)
     {
-      std::cout << "[CheckTcp] Disconnexion" << std::endl;
-
       ProtocoledPacket	*info = new ProtocoledPacket();
       info->setClient(client);
       _listener.remove(client->getSocket());
@@ -400,8 +404,6 @@ namespace		Network
       sf::TcpSocket	*socket = new sf::TcpSocket();
       if (_server.accept(*socket) == sf::Socket::Done)
       {
-	std::cout << "[addPendingConnection] New client" << std::endl;
-
 	// Add to waiting list for UDP
 	Client	*client = new Client();
 	client->setSocket(socket);
@@ -442,8 +444,6 @@ namespace		Network
       ClientID	id;
       packet >> id;
 
-      std::cout << "[UDPEstablished] New client [" << id << "]" << std::endl;
-
       // Get the client from the id and ip in the waiting list
       for (auto search : _waiting_clients)
 	if (search->getId() == id && search->getIp() == packet.getClient()->getIp())
@@ -459,7 +459,6 @@ namespace		Network
       _clients.push_back(client);
 
       // Letting now the client we are ready
-      std::cout << "[UDPEstablished] Sending UDP Established to client TCP" << std::endl;
       ProtocoledPacket	*ready = new ProtocoledPacket(client, Request::UDPEstablished, Network::TCP);
       send(ready);
 
@@ -477,8 +476,6 @@ namespace		Network
 	return ;
 
       // Server completed - Our turn
-      std::cout << "[UDPEstablished] Connexion request" << std::endl;
-
       // New client request
       ProtocoledPacket	*info = new ProtocoledPacket();
       info->setRequestID(Request::Connexion);
@@ -572,7 +569,7 @@ namespace		Network
     for (auto req_info : _requests_pending)
     {
       if (req_info->getRequestID() != Request::Update)
-	std::cout << "Request callback [" << RequestString[req_info->getRequestID()] << "]" << std::endl;
+	std::cout << "Request callback [" << req_info->getRequestID() << "]" << std::endl;
 
       // Get callback and call it
       auto it = _requests_callback.find(req_info->getRequestID());
@@ -644,14 +641,14 @@ namespace		Network
     {
       for (std::map<Sequence, ProtocoledPacket *>::iterator it = waiting_packets.begin();
 	  it != waiting_packets.end(); ++it)
+      {
+	if (it->second->getRequestID() == packet->getRequestID() &&
+	    it->second->getReliability() == Network::Variable)
 	{
-	  if (it->second->getRequestID() == packet->getRequestID() &&
-	      it->second->getReliability() == Network::Variable)
-	  {
-	    delete it->second;
-	    waiting_packets.erase(it);
-	  }
+	  delete it->second;
+	  waiting_packets.erase(it);
 	}
+      }
     }
 
     _mutex.lock();

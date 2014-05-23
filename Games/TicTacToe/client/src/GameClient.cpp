@@ -50,7 +50,6 @@ bool			GameClient::initGame(ProtocoledPacket &packet)
   // We are not the first player
   if (player2_id != Client::NULL_ID)
   {
-    std::cout << "dafuq" << std::endl;
     player = new PlayerClient();
     player->setId(player2_id);
     player->setName(player2_name);
@@ -90,14 +89,13 @@ void			GameClient::run()
   _line.setFillColor(sf::Color::White);
   _font.loadFromFile("rsrc/Games/TicTacToe/PWChalk.ttf");
 
-  _our_turn = true;
+  _our_turn = false;
   
   // Get network callbacks
   using namespace std::placeholders;
   Network::addRequest(Request::GameStart, std::bind(&GameClient::gameStart, this, _1));
   Network::addRequest(Request::PlayerWon, std::bind(&GameClient::playerWon, this, _1));
   Network::addRequest(Request::PlayerLost, std::bind(&GameClient::playerLost, this, _1));
-  Network::addRequest(Request::YourTurn, std::bind(&GameClient::ourTurn, this, _1));
   Network::addRequest(Request::PlayOnCase, std::bind(&GameClient::opponentPlay, this, _1));
 }
 
@@ -179,8 +177,16 @@ void			GameClient::drawGrid(sf::RenderWindow &win)
   }
 }
 
-void			GameClient::gameStart(ProtocoledPacket &)
+void			GameClient::gameStart(ProtocoledPacket &packet)
 {
+  std::cout << "GAME START" << std::endl;
+
+  ClientID	id;
+  packet >> id;
+  // Check if our turn
+  if (id == _id)
+    _our_turn = true;
+
   // Clear old marks
   for (int x = 0; x < 3; ++x)
     for (int y = 0; y < 3; ++y)
@@ -195,11 +201,6 @@ void			GameClient::playerWon(ProtocoledPacket &)
 void			GameClient::playerLost(ProtocoledPacket &)
 {
   std::cout << "lost" << std::endl;
-}
-
-void			GameClient::ourTurn(ProtocoledPacket &)
-{
-  _our_turn = true;
 }
 
 void			GameClient::mouseReleased(int x, int y)
@@ -218,14 +219,18 @@ void			GameClient::mouseReleased(int x, int y)
   sf::Uint8	case_x = x * 3 / _rec_grid.width;
   sf::Uint8	case_y = y * 3 / _rec_grid.height;
 
+  // Abort if already a mark on it
+  if (_marks[case_x][case_y] != Client::NULL_ID)
+    return ;
+
   _marks[case_x][case_y] = _id;
 
   // Send to the server where we played - packet automatically deleted
-  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::TCP);
+  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::Unreliable);
   *packet << case_x << case_y;
   Network::send(packet);
 
-  // _our_turn = false;
+  _our_turn = false;
 }
 
 void			GameClient::settingChanged()
@@ -238,10 +243,14 @@ void			GameClient::settingChanged()
 
 void			GameClient::opponentPlay(ProtocoledPacket &packet)
 {
+  std::cout << "Opponent played" << std::endl;
+
   Case	x, y;
 
   packet >> x >> y;
-  _marks[x][y] = packet.getClient()->getId();
+  _marks[x][y] = _opponent_id;
+
+  _our_turn = true;
 }
 
 void			GameClient::drawMarks(sf::RenderWindow &win)
@@ -300,7 +309,7 @@ void			GameClient::drawTitle(sf::RenderWindow &win)
   me.setPosition(Screen::getSize().x / 2 - me.getLocalBounds().width - vs.getLocalBounds().width / 2,
       16 + vs.getCharacterSize() / 2 - me.getCharacterSize() / 2);
   vs.setPosition(Screen::getSize().x / 2 - vs.getLocalBounds().width / 2, 8);
-  opponent.setPosition(Screen::getSize().x / 2 + vs.getLocalBounds().width,
+  opponent.setPosition(Screen::getSize().x / 2 + vs.getCharacterSize(),
       16 + vs.getCharacterSize() / 2 - me.getCharacterSize() / 2);
 
   win.draw(me);

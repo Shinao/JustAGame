@@ -66,7 +66,6 @@ void			GameServer::playerJoined(ProtocoledPacket &packet)
     _player1 = (PlayerServer *) packet.getClient()->getPlayer();
   else
   {
-    std::cout << "dafuq" << std::endl;
     _player2 = (PlayerServer *) packet.getClient()->getPlayer();
     *init << _player1->getId() << _player1->getName();
   }
@@ -80,9 +79,9 @@ void			GameServer::playerJoined(ProtocoledPacket &packet)
     return ;
 
   // Don't use protocoled packet since we send it to multiple client - it will do it automatically
-  Network::sendToClients(Request::GameStart, Network::TCP, sf::Packet());
-  // Tell player one it's his turn
-  Network::send(new ProtocoledPacket(_player1->getClient(), Request::YourTurn, Network::TCP));
+  sf::Packet	start;
+  start << _player1->getId();
+  Network::sendToClients(Request::GameStart, Network::TCP, start);
 }
 
 void			GameServer::playerLeft(ProtocoledPacket &packet)
@@ -100,6 +99,7 @@ void			GameServer::update()
 
 void			GameServer::playerPlayed(ProtocoledPacket &packet)
 {
+  std::cout << "Player played " << std::endl;
   Case		x, y;
 
   packet >> x >> y;
@@ -109,9 +109,7 @@ void			GameServer::playerPlayed(ProtocoledPacket &packet)
   // Send to other player its his turn and that player played
   APlayer		*opponent = (packet.getClient()->getPlayer() == _player1 ? _player2 : _player1);
   Client		*client = opponent->getClient();
-  ProtocoledPacket	*ppacket = new ProtocoledPacket(client, Request::YourTurn, Network::TCP);
-  Network::send(ppacket);
-  ppacket = new ProtocoledPacket(client, Request::PlayOnCase, Network::TCP);
+  ProtocoledPacket	*ppacket = new ProtocoledPacket(client, Request::PlayOnCase, Network::TCP);
   *ppacket << x << y;
   Network::send(ppacket);
 }

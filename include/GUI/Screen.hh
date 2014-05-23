@@ -53,6 +53,9 @@ namespace Screen
   void				minimize();
   void				setCursor(CursorType type);
   void				openUrl(const std::string &url);
+
+  // TODO - Remove debug
+  void	debug(int debug);
 }
 
 #endif

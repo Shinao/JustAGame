@@ -31,10 +31,6 @@ ProtocoledPacket::ProtocoledPacket(Client *client, RequestID req, Network::Relia
     _clock = new sf::Clock();
   }
 
-  // TODO 
-  // If TCP don't put our sequence - so don't check it on checkAcknowledgment
-  // If unreliable same fucking thing
-
   // Packet sequence + Remote sequence for reference and ack field
   *this << client->getSequence() << client->getAckField();
 

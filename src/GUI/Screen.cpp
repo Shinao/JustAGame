@@ -14,6 +14,9 @@ namespace Screen
 
   namespace
   {
+    // TODO - remove debug
+    int	_debug;
+
     // Using a pointer since we can't do global variable Window with Shared Library
     sf::RenderWindow	*_window = NULL;
 
@@ -319,6 +322,13 @@ namespace Screen
       if (_mode == Setting)
 	restore();
 
+      // TODO - remove debug
+      if (_debug == 0)
+	_window->setPosition(sf::Vector2i(0, 0));
+      else
+	_window->setPosition(sf::Vector2i(getSize().x, 0));
+
+
       // Setting changed - update layers
       if (!first_init)
       {
@@ -331,6 +341,12 @@ namespace Screen
       // TODO - Wait until finished if needed to remove it
       // _window->setKeyRepeatEnabled(false);
     }
+  }
+
+  // TODO - remove debug
+  void	debug(int debug)
+  {
+    _debug = debug;
   }
 
 

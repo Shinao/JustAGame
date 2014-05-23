@@ -105,9 +105,10 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
   ProtocoledPacket	*response = new ProtocoledPacket(NULL, Request::Allo, Network::Unconnected);
   *response << _name << _game_mode << hasPassword() << (sf::Uint8) Network::getClients().size()
     << (sf::Uint8) _maximum_players;
-  Network::send(response, packet.getClient()->getIp(), Network::CLIENT_PORT);
+  Network::send(response, packet.getClient()->getIp(), packet.getClient()->getPort());
 
-  std::cout << "Computer asked for servers" << std::endl;
+  std::cout << packet.getClient()->getIp() << ":" << packet.getClient()->getPort()
+    << " asked for servers" << std::endl;
 }
 
 // Create a new player and link it to the client before calling this method
@@ -130,7 +131,6 @@ void			AGameServer::playerJoined(ProtocoledPacket &packet)
   if (name.empty())
     name = packet.getClient()->getIp().toString();
 
-  std::cout << "init : " << &player << std::endl;
   player.setName(name);
   player.setColor(color);
   _players[player.getId()] = &player;
@@ -140,7 +140,7 @@ void			AGameServer::playerJoined(ProtocoledPacket &packet)
   new_packet << packet.getClient()->getId() << name << color.r << color.g << color.b;
   Network::sendToClients(Request::PlayerJoined, Network::Reliable, new_packet);
 
-  std::cout << "Player joined the game" << std::endl;
+  std::cout << "Player [" << name << "][" << player.getId() << "] joined the game" << std::endl;
 }
 
 // Send to all clients the player who left (Boooh!)
@@ -153,14 +153,13 @@ void			AGameServer::clientDisconnected(ProtocoledPacket &packet)
     new_packet << packet.getClient()->getId();
     Network::sendToClients(Request::PlayerLeft, Network::Reliable, new_packet);
 
-    std::cout << "Player left the game" << std::endl;
+    std::cout << "Player [" << packet.getClient()->getPlayer()->getName() << "]["
+      << packet.getClient()->getId() << "] left the game" << std::endl;
 
     // Call implementation since we have a player
     playerLeft(packet);
 
     _players.erase(packet.getClient()->getId());
-
-    std::cout << _players.size() << std::endl;
   }
 }
 

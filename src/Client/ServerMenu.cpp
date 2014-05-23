@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 
+// TODO - Wtf is that ? - Delete game when problem/over
 AGameClient			*_game;
 using namespace std::placeholders;
 
@@ -15,6 +16,8 @@ ServerMenu::ServerMenu() :
   _state(Unconnected),
   _server(NULL)
 {
+  serverSelected();
+
   String	*text = new String("LOCAL");
   text->addCallback([&]() { _internet = false; });
   _menu->add(text);
@@ -294,7 +297,4 @@ void			ServerMenu::settingChanged()
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
   _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
-
-  // TODO - erase
-  refreshServers();
 }
