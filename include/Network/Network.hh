@@ -17,9 +17,8 @@ class ProtocoledPacket;
 // Call update which will use the callback for each pending request received
 // A Packet must start with a Header - See ProtocoledPacket
 
-// connect function is threaded - will call the callback passed as parameter
+// connect function is threaded - will call the callback Connexion/Disconnexion
 // The parameter client only need his Ip and Port set
-// connect should not be called inside a CallbackRequest function to avoid deadlock
 
 // If UDP is used in unconnected mode, then it will create a new client and set his Ip and Port
 // This client will be automatically deleted after the callback

@@ -28,7 +28,7 @@ bool			AGameClient::init()
   Utility::stringToColor(_player_color, color);
 
   // Send Player Info to Server
-  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayerInfo, Network::Reliable);
+  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayerInfo, Network::TCP);
   *packet << _player_name << _player_color.r << _player_color.g << _player_color.b;
   Network::send(packet);
 

@@ -108,6 +108,8 @@ namespace		Network
 	if (!_listener.wait(sf::milliseconds(UPDATE_INTERVAL)))
 	  continue ;
 
+	std::cout << "WUHU" << std::endl;
+
 	// Check server
 	if (_is_server && _listener.isReady(_server))
 	  addPendingConnection();
@@ -222,9 +224,6 @@ namespace		Network
 	_mutex.unlock();
 	return ;
       }
-
-      // TODO - UDP Reliable always unacknowledged
-      std::cout << "UDP" << std::endl;
 
       // Manage acknowledgement
       bool	acknowledged = false;
@@ -353,8 +352,6 @@ namespace		Network
       *info >> id;
       info->setRequestID(id);
 
-      std::cout << "wat" << std::endl;
-
       if (info->getRequestID() != Request::Update)
 	std::cout << "[addRequest] ID [" << info->getRequestID() << "]" << std::endl;
 
@@ -364,6 +361,7 @@ namespace		Network
 
     void		checkTcp(Client *client)
     {
+      std::cout << "TCPP" << std::endl;
       _mutex.lock();
 
       ProtocoledPacket	*info = new ProtocoledPacket();
@@ -387,6 +385,7 @@ namespace		Network
       _mutex.unlock();
     }
 
+    // TODO - Lock if calling from MainThread
     void		disconnect(Client *client)
     {
       ProtocoledPacket	*info = new ProtocoledPacket();
@@ -457,6 +456,7 @@ namespace		Network
       // Add client
       _waiting_clients.remove(client);
       _clients.push_back(client);
+      _listener.add(client->getSocket());
 
       // Letting now the client we are ready
       ProtocoledPacket	*ready = new ProtocoledPacket(client, Request::UDPEstablished, Network::TCP);

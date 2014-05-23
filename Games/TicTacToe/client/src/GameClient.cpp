@@ -226,7 +226,7 @@ void			GameClient::mouseReleased(int x, int y)
   _marks[case_x][case_y] = _id;
 
   // Send to the server where we played - packet automatically deleted
-  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::Unreliable);
+  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::TCP);
   *packet << case_x << case_y;
   Network::send(packet);
 
