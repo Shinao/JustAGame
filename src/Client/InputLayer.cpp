@@ -54,8 +54,6 @@ InputLayer::InputLayer() :
 
   _scroller = new Scroller(_table);
   add(_scroller);
-
-  settingChanged();
 }
 
 InputLayer::~InputLayer()

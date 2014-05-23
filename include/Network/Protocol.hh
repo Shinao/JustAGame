@@ -48,7 +48,7 @@ namespace Request
   // Party end and client won : server -> client
   const RequestID		PlayerWon = 14;
   // Party end and client lost : server -> client
-  const RequestID		PlayerLost = 14;
+  const RequestID		PlayerLost = 15;
 }
 
 

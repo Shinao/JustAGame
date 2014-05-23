@@ -61,8 +61,6 @@ GameLayer::GameLayer() :
     _square_color_picker[pos + 2].color = colors[(i + 1) % NB_COLOR];
     _square_color_picker[pos + 3].color = colors[(i + 1) % NB_COLOR];
   }
-
-  settingChanged();
 }
 
 GameLayer::~GameLayer()

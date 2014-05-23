@@ -14,8 +14,6 @@ MainMenuItem::MainMenuItem(const std::string &name) :
   _menu->setPressed(_title);
 
   add(_menu, "menu");
-
-  settingChanged();
 }
 
 MainMenuItem::~MainMenuItem()

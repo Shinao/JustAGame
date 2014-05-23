@@ -47,8 +47,6 @@ Titlebar::Titlebar() :
   _icon_spr.setTexture(_icon_tex);
   _logo_tex.loadFromImage(jag::getRessource("logo.png"));
   _logo_spr.setTexture(_logo_tex);
-
-  settingChanged();
 }
 
 Titlebar::~Titlebar()

@@ -29,8 +29,6 @@ StatusBar::StatusBar() :
       using namespace std::placeholders;
   _thread = new sf::Thread(std::bind(&StatusBar::latency, this));
   _thread->launch();
-
-  settingChanged();
 }
 
 StatusBar::~StatusBar()

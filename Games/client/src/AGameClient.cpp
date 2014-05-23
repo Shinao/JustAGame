@@ -11,9 +11,6 @@ AGameClient::AGameClient() :
 
 AGameClient::~AGameClient()
 {
-  Network::removeRequest(Request::PlayerJoined);
-  Network::removeRequest(Request::PlayerLeft);
-  Network::removeRequest(Request::Update);
 }
 
 bool			AGameClient::init()
@@ -50,10 +47,14 @@ void			AGameClient::run()
   Screen::toggleMode();
   Screen::add(this);
 
-  using namespace std::placeholders;
   catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) {
       Screen::toggleIGSetting();
       });
+
+  using namespace std::placeholders;
+  Network::addRequest(Request::PlayerJoined, std::bind(&AGameClient::playerJoined, this, _1));
+  Network::addRequest(Request::PlayerLeft, std::bind(&AGameClient::playerLeft, this, _1));
+  Network::addRequest(Request::Update, std::bind(&AGameClient::updatePlayers, this, _1));
 }
 
 void			AGameClient::exit()
@@ -63,6 +64,10 @@ void			AGameClient::exit()
   Screen::remove(this);
   Screen::toggleMode();
   clearCallbacks();
+
+  Network::removeRequest(Request::PlayerJoined);
+  Network::removeRequest(Request::PlayerLeft);
+  Network::removeRequest(Request::Update);
 }
 
 void			AGameClient::setServer(Client *server)
@@ -115,11 +120,22 @@ void			AGameClient::playerLeft(ProtocoledPacket &packet)
   _players.erase(id);
 }
 
-void		AGameClient::draw(sf::RenderWindow &)
+void			AGameClient::draw(sf::RenderWindow &)
 {
 }
 
-bool		AGameClient::update(sf::RenderWindow &)
+bool			AGameClient::update(sf::RenderWindow &)
 {
   return (true);
+}
+
+void			AGameClient::settingChanged()
+{
+  // Our layer take all the screen
+  _rec = Rect(0, 0, Screen::getSize().x, Screen::getSize().y);
+}
+
+void			AGameClient::mouseReleased(int x, int y)
+{
+  Layer::mouseReleased(x, y);
 }

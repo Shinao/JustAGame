@@ -41,8 +41,6 @@ MainMenu::MainMenu() :
   _menu->update();
 
   add(_menu);
-
-  settingChanged();
 }
 
 MainMenu::~MainMenu()

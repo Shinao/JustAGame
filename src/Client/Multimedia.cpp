@@ -106,8 +106,6 @@ Multimedia::Multimedia() :
   add(list, "liAA");
 
   _dmanager_backup.add(_menu, "menu");
-
-  settingChanged();
 }
 
 Multimedia::~Multimedia()

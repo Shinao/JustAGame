@@ -52,8 +52,6 @@ ServerMenu::ServerMenu() :
   // Manage server connexion and disconnexion
   Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
-
-  settingChanged();
 }
 
 ServerMenu::~ServerMenu()

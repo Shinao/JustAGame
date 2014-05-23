@@ -188,8 +188,6 @@ namespace Screen
 	    removeFromSetting(layer);
 
 	  _layers.pop_back();
-	  std::cout << "POPPING " << _layers[_layers.size()] << std::endl;
-	  std::cout << "DELETE " << layer << std::endl;
 	  delete layer;
 	}
 
@@ -212,6 +210,7 @@ namespace Screen
 
 	  _layers.push_back(layer);
 	  layer->setId(id);
+	  layer->settingChanged();
 
 	  // If IG Setting enabled : add it to our setting layers if current layer is setting
 	  if (_display_ig_setting && layer->getType() == Layer::Setting)

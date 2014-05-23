@@ -140,7 +140,7 @@ namespace		Network
 	// After innactivity time : deconnexion
 	if (client->getClock().getElapsedTime().asMilliseconds() > TIMEOUT)
 	{
-	  // disconnect(client);
+	  disconnect(client);
 	  continue ;
 	}
 
@@ -592,7 +592,6 @@ namespace		Network
 	_requests_pending.push_back(req_later);
       _requests_pending_later.clear();
     }
-
 
     // Check disconnected clients
     Client	*client;

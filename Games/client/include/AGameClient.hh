@@ -41,8 +41,13 @@ class AGameClient : public Layer, public EventCallback
     // Called every frame
     virtual void		draw(sf::RenderWindow &win);
     virtual bool		update(sf::RenderWindow &win);
+
     // Waiting Infos from server (Players data, map, ...) - if waiting : return false
     virtual bool		initGame(ProtocoledPacket &packet) = 0;
+    
+    // Layer events
+    virtual void		mouseReleased(int x, int y);
+    virtual void		settingChanged();
 };
 
 #endif

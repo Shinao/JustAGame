@@ -9,8 +9,6 @@ Background::Background() :
   _bg.setFillColor(jag::getCurrentTheme()->c_background);
   _bg.setOutlineColor(sf::Color::Black);
   _bg.setOutlineThickness(jag::WindowBorderSize);
-
-  settingChanged();
 }
 
 Background::~Background()

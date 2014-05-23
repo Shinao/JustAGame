@@ -11,7 +11,7 @@ string (REPLACE " " "_" GAME_NAME ${GAME_NAME})
 
 
 # Include
-set (INCLUDES client/include server/include)
+set (INCLUDES client/include server/include include)
 include_directories (${INCLUDES})
 
 set (GAME_CLIENT "${GAME_NAME}_client")

@@ -28,8 +28,6 @@ About::About() :
       "rmonnerat.pro@gmail.com"
       "", jag::getTheme("Transparent")); 
   add(_area);
-
-  settingChanged();
 }
 
 About::~About()
