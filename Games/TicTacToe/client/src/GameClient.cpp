@@ -25,6 +25,9 @@ GameClient::~GameClient()
 // The ini is available in jag::getSettings()
 bool			GameClient::init()
 {
+  for (int x = 0; x < 3; ++x)
+    for (int y = 0; y < 3; ++y)
+      _marks[x][y] = Client::NULL_ID;
   // We don't have anything to read in our ini file 
   // So just return our parrent call
   return (AGameClient::init());
@@ -47,10 +50,12 @@ bool			GameClient::initGame(ProtocoledPacket &packet)
   // We are not the first player
   if (player2_id != Client::NULL_ID)
   {
+    std::cout << "dafuq" << std::endl;
     player = new PlayerClient();
     player->setId(player2_id);
     player->setName(player2_name);
     _players[player2_id] = player;
+    _opponent_id = player2_id;
   }
 
   return (true);
@@ -83,6 +88,7 @@ void			GameClient::run()
   _bg_tex.loadFromImage(jag::getRessource("Games/TicTacToe/blackboard.jpg"));
   _bg.setTexture(_bg_tex);
   _line.setFillColor(sf::Color::White);
+  _font.loadFromFile("rsrc/Games/TicTacToe/PWChalk.ttf");
 
   _our_turn = true;
   
@@ -92,6 +98,7 @@ void			GameClient::run()
   Network::addRequest(Request::PlayerWon, std::bind(&GameClient::playerWon, this, _1));
   Network::addRequest(Request::PlayerLost, std::bind(&GameClient::playerLost, this, _1));
   Network::addRequest(Request::YourTurn, std::bind(&GameClient::ourTurn, this, _1));
+  Network::addRequest(Request::PlayOnCase, std::bind(&GameClient::opponentPlay, this, _1));
 }
 
 void			GameClient::exit()
@@ -109,6 +116,8 @@ void			GameClient::draw(sf::RenderWindow &win)
 
   drawBackground(win);
   drawGrid(win);
+  drawMarks(win);
+  drawTitle(win);
 }
 
 bool			GameClient::update(sf::RenderWindow &win)
@@ -209,12 +218,14 @@ void			GameClient::mouseReleased(int x, int y)
   sf::Uint8	case_x = x * 3 / _rec_grid.width;
   sf::Uint8	case_y = y * 3 / _rec_grid.height;
 
+  _marks[case_x][case_y] = _id;
+
   // Send to the server where we played - packet automatically deleted
   ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::TCP);
   *packet << case_x << case_y;
   Network::send(packet);
 
-  _our_turn = false;
+  // _our_turn = false;
 }
 
 void			GameClient::settingChanged()
@@ -223,4 +234,76 @@ void			GameClient::settingChanged()
 
   _rec_grid = Rect(Screen::getSize().x / 2, Screen::getSize().y /  4,
       Screen::getSize().y / 2, Screen::getSize().y / 2);
+}
+
+void			GameClient::opponentPlay(ProtocoledPacket &packet)
+{
+  Case	x, y;
+
+  packet >> x >> y;
+  _marks[x][y] = packet.getClient()->getId();
+}
+
+void			GameClient::drawMarks(sf::RenderWindow &win)
+{
+  sf::Text	text("X", _font);
+  text.setCharacterSize(_rec_grid.width / 4);
+
+  int	padding_x = _rec_grid.width / 3 / 2 - text.getLocalBounds().width / 2;
+  int	padding_y = _rec_grid.height / 3 / 2 - text.getLocalBounds().height / 2 - text.getGlobalBounds().top;
+
+  for (int x = 0; x < 3; ++x)
+    for (int y = 0; y < 3; ++y)
+    {
+      if (_marks[x][y] == Client::NULL_ID)
+	continue ;
+
+      if (_marks[x][y] == _id)
+      {
+	text.setColor(sf::Color::Green);
+	text.setString("X");;
+      }
+      else
+      {
+	text.setColor(sf::Color::Red);
+	text.setString("O");;
+      }
+
+      text.setPosition(_rec_grid.left + _rec_grid.width / 3 * x + padding_x,
+	  _rec_grid.top + _rec_grid.height / 3 * y + padding_y);
+      win.draw(text);
+    }
+}
+
+void			GameClient::drawTitle(sf::RenderWindow &win)
+{
+  std::string	opponent_name;
+
+  if (_players.size() == 2)
+  {
+    opponent_name = _players[_opponent_id]->getName();
+    std::transform(opponent_name.begin(), opponent_name.end(), opponent_name.begin(), ::toupper);
+  }
+
+  std::string	name = _player_name;
+  std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+  sf::Text	me(name, _font);
+  me.setColor(sf::Color::Green);
+  me.setCharacterSize(Screen::getSize().y / 12);
+  sf::Text	opponent(opponent_name, _font);
+  opponent.setCharacterSize(Screen::getSize().y / 12);
+  opponent.setColor(sf::Color::Red);
+  sf::Text	vs("VS", _font);
+  vs.setCharacterSize(Screen::getSize().y / 6);
+  vs.setColor(sf::Color::White);
+
+  me.setPosition(Screen::getSize().x / 2 - me.getLocalBounds().width - vs.getLocalBounds().width / 2,
+      16 + vs.getCharacterSize() / 2 - me.getCharacterSize() / 2);
+  vs.setPosition(Screen::getSize().x / 2 - vs.getLocalBounds().width / 2, 8);
+  opponent.setPosition(Screen::getSize().x / 2 + vs.getLocalBounds().width,
+      16 + vs.getCharacterSize() / 2 - me.getCharacterSize() / 2);
+
+  win.draw(me);
+  win.draw(opponent);
+  win.draw(vs);
 }

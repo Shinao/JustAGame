@@ -47,24 +47,15 @@ void			GameServer::run()
   Network::addRequest(Request::PlayOnCase, std::bind(&GameServer::playerPlayed, this, _1));
 }
 
-void			GameServer::clientConnected(ProtocoledPacket &packet)
+void			GameServer::playerJoined(ProtocoledPacket &packet)
 {
   // Mandatory - before calling the parrent, create the player
   //
   APlayer	*player = new PlayerServer(); // Change this line by your inherited class
   packet.getClient()->setPlayer(player);
-  AGameServer::clientConnected(packet);
-  //
-  // Do what you want here
-
-  //
-}
-
-void			GameServer::playerInitialized(ProtocoledPacket &packet)
-{
+  AGameServer::playerJoined(packet);
   // Mandatory - Start the game on the client side
   //
-  AGameServer::playerInitialized(packet);
   ProtocoledPacket *init = new ProtocoledPacket(packet.getClient(), Request::InitGame, Network::TCP);
   // Add whatever you want to packet here
 
@@ -75,6 +66,7 @@ void			GameServer::playerInitialized(ProtocoledPacket &packet)
     _player1 = (PlayerServer *) packet.getClient()->getPlayer();
   else
   {
+    std::cout << "dafuq" << std::endl;
     _player2 = (PlayerServer *) packet.getClient()->getPlayer();
     *init << _player1->getId() << _player1->getName();
   }
@@ -96,6 +88,10 @@ void			GameServer::playerInitialized(ProtocoledPacket &packet)
 void			GameServer::playerLeft(ProtocoledPacket &packet)
 {
   AGameServer::playerLeft(packet);
+
+  if (_player1->getClient() == packet.getClient())
+    _player1 = _player2;
+  _player2 = NULL;
 }
 
 void			GameServer::update()
@@ -104,7 +100,7 @@ void			GameServer::update()
 
 void			GameServer::playerPlayed(ProtocoledPacket &packet)
 {
-  sf::Uint8	x, y;
+  Case		x, y;
 
   packet >> x >> y;
 

@@ -294,4 +294,7 @@ void			ServerMenu::settingChanged()
   int		top_table = rec_btn.top + rec_btn.height + 8;
 
   _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
+
+  // TODO - erase
+  refreshServers();
 }

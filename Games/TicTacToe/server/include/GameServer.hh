@@ -21,8 +21,7 @@ class GameServer : public AGameServer
     virtual bool		init(CSimpleIniA &ini);
     virtual void		exit();
     virtual void		run();
-    virtual void		clientConnected(ProtocoledPacket &packet);
-    virtual void		playerInitialized(ProtocoledPacket &packet);
+    virtual void		playerJoined(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update();

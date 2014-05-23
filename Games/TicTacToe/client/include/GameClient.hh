@@ -16,6 +16,8 @@ class GameClient : public AGameClient
     sf::Sprite			_bg;
     sf::RectangleShape		_line;
     Rect			_rec_grid;
+    sf::Font			_font;
+
 
     // Game info
     ClientID			_opponent_id;
@@ -25,6 +27,8 @@ class GameClient : public AGameClient
 
     void			drawBackground(sf::RenderWindow &win);
     void			drawGrid(sf::RenderWindow &win);
+    void			drawMarks(sf::RenderWindow &win);
+    void			drawTitle(sf::RenderWindow &win);
 
   public:
     GameClient();
@@ -50,6 +54,8 @@ class GameClient : public AGameClient
     void			playerLost(ProtocoledPacket &packet);
     // Our turn to play
     void			ourTurn(ProtocoledPacket &packet);
+    // Opponent played
+    void			opponentPlay(ProtocoledPacket &packet);
 
     // Called every frame
     virtual void		draw(sf::RenderWindow &win);

@@ -85,7 +85,7 @@ void			AGameServer::run()
   using namespace std::placeholders;
   Network::getClientAsking(std::bind(&AGameServer::clientAsked, this, _1));
   Network::addRequest(Request::Connexion, std::bind(&AGameServer::clientConnected, this, _1));
-  Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
+  Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerJoined, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::clientDisconnected, this, _1));
   Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
 
@@ -113,16 +113,16 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
 // Create a new player and link it to the client before calling this method
 void			AGameServer::clientConnected(ProtocoledPacket &packet)
 {
-  APlayer	*player = packet.getClient()->getPlayer();
-  player->setId(packet.getClient()->getId());
-  player->setClient(packet.getClient());
-
   std::cout << "Client " << packet.getClient()->getIp() << ":" << packet.getClient()->getPort() << " connected to server" << std::endl;
 }
 
 // Call at the beginning
-void			AGameServer::playerInitialized(ProtocoledPacket &packet)
+void			AGameServer::playerJoined(ProtocoledPacket &packet)
 {
+  APlayer	&player = *packet.getClient()->getPlayer();
+  player.setId(packet.getClient()->getId());
+  player.setClient(packet.getClient());
+
   std::string	name;
   sf::Color	color;
   packet >> name >> color.r >> color.g >> color.b;
@@ -130,7 +130,6 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
   if (name.empty())
     name = packet.getClient()->getIp().toString();
 
-  APlayer	&player = *packet.getClient()->getPlayer();
   std::cout << "init : " << &player << std::endl;
   player.setName(name);
   player.setColor(color);
@@ -160,6 +159,8 @@ void			AGameServer::clientDisconnected(ProtocoledPacket &packet)
     playerLeft(packet);
 
     _players.erase(packet.getClient()->getId());
+
+    std::cout << _players.size() << std::endl;
   }
 }
 

@@ -37,8 +37,8 @@ class AGameServer
     bool			isRunning() const;
     void			sendGame(ProtocoledPacket &packet);
     virtual void		run();
-    virtual void		clientConnected(ProtocoledPacket &packet);
-    virtual void		playerInitialized(ProtocoledPacket &packet);
+    void			clientConnected(ProtocoledPacket &packet);
+    virtual void		playerJoined(ProtocoledPacket &packet);
     void			clientDisconnected(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
 
