@@ -13,14 +13,6 @@ AGameServer::~AGameServer()
 
 bool			AGameServer::init(CSimpleIniA &ini)
 {
-  // Listen for client broadcast and client connexion/disconnexion
-  using namespace std::placeholders;
-  Network::getClientAsking(std::bind(&AGameServer::clientAsked, this, _1));
-  Network::addRequest(Request::Connexion, std::bind(&AGameServer::clientConnected, this, _1));
-  Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
-  Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::playerLeft, this, _1));
-  Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
-
   _name = ini.GetValue(INI_GROUP, "server_name", "");
   _game_mode = ini.GetValue(INI_GROUP, "game_mode", "");
   _password = ini.GetValue(INI_GROUP, "password", "");
@@ -89,6 +81,14 @@ bool			AGameServer::isRunning() const
 
 void			AGameServer::run()
 {
+  // Listen for client broadcast and client connexion/disconnexion
+  using namespace std::placeholders;
+  Network::getClientAsking(std::bind(&AGameServer::clientAsked, this, _1));
+  Network::addRequest(Request::Connexion, std::bind(&AGameServer::clientConnected, this, _1));
+  Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerInitialized, this, _1));
+  Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::clientDisconnected, this, _1));
+  Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
+
   _running = true;
 
   std::cout << "Server is running" << std::endl;
@@ -113,10 +113,11 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
 // Create a new player and link it to the client before calling this method
 void			AGameServer::clientConnected(ProtocoledPacket &packet)
 {
-  packet.getClient()->getPlayer()->setId(packet.getClient()->getId());
-  std::cout << "connected : " << packet.getClient()->getPlayer() << std::endl;
+  APlayer	*player = packet.getClient()->getPlayer();
+  player->setId(packet.getClient()->getId());
+  player->setClient(packet.getClient());
 
-  std::cout << "Client connected to server" << std::endl;
+  std::cout << "Client " << packet.getClient()->getIp() << ":" << packet.getClient()->getPort() << " connected to server" << std::endl;
 }
 
 // Call at the beginning
@@ -133,6 +134,7 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
   std::cout << "init : " << &player << std::endl;
   player.setName(name);
   player.setColor(color);
+  _players[player.getId()] = &player;
 
   // Send to all client a new player joined (Yeahh!)
   sf::Packet	new_packet;
@@ -143,7 +145,7 @@ void			AGameServer::playerInitialized(ProtocoledPacket &packet)
 }
 
 // Send to all clients the player who left (Boooh!)
-void			AGameServer::playerLeft(ProtocoledPacket &packet)
+void			AGameServer::clientDisconnected(ProtocoledPacket &packet)
 {
   // Client may be not a player
   if (packet.getClient()->getPlayer() != NULL)
@@ -153,5 +155,14 @@ void			AGameServer::playerLeft(ProtocoledPacket &packet)
     Network::sendToClients(Request::PlayerLeft, Network::Reliable, new_packet);
 
     std::cout << "Player left the game" << std::endl;
+
+    // Call implementation since we have a player
+    playerLeft(packet);
+
+    _players.erase(packet.getClient()->getId());
   }
+}
+
+void			AGameServer::playerLeft(ProtocoledPacket &)
+{
 }

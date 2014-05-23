@@ -1,7 +1,9 @@
 #include "APlayer.hh"
 
 APlayer::APlayer() :
-  _is_admin(false)
+  _ping(0),
+  _is_admin(false),
+  _client(NULL)
 {
 }
 
@@ -44,7 +46,17 @@ Ping				APlayer::getPing() const
   return (_ping);
 }
 
-void			APlayer::setPing(Ping ping)
+void				APlayer::setPing(Ping ping)
 {
   _ping = ping;
+}
+
+void				APlayer::setClient(Client *client)
+{
+  _client = client;
+}
+
+Client				*APlayer::getClient()
+{
+  return (_client);
 }

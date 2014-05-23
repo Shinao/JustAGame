@@ -147,10 +147,12 @@ void			GameClient::drawGrid(sf::RenderWindow &win)
   int	case_size = _line.getSize().y / 3;
   for (unsigned i = 0; i < 2; ++i)
   {
-    x += case_size + LINE_SIZE;
+    x += case_size - LINE_SIZE / 2;
 
     _line.setPosition(x, y);
     win.draw(_line);
+
+    x += LINE_SIZE / 2;
   }
 
   x = Screen::getSize().x / 2;
@@ -159,14 +161,16 @@ void			GameClient::drawGrid(sf::RenderWindow &win)
   _line.setSize(sf::Vector2f(Screen::getSize().y / 2, LINE_SIZE));
   for (unsigned i = 0; i < 2; ++i)
   {
-    y += case_size + LINE_SIZE;
+    y += case_size - LINE_SIZE / 2;
 
     _line.setPosition(x, y);
     win.draw(_line);
+
+    y += LINE_SIZE / 2;
   }
 }
 
-void			GameClient::gameStart(ProtocoledPacket &packet)
+void			GameClient::gameStart(ProtocoledPacket &)
 {
   // Clear old marks
   for (int x = 0; x < 3; ++x)
@@ -174,17 +178,17 @@ void			GameClient::gameStart(ProtocoledPacket &packet)
       _marks[x][y] = Client::NULL_ID;
 }
 
-void			GameClient::playerWon(ProtocoledPacket &packet)
+void			GameClient::playerWon(ProtocoledPacket &)
 {
   std::cout << "won" << std::endl;
 }
 
-void			GameClient::playerLost(ProtocoledPacket &packet)
+void			GameClient::playerLost(ProtocoledPacket &)
 {
   std::cout << "lost" << std::endl;
 }
 
-void			GameClient::ourTurn(ProtocoledPacket &packet)
+void			GameClient::ourTurn(ProtocoledPacket &)
 {
   _our_turn = true;
 }
@@ -202,16 +206,21 @@ void			GameClient::mouseReleased(int x, int y)
 
   x -= _rec_grid.left;
   y -= _rec_grid.top;
-  int	case_x = x / _rec_grid.width;
-  int	case_y = y / _rec_grid.height;
+  sf::Uint8	case_x = x * 3 / _rec_grid.width;
+  sf::Uint8	case_y = y * 3 / _rec_grid.height;
 
-  std::cout << "play on " << case_x << " / " << case_y << std::endl;
+  // Send to the server where we played - packet automatically deleted
+  ProtocoledPacket	*packet = new ProtocoledPacket(_server, Request::PlayOnCase, Network::TCP);
+  *packet << case_x << case_y;
+  Network::send(packet);
+
+  _our_turn = false;
 }
 
 void			GameClient::settingChanged()
 {
   AGameClient::settingChanged();
 
-  _rec_grid = Rect(Screen::getSize().x / 2, Screen::getSize().y /  2,
-      Screen::getSize().y / 2 + 2 * LINE_SIZE, Screen::getSize().y / 2 + 2 * LINE_SIZE);
+  _rec_grid = Rect(Screen::getSize().x / 2, Screen::getSize().y /  4,
+      Screen::getSize().y / 2, Screen::getSize().y / 2);
 }

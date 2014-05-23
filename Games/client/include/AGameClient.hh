@@ -47,6 +47,7 @@ class AGameClient : public Layer, public EventCallback
     
     // Layer events
     virtual void		mouseReleased(int x, int y);
+    virtual void		mouseCaught(int x, int y);
     virtual void		settingChanged();
 };
 

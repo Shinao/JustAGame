@@ -11,6 +11,8 @@ class GameServer : public AGameServer
   private:
     PlayerServer		*_player1;
     PlayerServer		*_player2;
+
+    ClientID			_marks[3][3];
     
   public:
     GameServer();
@@ -24,6 +26,9 @@ class GameServer : public AGameServer
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update();
+
+    // Specific TicTacToe
+    void			playerPlayed(ProtocoledPacket &packet);
 };
 
 #endif

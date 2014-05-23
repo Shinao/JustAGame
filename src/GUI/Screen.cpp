@@ -377,6 +377,9 @@ namespace Screen
 
     checkEvent();
 
+    // Safely manage layers - Out of loops
+    manageLayers();
+
     // Start from the end
     for (i = _layers.size() - 1; i >= 0; --i)
     {
@@ -407,9 +410,6 @@ namespace Screen
     _timer_wait.restart();
 
     _window->display();
-
-    // Safely remove layers if asked and things
-    manageLayers();
   }
 
   void				add(Layer *layer)

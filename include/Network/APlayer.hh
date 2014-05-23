@@ -5,6 +5,8 @@
 # include <string>
 # include "Protocol.hh"
 
+class Client;
+
 // APlayer used for Server and Client as an abstract class
 // Implement it and for each new player create your own class inherited from it
 
@@ -16,6 +18,8 @@ class APlayer
     ClientID			_id;
     Ping			_ping;
     bool			_is_admin;
+
+    Client			*_client;
 
   public:
     APlayer();
@@ -29,6 +33,10 @@ class APlayer
     ClientID			getId() const;
     Ping			getPing() const;
     void			setPing(Ping ping);
+
+    // Server specific
+    void			setClient(Client *client);
+    Client			*getClient();
 };
 
 #endif

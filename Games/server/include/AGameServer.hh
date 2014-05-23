@@ -26,6 +26,7 @@ class AGameServer
     std::string			_admin_password;
     int				_maximum_players;
 
+    std::map<ClientID, APlayer *>	_players;
     
   public:
     virtual ~AGameServer();
@@ -38,6 +39,7 @@ class AGameServer
     virtual void		run();
     virtual void		clientConnected(ProtocoledPacket &packet);
     virtual void		playerInitialized(ProtocoledPacket &packet);
+    void			clientDisconnected(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update() = 0;

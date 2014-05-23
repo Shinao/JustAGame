@@ -139,3 +139,8 @@ void			AGameClient::mouseReleased(int x, int y)
 {
   Layer::mouseReleased(x, y);
 }
+
+void			AGameClient::mouseCaught(int x, int y)
+{
+  Layer::mouseCaught(x, y);
+}

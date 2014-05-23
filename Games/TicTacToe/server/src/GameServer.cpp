@@ -1,5 +1,6 @@
 #include "GameServer.hh"
 #include "PlayerServer.hh"
+#include "TTTProtocol.hh"
 
 // Mandatory part - Since we are a library we need to send our inherited class to the server
 // Thanks polymorphism
@@ -24,9 +25,13 @@ GameServer::~GameServer()
 
 bool			GameServer::init(CSimpleIniA &ini)
 {
-  // We don't have anything to read in our ini file 
-  // So just return our parrent call
-  return (AGameServer::init(ini));
+  if (!AGameServer::init(ini))
+    return (false);
+
+  // Force 2 players
+  _maximum_players = 2;
+
+  return (true);
 }
 
 void			GameServer::exit()
@@ -37,6 +42,9 @@ void			GameServer::exit()
 void			GameServer::run()
 {
   AGameServer::run();
+
+  using namespace std::placeholders;
+  Network::addRequest(Request::PlayOnCase, std::bind(&GameServer::playerPlayed, this, _1));
 }
 
 void			GameServer::clientConnected(ProtocoledPacket &packet)
@@ -74,6 +82,15 @@ void			GameServer::playerInitialized(ProtocoledPacket &packet)
   //
   Network::send(init);
   //
+
+  // Check if 2 player -> Game start
+  if (_players.size() != 2)
+    return ;
+
+  // Don't use protocoled packet since we send it to multiple client - it will do it automatically
+  Network::sendToClients(Request::GameStart, Network::TCP, sf::Packet());
+  // Tell player one it's his turn
+  Network::send(new ProtocoledPacket(_player1->getClient(), Request::YourTurn, Network::TCP));
 }
 
 void			GameServer::playerLeft(ProtocoledPacket &packet)
@@ -83,4 +100,22 @@ void			GameServer::playerLeft(ProtocoledPacket &packet)
 
 void			GameServer::update()
 {
+}
+
+void			GameServer::playerPlayed(ProtocoledPacket &packet)
+{
+  sf::Uint8	x, y;
+
+  packet >> x >> y;
+
+  _marks[x][y] = packet.getClient()->getId();
+
+  // Send to other player its his turn and that player played
+  APlayer		*opponent = (packet.getClient()->getPlayer() == _player1 ? _player2 : _player1);
+  Client		*client = opponent->getClient();
+  ProtocoledPacket	*ppacket = new ProtocoledPacket(client, Request::YourTurn, Network::TCP);
+  Network::send(ppacket);
+  ppacket = new ProtocoledPacket(client, Request::PlayOnCase, Network::TCP);
+  *ppacket << x << y;
+  Network::send(ppacket);
 }
