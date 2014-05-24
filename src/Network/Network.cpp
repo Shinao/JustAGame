@@ -108,8 +108,6 @@ namespace		Network
 	if (!_listener.wait(sf::milliseconds(UPDATE_INTERVAL)))
 	  continue ;
 
-	std::cout << "WUHU" << std::endl;
-
 	// Check server
 	if (_is_server && _listener.isReady(_server))
 	  addPendingConnection();
@@ -361,7 +359,6 @@ namespace		Network
 
     void		checkTcp(Client *client)
     {
-      std::cout << "TCPP" << std::endl;
       _mutex.lock();
 
       ProtocoledPacket	*info = new ProtocoledPacket();
@@ -385,7 +382,6 @@ namespace		Network
       _mutex.unlock();
     }
 
-    // TODO - Lock if calling from MainThread
     void		disconnect(Client *client)
     {
       ProtocoledPacket	*info = new ProtocoledPacket();

@@ -13,8 +13,6 @@ namespace jag
     std::map<std::string, sf::Image *>	_rsrcs;
     Theme				*_theme;
     CSimpleIniA				_ini;
-
-
   }
 
   void			init()
@@ -409,12 +407,12 @@ namespace jag
     };
   }
 
-  std::map<std::string, sf::Keyboard::Key>		&getKeys()
+  std::map<std::string, sf::Keyboard::Key>	&getKeys()
   {
     return (_keys);
   }
 
-  const std::string					&getValueFromEvent(sf::Keyboard::Key key)
+  const std::string				&getValueFromEvent(sf::Keyboard::Key key)
   {
     static std::string	unknown("Unknown");
 
@@ -425,7 +423,7 @@ namespace jag
     return (unknown);
   }
 
-  const std::string					&getValueFromEvent(sf::Mouse::Button btn)
+  const std::string				&getValueFromEvent(sf::Mouse::Button btn)
   {
     static std::string	mouse_left("Mouse Left");
     static std::string	mouse_right("Mouse Right");

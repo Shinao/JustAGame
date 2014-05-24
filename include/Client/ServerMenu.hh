@@ -8,31 +8,38 @@
 # include "Table.hh"
 # include "ModalMessageBox.hh"
 # include "LibraryLoader.hh"
+# include "AGameClient.hh"
 
 class ServerMenu : public MainMenuItem
 {
   private:
-    bool			_internet;
-    Table			*_table;
-
     //
     // Connecting progress
     //
     enum
     {
+      Disconnecting,
       Connected,
       Connecting,
       Aborting,
       Unconnected
     }				_state;
+
+    bool			_internet;
+    Table			*_table;
+
+    // Connexion Progress
     ModalMessageBox		*_msg;
     sf::Thread			*_thread;
     Client			*_server;
     LibraryLoader		*_lib;
     std::string			_game_mode;
+    AGameClient			*_game;
+
 
     void			initGame(ProtocoledPacket &packet);
     bool			tryingToEscape();
+    void			connectToServer();
     void			serverSelected();
     void			launchGame();
     void			getGame(ProtocoledPacket &packet);

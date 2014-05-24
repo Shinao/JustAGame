@@ -1,20 +1,19 @@
-# include "AGameClient.hh"
 #include "ServerMenu.hh"
 #include "Screen.hh"
 #include "String.hh"
 #include "Titlebar.hh"
+#include "GameManager.hh"
 #include <sstream>
 #include <fstream>
 
-// TODO - Wtf is that ? - Delete game when problem/over
-AGameClient			*_game;
 using namespace std::placeholders;
 
 ServerMenu::ServerMenu() :
   MainMenuItem("INTERNET"),
-  _internet(false),
   _state(Unconnected),
-  _server(NULL)
+  _internet(false),
+  _server(NULL),
+  _game(NULL)
 {
   serverSelected();
 
@@ -51,10 +50,6 @@ ServerMenu::ServerMenu() :
   items.push_back(new String("Nope"));
   items.push_back(new String("10/20"));
   _table->addRow(items);
-
-  // Manage server connexion and disconnexion
-  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
-  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
 }
 
 ServerMenu::~ServerMenu()
@@ -104,8 +99,30 @@ void			ServerMenu::mousePressed(int x, int y)
 
 void			ServerMenu::serverSelected()
 {
+  _msg = new ModalMessageBox("Connexion", new String(""));
+
+  if (GameManager::isRunning())
+  {
+    _msg->setDescription(new String("Disconnecting from current server..."));
+
+    GameManager::exitGame();
+    Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
+    _state = Disconnecting;
+
+    return ;
+  }
+
+  connectToServer();
+}
+
+void			ServerMenu::connectToServer()
+{
+  // Manage server connexion and disconnexion
+  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
+  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
+
   // User notification
-  _msg = new ModalMessageBox("Connexion", new String("Trying to connect to server..."));
+  _msg->setDescription(new String("Trying to connect to server..."));
   _msg->addExitCallback(std::bind(&ServerMenu::tryingToEscape, this));
   _msg->addButton("Cancel");
 
@@ -123,11 +140,22 @@ void			ServerMenu::serverSelected()
 
 void			ServerMenu::couldNotConnect(ProtocoledPacket &)
 {
+  // We were disconnecting from the current running game
+  if (_state == Disconnecting)
+  {
+    std::cout << "disconnected from current game" << std::endl;
+    connectToServer();
+    return ;
+  }
+
   delete _thread;
 
   // User aborted operation
   if (_state != Connecting)
   {
+    Network::removeRequest(Request::Connexion);
+    Network::removeRequest(Request::Disconnexion);
+
     Screen::remove(_msg);
     return ;
   }
@@ -255,8 +283,13 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
   Screen::remove(_msg);
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
+  Network::removeRequest(Request::Connexion);
+  Network::removeRequest(Request::Disconnexion);
 
-  _game->run();
+  if (GameManager::isRunning())
+    GameManager::exitGame();
+
+  GameManager::runGame(_game);
 }
 
 // User Canceled or used Escape
@@ -273,7 +306,6 @@ bool			ServerMenu::tryingToEscape()
   if (_state == Unconnected)
     return (true);
 
-  // Close connection - TODO : Use Network::disconnect
   if (_state == Connected)
     _server->getSocket().disconnect();
 
