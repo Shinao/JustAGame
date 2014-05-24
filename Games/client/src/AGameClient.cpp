@@ -66,7 +66,7 @@ void			AGameClient::exit()
   clearCallbacks();
 
   // Disconnect if not already disconnected
-  _server->getSocket().disconnect();
+  Network::disconnect(_server);
 
   Network::removeRequest(Request::PlayerJoined);
   Network::removeRequest(Request::PlayerLeft);

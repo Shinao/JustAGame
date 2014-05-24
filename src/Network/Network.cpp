@@ -41,7 +41,6 @@ namespace		Network
     void				sendUpdate();
     void				sendUdpClient(ProtocoledPacket *packet);
     void				connecting_thread(Client *client);
-    void				disconnect(Client *client);
 
 
     //
@@ -136,7 +135,7 @@ namespace		Network
 	// After innactivity time : deconnexion
 	if (client->getClock().getElapsedTime().asMilliseconds() > TIMEOUT)
 	{
-	  disconnect(client);
+	  disconnect(client, true, false);
 	  continue ;
 	}
 
@@ -160,7 +159,7 @@ namespace		Network
 
 	// Client disconnected
 	if (send(packet) != sf::Socket::Done)
-	  disconnect(client);
+	  disconnect(client, true, false);
       }
 
       _mutex.unlock();
@@ -382,16 +381,6 @@ namespace		Network
       _mutex.unlock();
     }
 
-    void		disconnect(Client *client)
-    {
-      ProtocoledPacket	*info = new ProtocoledPacket();
-      info->setClient(client);
-      _listener.remove(client->getSocket());
-      info->setRequestID(Request::Disconnexion);
-      _requests_pending.push_back(info);
-      _clients_disconnected.push_back(client);
-    }
-
     void		addPendingConnection()
     {
       _mutex.lock();
@@ -399,6 +388,7 @@ namespace		Network
       sf::TcpSocket	*socket = new sf::TcpSocket();
       if (_server.accept(*socket) == sf::Socket::Done)
       {
+	std::cout << "<<< NEW CLIENT" << std::endl;
 	// Add to waiting list for UDP
 	Client	*client = new Client();
 	client->setSocket(socket);
@@ -551,11 +541,11 @@ namespace		Network
       delete packet;
   }
 
-  // Call callbacks for all requests received
+  // Main Thread - Manage Request - Client...
   void			update()
   {
     // Don't do all the work, there is probably nothing
-    if (_requests_pending.size() == 0)
+    if (!_requests_pending.size() && !_requests_pending_later.size() && !_clients_disconnected.size())
       return ;
 
     // It's safe baby
@@ -572,7 +562,7 @@ namespace		Network
       if (it != _requests_callback.end())
 	it->second(*req_info);
       else
-	std::cout << "Not found" << std::endl;
+	std::cout << "Callback Not Found" << std::endl;
 
       delete req_info;
     }
@@ -593,9 +583,10 @@ namespace		Network
       client = _clients_disconnected[i];
 
       std::cout << "[Update] Client [" << client->getId() << "] disconnected" << std::endl;
-      for(std::vector<Client *>::iterator search = _clients.begin(); search != _clients.end(); ++search)
+      for(auto search = _clients.begin(); search != _clients.end(); ++search)
 	if (*search == client)
 	{
+	  std::cout << ">>> DISCONNECT CLIENT" << std::endl;
 	  _clients.erase(search);
 	  delete &client->getSocket();
 	  break ;
@@ -706,6 +697,32 @@ namespace		Network
     thread->launch();
 
     return (thread);
+  }
+
+  void		disconnect(Client *client, bool from_network, bool later)
+  {
+    // Check if not already disconnected
+    for (auto search : _clients_disconnected)
+      if (search == client)
+	return ;
+
+    if (!from_network)
+      _mutex.lock();
+
+    ProtocoledPacket	*info = new ProtocoledPacket();
+    info->setClient(client);
+    info->setRequestID(Request::Disconnexion);
+
+    if (later)
+      _requests_pending_later.push_back(info);
+    else
+      _requests_pending.push_back(info);
+
+    _clients_disconnected.push_back(client);
+    _listener.remove(client->getSocket());
+
+    if (!from_network)
+      _mutex.unlock();
   }
 
   // Broadcast - Ask for servers available

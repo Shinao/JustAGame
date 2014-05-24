@@ -41,6 +41,7 @@ namespace Network
   void			addRequest(RequestID id, const CallbackRequest &cb);
   void			removeRequest(RequestID id);
   sf::Thread		*connect(Client *client);
+  void			disconnect(Client *client, bool from_network = true, bool later = true);
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);

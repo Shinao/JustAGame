@@ -46,6 +46,10 @@ class ServerMenu : public MainMenuItem
     void			couldNotConnect(ProtocoledPacket &packet);
     void			connectedToServer(ProtocoledPacket &packet);
     void			connectionError(const std::string &desc);
+    void			disconnectedFromGame(ProtocoledPacket &packet);
+    void			abortConnexion(ProtocoledPacket &packet);
+    void			abortCouldNotConnect(ProtocoledPacket &packet);
+    void			abortDisconnexion(ProtocoledPacket &packet);
     //
 
   public:

@@ -12,7 +12,6 @@ ServerMenu::ServerMenu() :
   MainMenuItem("INTERNET"),
   _state(Unconnected),
   _internet(false),
-  _server(NULL),
   _game(NULL)
 {
   serverSelected();
@@ -54,6 +53,18 @@ ServerMenu::ServerMenu() :
 
 ServerMenu::~ServerMenu()
 {
+}
+
+void			ServerMenu::settingChanged()
+{
+  MainMenuItem::settingChanged();
+
+  _drawables["refresh"]->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top + _menu->getRect().height + 8, 60, 26));
+
+  Rect rec_btn = _drawables["refresh"]->getRect();
+  int		top_table = rec_btn.top + rec_btn.height + 8;
+
+  _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
 }
 
 void			ServerMenu::refreshServers()
@@ -100,13 +111,15 @@ void			ServerMenu::mousePressed(int x, int y)
 void			ServerMenu::serverSelected()
 {
   _msg = new ModalMessageBox("Connexion", new String(""));
+  _msg->addExitCallback(std::bind(&ServerMenu::tryingToEscape, this));
 
   if (GameManager::isRunning())
   {
+    std::cout << ">>> EXCITING CURRENT GAME" << std::endl;
     _msg->setDescription(new String("Disconnecting from current server..."));
 
     GameManager::exitGame();
-    Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
+    Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::disconnectedFromGame, this, _1));
     _state = Disconnecting;
 
     return ;
@@ -117,13 +130,14 @@ void			ServerMenu::serverSelected()
 
 void			ServerMenu::connectToServer()
 {
+  std::cout << "<<< CONNECT TO SERVER" << std::endl;
   // Manage server connexion and disconnexion
   Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
 
   // User notification
+  _msg->canEscape(true);
   _msg->setDescription(new String("Trying to connect to server..."));
-  _msg->addExitCallback(std::bind(&ServerMenu::tryingToEscape, this));
   _msg->addButton("Cancel");
 
   // Connect to server
@@ -140,43 +154,71 @@ void			ServerMenu::connectToServer()
 
 void			ServerMenu::couldNotConnect(ProtocoledPacket &)
 {
-  // We were disconnecting from the current running game
-  if (_state == Disconnecting)
-  {
-    std::cout << "disconnected from current game" << std::endl;
-    connectToServer();
-    return ;
-  }
-
   delete _thread;
 
-  // User aborted operation
-  if (_state != Connecting)
-  {
-    Network::removeRequest(Request::Connexion);
-    Network::removeRequest(Request::Disconnexion);
-
-    Screen::remove(_msg);
-    return ;
-  }
-
+  _state = Unconnected;
   connectionError("Could not connect to server (Timeout)");
+}
+
+// We were disconnecting from the current running game
+void			ServerMenu::disconnectedFromGame(ProtocoledPacket &)
+{
+  std::cout << ">>> DISCONNECTED FROM CURRENT GAME" << std::endl;
+  Network::removeRequest(Request::Disconnexion);
+  connectToServer();
+}
+
+void			ServerMenu::abortConnexion(ProtocoledPacket &packet)
+{
+  delete _thread;
+
+  // Setting server
+  _server = packet.getClient();
+
+  Network::removeRequest(Request::Disconnexion);
+  Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::abortDisconnexion, this, _1));
+  Network::disconnect(_server);
+}
+
+void			ServerMenu::abortDisconnexion(ProtocoledPacket &)
+{
+  std::cout << "ABORT DISCONNEXION" << std::endl;
+  Screen::remove(_msg);
+}
+
+// User aborted operation
+void			ServerMenu::abortCouldNotConnect(ProtocoledPacket &)
+{
+  delete _thread;
+
+  Network::removeRequest(Request::Connexion);
+  Network::removeRequest(Request::Disconnexion);
+  Screen::remove(_msg);
+}
+
+void			ServerMenu::connectionError(const std::string &desc)
+{
+  _msg->setDescription(new String(desc));
+  _msg->clearButtons();
+  _msg->addButton("Back");
+
+  _state = Unconnected;
 }
 
 void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
 {
   delete _thread;
 
+  // Setting server
+  _server = packet.getClient();
+
   // User aborted operation
   if (_state != Connecting)
   {
-    Screen::remove(_msg);
     return ;
   }
 
   _state = Connected;
-  // Setting server
-  _server = packet.getClient();
 
   // Checking our library
   _game_mode = "TicTacToe";
@@ -239,16 +281,6 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   file.close();
 }
 
-void			ServerMenu::connectionError(const std::string &desc)
-{
-  _msg->setDescription(new String(desc));
-  _msg->clearButtons();
-  _msg->addButton("Back");
-
-  _server = NULL;
-  _state = Unconnected;
-}
-
 void			ServerMenu::launchGame()
 {
   _msg->setDescription(new String("Loading the game..."));
@@ -296,37 +328,32 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
 bool			ServerMenu::tryingToEscape()
 {
   // Already aborting
-  if (_state == Aborting)
+  if (_state == Aborting || _state == Disconnecting)
     return (false);
 
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
+  Network::removeRequest(Request::Disconnexion);
+  Network::removeRequest(Request::Connexion);
 
-  // There has been an error so we can exit
+  // Could not connect to server - User pressed OK
   if (_state == Unconnected)
     return (true);
 
   if (_state == Connected)
-    _server->getSocket().disconnect();
+  {
+    Network::disconnect(_server, false);
+    Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::abortDisconnexion, this, _1));
+  }
+  else
+    Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::abortCouldNotConnect, this, _1));
+  Network::addRequest(Request::Connexion, std::bind(&ServerMenu::abortConnexion, this, _1));
 
   // Aborting
   _msg->setDescription(new String("Aborting connection..."));
   _msg->getButton(0)->setState(Drawable::Pressed);
 
   _state = Aborting;
-  _server = NULL;
 
   return (false);
-}
-
-void			ServerMenu::settingChanged()
-{
-  MainMenuItem::settingChanged();
-
-  _drawables["refresh"]->setRect(Rect(_menu->getRect().left + _menu->getRect().width - 60, _menu->getRect().top + _menu->getRect().height + 8, 60, 26));
-
-  Rect rec_btn = _drawables["refresh"]->getRect();
-  int		top_table = rec_btn.top + rec_btn.height + 8;
-
-  _table->setRect(Rect(_rec.left, top_table, _rec.width, _rec.height - top_table));
 }
