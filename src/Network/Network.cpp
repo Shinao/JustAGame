@@ -368,7 +368,7 @@ namespace		Network
       // Check if client disconnected
       if (status != sf::Socket::Done || !checkHeader(*info))
       {
-	disconnect(client);
+	disconnect(client, true, false);
 	delete info;
       }
       // Good Request

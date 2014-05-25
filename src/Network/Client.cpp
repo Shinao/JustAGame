@@ -10,7 +10,8 @@ Client::Client() :
   _ping_counter(0),
   _is_ready(false),
   _sequence(0),
-  _ack_field(0)
+  _ack_field(0),
+  _player(NULL)
 {
 }
 
