@@ -381,10 +381,10 @@ namespace Screen
 
   void			clear()
   {
-    delete _window;
-
     for (auto layer : _layers)
       delete layer;
+
+    delete _window;
   }
 
   void				update()
@@ -411,8 +411,6 @@ namespace Screen
 
     // Safety first - put your seat belt on please
     ++i;
-
-    _window->clear(sf::Color::Blue);
 
     // Now we know which one is the main layer - calling the draw on each layer on the top
     for (unsigned i = 0; (unsigned) i < _layers.size(); ++i)

@@ -9,6 +9,7 @@
 #include "MainMenu.hh"
 #include "StatusBar.hh"
 #include "Action.hh"
+#include "GameManager.hh"
 
 #include "Test.hh"
 
@@ -34,7 +35,7 @@ int		main(int ac, char **av)
 
   // Init network and check
   if (!Network::init(port, false))
-    new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."));
+    new ModalMessageBox("Network Error", new String("Game can not start. Port already used (25052/52025)."), false);
 
   // TODO - Remove
   // new Test();
@@ -47,6 +48,9 @@ int		main(int ac, char **av)
     // Sleep FPS minus MARGIN_FPS ms - keep FPS stable if lots of updates
     sf::sleep(sleeping_time);
   }
+
+  if (GameManager::isRunning())
+    GameManager::exitGame();
 
   // Free ressources
   Network::clear();

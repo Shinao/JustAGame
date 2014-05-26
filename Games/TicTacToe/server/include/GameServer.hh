@@ -6,6 +6,12 @@
 
 // GameServer
 
+// Be aware that this is a example
+// The server is actually easy to crash with a custom client
+// Example : Not checking if a player left in playerPlayed
+// The current client don't let the player play, but with a custom one, it will crash
+// The client shouldn't check if the server is legit, but the server always should.
+
 class GameServer : public AGameServer
 {
   private:
@@ -28,6 +34,7 @@ class GameServer : public AGameServer
 
     // Specific TicTacToe
     void			playerPlayed(ProtocoledPacket &packet);
+    bool			checkPlayer(ClientID id);
 };
 
 #endif

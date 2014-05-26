@@ -24,7 +24,8 @@ project (${GAME_CLIENT})
 
 # Source
 file (GLOB_RECURSE GAME_CLIENT_SRC client/src/*.cpp) 
-list (APPEND GAME_CLIENT_SRC ../client/src/*.cpp) 
+file (GLOB_RECURSE GAME_CLIENT_BASE_SRC ../client/src/*.cpp)
+list (APPEND GAME_CLIENT_SRC ${GAME_CLIENT_BASE_SRC})
 
 # Create Shared Library
 add_library (${GAME_CLIENT} SHARED ${GAME_CLIENT_SRC})

@@ -111,13 +111,13 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
     << " asked for servers" << std::endl;
 }
 
-// Create a new player and link it to the client before calling this method
+// Possibly nothing to do here - Player not initialized
 void			AGameServer::clientConnected(ProtocoledPacket &packet)
 {
   std::cout << "Client " << packet.getClient()->getIp() << ":" << packet.getClient()->getPort() << " connected to server" << std::endl;
 }
 
-// Call at the beginning
+// Create a new player and link it to the client before calling this method
 void			AGameServer::playerJoined(ProtocoledPacket &packet)
 {
   APlayer	&player = *packet.getClient()->getPlayer();
@@ -163,6 +163,7 @@ void			AGameServer::clientDisconnected(ProtocoledPacket &packet)
   }
 }
 
+// Custom implementation of the Request PlayerLeft since it does not exist
 void			AGameServer::playerLeft(ProtocoledPacket &)
 {
 }

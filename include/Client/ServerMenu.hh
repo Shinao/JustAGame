@@ -13,9 +13,7 @@
 class ServerMenu : public MainMenuItem
 {
   private:
-    //
     // Connecting progress
-    //
     enum
     {
       Disconnecting,

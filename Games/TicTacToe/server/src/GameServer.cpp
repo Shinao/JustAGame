@@ -99,7 +99,6 @@ void			GameServer::update()
 
 void			GameServer::playerPlayed(ProtocoledPacket &packet)
 {
-  std::cout << "Player played " << std::endl;
   Case		x, y;
 
   packet >> x >> y;
@@ -112,4 +111,47 @@ void			GameServer::playerPlayed(ProtocoledPacket &packet)
   ProtocoledPacket	*ppacket = new ProtocoledPacket(client, Request::PlayOnCase, Network::TCP);
   *ppacket << x << y;
   Network::send(ppacket);
+
+  // Now check if player won
+  if (!checkPlayer(packet.getClient()->getId()))
+    return ;
+
+  ppacket = new ProtocoledPacket(client, Request::PlayerLost, Network::TCP);
+  Network::send(ppacket);
+  ppacket = new ProtocoledPacket(packet.getClient(), Request::PlayerWon, Network::TCP);
+  Network::send(ppacket);
+  sf::Packet	start;
+  start << client->getId();
+  Network::sendToClients(Request::GameStart, Network::TCP, start);
+}
+
+bool			GameServer::checkPlayer(ClientID id)
+{
+  bool	not_found_x, not_found_y;
+
+  // Vertical & Horizontal
+  for (unsigned x = 0; x < 3; ++x)
+  {
+    not_found_x = false;
+    not_found_y = false;
+
+    for (unsigned y = 0; y < 3; ++y)
+    {
+      if (_marks[x][y] != id)
+	not_found_y = true;
+      if (_marks[y][x] != id)
+	not_found_x = true;
+    }
+    if (!not_found_x || !not_found_y)
+      return (true);
+  }
+
+  // Diags
+  if (_marks[1][1] == id && ((_marks[0][0] == id && _marks[2][2] == id) ||
+      (_marks[2][0] == id && _marks[0][2] == id)))
+    return (true);
+
+  std::cout << "fu" << std::endl;
+
+  return (false);
 }
