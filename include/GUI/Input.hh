@@ -38,6 +38,7 @@ class Input : public Item, public EventCallback
     void			checkSelection();
     void			updateRendering();
     void			removeSelection();
+    void			enterPressed(Context context);
 
 
   public:

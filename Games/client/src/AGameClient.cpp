@@ -46,7 +46,6 @@ void			AGameClient::run()
 
   Screen::toggleMode();
   Screen::add(this);
-  _chatbox = new ChatBox;
 
   catchEvent(Action(sf::Event::KeyReleased, sf::Keyboard::Escape), [] (Context) {
       Screen::toggleIGSetting();

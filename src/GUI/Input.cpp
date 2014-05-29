@@ -136,6 +136,7 @@ void			Input::setThickness(int thickness)
 
 void			Input::mouseReleased(int x, int y)
 {
+  std::cout << "Input mouseReleased" << std::endl;
   // Check if not already pressed
   if (_pressed)
     return ;
@@ -146,7 +147,7 @@ void			Input::mouseReleased(int x, int y)
   using namespace std::placeholders;
   catchEvent(Action(sf::Event::TextEntered), std::bind(&Input::textEntered, this, _1));
   catchEvent(Action(sf::Event::MouseButtonPressed, sf::Mouse::Left), std::bind(&Input::click, this, _1));
-  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&Input::released, this));
+  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&Input::enterPressed, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Left), std::bind(&Input::goLeft, this, _1));
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Right), std::bind(&Input::goRight, this, _1));
   // Special input
@@ -183,6 +184,12 @@ void			Input::updateCursor()
   }
 }
 
+void			Input::enterPressed(Context)
+{
+  std::cout << "Input enterPressed" << std::endl;
+  released();
+}
+
 void			Input::released()
 {
   Item::released();
@@ -201,7 +208,7 @@ void			Input::removeSelection()
   _cursor_selection = -1;
 }
 
-void			Input::textEntered(Context &context)
+void			Input::textEntered(Context context)
 {
   std::string	str = "";
   sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');

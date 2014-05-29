@@ -1,4 +1,5 @@
 #include "EventManager.hh"
+#include <iostream>
 
 EventManager::EventManager() :
   _action_id(0)
@@ -18,27 +19,27 @@ void				EventManager::push(const sf::Event &event)
 void				EventManager::clear()
 {
   // Clear all action
-  _map.clear();
+  _callbacks_events.clear();
   _events.clear();
 }
 
 void				EventManager::invokeCallbacks()
 {
+  // Add pending callbacks
+  _callbacks_events.insert(_callbacks_to_add.begin(), _callbacks_to_add.end());
+  _callbacks_to_add.clear();
+  // Remove pending callbacks
+  for (auto to_remove : _callbacks_to_remove)
+    _callbacks_events.erase(to_remove);
+
   // Check all event
   for (auto event : _events)
   {
-    // Check if item is equal
-    for (auto item : _map)
+    for (auto item : _callbacks_events)
       if (item.second.action == event)
-      {
 	item.second.callback(event);
-
-	// TODO - Remove useless continue ?
-	// continue ;
-      }
   }
 
-  // Clear automatically
   _events.clear();
 }
 
@@ -49,11 +50,11 @@ EventID				EventManager::add(const Action &action, const CallbackGui &callback)
   Event event;
   event.action = action;
   event.callback = callback;
-  _map[id] = event;
+  _callbacks_to_add[id] = event;
   return (id);
 }
 
 void				EventManager::remove(EventID id)
 {
-  _map.erase(id);
+  _callbacks_to_remove.push_back(id);
 }

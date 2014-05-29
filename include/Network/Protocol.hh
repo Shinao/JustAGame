@@ -43,12 +43,14 @@ namespace Request
   const RequestID		InitGame = 11;
   // [RESERVED] When a client does not have the game - ask for download : client <-> server
   const RequestID		GetGame = 12;
+  // [RESERVED] When a player send/receive a message : server <-> client
+  const RequestID		Message = 13;
   // Game start : server -> client
-  const RequestID		GameStart = 13;
+  const RequestID		GameStart = 14;
   // Party end and client won : server -> client
-  const RequestID		PlayerWon = 14;
+  const RequestID		PlayerWon = 15;
   // Party end and client lost : server -> client
-  const RequestID		PlayerLost = 15;
+  const RequestID		PlayerLost = 16;
 }
 
 

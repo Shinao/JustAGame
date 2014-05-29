@@ -18,9 +18,9 @@ namespace Screen
     int	_debug;
 
     // Using a pointer since we can't do global variable Window with Shared Library
-    sf::RenderWindow	*_window = NULL;
+    sf::RenderWindow		*_window = NULL;
 
-    const unsigned	MAX_LAYERS_EXPECTED = 100;
+    const unsigned		MAX_LAYERS_EXPECTED = 100;
 
     // Moving - capacity to the user to move the window
     bool			_moving;

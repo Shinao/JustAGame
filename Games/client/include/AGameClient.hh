@@ -4,7 +4,6 @@
 # include "Network.hh"
 # include "Layer.hh"
 # include "EventCallback.hh"
-# include "ChatBox.hh"
 
 // AGameClient - Interface to implement for creating a game client
 // When implementing a virtual member function non pure, make sure to call the parent
@@ -18,7 +17,6 @@ class AGameClient : public Layer, public EventCallback
   protected:
     AGameClient();
 
-    ChatBox			*_chatbox;
     Client			*_server;
     ClientID			_id;
     bool			_running;

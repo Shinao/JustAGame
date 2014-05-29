@@ -23,11 +23,14 @@ class EventManager
 
     EventID				_action_id;
     std::vector<sf::Event>		_events;
-    std::map<int, Event>		_map;
+    std::map<int, Event>		_callbacks_events;
+    std::map<int, Event>		_callbacks_to_add;
+    std::vector<int>			_callbacks_to_remove;
 
   public:
     EventManager();
     ~EventManager();
+
     void				push(const sf::Event &event);
     void				clear();
     void				invokeCallbacks();

@@ -5,7 +5,7 @@ namespace GameManager
   namespace
   {
     AGameClient			*_game = NULL;
-    bool			_running = false;
+    ChatBox			*_chatbox = NULL;
 
     void			serverDisconnected(ProtocoledPacket &packet);
   }
@@ -25,13 +25,14 @@ namespace GameManager
     using namespace std::placeholders;
     Network::addRequest(Request::Disconnexion, std::bind(&GameManager::serverDisconnected, _1));
 
-    _running = true;
     _game->run();
+
+    Screen::add((_chatbox = new ChatBox));
   }
 
   bool				isRunning()
   {
-    return (_running);
+    return (_game != NULL);
   }
 
   void				exitGame()
@@ -39,8 +40,21 @@ namespace GameManager
     Network::removeRequest(Request::Disconnexion);
 
     _game->exit();
-
-    _running = false;
     _game = NULL;
+  }
+
+  Client			*getServer()
+  {
+    return (Network::getClients()[0]);
+  }
+
+  AGameClient			*getGame()
+  {
+    return (_game);
+  }
+
+  ChatBox			*getChatBox()
+  {
+    return (_chatbox);
   }
 }

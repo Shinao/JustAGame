@@ -25,10 +25,10 @@ class DrawableManager
     virtual ~DrawableManager();
 
     // Event management
-    virtual void		draw(sf::RenderWindow &window);
-    virtual void		mouseCaught(int x, int y);
-    virtual void		mouseLeft();
-    virtual void		mouseReleased(int x, int y);
+    virtual void			draw(sf::RenderWindow &window);
+    virtual void			mouseCaught(int x, int y);
+    virtual void			mouseLeft();
+    virtual void			mouseReleased(int x, int y);
 
     void				add(Drawable *drawable, std::string name);
     // Stay indefinitively - Can't get it back
@@ -37,9 +37,10 @@ class DrawableManager
     void				remove(std::string name);
     void				remove(Drawable *drawable);
     Drawable				*forget(std::string name);
+    void				forget(Drawable *drawable);
 
-    Drawable			*getDrawableFocused();
-    void			switchDrawables(DrawableManager &manager);
+    Drawable				*getDrawableFocused();
+    void				switchDrawables(DrawableManager &manager);
 };
 
 #endif
