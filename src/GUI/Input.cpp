@@ -136,7 +136,6 @@ void			Input::setThickness(int thickness)
 
 void			Input::mouseReleased(int x, int y)
 {
-  std::cout << "Input mouseReleased" << std::endl;
   // Check if not already pressed
   if (_pressed)
     return ;
@@ -186,7 +185,6 @@ void			Input::updateCursor()
 
 void			Input::enterPressed(Context)
 {
-  std::cout << "Input enterPressed" << std::endl;
   released();
 }
 
