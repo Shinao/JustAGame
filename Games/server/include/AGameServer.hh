@@ -41,6 +41,7 @@ class AGameServer
     virtual void		playerJoined(ProtocoledPacket &packet);
     void			clientDisconnected(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
+    void			messageReceived(ProtocoledPacket &packet);
 
     virtual void		update() = 0;
 };

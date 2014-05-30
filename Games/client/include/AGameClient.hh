@@ -37,6 +37,7 @@ class AGameClient : public Layer, public EventCallback
     virtual void		updatePlayers(ProtocoledPacket &packet);
     virtual void		playerJoined(ProtocoledPacket &packet);
     virtual void		playerLeft(ProtocoledPacket &packet);
+    virtual void		messageReceived(ProtocoledPacket &packet);
 
     // Called every frame
     virtual void		draw(sf::RenderWindow &win);

@@ -59,6 +59,7 @@ add_library (gui SHARED ${GUI_SRC})
 target_link_libraries (gui sfml-graphics)
 target_link_libraries (gui sfml-system)
 target_link_libraries (gui sfml-window)
+target_link_libraries (gui network)
 
 
 

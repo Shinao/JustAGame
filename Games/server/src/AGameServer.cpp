@@ -88,6 +88,7 @@ void			AGameServer::run()
   Network::addRequest(Request::PlayerInfo, std::bind(&AGameServer::playerJoined, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&AGameServer::clientDisconnected, this, _1));
   Network::addRequest(Request::GetGame, std::bind(&AGameServer::sendGame, this, _1));
+  Network::addRequest(Request::Message, std::bind(&AGameServer::messageReceived, this, _1));
 
   _running = true;
 
@@ -97,6 +98,11 @@ void			AGameServer::run()
 void			AGameServer::exit()
 {
   _running = false;
+}
+
+void			AGameServer::messageReceived(ProtocoledPacket &packet)
+{
+  Network::sendToClients(Request::Message, Network::TCP, packet);
 }
 
 void			AGameServer::clientAsked(ProtocoledPacket &packet)

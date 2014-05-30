@@ -2,6 +2,7 @@
 #include "jag.hh"
 #include "Utility/Graphic.hh"
 #include "Screen.hh"
+#include "GameManager.hh"
 
 AGameClient::AGameClient() :
   Layer(Layer::Game, true),
@@ -20,6 +21,7 @@ bool			AGameClient::init()
   Network::addRequest(Request::PlayerJoined, std::bind(&AGameClient::playerJoined, this, _1));
   Network::addRequest(Request::PlayerLeft, std::bind(&AGameClient::playerLeft, this, _1));
   Network::addRequest(Request::Update, std::bind(&AGameClient::updatePlayers, this, _1));
+  Network::addRequest(Request::Message, std::bind(&AGameClient::messageReceived, this, _1));
 
   CSimpleIniA	&ini = jag::getSettings();
 
@@ -146,4 +148,8 @@ void			AGameClient::mouseReleased(int x, int y)
 void			AGameClient::mouseCaught(int x, int y)
 {
   Layer::mouseCaught(x, y);
+}
+
+void			AGameClient::messageReceived(ProtocoledPacket &packet)
+{
 }
