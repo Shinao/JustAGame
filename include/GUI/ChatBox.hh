@@ -21,7 +21,7 @@ class ChatBox : public Layer, public EventCallback
     static sf::Color		ColorError;
     static int			Timeout;
 
-    const int			MARGIN = 64;
+    const int			MARGIN = 32;
     const int			MESSAGES_HEIGHT = 128;
     const int			INPUT_HEIGHT = 34;
     const int			WIDTH = 256;
@@ -51,6 +51,7 @@ class ChatBox : public Layer, public EventCallback
     void			generateText();
     void			enterPressed(Context context);
     void			inputReleased();
+    void			checkTimeout();
 
   public:
     ChatBox();

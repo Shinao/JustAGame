@@ -1,5 +1,6 @@
 #include "ChatBox.hh"
 #include <sstream>
+#include <iomanip>
 #include "Network.hh"
 #include "GameManager.hh"
 
@@ -63,6 +64,22 @@ void			ChatBox::draw(sf::RenderWindow &win)
   for (auto message : _messages)
     for (auto text : message->texts)
       win.draw(*text);
+
+  checkTimeout();
+}
+
+void			ChatBox::checkTimeout()
+{
+  if (!_messages.size())
+    return ;
+
+  if (_messages.back()->timer.getElapsedTime().asSeconds() > Timeout)
+  {
+    // delete _messages.back();
+    _messages.pop_back();
+
+    checkTimeout();
+  }
 }
 
 void			ChatBox::settingChanged()
@@ -103,13 +120,14 @@ void			ChatBox::generateText()
   sf::Text		*text = new sf::Text(msg.message, _theme->f_text, _theme->size_text);
   int			x = _rec.left;
   int			y = _rec.top + MESSAGES_HEIGHT;
-  int			height_msg = text->getGlobalBounds().height - text->getGlobalBounds().top;
+  int			height_msg = text->getCharacterSize();
 
   y -= height_msg;
-  if (_display_time)
+  if (!_display_time)
   {
     std::stringstream	ss;
-    ss << "[" << msg.time.tm_hour << ":" << msg.time.tm_min << "] ";
+    ss << "[" << std::setw(2) << std::setfill('0') << msg.time.tm_hour << ":"
+       << std::setw(2) << std::setfill('0') << msg.time.tm_min << "] ";
     sf::Text		*time = new sf::Text(ss.str(), _theme->f_text, _theme->size_text);
     time->setColor(ColorTime);
     time->setPosition(x, y);
@@ -126,6 +144,7 @@ void			ChatBox::generateText()
     x += name->getGlobalBounds().width;
   }
 
+  text->setPosition(x, y);
   msg.texts.push_back(text);
 
   // Move up all previous messages
