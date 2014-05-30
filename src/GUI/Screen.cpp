@@ -269,16 +269,12 @@ namespace Screen
     {
       sf::VideoMode	video_mode;
       sf::Uint32	style = sf::Style::None;
-      bool		first_init = true;
 
       _bridge_toggle_mode = false;
       _mode = (_mode == Game ? Setting : Game);
 
       if (_window != NULL)
-      {
 	delete _window;
-	first_init = false;
-      }
 
       // Swap from game layers to setting layer and vice versa
       _layers.swap(_layers_setting);
@@ -328,20 +324,14 @@ namespace Screen
       else
 	_window->setPosition(sf::Vector2i(getSize().x, 0));
 
-
       // Setting changed - update layers
-      if (!first_init)
-      {
-	for (auto layer : _layers)
-	  layer->settingChanged();
-	for (auto layer : _layers_setting)
-	  layer->settingChanged();
-      }
-
-      // TODO - Wait until finished if needed to remove it
-      // _window->setKeyRepeatEnabled(false);
+      for (auto layer : _layers)
+	layer->settingChanged();
+      for (auto layer : _layers_setting)
+	layer->settingChanged();
     }
   }
+
 
   // TODO - remove debug
   void	debug(int debug)

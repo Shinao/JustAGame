@@ -110,7 +110,7 @@ void			GameClient::exit()
 
 void			GameClient::draw(sf::RenderWindow &win)
 {
-  Layer::draw(win);
+  AGameClient::draw(win);
 
   drawBackground(win);
   drawGrid(win);

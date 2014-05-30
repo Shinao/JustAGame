@@ -27,7 +27,7 @@ namespace GameManager
 
     _game->run();
 
-    Screen::add((_chatbox = new ChatBox));
+    _chatbox = new ChatBox;
   }
 
   bool				isRunning()
