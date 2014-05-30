@@ -102,7 +102,12 @@ void			AGameServer::exit()
 
 void			AGameServer::messageReceived(ProtocoledPacket &packet)
 {
-  Network::sendToClients(Request::Message, Network::TCP, packet);
+  sf::Packet	packet_msg;
+  std::string	msg;
+
+  packet >> msg;
+  packet_msg << MessageType::Player << msg << packet.getClient()->getPlayer()->getName();
+  Network::sendToClients(Request::Message, Network::TCP, packet_msg);
 }
 
 void			AGameServer::clientAsked(ProtocoledPacket &packet)

@@ -152,4 +152,14 @@ void			AGameClient::mouseCaught(int x, int y)
 
 void			AGameClient::messageReceived(ProtocoledPacket &packet)
 {
+  Message	type;
+  std::string	msg;
+
+  packet >> type >> msg;
+  if (type == MessageType::Player)
+  {
+    std::string	name;
+    packet >> name;
+    GameManager::getChatBox()->add(msg, name);
+  }
 }

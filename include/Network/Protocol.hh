@@ -11,6 +11,9 @@ typedef		sf::Uint16	ProtocolInfo;
 typedef		sf::Uint32	AcknowledgeField;
 typedef		sf::Uint16	RequestID;
 typedef		sf::Uint16	Sequence;
+typedef 	sf::Uint8	Message;
+
+
 
 
 // RequestID Network Packet
@@ -53,6 +56,14 @@ namespace Request
   const RequestID		PlayerLost = 16;
 }
 
+namespace MessageType
+{
+  const Message			Player = 1;
+  const Message			Console = 2;
+  const Message			Info = 3;
+  const Message			Warning = 4;
+  const Message			Error = 5;
+}
 
 namespace Network
 {
