@@ -34,7 +34,6 @@ class ServerMenu : public MainMenuItem
     std::string			_game_mode;
     AGameClient			*_game;
 
-
     void			initGame(ProtocoledPacket &packet);
     bool			tryingToEscape();
     void			connectToServer();
