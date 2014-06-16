@@ -5,7 +5,6 @@
 # include <stdio.h>
 # include <stdexcept>
 # include <winsock2.h>
-# include <ws2tcpip.h>
 # include <string>
 
 class LibraryLoader
