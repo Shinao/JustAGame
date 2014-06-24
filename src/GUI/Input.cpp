@@ -4,7 +4,8 @@ Input::Input(Theme *theme, float scale) :
   Item(theme, scale),
   _thickness(THICKNESS),
   _cursor_pos(0),
-  _cursor_selection(-1)
+  _cursor_selection(-1),
+  _max_length(999)
 {
   _input.setOutlineThickness(THICKNESS);
 }
@@ -211,6 +212,9 @@ void			Input::textEntered(Context context)
   std::string	str = "";
   sf::Utf<32>::encodeAnsi(context.text.unicode, std::back_inserter(str), '?');
 
+  if (_string.length() + str.length() > (unsigned) _max_length)
+    return ;
+
   // Check printable characters
   if (std::all_of(str.begin(), str.end(), isprint))
   {
@@ -323,4 +327,9 @@ void			Input::setRect(const Rect &rec)
 
   _input.setSize(sf::Vector2f(_rec.width, _rec.height));
   _cursor.setSize(sf::Vector2f(1, _rec.height - PADDING_CURSOR * 2));
+}
+
+void			Input::setMaxLength(int length)
+{
+  _max_length = length;
 }

@@ -23,6 +23,7 @@ ChatBox::ChatBox() :
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&ChatBox::enterPressed, this, _1));
 
   _input->addCallback(std::bind(&ChatBox::inputReleased, this), Drawable::Released);
+  _input->setMaxLength(80);
 }
 
 ChatBox::~ChatBox()
@@ -123,7 +124,7 @@ void			ChatBox::generateText()
   int			height_msg = text->getCharacterSize();
 
   y -= height_msg;
-  if (!_display_time)
+  if (_display_time)
   {
     std::stringstream	ss;
     ss << "[" << std::setw(2) << std::setfill('0') << msg.time.tm_hour << ":"

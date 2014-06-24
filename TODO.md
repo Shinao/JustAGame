@@ -1,6 +1,7 @@
 # TODO
 
 ###Urgent
+- Crashing when aborting connexion
 
 ###GUI
 - Console

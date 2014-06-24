@@ -32,6 +32,7 @@ class Input : public Item, public EventCallback
     bool			_draw_cursor;
     int				_cursor_pos;
     int				_cursor_selection;
+    int				_max_length;
 
     void			updateCursor();
     bool			isShiftPressed();
@@ -59,6 +60,7 @@ class Input : public Item, public EventCallback
     virtual void		setRect(const Rect &rec);
     int				getThickness() const;
     void			setThickness(int thickness);
+    void			setMaxLength(int length);
 
     // Callback
     void			click(Context event);
