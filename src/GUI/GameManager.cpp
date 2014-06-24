@@ -6,6 +6,7 @@ namespace GameManager
   {
     AGameClient			*_game = NULL;
     ChatBox			*_chatbox = NULL;
+    Console			*_console = NULL;
 
     void			serverDisconnected(ProtocoledPacket &packet);
   }
@@ -28,6 +29,7 @@ namespace GameManager
     _game->run();
 
     _chatbox = new ChatBox;
+    _console = new Console;
   }
 
   bool				isRunning()
@@ -56,5 +58,10 @@ namespace GameManager
   ChatBox			*getChatBox()
   {
     return (_chatbox);
+  }
+
+  Console			*getConsole()
+  {
+    return (_console);
   }
 }

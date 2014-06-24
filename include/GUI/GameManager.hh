@@ -3,6 +3,7 @@
 
 # include "AGameClient.hh"
 # include "ChatBox.hh"
+# include "Console.hh"
 
 // Manager current game
 
@@ -15,6 +16,7 @@ namespace GameManager
   Client			*getServer();
   AGameClient			*getGame();
   ChatBox			*getChatBox();
+  Console			*getConsole();
 }
 
 #endif

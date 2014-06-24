@@ -1,6 +1,6 @@
-#include "ChatBox.hh"
 #include <sstream>
 #include <iomanip>
+#include "ChatBox.hh"
 #include "Network.hh"
 #include "GameManager.hh"
 
