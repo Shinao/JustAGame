@@ -51,7 +51,7 @@ badd +101 src\GUI\Drawable.cpp
 badd +15 src\GUI\Item.cpp
 badd +5 src\Network\APlayer.cpp
 badd +14 src\Network\Client.cpp
-badd +23 src\Client\client.cpp
+badd +35 src\Client\client.cpp
 badd +14 include\GUI\Layer.hh
 badd +1 src\GUI\Action.cpp
 badd +76 src\GUI\Layer.cpp
@@ -98,10 +98,10 @@ badd +45 src\Client\ChatBox.cpp
 badd +68 include\Client\ChatBox.hh
 badd +33 src\GUI\EventManager.cpp
 badd +27 include\GUI\EventManager.hh
-badd +0 src\GUI\ChatBox.cpp
-badd +0 include\GUI\ChatBox.hh
-badd +0 src\GUI\GameManager.cpp
-badd +0 include\GUI\GameManager.hh
+badd +1 src\GUI\ChatBox.cpp
+badd +1 include\GUI\ChatBox.hh
+badd +1 src\GUI\GameManager.cpp
+badd +1 include\GUI\GameManager.hh
 badd +1 src\GUI\Scroller.cpp
 badd +15 include\GUI\Scroller.hh
 silent! argdel *
@@ -201,7 +201,6 @@ normal! zt
 9
 normal! 026l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Network\Network.cpp
@@ -251,7 +250,6 @@ normal! zt
 44
 normal! 052l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Network\ProtocoledPacket.cpp
@@ -276,7 +274,6 @@ exe s:l
 normal! zt
 9
 normal! 0
-2wincmd w
 tabedit include\Network\Protocol.hh
 set splitbelow splitright
 set nosplitbelow
@@ -293,13 +290,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 65 - ((23 * winheight(0) + 23) / 47)
+let s:l = 67 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-65
-normal! 022l
-2wincmd w
+67
+normal! 0
 tabedit src\GUI\Screen.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -347,7 +343,6 @@ normal! zt
 61
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\jag.cpp
@@ -397,7 +392,6 @@ normal! zt
 50
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Server\server.cpp
@@ -440,14 +434,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 29 - ((27 * winheight(0) + 23) / 47)
+let s:l = 29 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 29
 normal! 015l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit Games\server\src\AGameServer.cpp
@@ -497,7 +490,6 @@ normal! zt
 44
 normal! 011l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit Games\TicTacToe\server\src\GameServer.cpp
@@ -547,7 +539,6 @@ normal! zt
 37
 normal! 07l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit Games\TicTacToe\server\src\PlayerServer.cpp
@@ -597,7 +588,6 @@ normal! zt
 1
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\GUI\GameManager.cpp
@@ -647,7 +637,6 @@ normal! zt
 5
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Client\ServerMenu.cpp
@@ -697,9 +686,30 @@ normal! zt
 37
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
+tabedit src\GUI\Input.cpp
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 23) / 47)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
 tabedit src\GUI\ChatBox.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -722,12 +732,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 126 - ((23 * winheight(0) + 23) / 47)
+let s:l = 161 - ((29 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-126
-normal! 020l
+161
+normal! 0
 wincmd w
 argglobal
 edit include\GUI\ChatBox.hh
@@ -740,14 +750,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 24 - ((23 * winheight(0) + 23) / 47)
+let s:l = 62 - ((38 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-24
-normal! 026l
+62
+normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit src\Client\client.cpp
@@ -766,13 +775,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 39 - ((24 * winheight(0) + 23) / 47)
+let s:l = 41 - ((26 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-39
+41
 normal! 0
-2wincmd w
 tabedit Games\TicTacToe\include\TTTProtocol.hh
 set splitbelow splitright
 set nosplitbelow
@@ -795,7 +803,6 @@ exe s:l
 normal! zt
 12
 normal! 034l
-2wincmd w
 tabedit Games\client\src\AGameClient.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -818,11 +825,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 130 - ((23 * winheight(0) + 23) / 47)
+let s:l = 61 - ((23 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-130
+61
 normal! 0
 wincmd w
 argglobal
@@ -843,7 +850,6 @@ normal! zt
 40
 normal! 059l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit Games\TicTacToe\client\src\GameClient.cpp
@@ -893,7 +899,6 @@ normal! zt
 55
 normal! 07l
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
 tabedit Games\TicTacToe\client\src\PlayerClient.cpp
@@ -943,10 +948,9 @@ normal! zt
 10
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 110 + 110) / 220)
 exe 'vert 2resize ' . ((&columns * 109 + 110) / 220)
-tabnext 2
+tabnext 14
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

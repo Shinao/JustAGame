@@ -174,7 +174,7 @@ void			Input::updateCursor()
     sf::Vector2f selection_pos = _text.findCharacterPos(_cursor_selection);
 
     int start_x = std::min(selection_pos.x, cur_pos.x);
-    _selection.setPosition(start_x, cur_pos.y);
+    _selection.setPosition(start_x, _input.getGlobalBounds().top + PADDING_CURSOR + _thickness);
 
     // Checking selection out of input
     int width = std::abs(selection_pos.x - cur_pos.x);
