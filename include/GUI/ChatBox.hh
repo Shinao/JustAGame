@@ -21,10 +21,10 @@ class ChatBox : public Layer, public EventCallback
     static sf::Color		ColorError;
     static int			Timeout;
 
-    const int			MARGIN = 32;
-    const int			MESSAGES_HEIGHT = 128;
-    const int			INPUT_HEIGHT = 34;
-    const int			WIDTH = 256;
+    static const int		MARGIN = 32;
+    static const int		MESSAGES_HEIGHT = 128;
+    static const int		INPUT_HEIGHT = 34;
+    static const int		WIDTH = 256;
 
   private:
     struct Message

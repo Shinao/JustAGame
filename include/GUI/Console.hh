@@ -13,17 +13,16 @@
 class Console : public Layer, public EventCallback
 {
   public:
-    const int			MARGIN = 32;
-    const int			MESSAGES_HEIGHT = 128;
-    const int			INPUT_HEIGHT = 34;
-    const int			WIDTH = 256;
+    static const int		MAX_HEIGHT = 400;
 
   private:
-    Input			*_input;
-    Theme			*_theme;
-
     bool			_display_time;
-    bool			_is_typing;
+    bool			_is_visible;
+    Theme			*_theme;
+    Input			*_input;
+    sf::RectangleShape		_bg;
+    std::vector<sf::Text *>	_texts;
+    sf::Text			_input_desc;
 
   public:
     Console();
@@ -34,7 +33,8 @@ class Console : public Layer, public EventCallback
 
     void			setTheme(Theme *theme);
     void			displayTime(bool display);
-    bool			isTyping();
+    bool			isVisible();
+    void			toggle(Context);
 };
 
 #endif
