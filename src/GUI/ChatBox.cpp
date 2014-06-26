@@ -19,11 +19,10 @@ ChatBox::ChatBox() :
 
   _input = new Input();
 
-  using namespace std::placeholders;
-  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&ChatBox::enterPressed, this, _1));
-
   _input->addCallback(std::bind(&ChatBox::inputReleased, this), Drawable::Released);
   _input->setMaxLength(80);
+
+  enable(true);
 }
 
 ChatBox::~ChatBox()
@@ -157,6 +156,26 @@ void			ChatBox::generateText()
 bool			ChatBox::isTyping()
 {
   return (_is_typing);
+}
+
+bool			ChatBox::isEnabled()
+{
+  return (_enabled);
+}
+
+void			ChatBox::enable(bool enable)
+{
+  _enabled = enable;
+
+  if (_enabled)
+  {
+    using namespace std::placeholders;
+    catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Return), std::bind(&ChatBox::enterPressed, this, _1));
+
+    return ;
+  }
+
+  clearCallbacks();
 }
 
 

@@ -4,17 +4,25 @@
 #include "GameManager.hh"
 #include "Console.hh"
 
-Console::Console()
+Console::Console() :
+  _is_visible(false)
 {
-  setTheme(jag::getCurrentTheme());
+  _input = new Input(jag::getTheme("TextConsole"));
+  // _scroller = new Scroller();
 
-  _input = new Input();
+  setTheme(jag::getTheme("Console"));
 
   _bg.setPosition(0, 0);
   _input_desc.setString(">");
 
   using namespace std::placeholders;
   catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Tilde), std::bind(&Console::toggle, this, _1));
+
+  for (int i = 0; i < 100; i++)
+  {
+    sf::Text *text = new sf::Text("I like TO moveee iTdjsjHAEWKLJHE 123hjd |D)*U&", _theme->f_text, 14);
+    _texts.push_back(text);
+  }
 }
 
 Console::~Console()
@@ -28,7 +36,7 @@ void			Console::displayTime(bool display)
 
 void			Console::settingChanged()
 {
-  int	height = std::min((int) MAX_HEIGHT, (int) Screen::getSize().y / 4);
+  int	height = std::min((int) MAX_HEIGHT, (int) Screen::getSize().y / 3);
 
   _rec = Rect(0, 0, Screen::getSize().x, height);
   _bg.setSize(sf::Vector2f(Screen::getSize().x, height));
@@ -39,10 +47,14 @@ void			Console::settingChanged()
 
 void			Console::draw(sf::RenderWindow &win)
 {
-  if (_is_visible)
+  if (!_is_visible)
     return ;
 
   Layer::draw(win);
+
+  win.draw(_bg);
+  win.draw(_input_desc);
+  _input->draw(win);
 }
 
 void			Console::setTheme(Theme *theme)
@@ -58,6 +70,13 @@ void			Console::setTheme(Theme *theme)
 void			Console::toggle(Context)
 {
   _is_visible = !_is_visible;
+
+  GameManager::getChatBox()->enable(!_is_visible);
+
+  if (_is_visible)
+    _input->mouseReleased(0, 0);
+  else
+    _input->mouseLeft();
 }
 
 

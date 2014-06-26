@@ -79,6 +79,9 @@ namespace jag
     theme->c_background = sf::Color::Transparent;
     theme->c_background_focused = sf::Color::Transparent;
     theme->c_background_pressed = sf::Color::Transparent;
+    theme->c_border = sf::Color::Transparent;
+    theme->c_border_focused = sf::Color::Transparent;
+    theme->c_border_pressed = sf::Color::Transparent;
     theme->c_text_focused = theme->c_text;
     theme->c_text_pressed = theme->c_text;
 
@@ -217,6 +220,22 @@ namespace jag
     theme->c_text = sf::Color::Transparent;
     theme->c_text_focused = sf::Color::Transparent;
     theme->c_text_pressed = sf::Color::Transparent;
+
+    // Console Theme
+    theme = new Theme;
+    _themes["Console"] = theme;
+    *theme = *_themes["Transparent"];
+    theme->c_background = sf::Color::Blue - sf::Color(0, 0, 0, 150);
+    theme->c_text = sf::Color::White;
+    theme->size_text = 14;
+
+    // Text Console Theme
+    theme = new Theme;
+    _themes["TextConsole"] = theme;
+    *theme = *_themes["Console"];
+    theme->c_background = sf::Color::Transparent;
+    theme->c_text = sf::Color::White;
+    theme->size_text = 14;
 
     // Init ressources
     createRessourceFromArray("bird.png", bird.pixel_data, bird.width, bird.height);

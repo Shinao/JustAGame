@@ -47,6 +47,7 @@ class ChatBox : public Layer, public EventCallback
 
     bool			_display_time;
     bool			_is_typing;
+    bool			_enabled;
 
     void			generateText();
     void			enterPressed(Context context);
@@ -65,6 +66,8 @@ class ChatBox : public Layer, public EventCallback
     void			add(const std::string &msg, const sf::Color &color);
     void			displayTime(bool display);
     bool			isTyping();
+    bool			isEnabled();
+    void			enable(bool enable);
 };
 
 #endif
