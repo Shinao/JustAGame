@@ -8,6 +8,8 @@ Console::Console() :
   _is_visible(false)
 {
   _input = new Input(jag::getTheme("TextConsole"));
+  _input->addCallback(std::bind(&Console::inputReleased, this), Drawable::Released);
+  _input->setMaxLength(128);
   // _scroller = new Scroller();
 
   setTheme(jag::getTheme("Console"));
@@ -41,8 +43,8 @@ void			Console::settingChanged()
   _rec = Rect(0, 0, Screen::getSize().x, height);
   _bg.setSize(sf::Vector2f(Screen::getSize().x, height));
   _input_desc.setPosition(8, height - _input_desc.getCharacterSize() / 2 - Input::HEIGHT / 2);
-  _input->setRect(Rect(_input_desc.getCharacterSize() + 24, height - Input::HEIGHT,
-      Screen::getSize().x - _input_desc.getCharacterSize() + 24, Input::HEIGHT));
+  _input->setRect(Rect(_input_desc.getCharacterSize() + 8, height - Input::HEIGHT,
+      Screen::getSize().x - _input_desc.getCharacterSize() + 8, Input::HEIGHT));
 }
 
 void			Console::draw(sf::RenderWindow &win)
@@ -83,4 +85,9 @@ void			Console::toggle(Context)
 bool			Console::isVisible()
 {
   return (_is_visible);
+}
+
+void			Console::inputReleased()
+{
+  _input->mouseReleased(0, 0);
 }

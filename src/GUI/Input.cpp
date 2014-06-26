@@ -51,7 +51,7 @@ void			Input::designChanged()
 
   _text.setFont(_theme->f_text);
   _text.setCharacterSize(_theme->size_text);
-  _cursor.setFillColor(_theme->c_border_pressed);
+  _cursor.setFillColor(_theme->c_text_pressed);
   _selection.setFillColor(_theme->c_border * sf::Color(1, 1, 1, 64));
 
   if (!_release && _pressed)
@@ -191,9 +191,9 @@ void			Input::enterPressed(Context)
 
 void			Input::released()
 {
-  Item::released();
-
   clearCallbacks();
+
+  Item::released();
 }
 
 void			Input::removeSelection()

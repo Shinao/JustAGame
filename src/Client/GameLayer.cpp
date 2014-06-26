@@ -99,9 +99,6 @@ void			GameLayer::checkColorPickers(int x, int y)
   // Check our color pickers
   if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
   {
-    std::cout << "MouseX: " << x << " | MouseY: " << y << std::endl;
-    std::cout << "TreeX: " << _tri_color_picker.getBounds().left << " | TreeY: " << _tri_color_picker.getBounds().top << std::endl;
-
     if (_tri_color_picker.getBounds().contains(x, y))
       setColorPickers(x, y);
     else if (_square_color_picker.getBounds().contains(x, y))

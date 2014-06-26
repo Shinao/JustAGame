@@ -234,7 +234,8 @@ namespace jag
     _themes["TextConsole"] = theme;
     *theme = *_themes["Console"];
     theme->c_background = sf::Color::Transparent;
-    theme->c_text = sf::Color::White;
+    theme->c_border = sf::Color::Black;
+    theme->c_text_pressed = sf::Color::White;
     theme->size_text = 14;
 
     // Init ressources

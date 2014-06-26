@@ -26,6 +26,8 @@ class Console : public Layer, public EventCallback
     sf::Text			_input_desc;
     Scroller			*_scroller;
 
+    void			inputReleased();
+
   public:
     Console();
     ~Console();
