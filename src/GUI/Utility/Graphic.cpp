@@ -62,4 +62,12 @@ namespace Utility
     color.b = nb % 0x100;
     color.a = 255;
   }
+
+  void			colorToString(const sf::Color &color, std::string &str)
+  {
+    std::stringstream	ss;
+
+    ss << std::hex << ((color.r & 0xff) << 16) + ((color.g & 0xff) << 8) + (color.b & 0xff);
+    str = ss.str();
+  }
 }

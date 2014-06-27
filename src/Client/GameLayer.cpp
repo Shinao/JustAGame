@@ -10,10 +10,13 @@ GameLayer::GameLayer() :
   _square_color_picker(sf::Quads, 16),
   _tri_color_picker(sf::Quads, 4)
 {
+  CSimpleIniA	&ini = jag::getSettings();
+
   // Player Name
   String	*text = new String("Player Name", jag::getTheme("ItemSetting"));
   add(text, "name");
   Input		*input = new Input();
+  input->setInput(ini.GetValue(INI_GROUP, "player_name", ""));
   add(input, "inName");
 
   // Apply button
@@ -40,7 +43,6 @@ GameLayer::GameLayer() :
   add(sprite, "bird");
 
   // Set the color
-  CSimpleIniA	&ini = jag::getSettings();
   std::string color = ini.GetValue(INI_GROUP, "player_color", "FFFFFF");
   Utility::stringToColor(_player_color, color);
   sprite->applyColor(_player_color);
@@ -120,6 +122,12 @@ void			GameLayer::setColorPickers(int x, int y)
 
 void			GameLayer::applyChanges()
 {
+  std::string	hex;
+  Utility::colorToString(_player_color, hex);
+
+  jag::getSettings().SetValue(INI_GROUP, "player_name", ((Input *) _drawables["inName"])->getInput().c_str());
+  jag::getSettings().SetValue(INI_GROUP, "player_color", hex.c_str());
+  jag::getSettings().SaveFile(INI_FILE);
 }
 
 void			GameLayer::settingChanged()

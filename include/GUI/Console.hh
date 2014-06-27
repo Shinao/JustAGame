@@ -9,7 +9,7 @@
 
 // Console
 // Informations - ChatBox history - Administration
-// Catching [²/`] to toggle
+// Catching Console key to toggle
 
 class Console : public Layer, public EventCallback
 {
