@@ -217,6 +217,9 @@ void			Input::textEntered(Context context)
   if (_string.length() + str.length() > (unsigned) _max_length)
     return ;
 
+  if (_cb_input && !_cb_input(str))
+    return ;
+
   // Check printable characters
   if (std::all_of(str.begin(), str.end(), isprint))
   {
@@ -334,4 +337,9 @@ void			Input::setRect(const Rect &rec)
 void			Input::setMaxLength(int length)
 {
   _max_length = length;
+}
+
+void			Input::setCallbackInput(CallbackInput cb)
+{
+  _cb_input = cb;
 }

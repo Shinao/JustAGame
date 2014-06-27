@@ -29,6 +29,7 @@ class Console : public Layer, public EventCallback
     Container			*_container;
 
     void			inputReleased();
+    bool			textEntered(std::string &str);
 
   public:
     Console();

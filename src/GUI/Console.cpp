@@ -9,6 +9,7 @@ Console::Console() :
 {
   _input = new Input(jag::getTheme("TextConsole"));
   _input->addCallback(std::bind(&Console::inputReleased, this), Drawable::Released);
+  _input->setCallbackInput(std::bind(&Console::textEntered, this, std::placeholders::_1));
   _input->setMaxLength(128);
   _container = new Container;
   _scroller = new Scroller(_container);
@@ -47,6 +48,7 @@ void			Console::settingChanged()
   _input->setRect(Rect(_input_desc.getCharacterSize() + 8, height - Input::HEIGHT,
       Screen::getSize().x - _input_desc.getCharacterSize() + 8, Input::HEIGHT));
   _container->setRect(_rec);
+  _scroller->setRect(_rec);
 }
 
 void			Console::draw(sf::RenderWindow &win)
@@ -91,6 +93,17 @@ bool			Console::isVisible()
 
 void			Console::inputReleased()
 {
-  _input->mouseReleased(0, 0);
-  _input->setInput("");
+  if (_is_visible)
+  {
+    _input->mouseReleased(0, 0);
+    _input->setInput("");
+  }
+}
+
+bool			Console::textEntered(std::string &str)
+{
+  if (str[0] == '`')
+    return (false);
+
+  return (true);
 }

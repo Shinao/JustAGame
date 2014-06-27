@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+typedef		std::function<bool (std::string &)>	CallbackInput;
+
 // Input text
 
 class Input : public Item, public EventCallback
@@ -33,6 +35,7 @@ class Input : public Item, public EventCallback
     int				_cursor_pos;
     int				_cursor_selection;
     int				_max_length;
+    CallbackInput		_cb_input;
 
     void			updateCursor();
     bool			isShiftPressed();
@@ -40,7 +43,6 @@ class Input : public Item, public EventCallback
     void			updateRendering();
     void			removeSelection();
     void			enterPressed(Context context);
-
 
   public:
     Input(Theme *theme = jag::getTheme("Input"), float scale = 1.0f);
@@ -61,6 +63,7 @@ class Input : public Item, public EventCallback
     int				getThickness() const;
     void			setThickness(int thickness);
     void			setMaxLength(int length);
+    void			setCallbackInput(CallbackInput cb);
 
     // Callback
     void			click(Context event);
