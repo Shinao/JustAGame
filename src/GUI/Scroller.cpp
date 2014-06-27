@@ -7,21 +7,6 @@ Scroller::Scroller(Drawable *drawable, Theme *theme) :
   _drawable(drawable)
 {
   add(drawable);
-
-  catchEvent(Action(sf::Event::MouseWheelMoved), [&](Context context) {
-      // MouseCaught - Simulate as if our mouse moved
-      mouseCaught(context.mouseWheel.x, context.mouseWheel.y);
-
-      int add_drawable = context.mouseWheel.delta * SCROLLING;
-      int add_scroll = context.mouseWheel.delta * ((float) SCROLLING / _drawable->getRect().height * _rec.height);
-
-      _scroll_box.setPosition(_scroll_box.getPosition().x, _scroll_box.getPosition().y - add_scroll);
-      _drawable->setRect(Rect(_drawable->getRect().left, _drawable->getRect().top + add_drawable, 
-	  _drawable->getRect().width, _drawable->getRect().height)); 
-
-      // Avoid out-of-bounds
-      checkOutOfBounds(context.mouseWheel.delta);
-      });
 }
 
 Scroller::~Scroller()
@@ -88,6 +73,22 @@ void			Scroller::setRect(const Rect &rec)
 
 void		Scroller::mouseCaught(int x, int y)
 {
+  if (!_focused)
+    catchEvent(Action(sf::Event::MouseWheelMoved), [&](Context context) {
+	// MouseCaught - Simulate as if our mouse moved
+	mouseCaught(context.mouseWheel.x, context.mouseWheel.y);
+
+	int add_drawable = context.mouseWheel.delta * SCROLLING;
+	int add_scroll = context.mouseWheel.delta * ((float) SCROLLING / _drawable->getRect().height * _rec.height);
+
+	_scroll_box.setPosition(_scroll_box.getPosition().x, _scroll_box.getPosition().y - add_scroll);
+	_drawable->setRect(Rect(_drawable->getRect().left, _drawable->getRect().top + add_drawable, 
+	    _drawable->getRect().width, _drawable->getRect().height)); 
+
+	// Avoid out-of-bounds
+	checkOutOfBounds(context.mouseWheel.delta);
+	});
+
   Drawable::mouseCaught(x, y);
   DrawableManager::mouseCaught(x, y);
 }
@@ -96,6 +97,8 @@ void		Scroller::mouseLeft()
 {
   Drawable::mouseLeft();
   DrawableManager::mouseLeft();
+
+  clearCallbacks();
 }
 
 void		Scroller::mouseReleased(int x, int y)
