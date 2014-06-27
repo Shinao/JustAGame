@@ -78,7 +78,7 @@ void			Console::toggle(Context)
   if (_is_visible)
     _input->mouseReleased(0, 0);
   else
-    _input->mouseLeft();
+    _input->released();
 }
 
 
@@ -90,4 +90,6 @@ bool			Console::isVisible()
 void			Console::inputReleased()
 {
   _input->mouseReleased(0, 0);
+
+  _input->setInput("");
 }

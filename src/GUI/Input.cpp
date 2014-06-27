@@ -117,6 +117,8 @@ void			Input::setInput(const std::string &text)
   _string = text;
   _text.setString(text);
   _cursor_pos = text.size();
+
+  updateCursor();
 }
 
 const std::string	&Input::getInput()
