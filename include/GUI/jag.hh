@@ -47,6 +47,7 @@ namespace jag
   std::map<std::string, sf::Keyboard::Key>		&getKeys();
   const std::string					&getValueFromEvent(sf::Keyboard::Key key);
   const std::string					&getValueFromEvent(sf::Mouse::Button btn);
+  sf::Keyboard::Key					getKeyFromValue(const std::string &value);
 }
 
 #endif

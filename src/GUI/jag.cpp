@@ -432,6 +432,16 @@ namespace jag
     return (_keys);
   }
 
+  sf::Keyboard::Key				getKeyFromValue(const std::string &value)
+  {
+    auto	key = _keys.find(value);
+
+    if (key != _keys.end())
+      return (key->second);
+
+    return (sf::Keyboard::Unknown);
+  }
+
   const std::string				&getValueFromEvent(sf::Keyboard::Key key)
   {
     static std::string	unknown("Unknown");

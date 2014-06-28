@@ -20,7 +20,8 @@ Console::Console() :
   _input_desc.setString(">");
 
   using namespace std::placeholders;
-  catchEvent(Action(sf::Event::KeyPressed, sf::Keyboard::Tilde), std::bind(&Console::toggle, this, _1));
+  sf::Keyboard::Key	key_console = jag::getKeyFromValue(jag::getSettings().GetValue(INI_GROUP, "key_console", "Unknown"));
+  catchEvent(Action(sf::Event::KeyPressed, key_console), std::bind(&Console::toggle, this, _1));
 
   for (int i = 0; i < 100; i++)
   {
