@@ -42,6 +42,7 @@ class Console : public Layer, public EventCallback
     void			displayTime(bool display);
     bool			isVisible();
     void			toggle(Context);
+    void			wheelMoved();
 };
 
 #endif

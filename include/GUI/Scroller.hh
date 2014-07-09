@@ -16,6 +16,7 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
 
     Drawable			*_drawable;
     sf::RectangleShape		_scroll_box;
+    CallbackGui			_cb_wheel;
 
     void			checkOutOfBounds(int delta);
 
@@ -27,6 +28,7 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
     void			draw(sf::RenderWindow &win);
     void			update();
     void			designChanged();
+    void			setCallbackWheel(CallbackGui cb);
 
     // Event
     virtual void		mouseCaught(int x, int y);

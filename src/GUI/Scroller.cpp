@@ -87,6 +87,9 @@ void		Scroller::mouseCaught(int x, int y)
 
 	// Avoid out-of-bounds
 	checkOutOfBounds(context.mouseWheel.delta);
+
+	if (_cb_wheel)
+	  _cb_wheel();
 	});
 
   Drawable::mouseCaught(x, y);
@@ -105,4 +108,9 @@ void		Scroller::mouseReleased(int x, int y)
 {
   Drawable::mouseReleased(x, y);
   DrawableManager::mouseReleased(x, y);
+}
+
+void		Scroller::setCallbackWheel(CallbackGui cb)
+{
+  _cb_wheel = cb;
 }

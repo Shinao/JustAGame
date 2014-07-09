@@ -7,19 +7,21 @@
 Console::Console() :
   _is_visible(false)
 {
+  using namespace std::placeholders;
+
   _input = new Input(jag::getTheme("TextConsole"));
   _input->addCallback(std::bind(&Console::inputReleased, this), Drawable::Released);
   _input->setCallbackInput(std::bind(&Console::textEntered, this, std::placeholders::_1));
   _input->setMaxLength(128);
   _container = new Container;
   _scroller = new Scroller(_container);
+  _scroller->setCallbackWheel(std::bind(&Console::wheelMoved, this));
 
   setTheme(jag::getTheme("Console"));
 
   _bg.setPosition(0, 0);
   _input_desc.setString(">");
 
-  using namespace std::placeholders;
   sf::Keyboard::Key	key_console = jag::getKeyFromValue(jag::getSettings().GetValue(INI_GROUP, "key_console", "Unknown"));
   catchEvent(Action(sf::Event::KeyPressed, key_console), std::bind(&Console::toggle, this, _1));
 
@@ -48,7 +50,7 @@ void			Console::settingChanged()
   _input_desc.setPosition(8, height - _input_desc.getCharacterSize() / 2 - Input::HEIGHT / 2);
   _input->setRect(Rect(_input_desc.getCharacterSize() + 8, height - Input::HEIGHT,
       Screen::getSize().x - _input_desc.getCharacterSize() + 8, Input::HEIGHT));
-  _container->setRect(_rec);
+  _container->setRect(Rect(0, 0, 700, 1000));
   _scroller->setRect(_rec);
 }
 
@@ -82,9 +84,15 @@ void			Console::toggle(Context)
   GameManager::getChatBox()->enable(!_is_visible);
 
   if (_is_visible)
+  {
     _input->mouseReleased(0, 0);
-  else
-    _input->released();
+    _scroller->mouseCaught(0, 0);
+    
+    return ;
+  }
+
+  _input->released();
+  _scroller->mouseLeft();
 }
 
 bool			Console::isVisible()
@@ -107,4 +115,8 @@ bool			Console::textEntered(std::string &str)
     return (false);
 
   return (true);
+}
+
+void			Console::wheelMoved()
+{
 }
