@@ -17,6 +17,7 @@ namespace GameManager
   AGameClient			*getGame();
   ChatBox			*getChatBox();
   Console			*getConsole();
+  int				gamesPlayed();
 }
 
 #endif

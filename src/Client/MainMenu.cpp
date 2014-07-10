@@ -125,12 +125,8 @@ void			MainMenu::settingChanged()
 
   _menu->setRect(_rec);
 
-  // TODO - need to check if game exited
-  if (!_launched)
-  {
-    _launched = true;
+  if (!GameManager::gamesPlayed())
     return ;
-  }
 
   // Adding Disconnect button while ingame
   if (GameManager::isRunning())

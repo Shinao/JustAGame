@@ -7,6 +7,7 @@ namespace GameManager
     AGameClient			*_game = NULL;
     ChatBox			*_chatbox = NULL;
     Console			*_console = NULL;
+    int				_games_played = 0;
 
     void			serverDisconnected(ProtocoledPacket &packet);
   }
@@ -21,6 +22,7 @@ namespace GameManager
 
   void				runGame(AGameClient *game)
   {
+    ++_games_played;
     _game = game;
 
     using namespace std::placeholders;
@@ -63,5 +65,10 @@ namespace GameManager
   Console			*getConsole()
   {
     return (_console);
+  }
+
+  int				gamesPlayed()
+  {
+    return (_games_played);
   }
 }
