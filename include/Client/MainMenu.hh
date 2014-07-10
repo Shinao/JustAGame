@@ -3,6 +3,7 @@
 
 # include "Layer.hh"
 # include "Menu.hh"
+# include "String.hh"
 
 #include <iostream>
 
@@ -15,8 +16,11 @@ class MainMenu : public Layer
     static const int		MARGIN = 32;
 
   private:
+    bool			_launched;
     Menu			*_menu;
     Layer			*_layer_menu;
+    String			*_disconnect;
+
     void			cbServer();
     void			cbGame();
     void			cbInput();

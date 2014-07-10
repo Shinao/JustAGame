@@ -4,7 +4,7 @@
 - Crashing when aborting connexion
 
 ###GUI
-- Console
+- Console commands
 - Scroller clickable to scroll
 - GameManager manage exit/run game
 - Exit game in mode Setting

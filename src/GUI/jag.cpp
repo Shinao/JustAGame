@@ -28,6 +28,7 @@ namespace jag
     sf::Color gray_focus = sf::Color(216, 216, 216);
     sf::Color black_light = sf::Color(120, 120, 120);
     sf::Color black = sf::Color(100, 100, 100);
+    sf::Color red = sf::Color(236, 176, 176);
 
     // Setting the titlebar theme
     Theme		*theme = new Theme;
@@ -43,7 +44,7 @@ namespace jag
     theme = new Theme;
     _themes["TitlebarCross"] = theme;
     *theme = *(_themes["Titlebar"]);
-    theme->c_background_focused = sf::Color(236, 176, 176);
+    theme->c_background_focused = red;
     theme->c_text_focused = sf::Color::White;
 
     theme = new Theme;
@@ -93,6 +94,16 @@ namespace jag
     theme->c_border_focused = theme->c_border;
     theme->c_border_pressed = theme->c_border;
     theme->alignment = Alignment::Center;
+
+    // Red theme
+    theme = new Theme;
+    _themes["Red"] = theme;
+    *theme = *_themes["White"];
+    theme->c_text = sf::Color::White;
+    theme->c_text_focused = sf::Color::White;
+    theme->c_border_focused = black_light;
+    theme->c_background = blue_focus;
+    theme->c_background_focused = blue_focus;
 
     // Menu theme
     theme = new Theme;

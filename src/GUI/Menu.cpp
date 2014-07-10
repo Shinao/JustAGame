@@ -176,7 +176,16 @@ void			Menu::remove(Item *item)
 {
   for (auto it = _items.begin(); it != _items.end(); ++it)
     if ((*it) == item)
+    {
       _items.erase(it);
+
+      if (_item_focused == item)
+	_item_focused = NULL;
+      if (_item_pressed == item)
+	_item_pressed = NULL;
+
+      return ;
+    }
 }
 
 void			Menu::setTheme(Theme *theme)

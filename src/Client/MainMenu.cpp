@@ -1,15 +1,16 @@
 #include "MainMenu.hh"
 #include "Screen.hh"
-#include "String.hh"
 #include "Titlebar.hh"
 #include "InputLayer.hh"
 #include "ServerMenu.hh"
 #include "GameLayer.hh"
 #include "Multimedia.hh"
 #include "About.hh"
+#include "GameManager.hh"
 
 MainMenu::MainMenu() :
   Layer(Layer::Setting),
+  _launched(false),
   _layer_menu(NULL)
 {
   _menu = new Menu(Menu::Vertical, jag::getTheme("VerticalMenu"));
@@ -123,4 +124,28 @@ void			MainMenu::settingChanged()
   _rec = rec;
 
   _menu->setRect(_rec);
+
+  // TODO - need to check if game exited
+  if (!_launched)
+  {
+    _launched = true;
+    return ;
+  }
+
+  // Adding Disconnect button while ingame
+  if (GameManager::isRunning())
+  {
+    _disconnect = new String("DISCONNECT");
+    _disconnect->addCallback([] { GameManager::exitGame(); });
+    _menu->add(_disconnect);
+    _menu->update();
+    _disconnect->setTheme(jag::getTheme("Red"));
+  }
+  else
+  {
+    _menu->remove(_disconnect);
+    delete _disconnect;
+    _menu->setIndexState(1, Drawable::Pressed);
+    _menu->update();
+  }
 }
