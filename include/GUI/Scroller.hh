@@ -29,6 +29,7 @@ class Scroller : public Drawable, public DrawableManager, public EventCallback
     void			update();
     void			designChanged();
     void			setCallbackWheel(CallbackGui cb);
+    void			drawableUpdated();
 
     // Event
     virtual void		mouseCaught(int x, int y);

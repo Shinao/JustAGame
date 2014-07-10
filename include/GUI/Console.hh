@@ -27,9 +27,11 @@ class Console : public Layer, public EventCallback
     sf::Text			_input_desc;
     Scroller			*_scroller;
     Container			*_container;
+    int				_pos_start;
 
     void			inputReleased();
     bool			textEntered(std::string &str);
+    void			updateContainer();
 
   public:
     Console();
@@ -37,12 +39,13 @@ class Console : public Layer, public EventCallback
 
     void			settingChanged();
     void			draw(sf::RenderWindow &win);
-
     void			setTheme(Theme *theme);
+
     void			displayTime(bool display);
     bool			isVisible();
     void			toggle(Context);
     void			wheelMoved();
+    void			addLog(const std::string &msg, const sf::Color &color);
 };
 
 #endif

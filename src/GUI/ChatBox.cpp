@@ -4,11 +4,11 @@
 #include "Network.hh"
 #include "GameManager.hh"
 
-sf::Color	ChatBox::ColorPlayer = sf::Color::White;
-sf::Color	ChatBox::ColorTime = sf::Color::Green;
-sf::Color	ChatBox::ColorInfo = sf::Color::Green;
-sf::Color	ChatBox::ColorWarning = sf::Color::Yellow;
-sf::Color	ChatBox::ColorError = sf::Color::Red;
+sf::Color	ChatBox::MessageLog = sf::Color::White;
+sf::Color	ChatBox::TimeLog = sf::Color::Green;
+sf::Color	ChatBox::InfoLog = sf::Color::Green;
+sf::Color	ChatBox::WarningLog = sf::Color::Yellow;
+sf::Color	ChatBox::ErrorLog = sf::Color::Red;
 int		ChatBox::Timeout = 10;
 
 ChatBox::ChatBox() :
@@ -97,7 +97,7 @@ void			ChatBox::setTheme(Theme *theme)
 
 void			ChatBox::add(const std::string &msg, const std::string &player_name)
 {
-  _messages.push_front(new Message(msg, player_name, ColorPlayer));
+  _messages.push_front(new Message(msg, player_name, MessageLog));
 
   generateText();
 }
@@ -129,7 +129,7 @@ void			ChatBox::generateText()
     ss << "[" << std::setw(2) << std::setfill('0') << msg.time.tm_hour << ":"
        << std::setw(2) << std::setfill('0') << msg.time.tm_min << "] ";
     sf::Text		*time = new sf::Text(ss.str(), _theme->f_text, _theme->size_text);
-    time->setColor(ColorTime);
+    time->setColor(TimeLog);
     time->setPosition(x, y);
     msg.texts.push_back(time);
     x += time->getGlobalBounds().width;
@@ -138,7 +138,7 @@ void			ChatBox::generateText()
   if (!msg.player_name.empty())
   {
     sf::Text	*name = new sf::Text(msg.player_name + ": ", _theme->f_text, _theme->size_text);
-    name->setColor(ColorTime);
+    name->setColor(TimeLog);
     name->setPosition(x, y);
     msg.texts.push_back(name);
     x += name->getGlobalBounds().width;

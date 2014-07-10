@@ -67,8 +67,8 @@ void			Scroller::setRect(const Rect &rec)
 
   // Set position and size of scroll box
   _scroll_box.setPosition(rec.left + rec.width - SCROLLER_SIZE, rec.top);
-  // Set size by content showing proportion
-  _scroll_box.setSize(sf::Vector2f(SCROLLER_SIZE, (float) rec.height / _drawable->getRect().height * rec.height));
+
+  drawableUpdated();
 }
 
 void		Scroller::mouseCaught(int x, int y)
@@ -113,4 +113,10 @@ void		Scroller::mouseReleased(int x, int y)
 void		Scroller::setCallbackWheel(CallbackGui cb)
 {
   _cb_wheel = cb;
+}
+
+void		Scroller::drawableUpdated()
+{
+  // Set size by content showing proportion
+  _scroll_box.setSize(sf::Vector2f(SCROLLER_SIZE, (float) _rec.height / _drawable->getRect().height * _rec.height));
 }

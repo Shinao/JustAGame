@@ -14,11 +14,11 @@
 class ChatBox : public Layer, public EventCallback
 {
   public:
-    static sf::Color		ColorPlayer;
-    static sf::Color		ColorTime;
-    static sf::Color		ColorInfo;
-    static sf::Color		ColorWarning;
-    static sf::Color		ColorError;
+    static sf::Color		MessageLog;
+    static sf::Color		TimeLog;
+    static sf::Color		InfoLog;
+    static sf::Color		WarningLog;
+    static sf::Color		ErrorLog;
     static int			Timeout;
 
     static const int		MARGIN = 32;
