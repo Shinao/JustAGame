@@ -199,6 +199,7 @@ void			ServerMenu::abortCouldNotConnect(ProtocoledPacket &)
 
 void			ServerMenu::connectionError(const std::string &desc)
 {
+  _msg->setTitle("Error");
   _msg->setDescription(new String(desc));
   _msg->clearButtons();
   _msg->addButton("Back");
@@ -279,9 +280,8 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   }
 
   // Append to our file
-  // We open it and append then close it - We should probably keep the handle but... lazy
   std::ofstream	file;
-  file.open(filename, std::ios_base::app);
+  file.open(filename, std::ios_base::binary | std::ios_base::app);
   if (!file.is_open())
   {
     connectionError("Could not open " + min_filename);
@@ -292,11 +292,8 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   file.close();
 
   std::stringstream	ss;
-
   ss << min_filename + " [" << (int) progress << "%]";
   _msg->setDescription(new String(ss.str()));
-
-  std::cout << "writing " << packet.getDataSize() - nb_bytes << " in " << filename << std::endl;
 }
 
 void			ServerMenu::launchGame()
@@ -331,6 +328,7 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
     return ;
 
   Screen::remove(_msg);
+  std::cout << "initgame" << std::endl;
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
   Network::removeRequest(Request::Connexion);
@@ -349,6 +347,7 @@ bool			ServerMenu::tryingToEscape()
   if (_state == Aborting || _state == Disconnecting)
     return (false);
 
+  std::cout << "initgame" << std::endl;
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
   Network::removeRequest(Request::Disconnexion);

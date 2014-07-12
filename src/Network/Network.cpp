@@ -554,15 +554,15 @@ namespace		Network
     // Check all requests
     for (auto req_info : _requests_pending)
     {
-      if (req_info->getRequestID() != Request::Update)
-	std::cout << "Request callback [" << req_info->getRequestID() << "]" << std::endl;
+      // if (req_info->getRequestID() != Request::Update)
+	// std::cout << "Request callback [" << req_info->getRequestID() << "]" << std::endl;
 
       // Get callback and call it
       auto it = _requests_callback.find(req_info->getRequestID());
       if (it != _requests_callback.end())
 	it->second(*req_info);
-      else
-	std::cout << "Callback Not Found" << std::endl;
+      // else
+	// std::cout << "Callback Not Found" << std::endl;
 
       delete req_info;
     }

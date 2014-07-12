@@ -52,25 +52,37 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
   int	file_size = lib_file.tellg();
   lib_file.seekg(0, lib_file.beg);
   int	read = 0;
-  char	data[100];
+  char	data[4096];
+  int	send = sizeof(data);
+
   while (lib_file.good())
   {
+    if (read + (int) sizeof(data) > file_size)
+    {
+      // Done !
+      if (read >= file_size)
+	break ;
+
+      // End of file - take only what's left
+      send = file_size - read;
+    }
+
     send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
 
-    lib_file.read(data, sizeof(data));
+    lib_file.read(data, send);
     read += sizeof(data);
-    *send_game << lib_path << ((sf::Int8) ((float) read / file_size * 100)) << sizeof(data);
-    send_game->append(data, sizeof(data));
+    *send_game << lib_path << ((sf::Int8) ((float) read / file_size * 100)) << send;
+    send_game->append(data, send);
 
     Network::send(send_game);
 
-    std::cout << "read " << sizeof(data) << " of " << file_size << std::endl;
-    std::cout << "sending " << sizeof(data) << " of " << lib_path
+    std::cout << "sending " << send << " [" << read << "/" << file_size << "] of " << lib_path
       << " [" << (((float) read / file_size * 100)) << "%]" << std::endl;
   }
 
   send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
   *send_game << lib_path << (sf::Int8) 100 << (sf::Int32) 0;
+  Network::send(send_game);
 }
 
 bool			AGameServer::hasPassword() const
