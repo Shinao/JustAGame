@@ -33,11 +33,10 @@ include_directories (${INC_DIR})
 project (network)
 file (GLOB_RECURSE NETWORK_SRC src/Network/*.cpp) 
 add_library (network SHARED ${NETWORK_SRC})
-# Link SFML & Posix Thread
+# Link SFML
 target_link_libraries (network sfml-network)
 target_link_libraries (network sfml-system)
 target_link_libraries (network sfml-graphics)
-target_link_libraries (network pthread)
 
 
 

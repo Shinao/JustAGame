@@ -34,11 +34,11 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
 
   // Getting library depending on the OS
   packet >> win32;
-  lib_path = Network::GAMES_PATH + _game_mode + "/lib" + _game_mode;
-  lib_path += (win32 ? ".dll" : ".so");
+  lib_path = Network::GAMES_PATH + _game_mode + "/lib" + _game_mode + Network::SUFFIX_CLIENT;
+  lib_path += (win32 ? Network::SUFFIX_LIB_WIN32 : Network::SUFFIX_LIB_UNIX);
 
   // Send it if found or send error
-  lib_file.open(lib_path, std::ios_base::in | std::ios_base::ate);
+  lib_file.open(lib_path, std::ios_base::binary);
   
   if (!lib_file.is_open())
   {
@@ -48,9 +48,10 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
     return ;
   }
 
+  lib_file.seekg(0, lib_file.end);
   int	file_size = lib_file.tellg();
+  lib_file.seekg(0, lib_file.beg);
   int	read = 0;
-  lib_file.seekg(0);
   char	data[4096];
   while (lib_file.good())
   {
@@ -58,11 +59,14 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
 
     lib_file.read(data, sizeof(data));
     read += sizeof(data);
-    *send_game << lib_path << ((sf::Int8) file_size / read) << sizeof(data);
-    send_game->append(data, 4096);
+    *send_game << lib_path << ((sf::Int8) ((float) read / file_size * 100)) << sizeof(data);
+    send_game->append(data, sizeof(data));
 
     Network::send(send_game);
-    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+
+    std::cout << "read " << sizeof(data) << " of " << file_size << std::endl;
+    std::cout << "sending " << sizeof(data) << " of " << lib_path
+      << " [" << (((float) read / file_size * 100)) << "%]" << std::endl;
   }
 
   send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);

@@ -110,6 +110,8 @@ namespace Network
   const std::string	GAMES_PATH = "Games/";
   const std::string	SUFFIX_SERVER = "_server";
   const std::string	SUFFIX_CLIENT = "_client";
+  const std::string	SUFFIX_LIB_WIN32 = ".dll";
+  const std::string	SUFFIX_LIB_UNIX = ".so";
 }
 
 #endif

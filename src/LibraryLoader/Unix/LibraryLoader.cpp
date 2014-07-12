@@ -39,7 +39,12 @@ const std::string	&LibraryLoader::getFullPath() const
   return (_lib_name);
 }
 
-LibraryLoader::Plateform	LibraryLoader::getPlateform()
+LibraryLoader::System	LibraryLoader::getSystem()
 {
-  return (Win32);
+  return (Unix);
+}
+
+bool			LibraryLoader::createDirectory(const std::string name)
+{
+  return ((mkdir(name.c_str(), 641) == 0) ? true : false);
 }

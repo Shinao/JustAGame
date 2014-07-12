@@ -229,10 +229,10 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
   if (!_lib->open())
   {
     _msg->setDescription(new String("Game not found - Asking server"));
-    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
-    *get_game << ((LibraryLoader::getPlateform() == LibraryLoader::Win32) ? true : false);
-    Network::send(get_game);
     Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
+    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
+    *get_game << ((LibraryLoader::getSystem() == LibraryLoader::Win32) ? true : false);
+    Network::send(get_game);
     return ;
   }
 
@@ -279,6 +279,7 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
 
   file.write(&((char *) packet.getData())[packet.getDataSize() - nb_bytes], nb_bytes);
   file.close();
+  std::cout << "writing " << packet.getDataSize() - nb_bytes << " in " << filename << std::endl;
 }
 
 void			ServerMenu::launchGame()

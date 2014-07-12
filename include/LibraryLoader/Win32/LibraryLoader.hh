@@ -15,7 +15,7 @@ class LibraryLoader
     std::string		_lib_name;
 
   public:
-    enum Plateform
+    enum System
     {
       Win32,
       Unix
@@ -27,7 +27,8 @@ class LibraryLoader
     bool		open();
     void		*getFunction(const std::string &name);
     const std::string	&getFullPath() const;
-    static Plateform	getPlateform();
+    static System	getSystem();
+    static bool		createDirectory(const std::string name);
 };
 
 #endif
