@@ -84,10 +84,10 @@ void			GameClient::run()
   AGameClient::run();
 
   // Window is set properly - load ressources
-  _bg_tex.loadFromImage(jag::getRessource("Games/TicTacToe/blackboard.jpg"));
+  _bg_tex.loadFromImage(jag::getRessource(Network::GAMES_PATH + "TicTacToe/ " + Network::RSRC_PATH + "blackboard.jpg"));
   _bg.setTexture(_bg_tex);
   _line.setFillColor(sf::Color::White);
-  _font.loadFromFile("rsrc/Games/TicTacToe/PWChalk.ttf");
+  _font.loadFromFile(Network::GAMES_PATH + "TicTacToe/ " + Network::RSRC_PATH + "PWChalk.ttf");
 
   _our_turn = false;
   

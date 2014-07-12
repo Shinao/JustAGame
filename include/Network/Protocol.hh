@@ -108,6 +108,7 @@ namespace Network
 
   // Some utility client/server
   const std::string	GAMES_PATH = "Games/";
+  const std::string	RSRC_PATH = "rsrc/";
   const std::string	SUFFIX_SERVER = "_server";
   const std::string	SUFFIX_CLIENT = "_client";
   const std::string	SUFFIX_LIB_WIN32 = ".dll";

@@ -5,6 +5,7 @@
 #include "GameManager.hh"
 #include <sstream>
 #include <fstream>
+#include <sstream>
 
 using namespace std::placeholders;
 
@@ -233,6 +234,10 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
     ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
     *get_game << ((LibraryLoader::getSystem() == LibraryLoader::Win32) ? true : false);
     Network::send(get_game);
+    // Create repositories
+    LibraryLoader::createDirectory(Network::GAMES_PATH);
+    LibraryLoader::createDirectory(Network::GAMES_PATH + _game_mode);
+    LibraryLoader::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
     return ;
   }
 
@@ -279,6 +284,17 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
 
   file.write(&((char *) packet.getData())[packet.getDataSize() - nb_bytes], nb_bytes);
   file.close();
+
+  std::stringstream	ss;
+  std::string		min_filename = filename;
+  size_t		pos;
+
+  if ((pos = min_filename.find_last_of('/')) != std::string::npos)
+    min_filename = min_filename.substr(pos);
+
+  ss << "Downloading " + min_filename + " [" << (int) progress << " ]";
+  _msg->setDescription(new String(ss.str()));
+
   std::cout << "writing " << packet.getDataSize() - nb_bytes << " in " << filename << std::endl;
 }
 
