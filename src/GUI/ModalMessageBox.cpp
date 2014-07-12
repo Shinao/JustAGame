@@ -108,6 +108,11 @@ void			ModalMessageBox::canEscape(bool can_escape)
     });
 }
 
+void			ModalMessageBox::setTitle(const std::string &title)
+{
+  ((String *) _drawables["title"])->setString(title);
+}
+
 void			ModalMessageBox::setDescription(Item *desc)
 {
   remove(desc);

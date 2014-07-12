@@ -42,6 +42,7 @@ class ModalMessageBox : public Layer, public EventCallback
     String			*getButton(int index);
     void			canEscape(bool can_escape);
     void			setDescription(Item *desc);
+    void			setTitle(const std::string &title);
     void			addExitCallback(CallbackCheck cb);
 
     void			draw(sf::RenderWindow &window);

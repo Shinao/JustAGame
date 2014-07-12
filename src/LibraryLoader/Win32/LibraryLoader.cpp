@@ -45,7 +45,7 @@ LibraryLoader::System	LibraryLoader::getSystem()
   return (Win32);
 }
 
-bool			LibraryLoader::createDirectory(const std::string name)
+bool			LibraryLoader::createDirectory(const std::string &name)
 {
   return ((_mkdir(name.c_str()) == 0) ? true : false);
 }

@@ -229,6 +229,7 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
   _lib = new LibraryLoader(lib_name, Network::GAMES_PATH + _game_mode + "/");
   if (!_lib->open())
   {
+    _msg->setTitle("Downloading");
     _msg->setDescription(new String("Game not found - Asking server"));
     Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
     ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
@@ -255,11 +256,16 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   sf::Int8	progress;
   sf::Int32	nb_bytes;
   packet >> filename >> progress >> nb_bytes;
+  std::string	min_filename = filename;
+  size_t	pos;
+
+  if ((pos = min_filename.find_last_of('/')) != std::string::npos)
+    min_filename = min_filename.substr(pos + 1);
 
   // Check if can't get the library
   if (progress < 0)
   {
-    connectionError("Could not download " + filename);
+    connectionError("Could not download " + min_filename);
     return ;
   }
   // We have our files !
@@ -278,7 +284,7 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   file.open(filename, std::ios_base::app);
   if (!file.is_open())
   {
-    connectionError("Could not open " + filename);
+    connectionError("Could not open " + min_filename);
     return ;
   }
 
@@ -286,13 +292,8 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   file.close();
 
   std::stringstream	ss;
-  std::string		min_filename = filename;
-  size_t		pos;
 
-  if ((pos = min_filename.find_last_of('/')) != std::string::npos)
-    min_filename = min_filename.substr(pos);
-
-  ss << "Downloading " + min_filename + " [" << (int) progress << " ]";
+  ss << min_filename + " [" << (int) progress << "%]";
   _msg->setDescription(new String(ss.str()));
 
   std::cout << "writing " << packet.getDataSize() - nb_bytes << " in " << filename << std::endl;

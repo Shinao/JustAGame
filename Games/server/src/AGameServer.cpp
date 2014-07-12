@@ -52,7 +52,7 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
   int	file_size = lib_file.tellg();
   lib_file.seekg(0, lib_file.beg);
   int	read = 0;
-  char	data[300];
+  char	data[100];
   while (lib_file.good())
   {
     send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
