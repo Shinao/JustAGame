@@ -125,8 +125,8 @@ void			StatusBar::mouseReleased(int x, int y)
 
 void			StatusBar::settingChanged()
 {
-  Rect	rec = Rect(Screen::getSize().x / 2 - jag::ClientWidth / 2,
-      Screen::getSize().y / 2 + jag::ClientHeight / 2 - HEIGHT, jag::ClientWidth, HEIGHT);
+  Rect	rec = Rect(Screen::getSize().x / 2 - jag::CLIENT_WIDTH / 2,
+      Screen::getSize().y / 2 + jag::CLIENT_HEIGHT / 2 - HEIGHT, jag::CLIENT_WIDTH, HEIGHT);
   _rec = rec;
 
   _drawables["ping"]->setRect(Rect(_rec.left + _rec.width - 80, _rec.top, 60, 20));

@@ -34,7 +34,7 @@ GameLayer::GameLayer() :
   _tri_color_picker[2].color = sf::Color::White;
   _tri_color_picker[3].color = sf::Color::Black;
 
-  sf::Image 	&img = jag::getRessource("bird.png");
+  sf::Image 	&img = jag::getRessource(jag::RESSOURCE_PATH + "bird.png");
   _tex_bird = new sf::Texture();
   _tex_bird->loadFromImage(img);
   _spr_bird = new sf::Sprite();

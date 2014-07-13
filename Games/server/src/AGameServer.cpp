@@ -24,66 +24,80 @@ bool			AGameServer::init(CSimpleIniA &ini)
 }
 
 // User does not have our game - send library and rsrc
-// TODO - Send RSRC folder
 // TODO - Thread this time-consuming operation
 void			AGameServer::sendGame(ProtocoledPacket &packet)
 {
-  std::string			lib_path;
-  std::ifstream			lib_file;
-  bool				win32;
-  ProtocoledPacket		*send_game; 
+  std::string	lib_path;
+  bool		win32;
 
   // Getting library depending on the OS
   packet >> win32;
   lib_path = Network::GAMES_PATH + _game_mode + "/lib" + _game_mode + Network::SUFFIX_CLIENT;
   lib_path += (win32 ? Network::SUFFIX_LIB_WIN32 : Network::SUFFIX_LIB_UNIX);
 
-  // Send it if found or send error
-  lib_file.open(lib_path, std::ios_base::binary);
-  
-  if (!lib_file.is_open())
+  // For each file, send it to the client
+  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + "/rsrc");
+  if (list == NULL || !sendFile(packet.getClient(), lib_path))
   {
-    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
-    *send_game << lib_path << (sf::Int8) -1;
-    Network::send(send_game);
+    errorSendGame(packet.getClient(), lib_path);
     return ;
   }
 
-  lib_file.seekg(0, lib_file.end);
-  int	file_size = lib_file.tellg();
-  lib_file.seekg(0, lib_file.beg);
+  for (auto file : *list)
+    if (file->type == System::File::FileType)
+      sendFile(packet.getClient(), Network::GAMES_PATH + _game_mode + "/rsrc/" + file->name);
+
+  for (auto file : *list)
+    delete file;
+  delete list;
+
+  ProtocoledPacket *finish = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+  *finish << lib_path << (sf::Int8) 100 << (sf::Int32) 0;
+  Network::send(finish);
+}
+
+void			AGameServer::errorSendGame(Client *client, const std::string &file_path)
+{
+  ProtocoledPacket		*error; 
+  error = new ProtocoledPacket(client, Request::GetGame, Network::TCP);
+  *error << file_path << (sf::Int8) -1 << (sf::Int32) 0;
+  Network::send(error);
+}
+
+bool			AGameServer::sendFile(Client *client, const std::string &file_path)
+{
+  std::ifstream			file;
+  ProtocoledPacket		*send_game; 
+
+  // Send it if found or send error
+  file.open(file_path, std::ios_base::binary);
+  
+  if (!file.is_open())
+    return (false);
+
+  file.seekg(0, file.end);
+  int	file_size = file.tellg();
+  file.seekg(0, file.beg);
   int	read = 0;
-  char	data[4096];
+  char	data[300];
   int	send = sizeof(data);
 
-  while (lib_file.good())
+  while (file.good() && read < file_size)
   {
     if (read + (int) sizeof(data) > file_size)
-    {
-      // Done !
-      if (read >= file_size)
-	break ;
-
-      // End of file - take only what's left
       send = file_size - read;
-    }
 
-    send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
+    send_game = new ProtocoledPacket(client, Request::GetGame, Network::TCP);
 
-    lib_file.read(data, send);
+    file.read(data, send);
     read += sizeof(data);
-    *send_game << lib_path << ((sf::Int8) ((float) read / file_size * 100)) << send;
+    *send_game << file_path << ((sf::Int8) ((float) read / file_size * 100)) << send;
     send_game->append(data, send);
 
     Network::send(send_game);
-
-    std::cout << "sending " << send << " [" << read << "/" << file_size << "] of " << lib_path
-      << " [" << (((float) read / file_size * 100)) << "%]" << std::endl;
   }
 
-  send_game = new ProtocoledPacket(packet.getClient(), Request::GetGame, Network::TCP);
-  *send_game << lib_path << (sf::Int8) 100 << (sf::Int32) 0;
-  Network::send(send_game);
+  return (true);
 }
 
 bool			AGameServer::hasPassword() const

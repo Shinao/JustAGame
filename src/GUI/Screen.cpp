@@ -287,8 +287,8 @@ namespace Screen
 	_display_ig_setting = false;
 	_is_fullscreen = false;
 
-	video_mode.width = jag::ClientWidth;
-	video_mode.height = jag::ClientHeight;
+	video_mode.width = jag::CLIENT_WIDTH;
+	video_mode.height = jag::CLIENT_HEIGHT;
       }
       else
       {
@@ -313,7 +313,7 @@ namespace Screen
 
       resetIDs();
 
-      _window = new sf::RenderWindow(video_mode, jag::WindowName, style);
+      _window = new sf::RenderWindow(video_mode, jag::WINDOW_NAME, style);
 
       if (_mode == Setting)
 	restore();
@@ -410,7 +410,7 @@ namespace Screen
     }
 
     // Waiting FPS frames
-    while (_timer_wait.getElapsedTime().asMilliseconds() < jag::FPSTime);
+    while (_timer_wait.getElapsedTime().asMilliseconds() < jag::FPS_TIME);
     _timer_wait.restart();
 
     _window->display();

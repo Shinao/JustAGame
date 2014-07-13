@@ -118,8 +118,8 @@ void			MainMenu::cbAbout()
 
 void			MainMenu::settingChanged()
 {
-  Rect	rec = Rect(Screen::getSize().x / 2 + jag::ClientWidth / 2 - PADDING - WIDTH,
-      Screen::getSize().y / 2 - jag::ClientHeight / 2 + jag::MarginMenu + Titlebar::HEIGHT,
+  Rect	rec = Rect(Screen::getSize().x / 2 + jag::CLIENT_WIDTH / 2 - PADDING - WIDTH,
+      Screen::getSize().y / 2 - jag::CLIENT_HEIGHT / 2 + jag::MARGIN_MENU + Titlebar::HEIGHT,
       WIDTH, HEIGHT);
   _rec = rec;
 

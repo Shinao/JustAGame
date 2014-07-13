@@ -22,11 +22,11 @@ MainMenuItem::~MainMenuItem()
 
 void			MainMenuItem::settingChanged()
 {
-  int	top = jag::MarginMenu + Titlebar::HEIGHT - HEIGHT;
+  int	top = jag::MARGIN_MENU + Titlebar::HEIGHT - HEIGHT;
 
-  Rect	rec = Rect(Screen::getSize().x / 2 - jag::ClientWidth / 2 + PADDING,
-      Screen::getSize().y / 2 - jag::ClientHeight / 2 + top, WIDTH,
-      jag::ClientHeight - top - StatusBar::HEIGHT);
+  Rect	rec = Rect(Screen::getSize().x / 2 - jag::CLIENT_WIDTH / 2 + PADDING,
+      Screen::getSize().y / 2 - jag::CLIENT_HEIGHT / 2 + top, WIDTH,
+      jag::CLIENT_HEIGHT - top - StatusBar::HEIGHT);
   _rec = rec;
 
   rec.height = HEIGHT;

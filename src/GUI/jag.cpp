@@ -269,13 +269,13 @@ namespace jag
       delete it.second;
   }
 
-  void				createRessourceFromArray(const std::string &name,
+  void				createRessourceFromArray(const std::string &path,
       const unsigned char *data, unsigned int width, unsigned int height)
   {
     sf::Image		*img = new sf::Image;
 
     img->create(width, height, data);
-    _rsrcs[RessourcePath + name] = img;
+    _rsrcs[path] = img;
   }
 
   Theme			*getCurrentTheme()
@@ -303,9 +303,9 @@ namespace jag
     _themes[name] = theme;
   }
 
-  sf::Image		&getRessource(const std::string &name)
+  sf::Image		&getRessource(const std::string &path)
   {
-    auto		it = _rsrcs.find(RessourcePath + name);
+    auto		it = _rsrcs.find(path);
 
     if (it != _rsrcs.end())
       return (*(it->second));
@@ -313,13 +313,13 @@ namespace jag
     sf::Image		*img = new sf::Image;
 
     // No image found - fucking users deleting files !
-    if (!img->loadFromFile(RessourcePath + name))
+    if (!img->loadFromFile(path))
     {
-      std::cerr << "Image " + name + "not found" << std::endl;
+      std::cerr << "Image " + path + "not found" << std::endl;
       img->create(16, 16);
     }
 
-    _rsrcs[RessourcePath + name] = img;
+    _rsrcs[path] = img;
     return (*img);
   }
 

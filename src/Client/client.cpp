@@ -18,7 +18,7 @@
 int		main(int ac, char **av)
 {
   sf::Clock	timer;
-  sf::Time	sleeping_time = sf::milliseconds(jag::FPSTime - jag::MarginFPS);
+  sf::Time	sleeping_time = sf::milliseconds(jag::FPS_TIME - jag::MARGIN_FPS);
   int		port = (ac > 1 ? std::atoi(av[1]) : Network::CLIENT_PORT);
 
   // TODO - remove

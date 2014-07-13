@@ -318,16 +318,6 @@ void			ServerMenu::launchGame()
     return ;
   }
 
-
-  std::vector<System::File *>	*list = System::getFiles("");
-
-  for (auto file : *list)
-  {
-    if (file->type == System::File::FileType)
-      std::cout << file->name << std::endl;
-  }
-
-
   Network::addRequest(Request::InitGame, std::bind(&ServerMenu::initGame, this, _1));
 }
 

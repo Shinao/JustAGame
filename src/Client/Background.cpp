@@ -4,11 +4,11 @@
 
 Background::Background() :
   Layer(Layer::Setting),
-  _bg(sf::Vector2f(Screen::getSize() - sf::Vector2u(jag::WindowBorderSize * 2, jag::WindowBorderSize * 2)))
+  _bg(sf::Vector2f(Screen::getSize() - sf::Vector2u(jag::WINDOW_BORDER_SIZE * 2, jag::WINDOW_BORDER_SIZE * 2)))
 {
   _bg.setFillColor(jag::getCurrentTheme()->c_background);
   _bg.setOutlineColor(sf::Color::Black);
-  _bg.setOutlineThickness(jag::WindowBorderSize);
+  _bg.setOutlineThickness(jag::WINDOW_BORDER_SIZE);
 }
 
 Background::~Background()
@@ -32,6 +32,6 @@ void			Background::draw(sf::RenderWindow &window)
 
 void			Background::settingChanged()
 {
-  _rec = Rect(Screen::getSize().x / 2 - jag::ClientWidth / 2, Screen::getSize().y / 2 - jag::ClientHeight / 2, jag::ClientWidth, jag::ClientHeight);
-  _bg.setPosition(_rec.left + jag::WindowBorderSize, _rec.top + jag::WindowBorderSize);
+  _rec = Rect(Screen::getSize().x / 2 - jag::CLIENT_WIDTH / 2, Screen::getSize().y / 2 - jag::CLIENT_HEIGHT / 2, jag::CLIENT_WIDTH, jag::CLIENT_HEIGHT);
+  _bg.setPosition(_rec.left + jag::WINDOW_BORDER_SIZE, _rec.top + jag::WINDOW_BORDER_SIZE);
 }

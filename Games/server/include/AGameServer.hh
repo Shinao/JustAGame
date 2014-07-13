@@ -15,6 +15,8 @@ class AGameServer
 {
   private:
     void			clientAsked(ProtocoledPacket &packet);
+    void			errorSendGame(Client *client, const std::string &file_path);
+    bool			sendFile(Client *client, const std::string &file);
 
   protected:
     AGameServer();

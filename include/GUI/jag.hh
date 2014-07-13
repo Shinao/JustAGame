@@ -24,14 +24,14 @@ namespace jag
     sf::Keyboard::Key		key;
   };
 
-  const std::string		WindowName = "JustAGame";
-  const std::string		RessourcePath = "rsrc/";
-  const int			ClientWidth = 1024;
-  const int			ClientHeight = 576;
-  const int			FPSTime = 1000 / 60;
-  const int			MarginFPS = 4;
-  const int			WindowBorderSize = 1;
-  const int			MarginMenu = 84;
+  const std::string		WINDOW_NAME = "JustAGame";
+  const std::string		RESSOURCE_PATH = "rsrc/";
+  const int			CLIENT_WIDTH = 1024;
+  const int			CLIENT_HEIGHT = 576;
+  const int			FPS_TIME = 1000 / 60;
+  const int			MARGIN_FPS = 4;
+  const int			WINDOW_BORDER_SIZE = 1;
+  const int			MARGIN_MENU = 84;
 
 
   void				init();
@@ -41,8 +41,8 @@ namespace jag
   Theme				*getTheme(const std::string &theme);
   void				setTheme(Theme *theme);
   void				addTheme(const std::string &name, Theme *theme);
-  sf::Image			&getRessource(const std::string &name);
-  void				createRessourceFromArray(const std::string &name,
+  sf::Image			&getRessource(const std::string &path);
+  void				createRessourceFromArray(const std::string &path,
       const unsigned char *data, unsigned int width, unsigned int height);
   std::map<std::string, sf::Keyboard::Key>		&getKeys();
   const std::string					&getValueFromEvent(sf::Keyboard::Key key);

@@ -92,9 +92,9 @@ void			Titlebar::draw(sf::RenderWindow &window)
 
 void			Titlebar::settingChanged()
 {
-  Rect	rec = Rect(Screen::getSize().x / 2 - jag::ClientWidth / 2 + jag::WindowBorderSize,
-      Screen::getSize().y / 2 - jag::ClientHeight / 2 + jag::WindowBorderSize,
-      jag::ClientWidth - jag::WindowBorderSize * 2, HEIGHT);
+  Rect	rec = Rect(Screen::getSize().x / 2 - jag::CLIENT_WIDTH / 2 + jag::WINDOW_BORDER_SIZE,
+      Screen::getSize().y / 2 - jag::CLIENT_HEIGHT / 2 + jag::WINDOW_BORDER_SIZE,
+      jag::CLIENT_WIDTH - jag::WINDOW_BORDER_SIZE * 2, HEIGHT);
   _rec = rec;
 
   // Updating position

@@ -36,6 +36,7 @@ target_link_libraries (${GAME_CLIENT} sfml-system)
 target_link_libraries (${GAME_CLIENT} sfml-window)
 target_link_libraries (${GAME_CLIENT} gui)
 target_link_libraries (${GAME_CLIENT} network)
+target_link_libraries (${GAME_CLIENT} system)
 
 
 
@@ -51,3 +52,4 @@ add_library (${GAME_SERVER} SHARED ${GAME_SERVER_SRC})
 
 # Link Libraries
 target_link_libraries (${GAME_SERVER} network)
+target_link_libraries (${GAME_SERVER} system)
