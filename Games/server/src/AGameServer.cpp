@@ -1,5 +1,6 @@
 #include "AGameServer.hh"
 #include "LibraryLoader.hh"
+#include "System.hh"
 #include <fstream>
 
 AGameServer::AGameServer() :

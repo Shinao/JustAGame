@@ -235,7 +235,7 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
     _msg->setDescription(new String("Game not found - Asking server"));
     Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
     ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
-    *get_game << ((System::getType() == System::Win32) ? true : false);
+    *get_game << ((System::getOS() == System::Win32) ? true : false);
     Network::send(get_game);
     // Create repositories
     System::createDirectory(Network::GAMES_PATH);
@@ -317,6 +317,16 @@ void			ServerMenu::launchGame()
     connectionError("Could not init the game - Check " INI_FILE);
     return ;
   }
+
+
+  std::vector<System::File *>	*list = System::getFiles("");
+
+  for (auto file : *list)
+  {
+    if (file->type == System::File::FileType)
+      std::cout << file->name << std::endl;
+  }
+
 
   Network::addRequest(Request::InitGame, std::bind(&ServerMenu::initGame, this, _1));
 }

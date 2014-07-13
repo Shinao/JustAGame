@@ -62,7 +62,7 @@ target_link_libraries (gui network)
 
 
 
-### Library Loader
+### System
 project (system)
 # Specific implementation Windows/Linux
 if (WIN32)
