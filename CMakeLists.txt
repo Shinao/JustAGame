@@ -12,7 +12,7 @@ set (INC_DIR
   include/Network
   include/GUI
   include/SimpleIni
-  include/LibraryLoader
+  include/System
   Games/client/include
   Games/server/include
   )
@@ -20,9 +20,9 @@ set (INC_DIR
 
 # Specific include Windows/Linux
 if (WIN32)
-  list (APPEND INC_DIR include/LibraryLoader/Win32)
+  list (APPEND INC_DIR include/System/Win32)
 else (WIN32)
-  list (APPEND INC_DIR include/LibraryLoader/Unix)
+  list (APPEND INC_DIR include/System/Unix)
 endif (WIN32)
 
 include_directories (${INC_DIR})
@@ -63,14 +63,14 @@ target_link_libraries (gui network)
 
 
 ### Library Loader
-project (libraryloader)
+project (system)
 # Specific implementation Windows/Linux
 if (WIN32)
-  file (GLOB_RECURSE SRC_LIBRARYLOADER src/LibraryLoader/Win32/*.cpp) 
+  file (GLOB_RECURSE SRC_SYSTEM src/System/Win32/*.cpp) 
 else (WIN32)
-  file (GLOB_RECURSE SRC_LIBRARYLOADER src/LibraryLoader/Unix/*.cpp) 
+  file (GLOB_RECURSE SRC_SYSTEM src/System/Unix/*.cpp) 
 endif (WIN32)
-add_library (libraryloader SHARED ${SRC_LIBRARYLOADER})
+add_library (system SHARED ${SRC_SYSTEM})
 
 
 
@@ -82,7 +82,7 @@ add_executable (justagame ${CLIENT_SRC})
 # Link libraries
 target_link_libraries (justagame gui)
 target_link_libraries (justagame network)
-target_link_libraries (justagame libraryloader)
+target_link_libraries (justagame system)
 
 
 
@@ -93,7 +93,7 @@ add_executable (server ${SERVER_SRC})
 
 # Link libraries
 target_link_libraries (server network)
-target_link_libraries (server libraryloader)
+target_link_libraries (server system)
 
 
 
