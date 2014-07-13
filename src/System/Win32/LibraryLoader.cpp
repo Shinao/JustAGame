@@ -1,5 +1,4 @@
 #include "LibraryLoader.hh"
-#include <direct.h>
 
 LibraryLoader::LibraryLoader(const std::string &name, const std::string &path) :
   m_libFunction(NULL)
@@ -38,14 +37,4 @@ void		*LibraryLoader::getFunction(const std::string &name)
 const std::string	&LibraryLoader::getFullPath() const
 {
   return (_lib_name);
-}
-
-LibraryLoader::System	LibraryLoader::getSystem()
-{
-  return (Win32);
-}
-
-bool			LibraryLoader::createDirectory(const std::string &name)
-{
-  return ((_mkdir(name.c_str()) == 0) ? true : false);
 }

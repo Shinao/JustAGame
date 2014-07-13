@@ -15,20 +15,12 @@ class LibraryLoader
     std::string		_lib_name;
 
   public:
-    enum System
-    {
-      Win32,
-      Unix
-    };
-
     LibraryLoader(const std::string &name, const std::string &path = "./");
     ~LibraryLoader();
 
     bool		open();
     void		*getFunction(const std::string &name);
     const std::string	&getFullPath() const;
-    static System	getSystem();
-    static bool		createDirectory(const std::string &name);
 };
 
 #endif

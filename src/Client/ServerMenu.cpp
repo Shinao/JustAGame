@@ -3,6 +3,7 @@
 #include "String.hh"
 #include "Titlebar.hh"
 #include "GameManager.hh"
+#include "System.hh"
 #include <sstream>
 #include <fstream>
 #include <sstream>
@@ -234,12 +235,12 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
     _msg->setDescription(new String("Game not found - Asking server"));
     Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
     ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
-    *get_game << ((LibraryLoader::getSystem() == LibraryLoader::Win32) ? true : false);
+    *get_game << ((System::getType() == System::Win32) ? true : false);
     Network::send(get_game);
     // Create repositories
-    LibraryLoader::createDirectory(Network::GAMES_PATH);
-    LibraryLoader::createDirectory(Network::GAMES_PATH + _game_mode);
-    LibraryLoader::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
+    System::createDirectory(Network::GAMES_PATH);
+    System::createDirectory(Network::GAMES_PATH + _game_mode);
+    System::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
     return ;
   }
 

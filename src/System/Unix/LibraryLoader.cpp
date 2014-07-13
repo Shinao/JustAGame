@@ -38,13 +38,3 @@ const std::string	&LibraryLoader::getFullPath() const
 {
   return (_lib_name);
 }
-
-LibraryLoader::System	LibraryLoader::getSystem()
-{
-  return (Unix);
-}
-
-bool			LibraryLoader::createDirectory(const std::string &name)
-{
-  return ((mkdir(name.c_str(), 641) == 0) ? true : false);
-}
