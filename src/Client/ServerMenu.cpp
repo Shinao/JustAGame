@@ -117,7 +117,6 @@ void			ServerMenu::serverSelected()
 
   if (GameManager::isRunning())
   {
-    std::cout << ">>> EXCITING CURRENT GAME" << std::endl;
     _msg->setDescription(new String("Disconnecting from current server..."));
 
     GameManager::exitGame();
@@ -132,7 +131,6 @@ void			ServerMenu::serverSelected()
 
 void			ServerMenu::connectToServer()
 {
-  std::cout << "<<< CONNECT TO SERVER" << std::endl;
   // Manage server connexion and disconnexion
   Network::addRequest(Request::Connexion, std::bind(&ServerMenu::connectedToServer, this, _1));
   Network::addRequest(Request::Disconnexion, std::bind(&ServerMenu::couldNotConnect, this, _1));
@@ -165,7 +163,6 @@ void			ServerMenu::couldNotConnect(ProtocoledPacket &)
 // We were disconnecting from the current running game
 void			ServerMenu::disconnectedFromGame(ProtocoledPacket &)
 {
-  std::cout << ">>> DISCONNECTED FROM CURRENT GAME" << std::endl;
   Network::removeRequest(Request::Disconnexion);
   connectToServer();
 }
@@ -184,7 +181,6 @@ void			ServerMenu::abortConnexion(ProtocoledPacket &packet)
 
 void			ServerMenu::abortDisconnexion(ProtocoledPacket &)
 {
-  std::cout << "ABORT DISCONNEXION" << std::endl;
   Screen::remove(_msg);
 }
 
@@ -231,7 +227,7 @@ void			ServerMenu::getInfo(ProtocoledPacket &packet)
 
   packet >> server >> _game_mode >> _version >> has_password;
 
-  std::cout << server << " :: " << _game_mode << " [" << _version << "]" << std::endl;
+  std::cout << server << " :: " << _game_mode << " [" << (int) _version << "]" << std::endl;
 
   // Checking our library
   std::string	lib_name = _game_mode + Network::SUFFIX_CLIENT;
@@ -365,7 +361,6 @@ void			ServerMenu::initGame(ProtocoledPacket &packet)
     return ;
 
   Screen::remove(_msg);
-  std::cout << "initgame" << std::endl;
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
   Network::removeRequest(Request::Connexion);
@@ -384,7 +379,6 @@ bool			ServerMenu::tryingToEscape()
   if (_state == Aborting || _state == Disconnecting)
     return (false);
 
-  std::cout << "initgame" << std::endl;
   Network::removeRequest(Request::GetGame);
   Network::removeRequest(Request::InitGame);
   Network::removeRequest(Request::Disconnexion);

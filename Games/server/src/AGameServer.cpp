@@ -36,7 +36,7 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
   lib_path += (win32 ? Network::SUFFIX_LIB_WIN32 : Network::SUFFIX_LIB_UNIX);
 
   // For each file, send it to the client
-  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + Network::RSRC_PATH);
+  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
   if (list == NULL || !sendFile(packet.getClient(), lib_path))
   {
     errorSendGame(packet.getClient(), lib_path);
@@ -45,7 +45,7 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
 
   for (auto file : *list)
     if (file->type == System::File::FileType)
-      sendFile(packet.getClient(), Network::GAMES_PATH + _game_mode + Network::RSRC_PATH + file->name);
+      sendFile(packet.getClient(), Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH + file->name);
 
   for (auto file : *list)
     delete file;
