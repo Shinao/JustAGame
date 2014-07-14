@@ -32,6 +32,7 @@ class ServerMenu : public MainMenuItem
     Client			*_server;
     LibraryLoader		*_lib;
     std::string			_game_mode;
+    Version			_version;
     AGameClient			*_game;
 
     void			initGame(ProtocoledPacket &packet);
@@ -40,6 +41,8 @@ class ServerMenu : public MainMenuItem
     void			serverSelected();
     void			launchGame();
     void			getGame(ProtocoledPacket &packet);
+    void			getInfo(ProtocoledPacket &packet);
+    void			incorrectVersion();
     void			couldNotConnect(ProtocoledPacket &packet);
     void			connectedToServer(ProtocoledPacket &packet);
     void			connectionError(const std::string &desc);

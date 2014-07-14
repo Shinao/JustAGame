@@ -46,6 +46,7 @@ class AGameServer
     void			messageReceived(ProtocoledPacket &packet);
 
     virtual void		update() = 0;
+    virtual Version		getVersion() = 0;
 };
 
 #endif

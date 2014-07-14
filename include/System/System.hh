@@ -26,6 +26,7 @@ namespace System
   OS				getOS();
   bool				createDirectory(const std::string &name);
   std::vector<File *>		*getFiles(const std::string &name);
+  bool				removeFile(const std::string &name);
 }
 
 #endif

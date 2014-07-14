@@ -57,6 +57,7 @@ void			GameServer::playerJoined(ProtocoledPacket &packet)
   // Mandatory - Start the game on the client side
   //
   ProtocoledPacket *init = new ProtocoledPacket(packet.getClient(), Request::InitGame, Network::TCP);
+  // *init << GAME_VERSION; // Mandatory - Checking
   // Add whatever you want to packet here
 
   // TicTacToe - Just tell him if he is the first player (wait for second) or second one (game start)
@@ -154,4 +155,9 @@ bool			GameServer::checkPlayer(ClientID id)
   std::cout << "fu" << std::endl;
 
   return (false);
+}
+
+Version			GameServer::getVersion()
+{
+  return (GAME_VERSION);
 }

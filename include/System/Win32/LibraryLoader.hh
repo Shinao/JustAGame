@@ -21,6 +21,7 @@ class LibraryLoader
     bool		open();
     void		*getFunction(const std::string &name);
     const std::string	&getFullPath() const;
+    void		free();
 };
 
 #endif

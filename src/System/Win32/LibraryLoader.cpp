@@ -8,8 +8,7 @@ LibraryLoader::LibraryLoader(const std::string &name, const std::string &path) :
 
 LibraryLoader::~LibraryLoader()
 {
-  if (m_hinstlib != NULL)
-    FreeLibrary(m_hinstlib);
+  free();
 }
 
 // Load Library
@@ -37,4 +36,13 @@ void		*LibraryLoader::getFunction(const std::string &name)
 const std::string	&LibraryLoader::getFullPath() const
 {
   return (_lib_name);
+}
+
+void		LibraryLoader::free()
+{
+  if (m_hinstlib != NULL)
+  {
+    FreeLibrary(m_hinstlib);
+    m_hinstlib = NULL;
+  }
 }

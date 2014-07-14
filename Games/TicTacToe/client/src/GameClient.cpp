@@ -316,3 +316,8 @@ void			GameClient::drawTitle(sf::RenderWindow &win)
   win.draw(opponent);
   win.draw(vs);
 }
+
+Version			GameClient::getVersion()
+{
+  return (GAME_VERSION);
+}

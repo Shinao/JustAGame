@@ -36,7 +36,7 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
   lib_path += (win32 ? Network::SUFFIX_LIB_WIN32 : Network::SUFFIX_LIB_UNIX);
 
   // For each file, send it to the client
-  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + "/rsrc");
+  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + Network::RSRC_PATH);
   if (list == NULL || !sendFile(packet.getClient(), lib_path))
   {
     errorSendGame(packet.getClient(), lib_path);
@@ -45,7 +45,7 @@ void			AGameServer::sendGame(ProtocoledPacket &packet)
 
   for (auto file : *list)
     if (file->type == System::File::FileType)
-      sendFile(packet.getClient(), Network::GAMES_PATH + _game_mode + "/rsrc/" + file->name);
+      sendFile(packet.getClient(), Network::GAMES_PATH + _game_mode + Network::RSRC_PATH + file->name);
 
   for (auto file : *list)
     delete file;
@@ -153,9 +153,13 @@ void			AGameServer::clientAsked(ProtocoledPacket &packet)
     << " asked for servers" << std::endl;
 }
 
-// Possibly nothing to do here - Player not initialized
+// Possibly not worth overriding - Player not initialized
 void			AGameServer::clientConnected(ProtocoledPacket &packet)
 {
+  ProtocoledPacket	*info = new ProtocoledPacket(packet.getClient(), Request::ServerInfo, Network::Reliable);
+  *info << _name << _game_mode << getVersion() << hasPassword();
+  Network::send(info);
+
   std::cout << "Client " << packet.getClient()->getIp() << ":" << packet.getClient()->getPort() << " connected to server" << std::endl;
 }
 

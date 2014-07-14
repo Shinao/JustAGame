@@ -31,6 +31,7 @@ class GameServer : public AGameServer
     virtual void		playerLeft(ProtocoledPacket &packet);
 
     virtual void		update();
+    virtual Version		getVersion();
 
     // Specific TicTacToe
     void			playerPlayed(ProtocoledPacket &packet);

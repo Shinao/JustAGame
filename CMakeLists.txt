@@ -70,6 +70,7 @@ if (WIN32)
 else (WIN32)
   file (GLOB_RECURSE SRC_SYSTEM src/System/Unix/*.cpp) 
 endif (WIN32)
+list (APPEND SRC_SYSTEM src/System/*.cpp) 
 add_library (system SHARED ${SRC_SYSTEM})
 
 

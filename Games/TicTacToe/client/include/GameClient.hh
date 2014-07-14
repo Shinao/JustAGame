@@ -63,6 +63,8 @@ class GameClient : public AGameClient
     virtual void		mouseReleased(int x, int y);
     // Called when configuration changed
     virtual void		settingChanged();
+    // Get actual game version
+    virtual Version		getVersion();
 };
 
 #endif

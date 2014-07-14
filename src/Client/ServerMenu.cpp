@@ -217,34 +217,60 @@ void			ServerMenu::connectedToServer(ProtocoledPacket &packet)
 
   // User aborted operation
   if (_state != Connecting)
-  {
     return ;
-  }
 
   _state = Connected;
 
+  Network::addRequest(Request::ServerInfo, std::bind(&ServerMenu::getInfo, this, _1));
+}
+
+void			ServerMenu::getInfo(ProtocoledPacket &packet)
+{
+  std::string	server;
+  bool		has_password;
+
+  packet >> server >> _game_mode >> _version >> has_password;
+
+  std::cout << server << " :: " << _game_mode << " [" << _version << "]" << std::endl;
+
   // Checking our library
-  _game_mode = "TicTacToe";
   std::string	lib_name = _game_mode + Network::SUFFIX_CLIENT;
 
   // Get Library from game name and download it if fail
   _lib = new LibraryLoader(lib_name, Network::GAMES_PATH + _game_mode + "/");
   if (!_lib->open())
-  {
-    _msg->setTitle("Downloading");
-    _msg->setDescription(new String("Game not found - Asking server"));
-    Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
-    ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
-    *get_game << ((System::getOS() == System::Win32) ? true : false);
-    Network::send(get_game);
-    // Create repositories
-    System::createDirectory(Network::GAMES_PATH);
-    System::createDirectory(Network::GAMES_PATH + _game_mode);
-    System::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
-    return ;
-  }
+    incorrectVersion();
+  else
+    launchGame();
+}
 
-  launchGame();
+void			ServerMenu::incorrectVersion()
+{
+  _msg->setTitle("Downloading");
+  _msg->setDescription(new String("Game not found - Asking server"));
+
+  Network::addRequest(Request::GetGame, std::bind(&ServerMenu::getGame, this, _1));
+  ProtocoledPacket *get_game = new ProtocoledPacket(_server, Request::GetGame, Network::TCP);
+  *get_game << ((System::getOS() == System::Win32) ? true : false);
+  Network::send(get_game);
+
+  // Create repositories
+  System::createDirectory(Network::GAMES_PATH);
+  System::createDirectory(Network::GAMES_PATH + _game_mode);
+  System::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
+
+  // Remove files if already here
+  System::removeFile(_lib->getFullPath());
+  System::removeFile(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH + "/*");
+
+  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
+  for (auto file : *list)
+    if (file->type == System::File::FileType)
+      System::removeFile(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH + file->name);
+
+  for (auto file : *list)
+    delete file;
+  delete list;
 }
 
 void			ServerMenu::getGame(ProtocoledPacket &packet)
@@ -311,6 +337,16 @@ void			ServerMenu::launchGame()
   }
 
   _game = func_ptr();
+
+  // Checking if incorrect version
+  if (_version != _game->getVersion())
+  {
+    delete _game;
+    _lib->free();
+    incorrectVersion();
+    return ;
+  }
+
   _game->setServer(_server);
   if (!_game->init())
   {

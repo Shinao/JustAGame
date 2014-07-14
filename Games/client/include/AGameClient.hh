@@ -45,6 +45,7 @@ class AGameClient : public Layer, public EventCallback
 
     // Waiting Infos from server (Players data, map, ...) - if waiting : return false
     virtual bool		initGame(ProtocoledPacket &packet) = 0;
+    virtual Version		getVersion() = 0;
     
     // Layer events
     virtual void		mouseReleased(int x, int y);

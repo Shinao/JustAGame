@@ -12,6 +12,7 @@ typedef		sf::Uint32	AcknowledgeField;
 typedef		sf::Uint16	RequestID;
 typedef		sf::Uint16	Sequence;
 typedef 	sf::Uint8	Message;
+typedef 	sf::Uint8	Version;
 
 
 
@@ -38,22 +39,24 @@ namespace Request
   const RequestID		Test = 7;
   // [RESERVED] Player sent his information (Name, color...) : client -> server
   const RequestID		PlayerInfo = 8;
+  // [RESERVED] Server sent his information (Version, mode...) : server -> client
+  const RequestID		ServerInfo = 9;
   // [RESERVED] Player joined the game : server -> client
-  const RequestID		PlayerJoined = 9;
+  const RequestID		PlayerJoined = 10;
   // [RESERVED] Player left the game : server -> client
-  const RequestID		PlayerLeft = 10;
+  const RequestID		PlayerLeft = 11;
   // [RESERVED] When a player join a server, he should receive all the data before beginning : server -> client
-  const RequestID		InitGame = 11;
+  const RequestID		InitGame = 12;
   // [RESERVED] When a client does not have the game - ask for download : client <-> server
-  const RequestID		GetGame = 12;
+  const RequestID		GetGame = 13;
   // [RESERVED] When a player send/receive a message : server <-> client
-  const RequestID		Message = 13;
+  const RequestID		Message = 14;
   // Game start : server -> client
-  const RequestID		GameStart = 14;
+  const RequestID		GameStart = 15;
   // Party end and client won : server -> client
-  const RequestID		PlayerWon = 15;
+  const RequestID		PlayerWon = 16;
   // Party end and client lost : server -> client
-  const RequestID		PlayerLost = 16;
+  const RequestID		PlayerLost = 17;
 }
 
 namespace MessageType
