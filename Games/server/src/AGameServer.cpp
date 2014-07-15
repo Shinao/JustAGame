@@ -79,7 +79,7 @@ bool			AGameServer::sendFile(Client *client, const std::string &file_path)
   int	file_size = file.tellg();
   file.seekg(0, file.beg);
   int	read = 0;
-  char	data[300];
+  char	data[50];
   int	send = sizeof(data);
 
   while (file.good() && read < file_size)

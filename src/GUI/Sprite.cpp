@@ -60,8 +60,6 @@ Rect			Sprite::getRectRessource() const
 void			Sprite::setRect(const Rect &rec)
 {
   Item::setRect(rec);
-
-  update();
 }
 
 void			Sprite::setSprite(sf::Sprite *sprite)

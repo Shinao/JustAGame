@@ -13,7 +13,6 @@ class ModalMessageBox : public Layer, public EventCallback
   public:
     typedef std::function<bool ()> CallbackCheck;
 
-  private:
     const static int		WIDTH = 320;
     const static int		HEIGHT = 150;
     const static int		TITLE_HEIGHT = 42;

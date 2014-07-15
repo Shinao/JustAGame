@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 using namespace std::placeholders;
 
@@ -315,7 +316,13 @@ void			ServerMenu::getGame(ProtocoledPacket &packet)
   file.close();
 
   std::stringstream	ss;
-  ss << min_filename + " [" << (int) progress << "%]";
+  ss  << min_filename << "\n[";
+  for (int i = 0; i < 100; ++i)
+    if ((float) progress / 100 * 100 > i)
+      ss << "|";
+    else
+      ss << " ";
+  ss << "]\ndasdd\ndasd\ndasdasd\ndsad";
   _msg->setDescription(new String(ss.str()));
 }
 
@@ -335,7 +342,7 @@ void			ServerMenu::launchGame()
   _game = func_ptr();
 
   // Checking if incorrect version
-  if (_version != _game->getVersion())
+  if (_version == _game->getVersion())
   {
     delete _game;
     _lib->free();
