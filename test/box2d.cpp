@@ -12,6 +12,78 @@
 #include <Thor/Graphics.hpp>
 #include <Thor/Math.hpp>
 #include <Thor/Time.hpp>
+#include <Thor/Vectors.hpp>
+
+class DebrisEmitter
+{
+  private:
+    sf::Vector2f	mPosition;
+
+  public:
+    explicit DebrisEmitter(thor::EmissionInterface &system, sf::Vector2f position) : 
+      mPosition(position)
+  {
+      sf::Vector2f		vector(1, 1);
+      float			angle;
+      int			nb_debris = 16;
+      thor::Particle		particle;
+
+      particle.position = mPosition;
+      while (nb_debris-- > 0)
+      {
+	angle = thor::random(0, 360);
+	thor::setPolarAngle(vector, angle);
+
+	particle.rotation = angle;
+	particle.rotationSpeed = thor::random(56.f, 256.f);
+	float scale = thor::random(0.2f, 0.6f);
+	particle.scale = sf::Vector2f(scale, scale);
+	particle.velocity = vector * thor::random(40.f, 180.f);
+	particle.totalLifetime = sf::milliseconds(thor::random(500, 1500) * (particle.scale.x + 0.4f));
+	particle.textureIndex = thor::random(0, 9);
+
+	system.emitParticle(particle);
+      }
+  }
+
+    void operator() (thor::EmissionInterface& system, sf::Time dt)
+    {
+    }
+};
+
+class SparkEmitter
+{
+  private:
+    sf::Vector2f	mPosition;
+
+  public:
+    explicit SparkEmitter(thor::EmissionInterface &system, sf::Vector2f position) : 
+      mPosition(position)
+  {
+      sf::Vector2f		vector(1, 1);
+      float			angle;
+      int			nb_spark = 16;
+      thor::Particle		particle;
+
+      particle.position = mPosition;
+      while (nb_spark-- > 0)
+      {
+	angle = thor::random(0, 360);
+	thor::setPolarAngle(vector, angle - 180);
+
+	particle.rotation = angle;
+	particle.scale = sf::Vector2f(thor::random(0.2f, 0.6f), 0.4f);
+	particle.velocity = vector * thor::random(60.f, 120.f);
+	particle.totalLifetime = sf::milliseconds(thor::random(500, 1500) * (particle.scale.x + 0.4f));
+
+	system.emitParticle(particle);
+      }
+  }
+
+    void operator() (thor::EmissionInterface& system, sf::Time dt)
+    {
+    }
+};
 
 
 /** We need this to easily convert between pixel and real-world coordinates*/
@@ -61,13 +133,21 @@ int main()
   Window.setMouseCursorVisible(false);
 
   sf::Texture		tex_particle;
-  thor::ParticleSystem	ps_flash;
-  thor::ParticleSystem	ps_smoke;
-  thor::ParticleSystem	ps_shock;
-  thor::ParticleSystem	ps_spark;
   tex_particle.loadFromFile("particles.jpg");
 
+  // auto distri = thor::Distributions::uniform(0, 4);
+  // for (int i = 0; i < 10; ++i)
+  //   std::cout << distri() << std::endl;
+
+  // auto distri_swap = thor::Distributions::uniform(10, 14);
+  // distri.swap(distri_swap);
+
+  // std::cout << "Error:" << std::endl;
+  // for (int i = 0; i < 10; ++i)
+  //   std::cout << distri_swap() << std::endl;
+
   // Flash
+  thor::ParticleSystem	ps_flash;
   ps_flash.setTexture(tex_particle);
   ps_flash.addTextureRect(sf::IntRect(212, 0, 106, 106));
   ps_flash.addTextureRect(sf::IntRect(318, 0, 106, 106));
@@ -75,10 +155,10 @@ int main()
   ps_flash.addTextureRect(sf::IntRect(318, 106, 106, 106));
   ps_flash.addAffector([] (thor::Particle& particle, sf::Time dt) {
       if (thor::getRemainingRatio(particle) > 0.5f)
-      	particle.scale += sf::Vector2f(dt.asMilliseconds() / 100.f, dt.asMilliseconds() / 100.f);
+      particle.scale += sf::Vector2f(dt.asMilliseconds() / 100.f, dt.asMilliseconds() / 100.f);
       else
-      	particle.scale -= sf::Vector2f(dt.asMilliseconds() / 120.f, dt.asMilliseconds() / 120.f);
-  });
+      particle.scale -= sf::Vector2f(dt.asMilliseconds() / 120.f, dt.asMilliseconds() / 120.f);
+      });
   sf::Time flash_duration = sf::milliseconds(200);
   sf::Clock	pclock;
   thor::UniversalEmitter flash_emitter;
@@ -88,18 +168,16 @@ int main()
   flash_emitter.setParticleLifetime(flash_duration);
   flash_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
   flash_emitter.setParticleColor(sf::Color(150, 90, 0));
-  
 
   sf::Color pcolor(255, 0, 255);
-
   thor::ColorGradient gradient;
   gradient[0.0f] = sf::Color(180, 50, 0);
   gradient[0.5f] = sf::Color(180, 50, 0);
   gradient[1.0f] = pcolor;
   thor::ColorAnimation colorer(gradient);
 
-
   // Smoke
+  thor::ParticleSystem	ps_smoke;
   ps_smoke.setTexture(tex_particle);
   thor::UniversalEmitter smoke_emitter;
   sf::Time smoke_duration = sf::milliseconds(500);
@@ -116,9 +194,10 @@ int main()
   smoke_emitter.setParticleScale(sf::Vector2f(2, 2));
   smoke_emitter.setParticleLifetime(smoke_duration);
   smoke_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
-  // smoke_emitter.setParticleColor(sf::Color(180, 50, 0));
+  smoke_emitter.setParticleColor(sf::Color(180, 50, 0));
 
   // Shock
+  thor::ParticleSystem	ps_shock;
   ps_shock.setTexture(tex_particle);
   sf::Time shock_duration = sf::milliseconds(750);
   ps_shock.addTextureRect(sf::IntRect(318, 212, 106, 106));
@@ -127,27 +206,53 @@ int main()
   ps_shock.addAffector(thor::AnimationAffector(thor::refAnimation(fader_shock)));
   ps_shock.addAffector(thor::ScaleAffector(sf::Vector2f(3.5f, 3.5f)));
   thor::UniversalEmitter shock_emitter;
-  shock_emitter.setParticleTextureIndex(0);
   shock_emitter.setEmissionRate(0);
   shock_emitter.setParticleScale(sf::Vector2f(1.4f, 1.4f));
   shock_emitter.setParticleLifetime(shock_duration);
   shock_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
 
   // Spark
+  thor::ParticleSystem	ps_spark;
   ps_spark.setTexture(tex_particle);
-  sf::Time spark_duration = sf::milliseconds(1500);
-  ps_spark.addTextureRect(sf::IntRect(318, 365, 106, 16));
+  ps_spark.addTextureRect(sf::IntRect(318, 368, 106, 8));
   ps_spark.addAffector(thor::AnimationAffector(colorer));
   thor::FadeAnimation fader_spark(0.1f, 0.8f);
   ps_spark.addAffector(thor::AnimationAffector(thor::refAnimation(fader_spark)));
-  ps_spark.addAffector(thor::ForceAffector(sf::Vector2f(100.5f, 100.5f)));
-  thor::UniversalEmitter spark_emitter;
-  spark_emitter.setParticleTextureIndex(0);
-  spark_emitter.setEmissionRate(12);
-  spark_emitter.setParticleScale(sf::Vector2f(1.f, 1.f));
-  spark_emitter.setParticleLifetime(spark_duration);
-  spark_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
 
+  // Steam
+  thor::ParticleSystem	ps_steam;
+  ps_steam.setTexture(tex_particle);
+  thor::UniversalEmitter steam_emitter;
+  sf::Time steam_duration = sf::milliseconds(560);
+  ps_steam.addTextureRect(sf::IntRect(216, 318, 100, 106));
+  ps_steam.addAffector(thor::AnimationAffector(colorer));
+  thor::FadeAnimation fader_steam(0.1f, 0.5f);
+  ps_steam.addAffector(thor::AnimationAffector(thor::refAnimation(fader_steam)));
+  ps_steam.addAffector(thor::ScaleAffector(sf::Vector2f(1.8f, 1.8f)));
+  steam_emitter.setEmissionRate(8);
+  steam_emitter.setParticleScale(sf::Vector2f(1.3f, 1.3f));
+  steam_emitter.setParticleLifetime(steam_duration);
+  steam_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
+
+  // Debris
+  thor::ParticleSystem	ps_debris;
+  sf::Time debris_duration = sf::milliseconds(750);
+  for (int x = 212; x < 328; x += 35)
+    for (int y = 212; y < 328; y += 35)
+      ps_debris.addTextureRect(sf::IntRect(x, y, 35, 35));
+  // thor::UniversalEmitter debris_emitter;
+  // debris_emitter.setParticleTextureIndex(thor::Distributions::uniform(0, 9));
+  ps_debris.setTexture(tex_particle);
+  ps_debris.addAffector(thor::AnimationAffector(colorer));
+  thor::FadeAnimation fader_debris(0.1f, 0.5f);
+  ps_debris.addAffector(thor::AnimationAffector(thor::refAnimation(fader_debris)));
+  // ps_debris.addAffector(thor::ScaleAffector(sf::Vector2f(1.2f, 1.2f)));
+  // ps_debris.addAffector(thor::ForceAffector(sf::Vector2f(281.4f, 281.4f)));
+  // ps_debris.addAffector(thor::TorqueAffector(284.f));
+  // debris_emitter.setEmissionRate(8);
+  // debris_emitter.setParticleScale(sf::Vector2f(0.4f, 0.4f));
+  // debris_emitter.setParticleLifetime(debris_duration);
+  // debris_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
 
 
   if (!tex_explosion.loadFromFile("explosion4.png"))
@@ -295,15 +400,16 @@ int main()
 	int MouseX = sf::Mouse::getPosition(Window).x;
 	int MouseY = sf::Mouse::getPosition(Window).y;
 
-	// shock_emitter.setParticlePosition(sf::Vector2f(MouseX, MouseY));
-	// shock_emitter.emitParticle(ps_shock);
-	// flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
-	// ps_flash.addEmitter(thor::refEmitter(flash_emitter), flash_duration);
-	// smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
-	// ps_smoke.addEmitter(thor::refEmitter(smoke_emitter), smoke_duration);
-	spark_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
-	ps_spark.addEmitter(thor::refEmitter(spark_emitter), spark_duration);
-
+	shock_emitter.setParticlePosition(sf::Vector2f(MouseX, MouseY));
+	shock_emitter.emitParticle(ps_shock);
+	flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+	ps_flash.addEmitter(thor::refEmitter(flash_emitter), flash_duration);
+	smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+	ps_smoke.addEmitter(thor::refEmitter(smoke_emitter), smoke_duration);
+	SparkEmitter(ps_spark, sf::Vector2f(MouseX, MouseY));
+	steam_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
+	ps_steam.addEmitter(thor::refEmitter(steam_emitter), steam_duration);
+	DebrisEmitter(ps_debris, sf::Vector2f(MouseX, MouseY));
 
 	// shader.setParameter("center", (float) sf::Mouse::getPosition(Window).x / tex.getSize().x, (float) sf::Mouse::getPosition(Window).y / tex.getSize().y);
 	// global_time = 0;
@@ -365,8 +471,8 @@ int main()
     for (b2ParticleSystem *sys = World.GetParticleSystemList(); sys != NULL; sys = sys->GetNext())
     {
       b2Vec2	*particles = sys->GetPositionBuffer();
-      if (display)
-	std::cout << "Particles >> " << sys->GetParticleCount() << std::endl;
+      // if (display)
+	// std::cout << "Particles >> " << sys->GetParticleCount() << std::endl;
 
       for (int i = 0; i < sys->GetParticleCount(); ++i)
       {
@@ -413,14 +519,18 @@ int main()
     }
 
     sf::Time elapsed_time = pclock.restart();
-    ps_smoke.update(elapsed_time);
     ps_flash.update(elapsed_time);
+    ps_smoke.update(elapsed_time);
+    ps_steam.update(elapsed_time);
     ps_shock.update(elapsed_time);
     ps_spark.update(elapsed_time);
+    ps_debris.update(elapsed_time);
     Window.draw(ps_flash, sf::BlendAdd);
     Window.draw(ps_smoke, sf::BlendAdd);
+    Window.draw(ps_steam, sf::BlendAdd);
     Window.draw(ps_shock, sf::BlendAdd);
     Window.draw(ps_spark, sf::BlendAdd);
+    Window.draw(ps_debris, sf::BlendAdd);
     Window.display();
   }
 
@@ -561,6 +671,6 @@ void		loadShader()
     std::stringstream ss;
     ss  << "iDebug[" << i << "]";
     shader.setParameter(ss.str(), debugShader[i]);
-    std::cout << "iDebug[" << i << "] = " << debugShader[i] << std::endl;
+    // std::cout << "iDebug[" << i << "] = " << debugShader[i] << std::endl;
   }
 }
