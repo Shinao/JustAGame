@@ -104,6 +104,7 @@ sf::Texture	tex_explosion;
 bool		explosion = false;
 sf::Clock	timer_explosion;
 int		pos_explosion;
+sf::Color pcolor(255, 0, 255);
 
 void		loadShader();
 void CreateGround(b2World& World, float X, float Y, float angle);
@@ -169,7 +170,6 @@ int main()
   flash_emitter.setParticleRotation(thor::Distributions::uniform(0, 360));
   flash_emitter.setParticleColor(sf::Color(150, 90, 0));
 
-  sf::Color pcolor(255, 0, 255);
   thor::ColorGradient gradient;
   gradient[0.0f] = sf::Color(180, 50, 0);
   gradient[0.5f] = sf::Color(180, 50, 0);
@@ -305,7 +305,8 @@ int main()
   sf::Texture tex1;
   tex1.loadFromFile("ship.png");
   spr_ship.setTexture(tex1);
-  spr_ship.setColor(sf::Color(255, 255, 255, 50));
+  spr_ship.setColor(pcolor);
+  spr_ship.setScale(sf::Vector2f(0.4f, 0.4f));
 
   sf::Texture tex2;
   tex2.loadFromFile("box.png");
@@ -323,6 +324,7 @@ int main()
 
 
   bool	up = true;
+  bool refreshed = true;
   loadShader();
 
   std::cout << sf::Texture::getMaximumSize() << std::endl;
@@ -347,19 +349,58 @@ int main()
 
       World.Step(1/60.f, 18, 3);
       b2_timer.restart();
+
+      refreshed = true;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-      camera.y += 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-      camera.y -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-      camera.x += 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-      camera.x -= 1;
-    shader.setParameter("iCamera", camera.x, camera.y);
+
+    spr_ship.setOrigin(0, 0);
+
+    // Camera and stuff
+    sf::CircleShape	cursor_shape(4);
+    cursor_shape.setOutlineColor(pcolor);
+    cursor_shape.setFillColor(sf::Color::Transparent);
+    cursor_shape.setOutlineThickness(1);
+    sf::Vector2i cursor = sf::Mouse::getPosition(Window);
+    cursor_shape.setPosition(cursor.x - 2, cursor.y - 2);
+    sf::Vector2i padding_cursor = cursor;
+    padding_cursor -= sf::Vector2i(Window.getSize().x / 2.f, Window.getSize().y / 2.f);
+    sf::Vector2i cursor_sign(padding_cursor.x > 0 ? 1 : -1, padding_cursor.y > 0 ? 1 : -1); 
+    padding_cursor = sf::Vector2i(std::abs(padding_cursor.x), std::abs(padding_cursor.y));
+
+    // Using the center of mass as origin
+    camera = sf::Vector2i(b_ship->GetWorldCenter().x * PIXELS_PER_METER - Window.getSize().x / 2,
+	b_ship->GetWorldCenter().y * PIXELS_PER_METER - Window.getSize().y / 2);
+
+    // Making the camera progressive
+    padding_cursor = sf::Vector2i(padding_cursor.x / 1.5, padding_cursor.y / 1.5);
+
+    // Pad the camera from the cursor
+    if (padding_cursor.x > 0)
+      camera.x += padding_cursor.x * cursor_sign.x;
+    if (padding_cursor.y > 0)
+      camera.y += padding_cursor.y * cursor_sign.y;
+
+    if (display)
+    {
+      std::cout << "Ship POS: " << b_ship->GetWorldCenter().x * PIXELS_PER_METER << " / " << b_ship->GetWorldCenter().y * PIXELS_PER_METER << std::endl;
+      std::cout << "Ship SIZE: " << spr_ship.getGlobalBounds().width << " / " << spr_ship.getGlobalBounds().height << std::endl;
+      std::cout << "Cursor POS: " << cursor.x << " / " << cursor.y << std::endl;
+      std::cout << "Camera POS: " << camera.x << " / " << camera.y << std::endl << std::endl;
+    }
 
 
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    //   camera.y += 1;
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    //   camera.y -= 1;
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    //   camera.x += 1;
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    //   camera.x -= 1;
+
+
+    shader.setParameter("iCamera", camera.x, camera.y * -1);
     Window.draw(spr, &shader);
 
     if (timer.getElapsedTime().asSeconds() > 1)
@@ -432,19 +473,48 @@ int main()
     {
       timer_turn.restart();
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	b_ship->SetAngularVelocity(-3.f);
+	b_ship->SetAngularVelocity(-2.f);
       else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	b_ship->SetAngularVelocity(3.f);
+	b_ship->SetAngularVelocity(2.f);
     }
     else
       b_ship->SetAngularVelocity(0.f);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-      b_ship->SetLinearVelocity(-b2Rot(b_ship->GetAngle()).GetYAxis() * 25);
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-      b_ship->SetLinearVelocity(b2Rot(b_ship->GetAngle()).GetYAxis() * 10);
-    else
-      b_ship->SetLinearVelocity(b2Vec2(0, 0));
+    if (refreshed)
+    {
+      int forward_speed = 100;
+      int backward_speed = 20;
+      int deceleration_ratio = 2;
+
+      b2Vec2 vec = b2Rot(b_ship->GetAngle()).GetYAxis();
+      b2Vec2 vel = b_ship->GetLinearVelocity();
+      float total_vel = std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y);
+      
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+      {
+	b2Vec2 adjust = -vec * forward_speed - vel;
+	b_ship->ApplyForce(adjust, b_ship->GetWorldCenter(), true);
+      }
+      else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+      {
+	b2Vec2 adjust = vec * backward_speed - vel;
+	b_ship->ApplyForce(adjust, b_ship->GetWorldCenter(), true);
+      }
+      else if (total_vel != 0)
+      {
+	if (total_vel < 0.25)
+	  b_ship->SetLinearVelocity(b2Vec2(0, 0));
+	else
+	  b_ship->ApplyForce(-b_ship->GetLinearVelocity() * deceleration_ratio, b_ship->GetWorldCenter(), true);
+      }
+    }
+
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    //   b_ship->SetLinearVelocity(-b2Rot(b_ship->GetAngle()).GetYAxis() * 25);
+    // else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    //   b_ship->SetLinearVelocity(b2Rot(b_ship->GetAngle()).GetYAxis() * 10);
+    // else
+    //   b_ship->SetLinearVelocity(b2Vec2(0, 0));
 
     if (explosion)
     {
@@ -484,11 +554,10 @@ int main()
     int BodyCount = 0;
     for (b2Body* BodyIterator = World.GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
     {
-      continue ;
       void	*data = BodyIterator->GetUserData();
 
-      ((sf::Sprite *) data)->setPosition(camera.x + PIXELS_PER_METER * BodyIterator->GetPosition().x, camera.y + PIXELS_PER_METER * BodyIterator->GetPosition().y);
-      ((sf::Sprite *) data)->setRotation(BodyIterator->GetAngle() * 180/b2_pi);
+      ((sf::Sprite *) data)->setPosition((int) PIXELS_PER_METER * BodyIterator->GetPosition().x - camera.x, (int) PIXELS_PER_METER * BodyIterator->GetPosition().y - camera.y);
+      ((sf::Sprite *) data)->setRotation((int) thor::toDegree(BodyIterator->GetAngle()));
       Window.draw(*((sf::Drawable *) data));
 
       if (BodyIterator->GetType() == b2_staticBody)
@@ -531,7 +600,12 @@ int main()
     Window.draw(ps_shock, sf::BlendAdd);
     Window.draw(ps_spark, sf::BlendAdd);
     Window.draw(ps_debris, sf::BlendAdd);
+
+    Window.draw(cursor_shape);
+
     Window.display();
+
+    refreshed = false;
   }
 
   return 0;
@@ -581,13 +655,13 @@ void createShip()
 
   // b2PolygonShape shape;
   vector<b2Vec2> vec;
-  vec.push_back(b2Vec2(181.f / PIXELS_PER_METER, 157.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(16.f / PIXELS_PER_METER, 158.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(1.f / PIXELS_PER_METER, 127.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(69.f / PIXELS_PER_METER, 68.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(98.f / PIXELS_PER_METER, 1.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(126.f / PIXELS_PER_METER, 67.f / PIXELS_PER_METER));
-  vec.push_back(b2Vec2(194.f / PIXELS_PER_METER, 126.f / PIXELS_PER_METER));
+  vec.push_back(b2Vec2(181.f / PIXELS_PER_METER * 0.4, 157.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(16.f / PIXELS_PER_METER * 0.4, 158.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(1.f / PIXELS_PER_METER * 0.4, 127.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(69.f / PIXELS_PER_METER * 0.4, 68.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(98.f / PIXELS_PER_METER * 0.4, 1.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(126.f / PIXELS_PER_METER * 0.4, 67.f / PIXELS_PER_METER * 0.4));
+  vec.push_back(b2Vec2(194.f / PIXELS_PER_METER * 0.4, 126.f / PIXELS_PER_METER * 0.4));
 
   // shape.Set(vertices, 7);
   b2FixtureDef FixtureDef;
