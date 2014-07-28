@@ -72,7 +72,7 @@ class SparkEmitter
 	thor::setPolarAngle(vector, angle - 180);
 
 	particle.rotation = angle;
-	particle.scale = sf::Vector2f(thor::random(0.2f, 0.6f), 0.4f);
+	particle.scale = sf::Vector2f(thor::random(0.2f, 0.6f), 0.5f);
 	particle.velocity = vector * thor::random(60.f, 120.f);
 	particle.totalLifetime = sf::milliseconds(thor::random(500, 1500) * (particle.scale.x + 0.4f));
 
@@ -135,6 +135,8 @@ int main()
 
   sf::Texture		tex_particle;
   tex_particle.loadFromFile("particles.jpg");
+  sf::Texture		tex_spark;
+  tex_spark.loadFromFile("spark.png");
 
   // auto distri = thor::Distributions::uniform(0, 4);
   // for (int i = 0; i < 10; ++i)
@@ -147,6 +149,34 @@ int main()
   // for (int i = 0; i < 10; ++i)
   //   std::cout << distri_swap() << std::endl;
 
+  // PMotor
+  thor::ParticleSystem	ps_pmotor;
+  ps_pmotor.setTexture(tex_spark);
+  thor::UniversalEmitter pmotor_emitter;
+  sf::Time pmotor_duration = sf::milliseconds(300);
+  thor::FadeAnimation fader_pmotor(0.0f, 0.5f);
+  ps_pmotor.addAffector(thor::AnimationAffector(thor::refAnimation(fader_pmotor)));
+  ps_pmotor.addAffector(thor::ScaleAffector(sf::Vector2f(-0.8f, -0.8f)));
+  thor::ForceAffector force_pmotor(sf::Vector2f(0.0f, 844.8f));
+  ps_pmotor.addAffector(thor::refAffector(force_pmotor));
+  pmotor_emitter.setParticleScale(sf::Vector2f(0.4, 0.4));
+  pmotor_emitter.setParticleLifetime(sf::milliseconds(350));
+  pmotor_emitter.setParticleColor(sf::Color(180, 50, 0));
+
+  // SMotor
+  thor::ParticleSystem	ps_smotor;
+  ps_smotor.setTexture(tex_spark);
+  thor::UniversalEmitter smotor_emitter;
+  sf::Time smotor_duration = sf::milliseconds(200);
+  thor::FadeAnimation fader_smotor(0.0f, 0.6f);
+  ps_smotor.addAffector(thor::AnimationAffector(thor::refAnimation(fader_smotor)));
+  ps_smotor.addAffector(thor::ScaleAffector(sf::Vector2f(0.4f, 0.4f)));
+  thor::ForceAffector force_smotor(sf::Vector2f(0.0f, 600.0f));
+  ps_smotor.addAffector(thor::refAffector(force_smotor));
+  smotor_emitter.setParticleScale(sf::Vector2f(0.05, 0.05));
+  smotor_emitter.setParticleLifetime(sf::milliseconds(300));
+  smotor_emitter.setParticleColor(sf::Color(80, 80, 80));
+   
   // Flash
   thor::ParticleSystem	ps_flash;
   ps_flash.setTexture(tex_particle);
@@ -214,9 +244,9 @@ int main()
   // Spark
   thor::ParticleSystem	ps_spark;
   ps_spark.setTexture(tex_particle);
-  ps_spark.addTextureRect(sf::IntRect(318, 368, 106, 8));
+  ps_spark.addTextureRect(sf::IntRect(321, 370, 106, 6));
   ps_spark.addAffector(thor::AnimationAffector(colorer));
-  thor::FadeAnimation fader_spark(0.1f, 0.8f);
+  thor::FadeAnimation fader_spark(0.1f, 0.6f);
   ps_spark.addAffector(thor::AnimationAffector(thor::refAnimation(fader_spark)));
 
   // Steam
@@ -321,6 +351,9 @@ int main()
   sf::Clock	timer_turn;
 
   createShip();
+
+  sf::Vector2i old_camera;
+  sf::Vector2i old_ship;
 
 
   bool	up = true;
@@ -476,6 +509,10 @@ int main()
 	b_ship->SetAngularVelocity(-2.f);
       else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	b_ship->SetAngularVelocity(2.f);
+      // Change Motor force
+      b2Vec2 vec = b2Rot(b_ship->GetAngle()).GetYAxis() * 600;
+      force_smotor.setAcceleration(sf::Vector2f(vec.x, vec.y));
+      force_pmotor.setAcceleration(sf::Vector2f(vec.x, vec.y));
     }
     else
       b_ship->SetAngularVelocity(0.f);
@@ -492,6 +529,14 @@ int main()
       
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
       {
+	// Motor
+	b2Vec2 motor_pos = b_ship->GetWorldCenter() * PIXELS_PER_METER - b2Vec2(camera.x, camera.y) + (b2Rot(b_ship->GetAngle()).GetYAxis() * 24);
+	pmotor_emitter.setParticlePosition(sf::Vector2f(motor_pos.x, motor_pos.y));
+	pmotor_emitter.emitParticle(ps_pmotor, 1);
+
+	// smotor_emitter.setParticlePosition(sf::Vector2f(50, 50));
+	// smotor_emitter.emitParticle(ps_smotor, 1);
+
 	b2Vec2 adjust = -vec * forward_speed - vel;
 	b_ship->ApplyForce(adjust, b_ship->GetWorldCenter(), true);
       }
@@ -536,6 +581,48 @@ int main()
 	Window.draw(spr_explosion);
       }
     }
+
+    // Camera changed - update with adjustment
+    sf::Vector2f adjustment;
+    if (camera.x != old_camera.x || camera.y != old_camera.y)
+    {
+      adjustment = sf::Vector2f(old_camera.x - camera.x, old_camera.y - camera.y);
+      old_camera = camera;
+
+      // Get explosion origin 
+      // smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+      // steam_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
+      // flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+    }
+
+    sf::Time elapsed_time = pclock.restart();
+    ps_flash.update(elapsed_time, adjustment);
+    ps_smoke.update(elapsed_time, adjustment);
+    ps_steam.update(elapsed_time, adjustment);
+    ps_shock.update(elapsed_time, adjustment);
+    ps_spark.update(elapsed_time, adjustment);
+    ps_debris.update(elapsed_time, adjustment);
+    Window.draw(ps_flash, sf::BlendAdd);
+    Window.draw(ps_smoke, sf::BlendAdd);
+    Window.draw(ps_steam, sf::BlendAdd);
+    Window.draw(ps_shock, sf::BlendAdd);
+    Window.draw(ps_spark, sf::BlendAdd);
+    Window.draw(ps_debris, sf::BlendAdd);
+
+    // Camera changed - update with adjustment
+    adjustment = sf::Vector2f(0, 0);
+    sf::Vector2i dist_cam_ship = sf::Vector2i(b_ship->GetWorldCenter().x * PIXELS_PER_METER, b_ship->GetWorldCenter().y * PIXELS_PER_METER) - camera;
+    if (dist_cam_ship.x != old_ship.x || dist_cam_ship.y != old_ship.y)
+    {
+      std::cout << "yep" << std::endl;
+      adjustment = sf::Vector2f(dist_cam_ship.x - old_ship.x, dist_cam_ship.y - old_ship.y);
+      old_ship = dist_cam_ship;
+    }
+    ps_pmotor.update(elapsed_time, adjustment);
+    Window.draw(ps_pmotor, sf::BlendAdd);
+    ps_smotor.update(elapsed_time, adjustment);
+    Window.draw(ps_smotor, sf::BlendAdd);
+
 
     // Particle
     for (b2ParticleSystem *sys = World.GetParticleSystemList(); sys != NULL; sys = sys->GetNext())
@@ -586,20 +673,6 @@ int main()
 
       Window.draw(line, 2, sf::Lines);
     }
-
-    sf::Time elapsed_time = pclock.restart();
-    ps_flash.update(elapsed_time);
-    ps_smoke.update(elapsed_time);
-    ps_steam.update(elapsed_time);
-    ps_shock.update(elapsed_time);
-    ps_spark.update(elapsed_time);
-    ps_debris.update(elapsed_time);
-    Window.draw(ps_flash, sf::BlendAdd);
-    Window.draw(ps_smoke, sf::BlendAdd);
-    Window.draw(ps_steam, sf::BlendAdd);
-    Window.draw(ps_shock, sf::BlendAdd);
-    Window.draw(ps_spark, sf::BlendAdd);
-    Window.draw(ps_debris, sf::BlendAdd);
 
     Window.draw(cursor_shape);
 
