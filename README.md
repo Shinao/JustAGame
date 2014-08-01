@@ -21,8 +21,9 @@ Tried on Windows 7 MinGW / Linux Debian
 
 ####Libraries
 
-- SFML 2.1 - Multimedia library - http://www.sfml-dev.org/
-- Box2D 2.2.1 - Physic library - http://box2d.org/
+- SFML 2.1 - Multimedia library - https://www.sfml-dev.org/
+- Box2D 3.0 - Physic library - http://box2d.org/
+- Thor - SFML Extension (Altered) - https://github.com/Bromeon/Thor/
 - SimpleIni - INI Library - https://github.com/brofield/simpleini
 
 ###Licence

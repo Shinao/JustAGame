@@ -14,6 +14,8 @@
 #include <Thor/Time.hpp>
 #include <Thor/Vectors.hpp>
 
+void createPlanets();
+
 class DebrisEmitter
 {
   private:
@@ -93,6 +95,7 @@ static const float BOX_WIDTH = 500.f;
 
 sf::RectangleShape	shape_ground;
 sf::Sprite		spr_ship;
+sf::Sprite		spr_bullet;
 sf::Sprite		spr_box;
 sf::Sprite		spr_shader;
 sf::Texture		tex_shader;
@@ -105,12 +108,14 @@ bool		explosion = false;
 sf::Clock	timer_explosion;
 int		pos_explosion;
 sf::Color pcolor(255, 0, 255);
+  sf::Vector2i	camera;
 
 void		loadShader();
 void CreateGround(b2World& World, float X, float Y, float angle);
 void CreateBox(b2World& World, int MouseX, int MouseY);
 void createShip();
 void drawShader();
+void fire();
 
 b2Vec2 Gravity(0.f, 0.0f);
 b2World World(Gravity);
@@ -321,7 +326,6 @@ int main()
   sf::Texture BoxTexture;
   GroundTexture.loadFromFile("ground.png");
   BoxTexture.loadFromFile("box.png");
-  sf::Vector2i	camera;
   sf::Event	event;
   sf::Clock	timer;
   sf::Clock	b2_timer;
@@ -338,6 +342,12 @@ int main()
   spr_ship.setColor(pcolor);
   spr_ship.setScale(sf::Vector2f(0.4f, 0.4f));
 
+  spr_bullet.setTexture(tex_particle);
+  spr_bullet.setTextureRect(sf::IntRect(321, 370, 106, 6));
+  spr_bullet.setColor(sf::Color(150, 100, 0));
+  spr_bullet.setScale(sf::Vector2f(0.4f, 0.6f));
+  spr_bullet.setOrigin(106.f * 0.4, 6.f * 0.4);
+
   sf::Texture tex2;
   tex2.loadFromFile("box.png");
   spr_box.setTexture(tex2);
@@ -351,6 +361,7 @@ int main()
   sf::Clock	timer_turn;
 
   createShip();
+  createPlanets();
 
   sf::Vector2i old_camera;
   sf::Vector2i old_ship;
@@ -359,6 +370,9 @@ int main()
   bool	up = true;
   bool refreshed = true;
   loadShader();
+
+  sf::Clock	shoot_timer;
+  const int	shot_per_second = 10;
 
   std::cout << sf::Texture::getMaximumSize() << std::endl;
 
@@ -385,9 +399,6 @@ int main()
 
       refreshed = true;
     }
-
-
-    spr_ship.setOrigin(0, 0);
 
     // Camera and stuff
     sf::CircleShape	cursor_shape(4);
@@ -474,16 +485,23 @@ int main()
 	int MouseX = sf::Mouse::getPosition(Window).x;
 	int MouseY = sf::Mouse::getPosition(Window).y;
 
-	shock_emitter.setParticlePosition(sf::Vector2f(MouseX, MouseY));
-	shock_emitter.emitParticle(ps_shock);
-	flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
-	ps_flash.addEmitter(thor::refEmitter(flash_emitter), flash_duration);
-	smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
-	ps_smoke.addEmitter(thor::refEmitter(smoke_emitter), smoke_duration);
-	SparkEmitter(ps_spark, sf::Vector2f(MouseX, MouseY));
-	steam_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
-	ps_steam.addEmitter(thor::refEmitter(steam_emitter), steam_duration);
-	DebrisEmitter(ps_debris, sf::Vector2f(MouseX, MouseY));
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+	  shock_emitter.setParticlePosition(sf::Vector2f(MouseX, MouseY));
+	  shock_emitter.emitParticle(ps_shock);
+	  flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+	  ps_flash.addEmitter(thor::refEmitter(flash_emitter), flash_duration);
+	  smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
+	  ps_smoke.addEmitter(thor::refEmitter(smoke_emitter), smoke_duration);
+	  SparkEmitter(ps_spark, sf::Vector2f(MouseX, MouseY));
+	  steam_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
+	  ps_steam.addEmitter(thor::refEmitter(steam_emitter), steam_duration);
+	  DebrisEmitter(ps_debris, sf::Vector2f(MouseX, MouseY));
+
+	  // Create a circle full of particles
+	  pd.position.Set(MouseX / PIXELS_PER_METER, MouseY / PIXELS_PER_METER);
+	  b2ParticleGroup *m_pg = m_particleSystem->CreateParticleGroup(pd);
+	}
 
 	// shader.setParameter("center", (float) sf::Mouse::getPosition(Window).x / tex.getSize().x, (float) sf::Mouse::getPosition(Window).y / tex.getSize().y);
 	// global_time = 0;
@@ -493,13 +511,9 @@ int main()
 	// pos_explosion = 0;
 	// spr_explosion.setPosition(sf::Mouse::getPosition(Window).x - 123, sf::Mouse::getPosition(Window).y - 123);
 
-	// pd.position.Set(MouseX / PIXELS_PER_METER, MouseY / PIXELS_PER_METER);
 
 	// for (int i = 0; i < 100; ++i)
 	//   CreateBox(World, MouseX, MouseY);
-
-	// Create a circle full of particles
-	// b2ParticleGroup *m_pg = m_particleSystem->CreateParticleGroup(pd);
       }
 
     if ((sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)))
@@ -519,14 +533,20 @@ int main()
 
     if (refreshed)
     {
-      int forward_speed = 100;
-      int backward_speed = 20;
+      int forward_speed = 20;
+      int backward_speed = 5;
       int deceleration_ratio = 2;
 
       b2Vec2 vec = b2Rot(b_ship->GetAngle()).GetYAxis();
       b2Vec2 vel = b_ship->GetLinearVelocity();
       float total_vel = std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y);
       
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && shoot_timer.getElapsedTime().asMilliseconds() > 1000 / shot_per_second)
+      {
+	fire();
+	shoot_timer.restart();
+      }
+
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
       {
 	// Motor
@@ -614,7 +634,6 @@ int main()
     sf::Vector2i dist_cam_ship = sf::Vector2i(b_ship->GetWorldCenter().x * PIXELS_PER_METER, b_ship->GetWorldCenter().y * PIXELS_PER_METER) - camera;
     if (dist_cam_ship.x != old_ship.x || dist_cam_ship.y != old_ship.y)
     {
-      std::cout << "yep" << std::endl;
       adjustment = sf::Vector2f(dist_cam_ship.x - old_ship.x, dist_cam_ship.y - old_ship.y);
       old_ship = dist_cam_ship;
     }
@@ -633,7 +652,7 @@ int main()
 
       for (int i = 0; i < sys->GetParticleCount(); ++i)
       {
-	circle.setPosition(PIXELS_PER_METER * particles[i].x + camera.x, PIXELS_PER_METER * particles[i].y + camera.y);
+	circle.setPosition(PIXELS_PER_METER * particles[i].x - camera.x, PIXELS_PER_METER * particles[i].y - camera.y);
 	Window.draw(circle);
       }
     }
@@ -645,10 +664,21 @@ int main()
 
       ((sf::Sprite *) data)->setPosition((int) PIXELS_PER_METER * BodyIterator->GetPosition().x - camera.x, (int) PIXELS_PER_METER * BodyIterator->GetPosition().y - camera.y);
       ((sf::Sprite *) data)->setRotation((int) thor::toDegree(BodyIterator->GetAngle()));
-      Window.draw(*((sf::Drawable *) data));
+      if (data == &spr_bullet)
+	Window.draw(*((sf::Drawable *) data), sf::BlendAdd);
+      else
+	Window.draw(*((sf::Drawable *) data));
 
       if (BodyIterator->GetType() == b2_staticBody)
-	continue ;
+      {
+	sf::CircleShape shape(255 / 2);
+	shape.setOutlineColor(sf::Color::Red);
+	shape.setOutlineThickness(2);
+	shape.setPosition((int) PIXELS_PER_METER * BodyIterator->GetPosition().x - camera.x, (int) PIXELS_PER_METER * BodyIterator->GetPosition().y - camera.y);
+	shape.setFillColor(sf::Color::Transparent);
+	shape.setOrigin(255 / 2, 255 / 2);
+	// Window.draw(shape, sf::BlendAdd);
+      }
 
       sf::Sprite *spr = (sf::Sprite *) data;
       // Draw each vertices
@@ -718,6 +748,43 @@ void CreateGround(b2World& World, float X, float Y, float angle)
   Body->SetUserData(&shape_ground);
 }
 
+void fire()
+{
+  static bool fired = false;
+  // if (fired)
+  //   return ;
+
+  sf::Vector2i cursor = sf::Mouse::getPosition(Window);
+  b2Vec2	pos[2];
+  pos[0] = b_ship->GetWorldCenter() - b2Rot(b_ship->GetAngle()).GetXAxis() * 0.9;
+  pos[1] = b_ship->GetWorldCenter() - b2Rot(b_ship->GetAngle()).GetXAxis() * -0.9;
+  for (int i = 0; i < 2; ++i)
+  {
+    b2BodyDef BodyDef;
+    BodyDef.position = pos[i];
+    BodyDef.type = b2_dynamicBody;
+    b2Vec2 dif =  (pos[i] * PIXELS_PER_METER - b2Vec2(camera.x, camera.y)) - b2Vec2(cursor.x, cursor.y);
+    BodyDef.angle = std::atan2(dif.y, dif.x);
+    // b2Vec2 cursor_adjust = b2Vec2(cursor.x, cursor.y) + (b2Rot(BodyDef.angle - thor::toRadian(90.0)).GetYAxis() * 10);
+    // BodyDef.angle = (BodyDef.angle + thor::toRadian(5.0));
+    b2Body* Body = World.CreateBody(&BodyDef);
+
+    b2PolygonShape Shape;
+    Shape.SetAsBox(106.f * 0.2 /PIXELS_PER_METER, 6.f * 0.3f /PIXELS_PER_METER);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.01f;
+    FixtureDef.shape = &Shape;
+    FixtureDef.filter.groupIndex = -1;
+    Body->SetBullet(true);
+    Body->CreateFixture(&FixtureDef);
+    Body->SetUserData(&spr_bullet);
+    Body->SetLinearVelocity(b2Rot(Body->GetAngle() + thor::toRadian(-90.0)).GetYAxis() * ((1 + std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y)) * -30));
+  }
+    // std::cout << std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y) << std::endl;
+
+  fired = true;
+}
+
 void createShip()
 {
   b2BodyDef BodyDef;
@@ -742,6 +809,7 @@ void createShip()
   FixtureDef.density = 1.f;
   FixtureDef.friction = 0.5;
   FixtureDef.restitution = 1.f;
+  FixtureDef.filter.groupIndex = -1;
 
   // Body->CreateFixture(&FixtureDef);
   b_ship->SetUserData(&spr_ship);
@@ -820,4 +888,29 @@ void		loadShader()
     shader.setParameter(ss.str(), debugShader[i]);
     // std::cout << "iDebug[" << i << "] = " << debugShader[i] << std::endl;
   }
+}
+
+void createPlanets()
+{
+  sf::Texture *tex = new sf::Texture();
+  tex->loadFromFile("neptune.png");
+  sf::Sprite *spr_planet = new sf::Sprite();
+  spr_planet->setTexture(*tex);
+  spr_planet->setScale(0.25f, 0.25f);
+  spr_planet->setOrigin(2000 / 2 + 25, 2000 / 2 - 100);
+
+  b2BodyDef BodyDef;
+  BodyDef.position = b2Vec2(1/PIXELS_PER_METER, 1/PIXELS_PER_METER);
+  BodyDef.type = b2_staticBody;
+  // BodyDef.angle = angle;
+  b2Body* Body = World.CreateBody(&BodyDef);
+
+  b2CircleShape shape;
+  shape.m_radius = 255 / 2/PIXELS_PER_METER;
+  
+  b2FixtureDef FixtureDef;
+  FixtureDef.density = 0.f;
+  FixtureDef.shape = &shape;
+  Body->CreateFixture(&FixtureDef);
+  Body->SetUserData(spr_planet);
 }
