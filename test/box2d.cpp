@@ -119,7 +119,7 @@ void fire();
 
 b2Vec2 Gravity(0.f, 0.0f);
 b2World World(Gravity);
-sf::RenderWindow Window(sf::VideoMode(800, 600, 32), "Test");
+sf::RenderWindow Window(sf::VideoMode(1800, 1000, 32), "Test");
 b2Body	*b_ship;
 float torque = 88.5;
 float global_time = 6;
@@ -892,25 +892,34 @@ void		loadShader()
 
 void createPlanets()
 {
-  sf::Texture *tex = new sf::Texture();
-  tex->loadFromFile("neptune.png");
-  sf::Sprite *spr_planet = new sf::Sprite();
-  spr_planet->setTexture(*tex);
-  spr_planet->setScale(0.25f, 0.25f);
-  spr_planet->setOrigin(2000 / 2 + 25, 2000 / 2 - 100);
+  std::string	texs[4];
+  texs[0] = "Earth1.png";
+  texs[1] = "Earth2.png";
+  texs[2] = "Earth3.png";
+  texs[3] = "Earth4.png";
 
-  b2BodyDef BodyDef;
-  BodyDef.position = b2Vec2(1/PIXELS_PER_METER, 1/PIXELS_PER_METER);
-  BodyDef.type = b2_staticBody;
-  // BodyDef.angle = angle;
-  b2Body* Body = World.CreateBody(&BodyDef);
+  for (int i = 0; i < 4; ++i)
+  {
+    sf::Texture *tex = new sf::Texture();
+    tex->loadFromFile(texs[i]);
+    sf::Sprite *spr_planet = new sf::Sprite();
+    spr_planet->setTexture(*tex);
+    spr_planet->setScale(0.12, 0.12);
+    spr_planet->setOrigin(4000 / 2 + 25, 4000 / 2 - 100);
 
-  b2CircleShape shape;
-  shape.m_radius = 255 / 2/PIXELS_PER_METER;
-  
-  b2FixtureDef FixtureDef;
-  FixtureDef.density = 0.f;
-  FixtureDef.shape = &shape;
-  Body->CreateFixture(&FixtureDef);
-  Body->SetUserData(spr_planet);
+    b2BodyDef BodyDef;
+    BodyDef.position = b2Vec2(400 * i /PIXELS_PER_METER, 1/PIXELS_PER_METER);
+    BodyDef.type = b2_staticBody;
+    // BodyDef.angle = angle;
+    b2Body* Body = World.CreateBody(&BodyDef);
+
+    b2CircleShape shape;
+    shape.m_radius = 125 / 2/PIXELS_PER_METER;
+
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.f;
+    FixtureDef.shape = &shape;
+    Body->CreateFixture(&FixtureDef);
+    Body->SetUserData(spr_planet);
+  }
 }

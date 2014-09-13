@@ -165,6 +165,7 @@ void			ServerMenu::couldNotConnect(ProtocoledPacket &)
 void			ServerMenu::disconnectedFromGame(ProtocoledPacket &)
 {
   Network::removeRequest(Request::Disconnexion);
+  // TODO - Remove ?
   connectToServer();
 }
 
