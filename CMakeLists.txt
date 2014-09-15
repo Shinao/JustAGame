@@ -21,6 +21,15 @@ endif (WIN32)
 include_directories (${INC_DIR})
 
 
+### Library Thor
+project (thor)
+file (GLOB_RECURSE THOR_SRC src/Thor/*.cpp) 
+add_library (thor SHARED ${THOR_SRC})
+# Link SFML
+target_link_libraries (thor sfml-system)
+target_link_libraries (thor sfml-graphics)
+
+
 
 ### Library network
 project (network)

@@ -7,12 +7,12 @@
 #include "b2Separator.hh"
 #include "gl.h"
 #include <sstream>
-#include <Thor/Particles.hpp>
-#include <Thor/Animation.hpp>
-#include <Thor/Graphics.hpp>
-#include <Thor/Math.hpp>
-#include <Thor/Time.hpp>
-#include <Thor/Vectors.hpp>
+#include "Thor/Particles.hpp"
+#include "Thor/Animation.hpp"
+#include "Thor/Graphics.hpp"
+#include "Thor/Math.hpp"
+#include "Thor/Time.hpp"
+#include "Thor/Vectors.hpp"
 #include "PSManager.hh"
 
 void createPlanets();
