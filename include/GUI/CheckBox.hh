@@ -1,9 +1,9 @@
 #ifndef CHECKBOX_HH_
 # define CHECKBOX_HH_
 
-# include "Menu.hh"
-# include "Item.hh"
-# include "String.hh"
+# include "GUI/Menu.hh"
+# include "GUI/Item.hh"
+# include "GUI/String.hh"
 
 // CheckBox
 // The check box use the border color theme

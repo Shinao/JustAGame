@@ -1,8 +1,8 @@
 #ifndef ITEM_HH_
 # define ITEM_HH_
 
-# include "jag.hh"
-# include "Drawable.hh"
+# include "GUI/jag.hh"
+# include "GUI/Drawable.hh"
 
 // Abstract class item for text & sprite
 // Object depending on a menu

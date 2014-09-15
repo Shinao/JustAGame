@@ -2,8 +2,8 @@
 # define GRAPHIC_HH_
 
 # include <SFML/Graphics.hpp>
-# include "jag.hh"
-# include "Theme.hh"
+# include "GUI/jag.hh"
+# include "GUI/Theme.hh"
 
 namespace Utility
 {

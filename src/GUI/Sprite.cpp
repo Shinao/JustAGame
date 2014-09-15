@@ -1,4 +1,4 @@
-#include "Sprite.hh"
+#include "GUI/Sprite.hh"
 
 Sprite::Sprite(sf::Sprite *sprite, Theme *theme, float scale) :
   Item(theme, scale),

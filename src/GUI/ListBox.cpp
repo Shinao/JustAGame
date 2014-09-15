@@ -1,4 +1,4 @@
-#include "ListBox.hh"
+#include "GUI/ListBox.hh"
 #include <iostream>
 
 ListBox::ListBox(String *button, Theme *theme, float scale) :

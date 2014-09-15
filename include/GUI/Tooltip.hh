@@ -1,8 +1,8 @@
 #ifndef TOOLTIP_HH_
 # define TOOLTIP_HH_
 
-# include "Layer.hh"
-# include "String.hh"
+# include "GUI/Layer.hh"
+# include "GUI/String.hh"
 
 // Tooltip - Layer since it should surpass all Drawables
 

@@ -1,5 +1,5 @@
-#include "InputLayer.hh"
-#include "jag.hh"
+#include "Client/InputLayer.hh"
+#include "GUI/jag.hh"
 #include <iostream>
 
 // Generate keys

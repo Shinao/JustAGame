@@ -1,6 +1,6 @@
 #include <string>
 #include <windows.h>
-#include "Theme.hh"
+#include "GUI/Theme.hh"
 
 namespace
 {

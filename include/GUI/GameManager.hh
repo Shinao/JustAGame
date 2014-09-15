@@ -1,9 +1,9 @@
 #ifndef GAME_MANAGER_HH_
 # define GAME_MANAGER_HH_
 
-# include "AGameClient.hh"
-# include "ChatBox.hh"
-# include "Console.hh"
+# include "client/AGameClient.hh"
+# include "GUI/ChatBox.hh"
+# include "GUI/Console.hh"
 
 // Manager current game
 

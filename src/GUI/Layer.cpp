@@ -1,5 +1,5 @@
-#include "Layer.hh"
-#include "Screen.hh"
+#include "GUI/Layer.hh"
+#include "GUI/Screen.hh"
 
 Layer::Layer(Type type, bool add_later) :
   _focused(false),

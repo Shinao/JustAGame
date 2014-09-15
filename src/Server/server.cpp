@@ -1,8 +1,8 @@
 #include <string>
-#include "Network.hh"
-#include "LibraryLoader.hh"
-#include "SimpleIni.hpp"
-#include "AGameServer.hh"
+#include "Network/Network.hh"
+#include "System/LibraryLoader.hh"
+#include "SimpleIni/SimpleIni.hpp"
+#include "server/AGameServer.hh"
 
 int		error(const std::string &str)
 {

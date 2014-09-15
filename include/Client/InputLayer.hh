@@ -1,11 +1,11 @@
 #ifndef INPUT_LAYER_HH_
 # define INPUT_LAYER_HH_
 
-# include "Layer.hh"
-# include "MainMenuItem.hh"
-# include "ModalMessageBox.hh"
-# include "Table.hh"
-# include "Scroller.hh"
+# include "GUI/Layer.hh"
+# include "Client/MainMenuItem.hh"
+# include "GUI/ModalMessageBox.hh"
+# include "GUI/Table.hh"
+# include "GUI/Scroller.hh"
 
 class InputLayer : public MainMenuItem, public EventCallback
 {

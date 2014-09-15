@@ -1,8 +1,8 @@
 #ifndef GAMELAYER_HH_
 # define GAMELAYER_HH_
 
-# include "Layer.hh"
-# include "MainMenuItem.hh"
+# include "GUI/Layer.hh"
+# include "Client/MainMenuItem.hh"
 
 class GameLayer : public MainMenuItem
 {

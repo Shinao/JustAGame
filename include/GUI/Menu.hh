@@ -1,9 +1,9 @@
 #ifndef MENU_HH_
 # define MENU_HH_
 
-# include "jag.hh"
-# include "Item.hh"
-# include "Drawable.hh"
+# include "GUI/jag.hh"
+# include "GUI/Item.hh"
+# include "GUI/Drawable.hh"
 
 // Abstract class for Menu
 // Managing all items : input - focus - draw

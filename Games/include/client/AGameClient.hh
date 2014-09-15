@@ -1,9 +1,9 @@
 #ifndef AGAME_CLIENT_HH_
 # define AGAME_CLIENT_HH_
 
-# include "Network.hh"
-# include "Layer.hh"
-# include "EventCallback.hh"
+# include "Network/Network.hh"
+# include "GUI/Layer.hh"
+# include "GUI/EventCallback.hh"
 
 // AGameClient - Interface to implement for creating a game client
 // When implementing a virtual member function non pure, make sure to call the parent

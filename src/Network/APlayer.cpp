@@ -1,4 +1,4 @@
-#include "APlayer.hh"
+#include "Network/APlayer.hh"
 
 APlayer::APlayer() :
   _ping(0),

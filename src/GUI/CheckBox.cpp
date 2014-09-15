@@ -1,4 +1,4 @@
-#include "CheckBox.hh"
+#include "GUI/CheckBox.hh"
 #include <iostream>
 
 CheckBox::CheckBox(String *string, Theme *theme, float scale) :

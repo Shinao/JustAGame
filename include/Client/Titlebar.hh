@@ -1,8 +1,8 @@
 #ifndef TITLEBAR_HH_
 # define TITLEBAR_HH_
 
-# include "Layer.hh"
-# include "Menu.hh"
+# include "GUI/Layer.hh"
+# include "GUI/Menu.hh"
 
 class Titlebar : public Layer
 {

@@ -1,4 +1,4 @@
-#include "ProtocoledPacket.hh"
+#include "Network/ProtocoledPacket.hh"
 
 Sequence ProtocoledPacket::_sequence_counter = 1;
 

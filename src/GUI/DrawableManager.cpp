@@ -1,5 +1,5 @@
-#include "DrawableManager.hh"
-#include "Screen.hh"
+#include "GUI/DrawableManager.hh"
+#include "GUI/Screen.hh"
 
 DrawableManager::DrawableManager() :
   _id(0),

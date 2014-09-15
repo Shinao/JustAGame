@@ -1,10 +1,10 @@
 #ifndef ABOUT_HH_
 # define ABOUT_HH_
 
-# include "Layer.hh"
-# include "MainMenuItem.hh"
-# include "String.hh"
-# include "StringArea.hh"
+# include "GUI/Layer.hh"
+# include "Client/MainMenuItem.hh"
+# include "GUI/String.hh"
+# include "GUI/StringArea.hh"
 
 class About : public MainMenuItem
 {

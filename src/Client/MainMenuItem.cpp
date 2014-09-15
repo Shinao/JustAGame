@@ -1,7 +1,7 @@
-#include "MainMenuItem.hh"
-#include "Titlebar.hh"
-#include "Screen.hh"
-#include "StatusBar.hh"
+#include "Client/MainMenuItem.hh"
+#include "Client/Titlebar.hh"
+#include "GUI/Screen.hh"
+#include "Client/StatusBar.hh"
 
 MainMenuItem::MainMenuItem(const std::string &name) :
   Layer(Layer::Setting)

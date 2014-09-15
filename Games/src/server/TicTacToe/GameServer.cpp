@@ -1,6 +1,6 @@
-#include "GameServer.hh"
-#include "PlayerServer.hh"
-#include "TTTProtocol.hh"
+#include "server/TicTacToe/GameServer.hh"
+#include "server/TicTacToe/PlayerServer.hh"
+#include "server/TicTacToe/Protocol.hh"
 
 // Mandatory part - Since we are a library we need to send our inherited class to the server
 // Thanks polymorphism

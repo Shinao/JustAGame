@@ -1,8 +1,8 @@
 #ifndef LAYER_HH_
 # define LAYER_HH_
 
-# include "jag.hh"
-# include "DrawableManager.hh"
+# include "GUI/jag.hh"
+# include "GUI/DrawableManager.hh"
 
 // A layer is a part of a screen
 // Menu - notification - titlebar - etc

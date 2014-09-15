@@ -1,11 +1,11 @@
 #ifndef LISTBOX_HH_
 # define LISTBOX_HH_
 
-# include "Menu.hh"
-# include "String.hh"
-# include "DrawableManager.hh"
-# include "Scroller.hh"
-# include "EventCallback.hh"
+# include "GUI/Menu.hh"
+# include "GUI/String.hh"
+# include "GUI/DrawableManager.hh"
+# include "GUI/Scroller.hh"
+# include "GUI/EventCallback.hh"
 
 // ListBox : hide/show a menu
 // Use a Scroller if too big

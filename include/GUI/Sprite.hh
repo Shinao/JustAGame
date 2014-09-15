@@ -1,7 +1,7 @@
 #ifndef SPRITE_HH_
 # define SPRITE_HH_
 
-# include "Item.hh"
+# include "GUI/Item.hh"
 # include <iostream>
 
 // Sprite

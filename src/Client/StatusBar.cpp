@@ -1,6 +1,6 @@
-#include "StatusBar.hh"
-#include "Screen.hh"
-#include "String.hh"
+#include "Client/StatusBar.hh"
+#include "GUI/Screen.hh"
+#include "GUI/String.hh"
 
 const int MAX_LATENCY = 1500;
 const int NUMBER_CYCLE = 5;

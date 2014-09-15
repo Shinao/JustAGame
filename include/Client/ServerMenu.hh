@@ -1,14 +1,14 @@
 #ifndef SERVER_MENU_HH_
 # define SERVER_MENU_HH_
 
-# include "Network.hh"
-# include "Layer.hh"
-# include "Menu.hh"
-# include "MainMenuItem.hh"
-# include "Table.hh"
-# include "ModalMessageBox.hh"
-# include "LibraryLoader.hh"
-# include "AGameClient.hh"
+# include "Network/Network.hh"
+# include "GUI/Layer.hh"
+# include "GUI/Menu.hh"
+# include "Client/MainMenuItem.hh"
+# include "GUI/Table.hh"
+# include "GUI/ModalMessageBox.hh"
+# include "System/LibraryLoader.hh"
+# include "client/AGameClient.hh"
 
 class ServerMenu : public MainMenuItem
 {

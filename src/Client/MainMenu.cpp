@@ -1,12 +1,12 @@
-#include "MainMenu.hh"
-#include "Screen.hh"
-#include "Titlebar.hh"
-#include "InputLayer.hh"
-#include "ServerMenu.hh"
-#include "GameLayer.hh"
-#include "Multimedia.hh"
-#include "About.hh"
-#include "GameManager.hh"
+#include "Client/MainMenu.hh"
+#include "GUI/Screen.hh"
+#include "Client/Titlebar.hh"
+#include "Client/InputLayer.hh"
+#include "Client/ServerMenu.hh"
+#include "Client/GameLayer.hh"
+#include "Client/Multimedia.hh"
+#include "Client/About.hh"
+#include "GUI/GameManager.hh"
 
 MainMenu::MainMenu() :
   Layer(Layer::Setting),

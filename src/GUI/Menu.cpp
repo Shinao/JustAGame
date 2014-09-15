@@ -1,6 +1,6 @@
-#include "Screen.hh"
-#include "Menu.hh"
-#include "Utility/Graphic.hh"
+#include "GUI/Screen.hh"
+#include "GUI/Menu.hh"
+#include "GUI/Utility/Graphic.hh"
 
 Menu::Menu(Type type, Theme *theme) :
   Drawable(theme),

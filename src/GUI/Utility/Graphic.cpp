@@ -1,4 +1,4 @@
-#include "Utility/Graphic.hh"
+#include "GUI/Utility/Graphic.hh"
 #include <sstream>
 #include <iostream>
 

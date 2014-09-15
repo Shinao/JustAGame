@@ -1,7 +1,7 @@
 #ifndef PLAYER_SERVER_HH_
 # define PLAYER_SERVER_HH_
 
-# include "APlayer.hh"
+# include "Network/APlayer.hh"
 
 class PlayerServer : public APlayer
 {

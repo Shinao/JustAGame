@@ -1,6 +1,6 @@
-#include "Drawable.hh"
-#include "Tooltip.hh"
-#include "Screen.hh"
+#include "GUI/Drawable.hh"
+#include "GUI/Tooltip.hh"
+#include "GUI/Screen.hh"
 
 Drawable::Drawable(Theme *theme) :
   _theme(theme),

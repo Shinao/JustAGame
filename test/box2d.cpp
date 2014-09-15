@@ -13,6 +13,7 @@
 #include <Thor/Math.hpp>
 #include <Thor/Time.hpp>
 #include <Thor/Vectors.hpp>
+#include "PSManager.hh"
 
 void createPlanets();
 
@@ -117,6 +118,7 @@ void createShip();
 void drawShader();
 void fire();
 
+PSManager ps_manager;
 b2Vec2 Gravity(0.f, 0.0f);
 b2World World(Gravity);
 sf::RenderWindow Window(sf::VideoMode(1800, 1000, 32), "Test");
@@ -487,20 +489,45 @@ int main()
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
+	  ps_manager.clear();
+	  // Create PS with Manager
+	  PSManager::PSInfo	*info = new PSManager::PSInfo();
+	  info->system = &ps_shock;
 	  shock_emitter.setParticlePosition(sf::Vector2f(MouseX, MouseY));
 	  shock_emitter.emitParticle(ps_shock);
+	  ps_manager.add(info);
+
+	  info = new PSManager::PSInfo();
+	  info->system = &ps_flash;
 	  flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
-	  ps_flash.addEmitter(thor::refEmitter(flash_emitter), flash_duration);
+	  ps_flash.addEmitter((flash_emitter), flash_duration);
+	  ps_manager.add(info);
+
+	  info = new PSManager::PSInfo();
+	  info->system = &ps_smoke;
 	  smoke_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
-	  ps_smoke.addEmitter(thor::refEmitter(smoke_emitter), smoke_duration);
+	  ps_smoke.addEmitter((smoke_emitter), smoke_duration);
+	  ps_manager.add(info);
+
+	  info = new PSManager::PSInfo();
+	  info->system = &ps_spark;
 	  SparkEmitter(ps_spark, sf::Vector2f(MouseX, MouseY));
+	  ps_manager.add(info);
+
+	  info = new PSManager::PSInfo();
+	  info->system = &ps_steam;
 	  steam_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 4));
-	  ps_steam.addEmitter(thor::refEmitter(steam_emitter), steam_duration);
+	  ps_steam.addEmitter(steam_emitter, steam_duration);
+	  ps_manager.add(info);
+
+	  info = new PSManager::PSInfo();
+	  info->system = &ps_debris;
 	  DebrisEmitter(ps_debris, sf::Vector2f(MouseX, MouseY));
+	  ps_manager.add(info);
 
 	  // Create a circle full of particles
-	  pd.position.Set(MouseX / PIXELS_PER_METER, MouseY / PIXELS_PER_METER);
-	  b2ParticleGroup *m_pg = m_particleSystem->CreateParticleGroup(pd);
+	  // pd.position.Set(MouseX / PIXELS_PER_METER, MouseY / PIXELS_PER_METER);
+	  // b2ParticleGroup *m_pg = m_particleSystem->CreateParticleGroup(pd);
 	}
 
 	// shader.setParameter("center", (float) sf::Mouse::getPosition(Window).x / tex.getSize().x, (float) sf::Mouse::getPosition(Window).y / tex.getSize().y);
@@ -602,6 +629,8 @@ int main()
       }
     }
 
+    sf::Time elapsed_time = pclock.restart();
+
     // Camera changed - update with adjustment
     sf::Vector2f adjustment;
     if (camera.x != old_camera.x || camera.y != old_camera.y)
@@ -615,19 +644,8 @@ int main()
       // flash_emitter.setParticlePosition(thor::Distributions::circle(sf::Vector2f(MouseX, MouseY), 0));
     }
 
-    sf::Time elapsed_time = pclock.restart();
-    ps_flash.update(elapsed_time, adjustment);
-    ps_smoke.update(elapsed_time, adjustment);
-    ps_steam.update(elapsed_time, adjustment);
-    ps_shock.update(elapsed_time, adjustment);
-    ps_spark.update(elapsed_time, adjustment);
-    ps_debris.update(elapsed_time, adjustment);
-    Window.draw(ps_flash, sf::BlendAdd);
-    Window.draw(ps_smoke, sf::BlendAdd);
-    Window.draw(ps_steam, sf::BlendAdd);
-    Window.draw(ps_shock, sf::BlendAdd);
-    Window.draw(ps_spark, sf::BlendAdd);
-    Window.draw(ps_debris, sf::BlendAdd);
+    ps_manager.cameraMoved(adjustment);
+    ps_manager.draw(Window);
 
     // Camera changed - update with adjustment
     adjustment = sf::Vector2f(0, 0);
@@ -637,9 +655,9 @@ int main()
       adjustment = sf::Vector2f(dist_cam_ship.x - old_ship.x, dist_cam_ship.y - old_ship.y);
       old_ship = dist_cam_ship;
     }
-    ps_pmotor.update(elapsed_time, adjustment);
+    ps_pmotor.update(elapsed_time);
     Window.draw(ps_pmotor, sf::BlendAdd);
-    ps_smotor.update(elapsed_time, adjustment);
+    ps_smotor.update(elapsed_time);
     Window.draw(ps_smotor, sf::BlendAdd);
 
 

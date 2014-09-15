@@ -1,11 +1,11 @@
 #ifndef LISTITEM_HH_
 # define LISTITEM_HH_
 
-# include "Menu.hh"
-# include "Item.hh"
-# include "DrawableManager.hh"
-# include "Scroller.hh"
-# include "EventCallback.hh"
+# include "GUI/Menu.hh"
+# include "GUI/Item.hh"
+# include "GUI/DrawableManager.hh"
+# include "GUI/Scroller.hh"
+# include "GUI/EventCallback.hh"
 
 // ListItem : Multiple item scrolling with arrows
 // The arrow used the theme of the border : arrow focus -> border pressed else border focused

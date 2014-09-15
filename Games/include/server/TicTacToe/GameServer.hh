@@ -1,8 +1,8 @@
 #ifndef GAME_SERVER_HH_
 # define GAME_SERVER_HH_
 
-# include "AGameServer.hh"
-# include "PlayerServer.hh"
+# include "server/AGameServer.hh"
+# include "server/TicTacToe/PlayerServer.hh"
 
 // GameServer
 

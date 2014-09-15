@@ -1,4 +1,4 @@
-#include "GameManager.hh"
+#include "GUI/GameManager.hh"
 
 namespace GameManager
 {

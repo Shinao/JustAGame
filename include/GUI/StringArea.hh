@@ -1,7 +1,7 @@
 #ifndef STRINGAREA_HH_
 # define STRINGAREA_HH_
 
-# include "Item.hh"
+# include "GUI/Item.hh"
 # include <vector>
 
 // StringArea : multi-line string

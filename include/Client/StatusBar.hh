@@ -5,8 +5,8 @@
 # include <sstream>
 # include <SFML/Graphics.hpp>
 # include <SFML/Network.hpp>
-# include "Layer.hh"
-# include "Menu.hh"
+# include "GUI/Layer.hh"
+# include "GUI/Menu.hh"
 
 // Display ping
 

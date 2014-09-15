@@ -1,8 +1,8 @@
 #ifndef CHATBOX_HH_
 # define CHATBOX_HH_
 
-# include "EventCallback.hh"
-# include "Input.hh"
+# include "GUI/EventCallback.hh"
+# include "GUI/Input.hh"
 # include <list>
 # include <vector>
 

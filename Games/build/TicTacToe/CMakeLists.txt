@@ -8,10 +8,10 @@ cmake_minimum_required (VERSION 2.6)
 get_filename_component (GAME_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 string (REPLACE " " "_" GAME_NAME ${GAME_NAME})
 
-
+set (WORKING_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../")
 
 # Include
-set (INCLUDES client/include server/include include)
+set (INCLUDES ${WORKING_PATH}/include)
 include_directories (${INCLUDES})
 
 set (GAME_CLIENT "${GAME_NAME}_client")
@@ -23,9 +23,8 @@ set (GAME_SERVER "${GAME_NAME}_server")
 project (${GAME_CLIENT})
 
 # Source
-file (GLOB_RECURSE GAME_CLIENT_SRC client/src/*.cpp) 
-file (GLOB_RECURSE GAME_CLIENT_BASE_SRC ../client/src/*.cpp)
-list (APPEND GAME_CLIENT_SRC ${GAME_CLIENT_BASE_SRC})
+file (GLOB_RECURSE GAME_CLIENT_SRC ${WORKING_PATH}/src/client/${GAME_NAME}/*.cpp)
+list (APPEND GAME_CLIENT_SRC ${WORKING_PATH}/src/client/*.cpp)
 
 # Create Shared Library
 add_library (${GAME_CLIENT} SHARED ${GAME_CLIENT_SRC})
@@ -44,8 +43,8 @@ target_link_libraries (${GAME_CLIENT} system)
 project (${GAME_SERVER})
 
 # Source
-file (GLOB_RECURSE GAME_SERVER_SRC server/src/*.cpp) 
-list (APPEND GAME_SERVER_SRC ../server/src/*.cpp) 
+file (GLOB_RECURSE GAME_SERVER_SRC ${WORKING_PATH}/src/server/${GAME_NAME}/*.cpp)
+list (APPEND GAME_SERVER_SRC ${WORKING_PATH}/src/server/*.cpp)
 
 # Create Shared Library
 add_library (${GAME_SERVER} SHARED ${GAME_SERVER_SRC})

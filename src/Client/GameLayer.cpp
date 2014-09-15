@@ -1,9 +1,9 @@
-#include "GameLayer.hh"
-#include "String.hh"
-#include "Input.hh"
-#include "Sprite.hh"
-#include "Utility/Graphic.hh"
-#include "SimpleIni.hpp"
+#include "Client/GameLayer.hh"
+#include "GUI/String.hh"
+#include "GUI/Input.hh"
+#include "GUI/Sprite.hh"
+#include "GUI/Utility/Graphic.hh"
+#include "SimpleIni/SimpleIni.hpp"
 
 GameLayer::GameLayer() :
   MainMenuItem("GAME"),

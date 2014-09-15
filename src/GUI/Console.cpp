@@ -1,8 +1,8 @@
 #include <sstream>
 #include <iomanip>
-#include "Network.hh"
-#include "GameManager.hh"
-#include "Console.hh"
+#include "Network/Network.hh"
+#include "GUI/GameManager.hh"
+#include "GUI/Console.hh"
 
 Console::Console() :
   _is_visible(false),

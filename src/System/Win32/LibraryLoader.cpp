@@ -1,4 +1,4 @@
-#include "LibraryLoader.hh"
+#include "System/LibraryLoader.hh"
 
 LibraryLoader::LibraryLoader(const std::string &name, const std::string &path) :
   m_libFunction(NULL)

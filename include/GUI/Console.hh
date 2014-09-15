@@ -1,10 +1,10 @@
 #ifndef CONSOLE_HH_
 # define CONSOLE_HH_
 
-# include "EventCallback.hh"
-# include "Input.hh"
-# include "Scroller.hh"
-# include "Container.hh"
+# include "GUI/EventCallback.hh"
+# include "GUI/Input.hh"
+# include "GUI/Scroller.hh"
+# include "GUI/Container.hh"
 # include <list>
 # include <vector>
 

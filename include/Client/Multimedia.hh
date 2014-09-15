@@ -1,9 +1,9 @@
 #ifndef MULTIMEDIA_HH_
 # define MULTIMEDIA_HH_
 
-# include "Layer.hh"
-# include "MainMenuItem.hh"
-# include "Table.hh"
+# include "GUI/Layer.hh"
+# include "Client/MainMenuItem.hh"
+# include "GUI/Table.hh"
 
 class Multimedia : public MainMenuItem
 {

@@ -1,4 +1,4 @@
-#include "EventCallback.hh"
+#include "GUI/EventCallback.hh"
 
 EventCallback::EventCallback()
 {

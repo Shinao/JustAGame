@@ -1,7 +1,7 @@
 #ifndef GAME_CLIENT_HH_
 # define GAME_CLIENT_HH_
 
-# include "AGameClient.hh"
+# include "client/AGameClient.hh"
 
 // GameClient - Class Inherited from AGameClientClient
 // TicTacToe Sample

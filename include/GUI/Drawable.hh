@@ -1,7 +1,7 @@
 #ifndef DRAWABLE_HH_
 # define DRAWABLE_HH_
 
-# include "jag.hh"
+# include "GUI/jag.hh"
 
 // Fucking include
 class Tooltip;

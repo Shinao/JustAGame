@@ -1,8 +1,8 @@
 #include <sstream>
 #include <iomanip>
-#include "ChatBox.hh"
-#include "Network.hh"
-#include "GameManager.hh"
+#include "GUI/ChatBox.hh"
+#include "Network/Network.hh"
+#include "GUI/GameManager.hh"
 
 sf::Color	ChatBox::MessageLog = sf::Color::White;
 sf::Color	ChatBox::TimeLog = sf::Color::Green;

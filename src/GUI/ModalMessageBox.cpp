@@ -1,7 +1,7 @@
-#include "Screen.hh"
-#include "ModalMessageBox.hh"
-#include "jag.hh"
-#include "Titlebar.hh"
+#include "GUI/Screen.hh"
+#include "GUI/ModalMessageBox.hh"
+#include "GUI/jag.hh"
+#include "Client/Titlebar.hh"
 
 ModalMessageBox::ModalMessageBox(const sf::String &title, Item *desc, bool can_escape) :
   Layer(),

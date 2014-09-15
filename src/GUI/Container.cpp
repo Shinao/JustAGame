@@ -1,4 +1,4 @@
-#include "Container.hh"
+#include "GUI/Container.hh"
 
 Container::Container(Theme *theme) :
   Drawable(theme)

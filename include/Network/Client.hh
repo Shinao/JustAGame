@@ -1,8 +1,8 @@
 #ifndef CLIENT_HH_
 # define CLIENT_HH_
 
-# include "Network.hh"
-# include "APlayer.hh"
+# include "Network/Network.hh"
+# include "Network/APlayer.hh"
 
 class Client
 {

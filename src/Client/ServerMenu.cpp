@@ -1,9 +1,9 @@
-#include "ServerMenu.hh"
-#include "Screen.hh"
-#include "String.hh"
-#include "Titlebar.hh"
-#include "GameManager.hh"
-#include "System.hh"
+#include "Client/ServerMenu.hh"
+#include "GUI/Screen.hh"
+#include "GUI/String.hh"
+#include "Client/Titlebar.hh"
+#include "GUI/GameManager.hh"
+#include "System/System.hh"
 #include <sstream>
 #include <fstream>
 #include <sstream>
@@ -343,7 +343,7 @@ void			ServerMenu::launchGame()
   _game = func_ptr();
 
   // Checking if incorrect version
-  if (_version == _game->getVersion())
+  if (_version != _game->getVersion())
   {
     delete _game;
     _lib->free();

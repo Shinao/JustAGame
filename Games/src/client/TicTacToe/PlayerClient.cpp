@@ -1,4 +1,4 @@
-#include "PlayerClient.hh"
+#include "client/TicTacToe/PlayerClient.hh"
 
 PlayerClient::PlayerClient()
 {

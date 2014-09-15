@@ -6,9 +6,9 @@ class Client;
 class ProtocoledPacket;
 
 # include <SFML/Network.hpp>
-# include "Protocol.hh"
-# include "Client.hh"
-# include "ProtocoledPacket.hh"
+# include "Network/Protocol.hh"
+# include "Network/Client.hh"
+# include "Network/ProtocoledPacket.hh"
 # include <iostream>
 # include <bitset>
 

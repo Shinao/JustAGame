@@ -1,4 +1,4 @@
-#include "String.hh"
+#include "GUI/String.hh"
 #include <iostream>
 
 String::String(const sf::String &text, Theme *theme, float scale) :

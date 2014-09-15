@@ -1,4 +1,4 @@
-#include "Input.hh"
+#include "GUI/Input.hh"
 
 Input::Input(Theme *theme, float scale) :
   Item(theme, scale),

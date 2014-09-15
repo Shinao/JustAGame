@@ -1,5 +1,5 @@
-#ifndef LIBRARYLOADER_HH_
-# define LIBRARYLOADER_HH_
+#ifndef LIBRARYLOADERIMPL_HH_
+# define LIBRARYLOADERIMPL_HH_
 
 # include <windows.h>
 # include <stdio.h>

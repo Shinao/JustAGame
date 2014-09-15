@@ -3,7 +3,7 @@
 
 # include <SFML/Graphics.hpp>
 # include <string>
-# include "Protocol.hh"
+# include "Network/Protocol.hh"
 
 class Client;
 

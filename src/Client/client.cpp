@@ -1,17 +1,17 @@
 #include <SFML/System.hpp>
-#include "Screen.hh"
-#include "Network.hh"
-#include "jag.hh"
-#include "Layer.hh"
-#include "ModalMessageBox.hh"
-#include "Titlebar.hh"
-#include "Background.hh"
-#include "MainMenu.hh"
-#include "StatusBar.hh"
-#include "Action.hh"
-#include "GameManager.hh"
+#include "GUI/Screen.hh"
+#include "Network/Network.hh"
+#include "GUI/jag.hh"
+#include "GUI/Layer.hh"
+#include "GUI/ModalMessageBox.hh"
+#include "Client/Titlebar.hh"
+#include "Client/Background.hh"
+#include "Client/MainMenu.hh"
+#include "Client/StatusBar.hh"
+#include "GUI/Action.hh"
+#include "GUI/GameManager.hh"
 
-#include "Test.hh"
+#include "Client/Test.hh"
 
 // Once upon a main
 // Arg : can take a port number for multiple client on same machine

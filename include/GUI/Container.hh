@@ -1,9 +1,9 @@
 #ifndef CONTAINER_HH_
 # define CONTAINER_HH_
 
-# include "Item.hh"
-# include "EventManager.hh"
-# include "EventCallback.hh"
+# include "GUI/Item.hh"
+# include "GUI/EventManager.hh"
+# include "GUI/EventCallback.hh"
 
 #include <iostream>
 

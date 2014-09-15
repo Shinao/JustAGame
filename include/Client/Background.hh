@@ -1,7 +1,7 @@
 #ifndef BACKGROUND_HH_
 # define BACKGROUND_HH_
 
-# include "Layer.hh"
+# include "GUI/Layer.hh"
 
 class Background : public Layer
 {

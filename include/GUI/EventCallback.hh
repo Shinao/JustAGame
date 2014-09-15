@@ -1,8 +1,8 @@
 #ifndef EVENT_CALLBACk_HH_
 # define EVENT_CALLBACk_HH_
 
-# include "EventManager.hh"
-# include "Screen.hh"
+# include "GUI/EventManager.hh"
+# include "GUI/Screen.hh"
 
 class EventCallback
 {

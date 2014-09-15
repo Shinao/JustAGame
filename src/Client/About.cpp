@@ -1,5 +1,5 @@
-#include "About.hh"
-#include "Screen.hh"
+#include "Client/About.hh"
+#include "GUI/Screen.hh"
 
 About::About() :
   MainMenuItem("ABOUT")
@@ -15,7 +15,7 @@ About::About() :
 
   _area = new StringArea(""
       "The goal of JustAGame is to make a framework for easy-to-create 2D game modes.\n"
-      "Libraries for the network and GUI are available to create easily new contents.\n\n\n"
+      "Libraries for the network and GUI are available to easily create new contents.\n\n\n"
       "Type : Multiplayer\n"
       "Mode : Multiple\n"
       "Language : C++11\n"

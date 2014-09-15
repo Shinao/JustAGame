@@ -1,8 +1,8 @@
 #ifndef AGAME_SERVER_HH_
 # define AGAME_SERVER_HH_
 
-# include "Network.hh"
-# include "SimpleIni.hpp"
+# include "Network/Network.hh"
+# include "SimpleIni/SimpleIni.hpp"
 
 // AGameServer - Interface to implement for creating a server
 // When implementing a virtual member function non pure, make sure to call the parent

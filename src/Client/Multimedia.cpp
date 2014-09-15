@@ -1,7 +1,7 @@
-#include "Multimedia.hh"
-#include "CheckBox.hh"
-#include "ListItem.hh"
-#include "Input.hh"
+#include "Client/Multimedia.hh"
+#include "GUI/CheckBox.hh"
+#include "GUI/ListItem.hh"
+#include "GUI/Input.hh"
 #include <sstream>
 
 Multimedia::Multimedia() :

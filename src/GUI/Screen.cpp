@@ -1,9 +1,9 @@
 #include <SFML/System.hpp>
 #include <sstream>
-#include "Screen.hh"
-#include "jag.hh"
-#include "OSSpecific.hh"
-#include "Ressource.hh"
+#include "GUI/Screen.hh"
+#include "GUI/jag.hh"
+#include "GUI/Ressource.hh"
+#include "GUI/OSSpecific.hh"
 
 
 namespace Screen

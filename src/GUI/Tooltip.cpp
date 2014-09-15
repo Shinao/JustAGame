@@ -1,6 +1,6 @@
-#include "Screen.hh"
-#include "Tooltip.hh"
-#include "jag.hh"
+#include "GUI/Screen.hh"
+#include "GUI/Tooltip.hh"
+#include "GUI/jag.hh"
 
 Tooltip::Tooltip(const sf::String &text, const sf::Vector2i &pos) :
   Layer(Layer::Other)

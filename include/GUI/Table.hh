@@ -1,9 +1,9 @@
 #ifndef TABLE_HH_
 # define TABLE_HH_
 
-# include "Item.hh"
-# include "Menu.hh"
-# include "DrawableManager.hh"
+# include "GUI/Item.hh"
+# include "GUI/Menu.hh"
+# include "GUI/DrawableManager.hh"
 # include <vector>
 
 // Table : multi menu

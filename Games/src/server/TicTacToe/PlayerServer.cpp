@@ -1,4 +1,4 @@
-#include "PlayerServer.hh"
+#include "server/TicTacToe/PlayerServer.hh"
 
 PlayerServer::PlayerServer()
 {

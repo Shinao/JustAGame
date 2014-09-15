@@ -1,9 +1,9 @@
 #ifndef MAIN_MENU_ITEM_HH_
 # define MAIN_MENU_ITEM_HH_
 
-# include "Layer.hh"
-# include "Menu.hh"
-# include "String.hh"
+# include "GUI/Layer.hh"
+# include "GUI/Menu.hh"
+# include "GUI/String.hh"
 
 class MainMenuItem : public Layer
 {

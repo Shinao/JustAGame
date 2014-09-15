@@ -1,10 +1,10 @@
 #ifndef MODAL_MESSAGEBOX_HH_
 # define MODAL_MESSAGEBOX_HH_
 
-# include "EventCallback.hh"
-# include "Layer.hh"
-# include "String.hh"
-# include "StringArea.hh"
+# include "GUI/EventCallback.hh"
+# include "GUI/Layer.hh"
+# include "GUI/String.hh"
+# include "GUI/StringArea.hh"
 
 // MessageBox - Layer since it should surpass all Drawables
 

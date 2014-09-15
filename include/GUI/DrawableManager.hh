@@ -1,8 +1,8 @@
 #ifndef DRAWABLE_MANAGER_HH_
 # define DRAWABLE_MANAGER_HH_
 
-# include "jag.hh"
-# include "Drawable.hh"
+# include "GUI/jag.hh"
+# include "GUI/Drawable.hh"
 
 // Manage Drawables
 // Draw them

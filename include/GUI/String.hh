@@ -1,7 +1,7 @@
 #ifndef TEXT_HH_
 # define TEXT_HH_
 
-# include "Item.hh"
+# include "GUI/Item.hh"
 
 // Text specialization for an item in a menu.. or not
 // Format the text (..) if iis too big

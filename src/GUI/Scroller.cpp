@@ -1,4 +1,4 @@
-#include "Scroller.hh"
+#include "GUI/Scroller.hh"
 #include <iostream>
 
 Scroller::Scroller(Drawable *drawable, Theme *theme) :

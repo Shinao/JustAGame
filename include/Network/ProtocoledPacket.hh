@@ -1,7 +1,7 @@
 #ifndef PACKET_HH_
 # define PACKET_HH_
 
-# include "Network.hh"
+# include "Network/Network.hh"
 
 // ProtocoledPacket inherited from SFML Packet
 // Build a Header specific to the protocol (reliability)

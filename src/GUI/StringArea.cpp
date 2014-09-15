@@ -1,4 +1,4 @@
-#include "StringArea.hh"
+#include "GUI/StringArea.hh"
 #include <iostream>
 
 StringArea::StringArea(const sf::String &str, Theme *theme) :

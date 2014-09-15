@@ -1,6 +1,6 @@
-#include "Background.hh"
-#include "jag.hh"
-#include "Screen.hh"
+#include "Client/Background.hh"
+#include "GUI/jag.hh"
+#include "GUI/Screen.hh"
 
 Background::Background() :
   Layer(Layer::Setting),

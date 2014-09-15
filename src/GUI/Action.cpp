@@ -1,4 +1,4 @@
-#include "Action.hh"
+#include "GUI/Action.hh"
 
 Action::Action() {}
 

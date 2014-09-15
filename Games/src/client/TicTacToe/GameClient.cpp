@@ -1,7 +1,7 @@
-#include "GameClient.hh"
-#include "PlayerClient.hh"
-#include "Screen.hh"
-#include "TTTProtocol.hh"
+#include "client/TicTacToe/GameClient.hh"
+#include "client/TicTacToe/PlayerClient.hh"
+#include "GUI/Screen.hh"
+#include "server/TicTacToe/Protocol.hh"
 
 // Mandatory part - Since we are a library we need to send our inherited class to the client
 // Thanks polymorphism

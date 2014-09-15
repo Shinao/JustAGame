@@ -1,4 +1,4 @@
-#include "Table.hh"
+#include "GUI/Table.hh"
 #include <iostream>
 
 Table::Table(int nb_row, Theme *theme) :

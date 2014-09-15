@@ -1,6 +1,6 @@
-#include "Titlebar.hh"
-#include "Screen.hh"
-#include "Sprite.hh"
+#include "Client/Titlebar.hh"
+#include "GUI/Screen.hh"
+#include "GUI/Sprite.hh"
 
 Titlebar::Titlebar() :
   Layer(Layer::Setting)

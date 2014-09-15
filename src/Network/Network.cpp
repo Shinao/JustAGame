@@ -1,7 +1,7 @@
 #include <map>
 #include <list>
 #include <iostream>
-#include "Network.hh"
+#include "Network/Network.hh"
 
 namespace		Network
 {

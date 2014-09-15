@@ -1,8 +1,8 @@
-#include "AGameClient.hh"
-#include "jag.hh"
-#include "Utility/Graphic.hh"
-#include "Screen.hh"
-#include "GameManager.hh"
+#include "client/AGameClient.hh"
+#include "GUI/jag.hh"
+#include "GUI/Utility/Graphic.hh"
+#include "GUI/Screen.hh"
+#include "GUI/GameManager.hh"
 
 AGameClient::AGameClient() :
   Layer(Layer::Game, true),

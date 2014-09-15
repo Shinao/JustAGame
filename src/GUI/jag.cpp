@@ -1,6 +1,6 @@
-#include "jag.hh"
-#include "Utility/Graphic.hh"
-#include "Ressource.hh"
+#include "GUI/jag.hh"
+#include "GUI/Utility/Graphic.hh"
+#include "GUI/Ressource.hh"
 
 #include <iostream>
 

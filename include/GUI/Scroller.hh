@@ -1,10 +1,10 @@
 #ifndef SCROLLER_HH_
 # define SCROLLER_HH_
 
-# include "Screen.hh"
-# include "Drawable.hh"
-# include "DrawableManager.hh"
-# include "EventCallback.hh"
+# include "GUI/Screen.hh"
+# include "GUI/Drawable.hh"
+# include "GUI/DrawableManager.hh"
+# include "GUI/EventCallback.hh"
 
 // Scroller : show partially a drawable
 

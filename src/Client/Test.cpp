@@ -1,10 +1,10 @@
-#include "Test.hh"
-#include "Screen.hh"
-#include "String.hh"
-#include "Input.hh"
-#include "ListItem.hh"
-#include "CheckBox.hh"
-#include "ModalMessageBox.hh"
+#include "Client/Test.hh"
+#include "GUI/Screen.hh"
+#include "GUI/String.hh"
+#include "GUI/Input.hh"
+#include "GUI/ListItem.hh"
+#include "GUI/CheckBox.hh"
+#include "GUI/ModalMessageBox.hh"
 
 Test::Test() :
   Layer(Layer::Setting)

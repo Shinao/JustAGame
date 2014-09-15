@@ -1,8 +1,8 @@
 #ifndef SCREEN_HH_
 # define SCREEN_HH_
 
-# include "Layer.hh"
-# include "EventManager.hh"
+# include "GUI/Layer.hh"
+# include "GUI/EventManager.hh"
 
 #include <iostream>
 

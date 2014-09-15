@@ -1,4 +1,4 @@
-# include "Client.hh"
+# include "Network/Client.hh"
 
 ClientID	Client::_id_counter = 1;
 

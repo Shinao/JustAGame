@@ -1,13 +1,13 @@
 #ifndef TEST_HH_
 # define TEST_HH_
 
-# include "Layer.hh"
-# include "Menu.hh"
-# include "String.hh"
-# include "ListBox.hh"
-# include "StringArea.hh"
-# include "ModalMessageBox.hh"
-# include "Table.hh"
+# include "GUI/Layer.hh"
+# include "GUI/Menu.hh"
+# include "GUI/String.hh"
+# include "GUI/ListBox.hh"
+# include "GUI/StringArea.hh"
+# include "GUI/ModalMessageBox.hh"
+# include "GUI/Table.hh"
 
 class Test : public Layer
 {
