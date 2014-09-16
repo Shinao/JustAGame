@@ -711,9 +711,9 @@ namespace detail
 
 		// Split triangle up into three new sub-triangles, each consisting of two old corners and the new vertex
 		TriangleItrArray newTriangles = {
-			insertTriangle(triangles, oldTriangle[0], oldTriangle[1], vertex),
+		  {insertTriangle(triangles, oldTriangle[0], oldTriangle[1], vertex),
 			insertTriangle(triangles, oldTriangle[1], oldTriangle[2], vertex),
-			insertTriangle(triangles, oldTriangle[2], oldTriangle[0], vertex)};
+			insertTriangle(triangles, oldTriangle[2], oldTriangle[0], vertex)}};
 
 		// Assign the adjacent triangles to the new triangles
 		for (unsigned int i = 0; i < 3; ++i)
@@ -796,8 +796,8 @@ namespace detail
 
 		// Just to make sure the set predicate really works. Otherwise: return candidate != ..end() && .. && ..;
 		assert(candidate == constrainedEdges.end()
-		 || adv[0].getPosition() == (*candidate)[0].getPosition()
-		 && adv[1].getPosition() == (*candidate)[1].getPosition());
+		 || (adv[0].getPosition() == (*candidate)[0].getPosition()
+		 && adv[1].getPosition() == (*candidate)[1].getPosition()));
 
 		return candidate != constrainedEdges.end();
 	}

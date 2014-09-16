@@ -34,7 +34,7 @@ int		main()
   std::string	lib_name = game_mode + Network::SUFFIX_SERVER;
 
   // Get Library from game name and load it
-  LibraryLoader	lib(lib_name, Network::GAMES_PATH + game_mode + "/");
+  LibraryLoader	lib(lib_name, Network::getPath(Network::BuildDir, game_mode));
   if (!lib.open())
     return (error("Could not open library : " + lib.getFullPath()));
 

@@ -45,6 +45,7 @@ namespace Network
 
   Sequence		getSequenceDifference(Sequence seq1, Sequence seq2);
   bool			isSequenceMoreRecent(Sequence sequence, Sequence check_sequence);
+  std::string		&getPath(Path path, const std::string &game_mode = "");
 
   // Client sided
   void			askForServer(const CallbackRequest &cb);
