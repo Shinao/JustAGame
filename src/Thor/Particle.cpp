@@ -37,8 +37,8 @@ Particle::Particle(sf::Time totalLifetime)
 , scale(1.f, 1.f)
 , color(255, 255, 255)
 , textureIndex(0)
-, passedLifetime(sf::Time::Zero)
 , totalLifetime(totalLifetime)
+, passedLifetime(sf::Time::Zero)
 {
 }
 
