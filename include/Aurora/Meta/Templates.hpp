@@ -78,7 +78,7 @@ struct Int
 /// }
 /// @endcode
 /// @hideinitializer
-#define AURORA_REQUIRE_COMPLETE_TYPE(Type) typedef char auroraRequireCompleteType[(sizeof(Type))]
+#define AURORA_REQUIRE_COMPLETE_TYPE(Type) typedef char auroraRequireCompleteType[(sizeof(Type))] __attribute__((unused))
 
 
 /// @brief Function declaration with inferred return type
