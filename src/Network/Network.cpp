@@ -29,6 +29,9 @@ namespace		Network
     sf::SocketSelector			_listener;
     sf::UdpSocket			_udp_socket;
 
+    // Utility
+    std::string				_path;
+
     // Private methods
     void				clientDisconnected(Client *client);
     void				addPendingConnection();
@@ -743,5 +746,17 @@ namespace		Network
   std::vector<Client *>	&getClients()
   {
     return (_clients);
+  }
+
+  std::string			&getPath(Path path, const std::string &game_mode)
+  {
+    _path = GAMES_PATH;
+
+    if (path == RsrcDir)
+      _path += RSRC_PATH + game_mode + "/";
+    else if (path == BuildDir)
+      _path += BUILD_PATH + game_mode + "/";
+
+    return (_path);
   }
 }

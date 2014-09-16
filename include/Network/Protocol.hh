@@ -110,8 +110,15 @@ namespace Network
   const int		CLIENT_PORT = 52025;
 
   // Some utility client/server
+  enum			Path
+  {
+    BuildDir,
+    RsrcDir
+  };
+
   const std::string	GAMES_PATH = "Games/";
   const std::string	RSRC_PATH = "rsrc/";
+  const std::string	BUILD_PATH = "build/";
   const std::string	SUFFIX_SERVER = "_server";
   const std::string	SUFFIX_CLIENT = "_client";
   const std::string	SUFFIX_LIB_WIN32 = ".dll";

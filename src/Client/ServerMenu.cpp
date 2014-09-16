@@ -235,7 +235,7 @@ void			ServerMenu::getInfo(ProtocoledPacket &packet)
   std::string	lib_name = _game_mode + Network::SUFFIX_CLIENT;
 
   // Get Library from game name and download it if fail
-  _lib = new LibraryLoader(lib_name, Network::GAMES_PATH + _game_mode + "/");
+  _lib = new LibraryLoader(lib_name, Network::getPath(Network::BuildDir, _game_mode));
   if (!_lib->open())
     incorrectVersion();
   else
@@ -252,19 +252,18 @@ void			ServerMenu::incorrectVersion()
   *get_game << ((System::getOS() == System::Win32) ? true : false);
   Network::send(get_game);
 
-  // Create repositories
-  System::createDirectory(Network::GAMES_PATH);
-  System::createDirectory(Network::GAMES_PATH + _game_mode);
-  System::createDirectory(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
+  // Create directories
+  System::createDirectory(Network::getPath(Network::RsrcDir, _game_mode));
+  System::createDirectory(Network::getPath(Network::BuildDir, _game_mode));
 
   // Remove files if already here
   System::removeFile(_lib->getFullPath());
-  System::removeFile(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH + "/*");
+  System::removeFile(Network::getPath(Network::RsrcDir, _game_mode) + "*");
 
-  std::vector<System::File *>	*list = System::getFiles(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH);
+  std::vector<System::File *>	*list = System::getFiles(Network::getPath(Network::RsrcDir, _game_mode));
   for (auto file : *list)
     if (file->type == System::File::FileType)
-      System::removeFile(Network::GAMES_PATH + _game_mode + "/" + Network::RSRC_PATH + file->name);
+      System::removeFile(Network::getPath(Network::RsrcDir, _game_mode) + file->name);
 
   for (auto file : *list)
     delete file;
