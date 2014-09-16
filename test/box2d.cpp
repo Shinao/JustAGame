@@ -5,7 +5,6 @@
 #include <iostream>
 #include <cmath>
 #include "b2Separator.hh"
-#include "gl.h"
 #include <sstream>
 #include "Thor/Particles.hpp"
 #include "Thor/Animation.hpp"
@@ -655,9 +654,9 @@ int main()
       adjustment = sf::Vector2f(dist_cam_ship.x - old_ship.x, dist_cam_ship.y - old_ship.y);
       old_ship = dist_cam_ship;
     }
-    ps_pmotor.update(elapsed_time);
+    ps_pmotor.update(elapsed_time, adjustment);
     Window.draw(ps_pmotor, sf::BlendAdd);
-    ps_smotor.update(elapsed_time);
+    ps_smotor.update(elapsed_time, adjustment);
     Window.draw(ps_smotor, sf::BlendAdd);
 
 
@@ -835,50 +834,50 @@ void createShip()
   sep.Separate(b_ship, &FixtureDef, &vec, PIXELS_PER_METER);
 }
 
-float field(vec3 p)
-{
-  float strength = 7.;
-  float accum = 0.;
-  float prev = 0.;
-  float tw = 0.;
-  for (int i = 0; i < 32; ++i) {
-    float mag = dot(p, p);
-    p = abs(p) / mag + vec3(-.5, -.4, -1.5);
-    float w = exp(-float(i) / 7.);
-    accum += w * exp(-strength * pow(abs(mag - prev), 2.3));
-    tw += w;
-    prev = mag;
-  }
-  return max(0., 5. * accum / tw - .7);
-}
+// float field(vec3 p)
+// {
+  // float strength = 7.;
+  // float accum = 0.;
+  // float prev = 0.;
+  // float tw = 0.;
+  // for (int i = 0; i < 32; ++i) {
+  //   float mag = dot(p, p);
+  //   p = abs(p) / mag + vec3(-.5, -.4, -1.5);
+  //   float w = exp(-float(i) / 7.);
+  //   accum += w * exp(-strength * pow(abs(mag - prev), 2.3));
+  //   tw += w;
+  //   prev = mag;
+  // }
+  // return max(0., 5. * accum / tw - .7);
+// }
 
 void	drawShader()
 {
-  vec2 iResolution = vec2(Window.getSize().x, Window.getSize().y);
-  vec4 gl_FragColor;
-  sf::Image image;
-  image.create(Window.getSize().x, Window.getSize().y, sf::Color::Red);
+  // vec2 iResolution = vec2(Window.getSize().x, Window.getSize().y);
+  // vec4 gl_FragColor;
+  // sf::Image image;
+  // image.create(Window.getSize().x, Window.getSize().y, sf::Color::Red);
 
-  for (int y = 0; y < Window.getSize().y; ++y)
-  {
-    for (int x = 0; x < Window.getSize().x; ++x)
-    {
-      vec2 gl_FragCoord = vec2(x, y);
-      vec2 uv = 2. * gl_FragCoord / iResolution - 1.;
-      vec2 uvs = uv * iResolution / max(gl_FragCoord.x, gl_FragCoord.y);
-      vec3 p = vec3(uvs / 4., 0) + vec3(1., -1.3, 0.);
-      p += .2 * vec3(sin(global_time / 16.), sin(global_time / 12.),  sin(global_time / 128.));
-      float t = field(p);
-      float v = (1. - exp((abs(uv.x) - 1.) * 6.)) * (1. - exp((abs(uv.y) - 1.) * 6.));
-      gl_FragColor = vec4(1.8 * t * t * t, 1.4 * t * t, t, 1.0);
-      image.setPixel(x, y, sf::Color(gl_FragColor.r * 1000, gl_FragColor.g * 1000, gl_FragColor.b * 1000));
-    }
+  // for (int y = 0; y < Window.getSize().y; ++y)
+  // {
+  //   for (int x = 0; x < Window.getSize().x; ++x)
+  //   {
+  //     vec2 gl_FragCoord = vec2(x, y);
+  //     vec2 uv = 2. * gl_FragCoord / iResolution - 1.;
+  //     vec2 uvs = uv * iResolution / max(gl_FragCoord.x, gl_FragCoord.y);
+  //     vec3 p = vec3(uvs / 4., 0) + vec3(1., -1.3, 0.);
+  //     p += .2 * vec3(sin(global_time / 16.), sin(global_time / 12.),  sin(global_time / 128.));
+  //     float t = field(p);
+  //     float v = (1. - exp((abs(uv.x) - 1.) * 6.)) * (1. - exp((abs(uv.y) - 1.) * 6.));
+  //     gl_FragColor = vec4(1.8 * t * t * t, 1.4 * t * t, t, 1.0);
+  //     image.setPixel(x, y, sf::Color(gl_FragColor.r * 1000, gl_FragColor.g * 1000, gl_FragColor.b * 1000));
+  //   }
 
-  }
+  // }
 
-  tex_shader.loadFromImage(image);
-  spr_shader.setTexture(tex_shader);
-  spr_shader.setPosition(0, 0);
+  // tex_shader.loadFromImage(image);
+  // spr_shader.setTexture(tex_shader);
+  // spr_shader.setPosition(0, 0);
 }
 
 void		loadShader()
