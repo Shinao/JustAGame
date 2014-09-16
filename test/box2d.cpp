@@ -795,7 +795,7 @@ void fire()
     Body->SetBullet(true);
     Body->CreateFixture(&FixtureDef);
     Body->SetUserData(&spr_bullet);
-    Body->SetLinearVelocity(b2Rot(Body->GetAngle() + thor::toRadian(-90.0)).GetYAxis() * ((1 + std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y)) * -30));
+    Body->SetLinearVelocity(b2Rot(Body->GetAngle() + thor::toRadian(-90.0)).GetYAxis() * -90);
   }
     // std::cout << std::abs(b_ship->GetLinearVelocity().x) + std::abs(b_ship->GetLinearVelocity().y) << std::endl;
 
