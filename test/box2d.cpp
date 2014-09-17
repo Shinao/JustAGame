@@ -108,7 +108,8 @@ bool		explosion = false;
 sf::Clock	timer_explosion;
 int		pos_explosion;
 sf::Color pcolor(255, 0, 255);
-  sf::Vector2i	camera;
+sf::Vector2i	camera;
+sf::RenderTexture bg_universe[2000];
 
 void		loadShader();
 void CreateGround(b2World& World, float X, float Y, float angle);
@@ -882,6 +883,9 @@ void	drawShader()
 
 void		loadShader()
 {
+
+  while(true)
+  {
   // Shader
   if (!shader.loadFromFile("universe.frag", sf::Shader::Fragment) || !tex.loadFromFile("t3.jpg"))
     std::cout << "Cancer shader/tex" << std::endl;
@@ -891,6 +895,7 @@ void		loadShader()
   // shader.setParameter("iChannel1", sf::Shader::CurrentTexture);
   // shader.setParameter("iChannel2", sf::Shader::CurrentTexture);
   shader.setParameter("iResolution", Window.getSize().x, Window.getSize().y, 0);
+  shader.setParameter("iGlobalTime", 15.4);
   // shader.setParameter("mouse", Window.getSize().x / 2, Window.getSize().y / 2);
   // shader.setParameter("iChannelResolution[0]", tex.getSize().x, tex.getSize().y, 800 * 600);
   // shader.setParameter("iChannelResolution[1]", tex.getSize().x, tex.getSize().y, 800 * 600);
@@ -904,6 +909,52 @@ void		loadShader()
     ss  << "iDebug[" << i << "]";
     shader.setParameter(ss.str(), debugShader[i]);
     // std::cout << "iDebug[" << i << "] = " << debugShader[i] << std::endl;
+  }
+  shader.setParameter("iDebug[4]", true);
+  shader.setParameter("iDebug[5]", true);
+
+  // Generate all textures
+  sf::Sprite bg;
+  bg.setTexture(tex);
+  bg.setPosition(0, 0);
+  int id = 0;
+  int size = 500;
+  sf::Vector2i map(2000, 2000);
+  bg.setTextureRect(sf::IntRect(0, 0, size, size));
+  shader.setParameter("iResolution", size, size);
+  for (int x = 0; x < map.x; x += size)
+  {
+    for (int y = 0; y < map.y; y += size)
+    {
+      shader.setParameter("iCamera", x , (y ) * -1);
+
+      bg_universe[id].create(size, size);
+      bg_universe[id].draw(bg, &shader);
+      bg_universe[id].display();
+
+      // sf::Image img = bg_universe[id].getTexture().copyToImage();
+      // std::stringstream	ss;
+      // ss << x << "-" << y << ".png";
+      // img.saveToFile(ss.str());
+
+      ++id;
+    }
+  }
+
+  sf::Sprite test;
+  id = 0;
+  for (int x = 0; x < map.x; x += size)
+    for (int y = 0; y < map.y; y += size)
+    {
+      test.setTexture(bg_universe[id].getTexture());
+      test.setPosition(x, y);
+      Window.draw(test);
+      ++id;
+    }
+  Window.display();
+
+  sf::sleep(sf::milliseconds(2000));
+  break;
   }
 }
 

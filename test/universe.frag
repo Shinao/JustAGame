@@ -57,7 +57,7 @@ void main() {
         vec2 uv = 2. * gl_FragCoord.xy / iResolution.xy - 1.;
 	vec2 uvs = uv * iResolution.xy / max(iResolution.x, iResolution.y);
 	vec3 p = vec3(uvs / 4., 0) + vec3(1., -1.3, 0.);
-	p += 0.0002 * vec3(iCamera.x, iCamera.y,  12506.);
+	p +=  0.000278 * vec3(iCamera.x, iCamera.y,  12506.);
 	
 	float freqs[4];
 	// Noise
@@ -83,7 +83,7 @@ void main() {
 	
         //Second Layer
 	vec3 p2 = vec3(uvs / (4.+sin(1.*0.11)*0.2+0.2+sin(1.*0.15)*0.3+0.4), 1.5) + vec3(2., -1.3, -1.);
-	p2 += 0.0002 * vec3(iCamera.x, iCamera.y,  16.);
+	p2 += 0.000278 * vec3(iCamera.x, iCamera.y,  16.);
 	float t2 = field2(p2,freqs[3]);
 	if (iDebug[4])
 		t2 = 0.;
