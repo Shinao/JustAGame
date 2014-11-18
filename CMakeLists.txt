@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 # C++11 because Vive la Revolution!
 # FULL WARNINGS BECAUSE I LIKE PAIN !
-add_definitions ("-std=gnu++0x -Wall -Wextra -g")
+add_definitions ("-std=gnu++0x -Wall -Wextra")
 
 
 ### Include directories
