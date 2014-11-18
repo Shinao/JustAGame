@@ -24,7 +24,8 @@ project (${GAME_CLIENT})
 
 # Source
 file (GLOB_RECURSE GAME_CLIENT_SRC ${WORKING_PATH}/src/client/${GAME_NAME}/*.cpp)
-list (APPEND GAME_CLIENT_SRC ${WORKING_PATH}/src/client/*.cpp)
+file (GLOB GAME_CLIENT_SRC_BASE ${WORKING_PATH}/src/client/*.cpp)
+list (APPEND GAME_CLIENT_SRC ${GAME_CLIENT_SRC_BASE})
 
 # Create Shared Library
 add_library (${GAME_CLIENT} SHARED ${GAME_CLIENT_SRC})
@@ -44,7 +45,8 @@ project (${GAME_SERVER})
 
 # Source
 file (GLOB_RECURSE GAME_SERVER_SRC ${WORKING_PATH}/src/server/${GAME_NAME}/*.cpp)
-list (APPEND GAME_SERVER_SRC ${WORKING_PATH}/src/server/*.cpp)
+file (GLOB GAME_SERVER_SRC_BASE ${WORKING_PATH}/src/server/*.cpp)
+list (APPEND GAME_SERVER_SRC ${GAME_SERVER_SRC_BASE})
 
 # Create Shared Library
 add_library (${GAME_SERVER} SHARED ${GAME_SERVER_SRC})

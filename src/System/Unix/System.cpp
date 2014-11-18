@@ -1,4 +1,7 @@
 #include "System/System.hh"
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 namespace System
 {
@@ -15,28 +18,29 @@ namespace System
   std::vector<File *>	*getFiles(const std::string &name)
   {
     DIR			*dir;
-    struct dirent 	ent;
+    struct dirent 	*ent;
     struct stat 	st;
     std::vector<File *>	*list = new std::vector<File *>();
     File		*file;
 
-    dir = opendir(directory);
+    dir = opendir(name.c_str());
     while ((ent = readdir(dir)) != NULL)
     {
       std::string	file_name = ent->d_name;
-      std::string	full_file_name = directory + "/" + file_name;
+      std::string	full_file_name = name + "/" + file_name;
 
       if (stat(full_file_name.c_str(), &st) == -1)
 	continue;
 
       file = new File;
-      file.name = file_name;
-      file.size = st.st_size;
-      file.type = (st.st_mode & S_IFDIR != 0) ? FolderType : FileType;
+      file->name = file_name;
+      file->size = st.st_size;
+      file->type = ((st.st_mode & S_IFDIR) != 0 ? File::FolderType : File::FileType);
 
-      list.push_back(file);
+      list->push_back(file);
     }
 
     closedir(dir);
+    return (list);
   }
 }

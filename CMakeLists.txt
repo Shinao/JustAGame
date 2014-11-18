@@ -21,13 +21,13 @@ endif (WIN32)
 include_directories (${INC_DIR})
 
 
-### Library Thor
-project (thor)
-file (GLOB_RECURSE THOR_SRC src/Thor/*.cpp) 
-add_library (thor SHARED ${THOR_SRC})
-# Link SFML
-target_link_libraries (thor sfml-system)
-target_link_libraries (thor sfml-graphics)
+# ### Library Thor
+# project (thor)
+# file (GLOB_RECURSE THOR_SRC src/Thor/*.cpp) 
+# add_library (thor SHARED ${THOR_SRC})
+# # Link SFML
+# target_link_libraries (thor sfml-system)
+# target_link_libraries (thor sfml-graphics)
 
 
 
@@ -66,13 +66,15 @@ target_link_libraries (gui network)
 
 ### System
 project (system)
+file (GLOB SRC_SYSTEM src/System/*.cpp) 
 # Specific implementation Windows/Linux
 if (WIN32)
-  file (GLOB_RECURSE SRC_SYSTEM src/System/Win32/*.cpp) 
+  file (GLOB_RECURSE SRC_SPECIFIC src/System/Win32/*.cpp) 
 else (WIN32)
-  file (GLOB_RECURSE SRC_SYSTEM src/System/Unix/*.cpp) 
+  file (GLOB_RECURSE SRC_SPECIFIC src/System/Unix/*.cpp) 
 endif (WIN32)
-list (APPEND SRC_SYSTEM src/System/*.cpp) 
+list (APPEND SRC_SYSTEM ${SRC_SPECIFIC})
+# list (APPEND SRC_SYSTEM ~/rep/JustAGame/src/System/*.cpp) 
 add_library (system SHARED ${SRC_SYSTEM})
 
 
