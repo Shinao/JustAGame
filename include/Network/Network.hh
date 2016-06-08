@@ -9,6 +9,7 @@ class ProtocoledPacket;
 # include "Network/Protocol.hh"
 # include "Network/Client.hh"
 # include "Network/ProtocoledPacket.hh"
+# include <functional>
 # include <iostream>
 # include <bitset>
 

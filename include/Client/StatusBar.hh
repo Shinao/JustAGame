@@ -1,7 +1,6 @@
 #ifndef STATUS_BAR_HH_
 # define STATUS_BAR_HH_
 
-# include <pthread.h>
 # include <sstream>
 # include <SFML/Graphics.hpp>
 # include <SFML/Network.hpp>
