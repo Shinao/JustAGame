@@ -39,6 +39,5 @@ before_script:
   - sudo /sbin/ldconfig
 
 script:
-  - g++ --version
   - cmake .
   - make
