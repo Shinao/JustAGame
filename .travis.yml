@@ -31,7 +31,6 @@ addons:
 
 install:
 - sudo apt-get install -qq g++-4.8
-- export CXX="g++-4.8"
 
 before_script:
   - wget http://www.sfml-dev.org/files/SFML-2.3.2-linux-gcc-64-bit.tar.gz -O /tmp/sfml.tar.gz
