@@ -28,8 +28,6 @@ addons:
     - libopenal-dev
     - libjpeg62
     - cmake
-    - libudev0:i386
-    - libudev1:i386
 
 install:
 - sudo apt-get install -qq g++-4.8
