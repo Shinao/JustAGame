@@ -17,7 +17,7 @@ ServerMenu::ServerMenu() :
   _internet(false),
   _game(NULL)
 {
-  serverSelected();
+  // serverSelected();
 
   String	*text = new String("LOCAL");
   text->addCallback([&]() { _internet = false; });
@@ -40,18 +40,18 @@ ServerMenu::ServerMenu() :
   add(_menu, "menu");
 
   // TODO - Remove
-  std::vector<Item *>	items;
-  items.push_back(new String("Private"));
-  items.push_back(new String("TestServer"));
-  items.push_back(new String("TicTacToe"));
-  items.push_back(new String("0/2"));
-  _table->addRow(items);
-  items.clear();
-  items.push_back(new String("Public"));
-  items.push_back(new String("OBlaalall aalla"));
-  items.push_back(new String("Nope"));
-  items.push_back(new String("10/20"));
-  _table->addRow(items);
+  // std::vector<Item *>	items;
+  // items.push_back(new String("Private"));
+  // items.push_back(new String("TestServer"));
+  // items.push_back(new String("TicTacToe"));
+  // items.push_back(new String("0/2"));
+  // _table->addRow(items);
+  // items.clear();
+  // items.push_back(new String("Public"));
+  // items.push_back(new String("OBlaalall aalla"));
+  // items.push_back(new String("Nope"));
+  // items.push_back(new String("10/20"));
+  // _table->addRow(items);
 }
 
 ServerMenu::~ServerMenu()
