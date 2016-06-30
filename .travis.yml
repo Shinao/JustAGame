@@ -1,0 +1,43 @@
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - g++
+  
+before_install:
+- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+- sudo apt-get update -qq
+
+addons:
+  apt:
+    packages:
+    - libpthread-stubs0-dev
+    - libgl1-mesa-dev
+    - libx11-dev
+    - libx11-xcb-dev
+    - libxcb-image0-dev
+    - libxrandr-dev
+    - libxcb-randr0-dev
+    - udev
+    - libudev-dev
+    - libfreetype6-dev
+    - libglew-dev
+    - libjpeg8-dev
+    - libgpgme11-dev
+    - libsndfile1-dev
+    - libopenal-dev
+    - libjpeg62
+    - cmake
+
+install:
+- sudo apt-get install -qq g++-4.8
+
+before_script:
+  - wget http://www.sfml-dev.org/files/SFML-2.3.2-linux-gcc-64-bit.tar.gz -O /tmp/sfml.tar.gz
+  - tar -xzvf /tmp/sfml.tar.gz
+  - sudo cp -r SFML-2.3.2/* /usr/
+  - sudo /sbin/ldconfig
+
+script:
+  - cmake .
+  - make
